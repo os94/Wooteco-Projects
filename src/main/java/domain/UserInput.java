@@ -12,12 +12,12 @@ import java.util.*;
 import java.util.regex.*;
 
 public class UserInput {
-    public static final String GUIDE_INPUT_CAR_NAME = "경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)";
-    public static final String GUIDE_INPUT_MOVING_NUMBER = "시도할 회수는 몇회인가요?";
-    public static final String REGEX_CAR_NAME = "(\\s{0,})[a-zA-Z0-9]{1,5}((\\s{0,}),(\\s{0,})[a-zA-Z0-9]{1,5}(\\s{0,})){0,}";
-    public static final String REGEX_MOVING_NUMBER = "(\\s{0,})[0-9]{1,}(\\s{0,})"; // "(\s{0,})" is for space.
-    public static final String ERROR_MSG_FORMAT = "입력실패: 알맞은 형태로 입력해주세요.";
-    public static final String ERROR_MSG_DUPLICATION = "입력실패: 이름이 중복되었습니다.";
+    private static final String GUIDE_INPUT_CAR_NAME = "경주할 자동차 이름을 입력하세요.(이름은 쉼표(,) 기준으로 구분)";
+    private static final String GUIDE_INPUT_MOVING_NUMBER = "시도할 회수는 몇회인가요?";
+    private static final String REGEX_CAR_NAME = "(\\s{0,})[a-zA-Z0-9]{1,5}((\\s{0,}),(\\s{0,})[a-zA-Z0-9]{1,5}(\\s{0,})){0,}";
+    private static final String REGEX_MOVING_NUMBER = "(\\s{0,})[0-9]{1,}(\\s{0,})"; // "(\s{0,})" is for space.
+    private static final String ERROR_MSG_FORMAT = "입력실패: 알맞은 형태로 입력해주세요.";
+    private static final String ERROR_MSG_DUPLICATION = "입력실패: 이름이 중복되었습니다.";
 
     public String[] enterCar() {
         Scanner sc = new Scanner(System.in);

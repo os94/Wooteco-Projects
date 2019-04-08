@@ -11,6 +11,7 @@ package domain;
 public class Car {
     private final String name;
     private int position = 0;
+    private static final int MOVING_STANDARDS = 4;
 
     public Car(String name) {
         this.name = name;
@@ -26,7 +27,7 @@ public class Car {
 
     public void move() {
         Random random = new Random();
-        if (random.getRandomNumber() >= 4) {
+        if (random.getRandomNumber() >= MOVING_STANDARDS) {
             position++;
         }
     }

@@ -10,9 +10,10 @@ package domain;
 
 public class Random {
     private int randomNumber;
+    private static final int GENERATING_RANDOM_NUMBER_STANDARDS = 10;
 
     public Random() {
-        this.randomNumber = (int) (Math.random() * 10);
+        this.randomNumber = (int) (Math.random() * GENERATING_RANDOM_NUMBER_STANDARDS);
     }
 
     public int getRandomNumber() {

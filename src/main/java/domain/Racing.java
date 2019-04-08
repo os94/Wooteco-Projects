@@ -15,8 +15,8 @@ public class Racing {
     private int movingNumber = 0;
     private List<String> winners = new ArrayList<>();
 
-    public static final String MSG_EXECUTION_RESULT = "실행 결과";
-    public static final String MSG_PRINT_WINNER = "가 최종 우승했습니다.";
+    private static final String MSG_EXECUTION_RESULT = "실행 결과";
+    private static final String MSG_PRINT_WINNER = "가 최종 우승했습니다.";
 
     public void run() {
         setCar();
