@@ -69,12 +69,6 @@ public class Racing {
     }
 
     public void printWinner() {
-        System.out.print(winners.get(0));
-        if (winners.size() > 1) {
-            for (int i = 1; i < winners.size(); i++) {
-                System.out.print(", " + winners.get(i));
-            }
-        }
-        System.out.println(MSG_PRINT_WINNER);
+        System.out.println(String.join(",", winners) + MSG_PRINT_WINNER);
     }
 }
