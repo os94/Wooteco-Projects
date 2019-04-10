@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class User {
@@ -11,14 +9,15 @@ public class User {
     private Scanner sc = new Scanner(System.in);
 
     public int inputMoney() {
-        String input;
+        int input;
 
         do {
             System.out.println(GUIDE_USER_INPUT_MONEY);
-            input = sc.nextLine();
-        } while (false);
+            input = sc.nextInt();
+            sc.nextLine();
+        } while (!Validator.isPositiveNumber(input));
 
-        return Integer.parseInt(input);
+        return input;
     }
 
     public Lotto inputWinningLotto() {
@@ -27,30 +26,21 @@ public class User {
         do {
             System.out.println(GUIDE_USER_INPUT_WINNING_LOTTO);
             input = sc.nextLine();
-        } while (false);
+            input = input.replaceAll(" ", "");
+        } while (!Validator.isWinningLotto(input));
 
-        return parseLotto(input);
-    }
-
-    private Lotto parseLotto(String input) {
-        List<Integer> numberList = new ArrayList<>();
-
-        input = input.replace(" ", "");
-        for (String number : input.split(",")) {
-            numberList.add(Integer.parseInt(number));
-        }
-
-        return new Lotto(numberList);
+        return new Lotto(Validator.parseSixNumber(input));
     }
 
     public int inputBonusNo() {
-        String input;
+        int input;
 
         do {
             System.out.println(GUIDE_USER_INPUT_BONUS_NO);
-            input = sc.nextLine();
-        } while (false);
+            input = sc.nextInt();
+            sc.nextLine();
+        } while (!Validator.isLottoNumber(input));
 
-        return Integer.parseInt(input);
+        return input;
     }
 }
