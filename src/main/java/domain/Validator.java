@@ -11,16 +11,16 @@ public class Validator {
     private static final String ERROR_MESSAGE_DUPLICATE = "값이 중복되었습니다.\n";
     private static final String ERROR_MESSAGE_EXCEED_RANGE = "1~45사이의 값을 입력해주세요.\n";
 
-    public static boolean isPositiveNumber(int input) {
-        if (input > 0) {
+    public static boolean isPositiveNumber(String input) {
+        if (Integer.parseInt(input) > 0) {
             return true;
         }
         System.out.println(ERROR_MESSAGE);
         return false;
     }
 
-    public static boolean isLottoNumber(int input) {
-        if (1 <= input && input <= 45) {
+    public static boolean isLottoNumber(String input) {
+        if (1 <= Integer.parseInt(input) && Integer.parseInt(input) <= 45) {
             return true;
         }
         System.out.println(ERROR_MESSAGE_EXCEED_RANGE);
