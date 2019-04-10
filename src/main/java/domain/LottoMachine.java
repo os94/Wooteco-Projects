@@ -5,6 +5,8 @@ import java.util.*;
 public class LottoMachine {
     private static final String EXIT_MESSAGE_LACK_OF_MONEY = "금액이 부족합니다. 게임을 종료합니다.";
     private static final String PRINT_MESSAGE_BUY_LOTTO = "개를 구매했습니다.";
+    private static final String PRINT_MESSAGE_MATCH_RESULT = "\n당첨 통계\n----------";
+    private static final String PRINT_MESSAGE_PROFIT = "총 수익률은 %.3f입니다.\n";
     private static final int PRICE_OF_LOTTO = 1000;
     private static final int STANDARD_NUMBER_OF_LOTTO = 6;
     private static final int MAX_OF_LOTTO_NUMBER = 45;
@@ -23,6 +25,7 @@ public class LottoMachine {
         setWinningLotto();
 
         matchAllLotto();
+        printResult();
     }
 
     private void setInputMoney() {
@@ -78,5 +81,25 @@ public class LottoMachine {
         for (Lotto lotto : lottos) {
             ranks.add(winningLotto.match(lotto));
         }
+    }
+
+    private void printResult() {
+        System.out.println(PRINT_MESSAGE_MATCH_RESULT);
+        printEachResult();
+        System.out.printf(PRINT_MESSAGE_PROFIT, getProfit());
+    }
+
+    private void printEachResult() {
+        
+    }
+
+    private double getProfit() {
+        double sum = 0;
+
+        for (Rank rank : ranks) {
+            sum += rank.getWinningMoney();
+        }
+
+        return sum / inputMoney;
     }
 }
