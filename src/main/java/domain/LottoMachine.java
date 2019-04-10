@@ -13,6 +13,7 @@ public class LottoMachine {
     private int inputMoney;
     private WinningLotto winningLotto;
     private List<Lotto> lottos = new ArrayList<>();
+    private List<Rank> ranks = new ArrayList<>();
 
     public void run() {
         setInputMoney();
@@ -20,6 +21,8 @@ public class LottoMachine {
         buyLotto(getNumberOfLotto(inputMoney));
 
         setWinningLotto();
+
+        matchAllLotto();
     }
 
     private void setInputMoney() {
@@ -68,6 +71,12 @@ public class LottoMachine {
     private void printAllLotto() {
         for (Lotto lotto : lottos) {
             lotto.printLotto();
+        }
+    }
+
+    private void matchAllLotto() {
+        for (Lotto lotto : lottos) {
+            ranks.add(winningLotto.match(lotto));
         }
     }
 }
