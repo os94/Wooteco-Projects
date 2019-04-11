@@ -17,6 +17,7 @@ public enum Rank {
     MISS(0, 0);
 
     private static final int WINNING_MIN_COUNT = 3;
+    private static final String ERROR_MESSAGE_INVALID_VALUE = "는 유효하지 않은 값입니다.";
 
     private int countOfMatch;
     private int winningMoney;
@@ -49,7 +50,7 @@ public enum Rank {
             }
         }
 
-        throw new IllegalArgumentException(countOfMatch + "는 유효하지 않은 값입니다.");
+        throw new IllegalArgumentException(countOfMatch + ERROR_MESSAGE_INVALID_VALUE);
     }
 
     private boolean matchCount(int countOfMatch) {

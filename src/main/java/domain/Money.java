@@ -19,7 +19,7 @@ public class Money {
         this.inputMoney = inputMoney;
     }
 
-    public int getNumberOfLotto() {
+    public int getMaxNumberOfLotto() {
         if (inputMoney / PRICE_OF_LOTTO == 0) {
             System.out.println(EXIT_MESSAGE_LACK_OF_MONEY);
             System.exit(-1);
@@ -33,7 +33,6 @@ public class Money {
         for (Rank rank : ranks) {
             sum += rank.getWinningMoney();
         }
-
         return sum / inputMoney;
     }
 }

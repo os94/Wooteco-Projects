@@ -77,7 +77,6 @@ public class Validator {
         for (String number : input.split(",")) {
             numberList.add(Integer.parseInt(number));
         }
-
         return numberList;
     }
 }

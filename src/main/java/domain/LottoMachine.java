@@ -21,14 +21,16 @@ public class LottoMachine {
     public void run() {
         money = new Money(InputView.getMoney());
 
-        buyLotto(money.getNumberOfLotto());
-        ResultView.printCurrentLotto(lottos, money.getNumberOfLotto());
+        buyLotto(money.getMaxNumberOfLotto());
+        ResultView.printCurrentLotto(lottos, money.getMaxNumberOfLotto());
 
         setWinningLotto();
 
         matchAllLotto();
         ResultView.printResult(ranks, money);
     }
+
+
 
     private void setWinningLotto() {
         this.winningLotto = new WinningLotto(InputView.getWinningLotto(), InputView.getBonusNo());
