@@ -16,11 +16,10 @@ public class LottoMachine {
     private WinningLotto winningLotto;
     private List<Lotto> lottos = new ArrayList<>();
     private List<Rank> ranks = new ArrayList<>();
-    private User user = new User();
     private Money money;
 
     public void run() {
-        money = new Money(user.inputMoney());
+        money = new Money(InputView.getMoney());
 
         buyLotto(money.getNumberOfLotto());
         ResultView.printCurrentLotto(lottos, money.getNumberOfLotto());
@@ -32,7 +31,7 @@ public class LottoMachine {
     }
 
     private void setWinningLotto() {
-        this.winningLotto = new WinningLotto(user.inputWinningLotto(), user.inputBonusNo());
+        this.winningLotto = new WinningLotto(InputView.getWinningLotto(), InputView.getBonusNo());
     }
 
     private void buyLotto(int numberOfLotto) {

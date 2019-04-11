@@ -1,5 +1,5 @@
 /*
- * @class       User class
+ * @class       InputView class
  * @version     1.0.0
  * @date        19.04.11
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
@@ -10,14 +10,14 @@ package domain;
 
 import java.util.Scanner;
 
-public class User {
+public class InputView {
     private final static String GUIDE_USER_INPUT_MONEY = "구입금액을 입력해 주세요.";
     private final static String GUIDE_USER_INPUT_WINNING_LOTTO = "지난 주 당첨 번호를 입력해 주세요.";
     private final static String GUIDE_USER_INPUT_BONUS_NO = "보너스 볼을 입력해 주세요.";
-    private Scanner sc = new Scanner(System.in);
-    private String input;
+    private static Scanner sc = new Scanner(System.in);
+    private static String input;
 
-    public int inputMoney() {
+    public static int getMoney() {
         do {
             System.out.println(GUIDE_USER_INPUT_MONEY);
             input = sc.nextLine();
@@ -27,7 +27,7 @@ public class User {
         return Integer.parseInt(input);
     }
 
-    public Lotto inputWinningLotto() {
+    public static Lotto getWinningLotto() {
         do {
             System.out.println(GUIDE_USER_INPUT_WINNING_LOTTO);
             input = sc.nextLine();
@@ -37,7 +37,7 @@ public class User {
         return new Lotto(Validator.parseSixNumber(input));
     }
 
-    public int inputBonusNo() {
+    public static int getBonusNo() {
         do {
             System.out.println(GUIDE_USER_INPUT_BONUS_NO);
             input = sc.nextLine();
