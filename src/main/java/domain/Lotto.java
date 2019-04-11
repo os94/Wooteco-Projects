@@ -25,7 +25,8 @@ public class Lotto {
         return numbers.contains(number);
     }
 
-    public void printLotto() {
-        System.out.println(numbers);
+    @Override
+    public String toString() {
+        return numbers.toString();
     }
 }

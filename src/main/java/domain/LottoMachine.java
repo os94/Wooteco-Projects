@@ -17,7 +17,7 @@ public class LottoMachine {
     private static final String PRINT_MESSAGE_EACH_RESULT = "%d개 일치 (%d원)- %d개\n";
     private static final String PRINT_MESSAGE_EACH_RESULT_SECOND = "%d개 일치, 보너스볼 일치(%d원)- %d개\n";
     private static final String PRINT_MESSAGE_PROFIT = "총 수익률은 %.3f입니다.\n";
-    private static final int PRICE_OF_LOTTO = 1000;
+    private static final int PRICE_OF_LOTTO = 1_000;
     private static final int STANDARD_NUMBER_OF_LOTTO = 6;
     private static final int MAX_OF_LOTTO_NUMBER = 45;
 
@@ -78,7 +78,7 @@ public class LottoMachine {
 
     private void printAllLotto() {
         for (Lotto lotto : lottos) {
-            lotto.printLotto();
+            System.out.println(lotto.toString());
         }
     }
 
