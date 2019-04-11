@@ -22,24 +22,19 @@ public class LottoMachine {
     private static final int MAX_OF_LOTTO_NUMBER = 45;
 
     private User user = new User();
-    private int inputMoney;
     private WinningLotto winningLotto;
     private List<Lotto> lottos = new ArrayList<>();
     private List<Rank> ranks = new ArrayList<>();
 
     public void run() {
-        setInputMoney();
+        user.inputMoney();
 
-        buyLotto(getNumberOfLotto(inputMoney));
+        buyLotto(getNumberOfLotto(user.getInputMoney()));
 
         setWinningLotto();
 
         matchAllLotto();
         printResult();
-    }
-
-    private void setInputMoney() {
-        this.inputMoney = user.inputMoney();
     }
 
     private void setWinningLotto() {
@@ -124,6 +119,6 @@ public class LottoMachine {
             sum += rank.getWinningMoney();
         }
 
-        return sum / inputMoney;
+        return sum / user.getInputMoney();
     }
 }

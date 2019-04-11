@@ -16,15 +16,20 @@ public class User {
     private final static String GUIDE_USER_INPUT_BONUS_NO = "보너스 볼을 입력해 주세요.";
     private Scanner sc = new Scanner(System.in);
     private String input;
+    private int inputMoney;
 
-    public int inputMoney() {
+    public int getInputMoney() {
+        return inputMoney;
+    }
+
+    public void inputMoney() {
         do {
             System.out.println(GUIDE_USER_INPUT_MONEY);
             input = sc.nextLine();
             input = input.replaceAll(" ", "");
         } while (!Validator.isPositiveNumber(input));
 
-        return Integer.parseInt(input);
+        this.inputMoney = Integer.parseInt(input);
     }
 
     public Lotto inputWinningLotto() {
