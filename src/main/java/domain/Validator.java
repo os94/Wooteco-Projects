@@ -1,3 +1,11 @@
+/*
+ * @class       Validator class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include validate methods.
+ */
+
 package domain;
 
 import java.util.*;

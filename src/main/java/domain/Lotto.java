@@ -1,19 +1,20 @@
+/*
+ * @class       Lotto class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       each Lotto class.
+ */
+
 package domain;
 
 import java.util.List;
 
-/**
- * 로또 한장을 의미하는 객체
- */
 public class Lotto {
     private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
         this.numbers = numbers;
-    }
-
-    public void printLotto() {
-        System.out.println(numbers);
     }
 
     public List<Integer> getNumbers() {
@@ -22,5 +23,9 @@ public class Lotto {
 
     public boolean hasNumber(int number) {
         return numbers.contains(number);
+    }
+
+    public void printLotto() {
+        System.out.println(numbers);
     }
 }

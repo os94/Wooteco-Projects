@@ -1,8 +1,13 @@
+/*
+ * @class       WinningLotto class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include 6 winning number and bonus number.
+ */
+
 package domain;
 
-/**
- * 당첨 번호를 담당하는 객체
- */
 public class WinningLotto {
     private final Lotto lotto;
     private final int bonusNo;
@@ -24,7 +29,7 @@ public class WinningLotto {
     }
 
     private int matchLotto(Lotto userLotto, int number) {
-        if(userLotto.hasNumber(number)) {
+        if (userLotto.hasNumber(number)) {
             return 1;
         }
         return 0;

@@ -1,3 +1,11 @@
+/*
+ * @class       ValidatorTest class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       test code for Validator class.
+ */
+
 import domain.Validator;
 import org.junit.Test;
 

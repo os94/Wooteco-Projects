@@ -1,3 +1,11 @@
+/*
+ * @class       User class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       receive input from user.
+ */
+
 package domain;
 
 import java.util.Scanner;

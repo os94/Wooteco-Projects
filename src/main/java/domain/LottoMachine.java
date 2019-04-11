@@ -1,3 +1,11 @@
+/*
+ * @class       LottoMachine class
+ * @version     1.0.0
+ * @date        19.04.11
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include most of methods about Lotto Game.
+ */
+
 package domain;
 
 import java.util.*;
