@@ -15,7 +15,7 @@ public class LottoMachine {
     private static final int MAX_OF_LOTTO_NUMBER = 45;
     private WinningLotto winningLotto;
     private List<Lotto> lottos = new ArrayList<>();
-    private List<Rank> ranks = new ArrayList<>();
+    private LottoResult lottoResult = new LottoResult();
     private Money money;
 
     public void run() {
@@ -27,7 +27,7 @@ public class LottoMachine {
         setWinningLotto();
 
         matchAllLotto();
-        ResultView.printResult(ranks, money);
+        ResultView.printResult(lottoResult, money);
     }
 
 
@@ -61,7 +61,7 @@ public class LottoMachine {
 
     private void matchAllLotto() {
         for (Lotto lotto : lottos) {
-            ranks.add(winningLotto.match(lotto));
+            lottoResult.putRank(winningLotto.match(lotto));
         }
     }
 }

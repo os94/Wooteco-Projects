@@ -26,11 +26,11 @@ public class Money {
         return inputMoney / PRICE_OF_LOTTO;
     }
 
-    public double getProfit(List<Rank> ranks) {
+    public double getProfit(LottoResult lottoResult) {
         double sum = 0;
 
-        for (Rank rank : ranks) {
-            sum += rank.getWinningMoney();
+        for (Rank rank : Rank.values()) {
+            sum += (double) rank.prize(lottoResult.getNumber(rank));
         }
         return sum / inputMoney;
     }
