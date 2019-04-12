@@ -16,14 +16,13 @@ public class Money {
     private int inputMoney;
 
     public Money(int inputMoney) {
+        if (inputMoney < PRICE_OF_LOTTO) {
+            throw new IllegalArgumentException(EXIT_MESSAGE_LACK_OF_MONEY);
+        }
         this.inputMoney = inputMoney;
     }
 
     public int getMaxNumberOfLotto() {
-        if (inputMoney / PRICE_OF_LOTTO == 0) {
-            System.out.println(EXIT_MESSAGE_LACK_OF_MONEY);
-            System.exit(-1);
-        }
         return inputMoney / PRICE_OF_LOTTO;
     }
 

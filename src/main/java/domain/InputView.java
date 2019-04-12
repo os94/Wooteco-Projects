@@ -18,13 +18,14 @@ public class InputView {
     private static String input;
 
     public static int getMoney() {
-        do {
+        try {
             System.out.println(GUIDE_USER_INPUT_MONEY);
             input = sc.nextLine();
             input = input.replaceAll(" ", "");
-        } while (!Validator.isPositiveNumber(input));
-
-        return Integer.parseInt(input);
+            return Integer.parseInt(input);
+        } catch (IllegalArgumentException e) {
+            return getMoney();
+        }
     }
 
     public static Lotto getWinningLotto() {
