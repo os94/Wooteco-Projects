@@ -50,4 +50,13 @@ public class MovieRepository {
         }
         return hasId;
     }
+
+    public static int getIndexById(int movieId) {
+        for (int i = 0; i < movies.size(); i++) {
+            if (movies.get(i).isMovieId(movieId)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

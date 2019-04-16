@@ -16,7 +16,9 @@ public class MovieApplication {
             if (!MovieRepository.hasMovieId(movieId)) {
                 continue;
             }
-            
+            int index = MovieRepository.getIndexById(movieId);
+            OutputView.printMovie(movies.get(index));
+
             // temp code
             break;
         } while (true);
