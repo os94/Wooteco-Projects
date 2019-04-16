@@ -1,3 +1,11 @@
+/*
+ * @class       MovieRepository class
+ * @version     1.0.0
+ * @date        19.04.16
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       store movie data.
+ */
+
 package domain;
 
 import java.util.ArrayList;

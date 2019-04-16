@@ -1,3 +1,11 @@
+/*
+ * @class       SelectedMovie class
+ * @version     1.0.0
+ * @date        19.04.16
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include data about each selected movie.
+ */
+
 package domain;
 
 import java.util.List;

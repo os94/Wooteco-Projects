@@ -1,3 +1,11 @@
+/*
+ * @class       OutputView class
+ * @version     1.0.0
+ * @date        19.04.16
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       print to user.
+ */
+
 package view;
 
 import domain.Movie;

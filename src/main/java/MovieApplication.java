@@ -1,3 +1,11 @@
+/*
+ * @class       MovieApplication class
+ * @version     1.0.0
+ * @date        19.04.16
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       main class for movie reservation.
+ */
+
 import domain.Movie;
 import domain.MovieRepository;
 import domain.SelectedMovie;

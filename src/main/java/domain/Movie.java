@@ -1,3 +1,11 @@
+/*
+ * @class       Movie class
+ * @version     1.0.0
+ * @date        19.04.16
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include id, name, price, schedule ..
+ */
+
 package domain;
 
 import java.util.ArrayList;
