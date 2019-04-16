@@ -19,8 +19,8 @@ public class MovieApplication {
             if (!MovieRepository.hasMovieId(movieId)) {
                 continue;
             }
-            int index = MovieRepository.getIndexById(movieId);
-            Movie movie = movies.get(index);
+            int movieIndex = MovieRepository.getIndexById(movieId);
+            Movie movie = movies.get(movieIndex);
             OutputView.printMovie(movie);
 
             int scheduleId = InputView.inputScheduleId();
@@ -34,12 +34,13 @@ public class MovieApplication {
                 continue;
             }
 
-            movieBag.add(new SelectedMovie(movieId, scheduleId, personNo));
+            movieBag.add(new SelectedMovie(movieIndex, scheduleId, personNo));
             movie.updateSchedule(scheduleId, personNo);
 
             if (InputView.continueOrExit()) {
                 continue;
             }
+            OutputView.printSelectedMovies(movies, movieBag);
 
 
             // temp code

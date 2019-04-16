@@ -48,4 +48,13 @@ public class Movie {
         return id + " - " + name + ", " + price + "원" + NEW_LINE
                 + sb.toString();
     }
+
+    public String toString(int scheduleId) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(id + " - " + name + ", " + price + "원" + NEW_LINE);
+        sb.append(playSchedules.get(scheduleId - 1).toString(scheduleId));
+
+        return sb.toString();
+    }
 }
