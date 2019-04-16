@@ -1,5 +1,7 @@
 package domain;
 
+import utils.DateTimeUtils;
+
 import java.time.LocalDateTime;
 
 import static utils.DateTimeUtils.format;
@@ -11,6 +13,15 @@ public class PlaySchedule {
     public PlaySchedule(LocalDateTime startDateTime, int capacity) {
         this.startDateTime = startDateTime;
         this.capacity = capacity;
+    }
+
+    public boolean isValidCapacity(int personNo) {
+        return (0 < personNo) && (personNo <= capacity);
+    }
+
+    public boolean isValidTime() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        return currentTime.isBefore(startDateTime);
     }
 
     @Override

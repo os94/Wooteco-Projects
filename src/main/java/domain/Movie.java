@@ -30,6 +30,11 @@ public class Movie {
         return (0 < scheduleId) && (scheduleId <= playSchedules.size());
     }
 
+    public boolean isValidPersonNo(int scheduleId, int personNo) {
+        PlaySchedule schedule = playSchedules.get(scheduleId - 1);
+        return schedule.isValidCapacity(personNo) && schedule.isValidTime();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

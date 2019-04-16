@@ -26,7 +26,11 @@ public class MovieApplication {
             }
             // add OneHourWithinRange function.
 
-            
+            int personNo = InputView.inputPersonNo();
+            if (!movie.isValidPersonNo(scheduleId, personNo)) {
+                continue;
+            }
+
 
             // temp code
             break;
