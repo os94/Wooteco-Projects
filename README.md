@@ -22,3 +22,9 @@
   	- 5% or 2% 할인
   - 최종금액 산출
   - 출력
+
+
+### 시간관계상 구현하지 못한 기능
+- 시간표를 선택할때, 이미 담은 영화와 1시간이상 차이나는지 확인하는 validate logic.
+- MainApplication과 main()의 메소드 분리 및 Refactoring 작업
+...
