@@ -26,6 +26,10 @@ public class Movie {
         return id == movieId;
     }
 
+    public boolean isValidScheduleId(int scheduleId) {
+        return (0 < scheduleId) && (scheduleId <= playSchedules.size());
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

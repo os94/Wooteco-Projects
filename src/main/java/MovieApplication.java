@@ -17,7 +17,16 @@ public class MovieApplication {
                 continue;
             }
             int index = MovieRepository.getIndexById(movieId);
-            OutputView.printMovie(movies.get(index));
+            Movie movie = movies.get(index);
+            OutputView.printMovie(movie);
+
+            int scheduleId = InputView.inputScheduleId();
+            if (!movie.isValidScheduleId(scheduleId)) {
+                continue;
+            }
+            // add OneHourWithinRange function.
+
+            
 
             // temp code
             break;
