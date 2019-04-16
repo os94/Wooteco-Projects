@@ -37,6 +37,10 @@ public class MovieApplication {
             movieBag.add(new SelectedMovie(movieId, scheduleId, personNo));
             movie.updateSchedule(scheduleId, personNo);
 
+            if (InputView.continueOrExit()) {
+                continue;
+            }
+
 
             // temp code
             break;
