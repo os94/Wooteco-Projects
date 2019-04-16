@@ -35,6 +35,10 @@ public class Movie {
         return schedule.isValidCapacity(personNo) && schedule.isValidTime();
     }
 
+    public void updateSchedule(int scheduleId, int personNo) {
+        playSchedules.get(scheduleId - 1).updateCapacity(personNo);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

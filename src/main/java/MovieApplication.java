@@ -1,13 +1,16 @@
 import domain.Movie;
 import domain.MovieRepository;
+import domain.SelectedMovie;
 import view.InputView;
 import view.OutputView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieApplication {
     public static void main(String[] args) {
         List<Movie> movies = MovieRepository.getMovies();
+        List<SelectedMovie> movieBag = new ArrayList<>();
 
         do {
             OutputView.printMovies(movies);
@@ -30,6 +33,9 @@ public class MovieApplication {
             if (!movie.isValidPersonNo(scheduleId, personNo)) {
                 continue;
             }
+
+            movieBag.add(new SelectedMovie(movieId, scheduleId, personNo));
+            movie.updateSchedule(scheduleId, personNo);
 
 
             // temp code

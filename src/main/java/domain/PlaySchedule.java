@@ -24,6 +24,10 @@ public class PlaySchedule {
         return currentTime.isBefore(startDateTime);
     }
 
+    public void updateCapacity(int personNo) {
+        capacity -= personNo;
+    }
+
     @Override
     public String toString() {
         return "시작시간: " + format(startDateTime) + " 예약가능인원: " + capacity + "\n";
