@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieApplication {
+    private static final int CODE_CARD = 1;
+    private static final int CODE_CASH = 2;
+
     public static void main(String[] args) {
         List<Movie> movies = MovieRepository.getMovies();
         List<SelectedMovie> movieBag = new ArrayList<>();
@@ -44,12 +47,10 @@ public class MovieApplication {
 
             OutputView.printStartPayment();
             int point = InputView.inputPoint();
-            if (isNegativeNumber(point)) {
-                OutputView.printNegativeNumberError();
-                System.exit(-1);
-            }
+            validatePoint(point);
 
-            
+            int cardOrCash = InputView.inputCardOrCash();
+            validateCardOrCash(cardOrCash);
 
             // temp code
             break;
@@ -57,6 +58,18 @@ public class MovieApplication {
 
     }
 
-    private static boolean isNegativeNumber(int point) {
+    private static void validatePoint(int point) {
+        if (point < 0) {
+            OutputView.printNegativeNumberError();
+            System.exit(-1);
+        }
+    }
+
+    private static void validateCardOrCash(int cardOrCash) {
+        if (cardOrCash == CODE_CARD || cardOrCash == CODE_CASH) {
+            return;
+        }
+        OutputView.printCardOrCashError();
+        System.exit(-1);
     }
 }
