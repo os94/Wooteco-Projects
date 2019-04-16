@@ -42,10 +42,21 @@ public class MovieApplication {
             }
             OutputView.printSelectedMovies(movies, movieBag);
 
+            OutputView.printStartPayment();
+            int point = InputView.inputPoint();
+            if (isNegativeNumber(point)) {
+                OutputView.printNegativeNumberError();
+                System.exit(-1);
+            }
+
+            
 
             // temp code
             break;
         } while (true);
 
+    }
+
+    private static boolean isNegativeNumber(int point) {
     }
 }

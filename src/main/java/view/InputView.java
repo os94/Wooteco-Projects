@@ -7,6 +7,7 @@ public class InputView {
     private static final String GUIDE_INPUT_SCHEDULE_ID = "## 예약할 시간표를 선택하세요. (첫번째 상영 시간이 1번)";
     private static final String GUIDE_INPUT_PERSON_NO = "## 예약할 인원을 입력하세요.";
     private static final String GUIDE_INPUT_CONTINUE_OR_EXIT = "## 예약을 종료하고 결제를 진행하려면 1번, 추가 예약을 진행하려면 2번";
+    private static final String GUIDE_INPUT_POINT = "## 포인트 사용 금액을 입력하세요. 포인트가 없으면 0 입력";
     private static final int CODE_CONTINUE = 2;
     private static final int CODE_EXIT = 1;
     private static final Scanner scanner = new Scanner(System.in);
@@ -35,6 +36,15 @@ public class InputView {
             return scanner.nextInt();
         } catch (IllegalArgumentException e) {
             return inputPersonNo();
+        }
+    }
+
+    public static int inputPoint() {
+        try {
+            System.out.println(GUIDE_INPUT_POINT);
+            return scanner.nextInt();
+        } catch (IllegalArgumentException e) {
+            return inputPoint();
         }
     }
 
