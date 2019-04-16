@@ -39,6 +39,10 @@ public class Movie {
         playSchedules.get(scheduleId - 1).updateCapacity(personNo);
     }
 
+    public int getPrice(int personNo) {
+        return price * personNo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -14,6 +14,11 @@ public class SelectedMovie {
         this.scheduleId = scheduleId;
         this.personNo = personNo;
     }
+
+    public int getPrice() {
+        Movie movie = MovieRepository.getMovies().get(movieIndex);
+        return movie.getPrice(personNo);
+    }
     
     public String toString(List<Movie> movies) {
         Movie movie = movies.get(movieIndex);

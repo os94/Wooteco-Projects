@@ -5,6 +5,10 @@ import java.time.LocalDateTime;
 import static utils.DateTimeUtils.format;
 
 public class PlaySchedule {
+    private static final String START_TIME = "시작시간: ";
+    private static final String CAPACITY = " 예약가능인원: ";
+    private static final char NEW_LINE = '\n';
+
     private final LocalDateTime startDateTime;
     private int capacity;
 
@@ -28,10 +32,10 @@ public class PlaySchedule {
 
     @Override
     public String toString() {
-        return "시작시간: " + format(startDateTime) + " 예약가능인원: " + capacity + "\n";
+        return START_TIME + format(startDateTime) + CAPACITY + capacity + NEW_LINE;
     }
 
     public String toString(int scheduleId) {
-        return "시작시간: " + format(startDateTime) + "\n";
+        return START_TIME + format(startDateTime) + NEW_LINE;
     }
 }
