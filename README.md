@@ -2,7 +2,7 @@
 > 우아한 테크코스 - 오프라인 코딩테스트 '영화예매' 구현
 
 ## 기능 목록
-- 상영영화목록 출력 (done)
+- 상영영화목록 출력
 - 예약할 영화 선택
   - validate : 유효한 영화id인지
 - 예약할 시간표 선택
@@ -28,3 +28,17 @@
 - 시간표를 선택할때, 이미 담은 영화와 1시간이상 차이나는지 확인하는 validate logic.
 - MainApplication과 main()의 메소드 분리 및 Refactoring 작업
 ...
+
+
+### 클래스 구성
+- MovieApplication
+- (domain)
+  - Movie
+  - MovieRepository
+  - PlaySchedule
+  - SelectedMovie
+- (view)
+  - InputView
+  - OutputView
+- (utils)
+  - DateTimeUtils
