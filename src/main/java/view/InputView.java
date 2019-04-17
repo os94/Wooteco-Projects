@@ -25,7 +25,7 @@ public class InputView {
     public static int inputMovieId() {
         try {
             System.out.println(GUIDE_INPUT_MOVIE_ID);
-            return scanner.nextInt();
+            return Integer.parseInt(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             return inputMovieId();
         }
@@ -34,7 +34,7 @@ public class InputView {
     public static int inputScheduleId() {
         try {
             System.out.println(GUIDE_INPUT_SCHEDULE_ID);
-            return scanner.nextInt();
+            return Integer.parseInt(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             return inputScheduleId();
         }
@@ -43,7 +43,7 @@ public class InputView {
     public static int inputPersonNo() {
         try {
             System.out.println(NEW_LINE + GUIDE_INPUT_PERSON_NO);
-            return scanner.nextInt();
+            return Integer.parseInt(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             return inputPersonNo();
         }
@@ -52,7 +52,7 @@ public class InputView {
     public static int inputPoint() {
         try {
             System.out.println(GUIDE_INPUT_POINT);
-            return scanner.nextInt();
+            return Integer.parseInt(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             return inputPoint();
         }
@@ -61,7 +61,7 @@ public class InputView {
     public static int inputCardOrCash() {
         try {
             System.out.println(NEW_LINE + GUIDE_INPUT_CARD_OR_CASH);
-            return scanner.nextInt();
+            return Integer.parseInt(scanner.nextLine());
         } catch (IllegalArgumentException e) {
             return inputCardOrCash();
         }
@@ -69,7 +69,7 @@ public class InputView {
 
     public static boolean continueOrExit() throws IllegalArgumentException{
         System.out.println(NEW_LINE + GUIDE_INPUT_CONTINUE_OR_EXIT);
-        int input = scanner.nextInt();
+        int input = Integer.parseInt(scanner.nextLine());
 
         if (input == CODE_CONTINUE) {
             return true;
