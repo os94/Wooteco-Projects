@@ -67,9 +67,8 @@ public class InputView {
         }
     }
 
-    public static boolean continueOrExit() throws IllegalArgumentException{
-        System.out.println(NEW_LINE + GUIDE_INPUT_CONTINUE_OR_EXIT);
-        int input = Integer.parseInt(scanner.nextLine());
+    public static boolean continueReserve() {
+        int input = inputContinueOrExit();
 
         if (input == CODE_CONTINUE) {
             return true;
@@ -77,6 +76,15 @@ public class InputView {
         if (input == CODE_EXIT) {
             return false;
         }
-        return continueOrExit();
+        return continueReserve();
+    }
+
+    private static int inputContinueOrExit() {
+        try {
+            System.out.println(NEW_LINE + GUIDE_INPUT_CONTINUE_OR_EXIT);
+            return Integer.parseInt(scanner.nextLine());
+        } catch (IllegalArgumentException e) {
+            return inputContinueOrExit();
+        }
     }
 }

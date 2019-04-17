@@ -60,8 +60,15 @@ public class PayMachine {
         for (SelectedMovie selectedMovie : movieBag) {
             sum += selectedMovie.getPrice();
         }
-        sum -= point;
+        sum = applyPoint(sum, point);
         return discount(sum, cardOrCash);
+    }
+
+    private static int applyPoint(int sum, int point) {
+        if (sum < point) {
+            return 0;
+        }
+        return sum -= point;
     }
 
     private static int discount(int sum, int cardOrCash) {

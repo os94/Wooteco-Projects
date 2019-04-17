@@ -29,7 +29,7 @@ public class MovieApplication {
             movies = movieSelector.getMovies();
             movieBag = movieSelector.getMovieBag();
 
-            if (InputView.continueOrExit()) {
+            if (InputView.continueReserve()) {
                 continue;
             }
             OutputView.printSelectedMovies(movies, movieBag);
