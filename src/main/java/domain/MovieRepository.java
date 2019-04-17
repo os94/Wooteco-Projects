@@ -44,6 +44,7 @@ public class MovieRepository {
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 11:30"), 2));
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 16:00"), 3));
         movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-04-16 21:30"), 2));
+        movie4.addPlaySchedule(new PlaySchedule(createDateTime("2019-12-31 23:59"), 2)); // add schedule for Debug
         movies.add(movie4);
     }
 

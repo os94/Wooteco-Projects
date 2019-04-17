@@ -1,13 +1,14 @@
 /*
  * @class       MovieApplication class
- * @version     1.0.0
- * @date        19.04.16
+ * @version     1.1.0
+ * @date        19.04.17
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
  * @brief       main class for movie reservation.
  */
 
 import domain.Movie;
 import domain.MovieRepository;
+import domain.MovieSelector;
 import domain.SelectedMovie;
 import view.InputView;
 import view.OutputView;
@@ -16,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieApplication {
-    private static final String ERROR_NOT_VALID_MOVIE_ID = "유효한 영화 ID가 아닙니다. 상영목록의 영화를 선택하세요.";
-    private static final String ERROR_NOT_VALID_SCHEDULE_ID = "유효한 시간표 번호가 아닙니다.";
-    private static final String ERROR_NOT_VALID_TIME_OR_PEOPLE = "이미 상영이 시작되었거나, 예매가능인원을 초과하였습니다.";
     private static final String ERROR_CARD_OR_CASH = "Error: 신용카드는 1번, 현금은 2번을 입력해야합니다.";
     private static final String ERROR_NEGATIVE_NUMBER = "Error: 양의 값을 입력해야합니다.";
     private static final String MESSAGE_RESERVATION_FINISH = "예매를 완료했습니다. 즐거운 영화 관람되세요.";
@@ -30,37 +28,16 @@ public class MovieApplication {
     private static final double DISCOUNT_RATE_CASH = 0.98;
 
     public static void main(String[] args) {
+        MovieSelector movieSelector;
         List<Movie> movies = MovieRepository.getMovies();
         List<SelectedMovie> movieBag = new ArrayList<>();
 
         while (true) {
-            OutputView.printMovies(movies);
+            movieSelector = new MovieSelector(movies, movieBag);
+            movieSelector.run();
 
-            int movieId = InputView.inputMovieId();
-            if (!MovieRepository.hasMovieId(movieId)) {
-                OutputView.printMessage(ERROR_NOT_VALID_MOVIE_ID);
-                continue;
-            }
-
-            int movieIndex = MovieRepository.getIndexById(movieId);
-            Movie movie = movies.get(movieIndex);
-            OutputView.printMovie(movie);
-
-            int scheduleId = InputView.inputScheduleId();
-            if (!movie.isValidScheduleId(scheduleId)) {
-                OutputView.printMessage(ERROR_NOT_VALID_SCHEDULE_ID);
-                continue;
-            }
-            // add OneHourWithinRange function.
-
-            int personNo = InputView.inputPersonNo();
-            if (!movie.isValidPersonNo(scheduleId, personNo)) {
-                OutputView.printMessage(ERROR_NOT_VALID_TIME_OR_PEOPLE);
-                continue;
-            }
-
-            movieBag.add(new SelectedMovie(movieIndex, scheduleId, personNo));
-            movie.updateSchedule(scheduleId, personNo);
+            movies = movieSelector.getMovies();
+            movieBag = movieSelector.getMovieBag();
 
             if (InputView.continueOrExit()) {
                 continue;
