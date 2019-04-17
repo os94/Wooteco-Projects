@@ -30,32 +30,45 @@ public class PayMachine {
 
     public void pay() {
         OutputView.printMessage(MESSAGE_START_PAYMENT);
-        int point = InputView.inputPoint();
-        validatePoint(point);
-
-        int cardOrCash = InputView.inputCardOrCash();
-        validateCardOrCash(cardOrCash);
-
+        int point = getPoint();
+        int cardOrCash = getCardOrCash();
         int totalPrice = calculatePrice(movieBag, point, cardOrCash);
         OutputView.printTotalPrice(totalPrice);
     }
 
-    private static void validatePoint(int point) {
+    private int getPoint() {
+        int point = InputView.inputPoint();
+        if (isValidPoint(point)) {
+            return point;
+        }
+        return getPoint();
+    }
+
+    private boolean isValidPoint(int point) {
         if (point < 0) {
             OutputView.printMessage(ERROR_NEGATIVE_NUMBER);
-            System.exit(-1);
+            return false;
         }
+        return true;
     }
 
-    private static void validateCardOrCash(int cardOrCash) {
+    private int getCardOrCash() {
+        int cardOrCash = InputView.inputCardOrCash();
+        if (isValidCardOrCash(cardOrCash)) {
+            return cardOrCash;
+        }
+        return getCardOrCash();
+    }
+
+    private boolean isValidCardOrCash(int cardOrCash) {
         if (cardOrCash == CODE_CARD || cardOrCash == CODE_CASH) {
-            return;
+            return true;
         }
         OutputView.printMessage(ERROR_CARD_OR_CASH);
-        System.exit(-1);
+        return false;
     }
 
-    private static int calculatePrice(List<SelectedMovie> movieBag, int point, int cardOrCash) {
+    private int calculatePrice(List<SelectedMovie> movieBag, int point, int cardOrCash) {
         int sum = 0;
         for (SelectedMovie selectedMovie : movieBag) {
             sum += selectedMovie.getPrice();
@@ -64,14 +77,15 @@ public class PayMachine {
         return discount(sum, cardOrCash);
     }
 
-    private static int applyPoint(int sum, int point) {
+    private int applyPoint(int sum, int point) {
         if (sum < point) {
             return 0;
         }
-        return sum -= point;
+        sum -= point;
+        return sum;
     }
 
-    private static int discount(int sum, int cardOrCash) {
+    private int discount(int sum, int cardOrCash) {
         if (cardOrCash == CODE_CARD) {
             return (int) (sum * DISCOUNT_RATE_CARD);
         }

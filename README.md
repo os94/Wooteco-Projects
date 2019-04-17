@@ -27,12 +27,17 @@
 
 ### To do
 > 시간관계상 구현하지 못한 기능. 제출후 추가작업중.
+- 전체적인 Refactoring
 - 시간표를 선택할때, 이미 담은 영화와 1시간이상 차이나는지 확인하는 validate logic
-- ~~main() Refactoring : main의 메소드 분리/정리 작업 및 과한역할이 할당되어있진 않은지 별도클래스 분리 고민중~~
+- 새로 추가한 MovieSelector 개선
+  - loop 로직 재구성 : validate시점 재배치
+
+추가작업 완료)
+- main() Refactoring : main의 메소드 분리/정리 작업 및 과한역할이 할당되어있진 않은지 별도클래스 분리 고민중
   - => MovieSelector, PayMachine class 추가
-- ~~continueOrExit 로직 개선~~
-- loop 로직 재구성 : validate시점 재배치
-- ~~모든 상영시간이 지난 경우 : 구현보류 (MovieRepository의 input data 책임전달)~~
+- 일부 input&validate 로직을 프로그램 종료가 아닌, 재입력받도록 개선
+- point가 영화금액을 초과하는경우 0원 처리
+- 모든 상영시간이 지난 경우 : 보류
 - ...
 
 
