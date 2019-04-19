@@ -8,6 +8,9 @@
 
 package domain;
 
+import utils.DateTimeUtils;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class SelectedMovie {
@@ -27,7 +30,7 @@ public class SelectedMovie {
         Movie movie = MovieRepository.getMovies().get(movieIndex);
         return movie.getPrice(personNo);
     }
-    
+
     public String toString(List<Movie> movies) {
         Movie movie = movies.get(movieIndex);
         StringBuilder sb = new StringBuilder();
@@ -36,5 +39,14 @@ public class SelectedMovie {
         sb.append(RESERVATION_PEOPLE + ": " + personNo + "명");
 
         return sb.toString();
+    }
+
+    public boolean hasGapWith(LocalDateTime startTime) {
+        Movie movie = MovieRepository.getMovies().get(movieIndex);
+        LocalDateTime selectedMovieTime = movie.getStartDateTime(scheduleId);
+        if (DateTimeUtils.isOneHourWithinRange(selectedMovieTime, startTime)) {
+            return false;
+        }
+        return true;
     }
 }

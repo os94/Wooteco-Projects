@@ -11,11 +11,13 @@ package domain;
 import view.InputView;
 import view.OutputView;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MovieSelector {
     private static final String ERROR_NOT_VALID_MOVIE_ID = "유효한 영화 ID가 아닙니다. 상영목록의 영화를 선택하세요.";
     private static final String ERROR_NOT_VALID_TIME_OR_PEOPLE = "예매가능인원이 아닙니다.";
+    private static final String ERROR_OVER_ONE_HOUR_GAP = "이미 선택한 영화와 1시간이상 차이가 납니다.";
 
     private List<Movie> movies;
     private List<SelectedMovie> movieBag;
@@ -60,7 +62,9 @@ public class MovieSelector {
         if (!movie.isValidScheduleId(scheduleId)) {
             return getScheduleId(movie);
         }
-        // add Validate OneHourWithinRange function.
+        if (hasOverOneHourGap(movieBag, movie.getStartDateTime(scheduleId))) {
+            return getScheduleId(movie);
+        }
         return scheduleId;
     }
 
@@ -71,5 +75,16 @@ public class MovieSelector {
             return getPersonNo(movie, scheduleId);
         }
         return personNo;
+    }
+
+    private boolean hasOverOneHourGap(List<SelectedMovie> movieBag, LocalDateTime startTime) {
+        boolean hasGap = false;
+        for (SelectedMovie selectedMovie : movieBag) {
+            hasGap = selectedMovie.hasGapWith(startTime);
+        }
+        if (hasGap) {
+            OutputView.printMessage(ERROR_OVER_ONE_HOUR_GAP);
+        }
+        return hasGap;
     }
 }

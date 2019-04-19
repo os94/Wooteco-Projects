@@ -10,6 +10,7 @@ package domain;
 
 import view.OutputView;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,11 @@ public class Movie {
 
     public void updateSchedule(int scheduleId, int personNo) {
         playSchedules.get(scheduleId - 1).updateCapacity(personNo);
+    }
+
+    public LocalDateTime getStartDateTime(int scheduleId) {
+        PlaySchedule schedule = playSchedules.get(scheduleId - 1);
+        return schedule.getStartDateTime();
     }
 
     public int getPrice(int personNo) {
