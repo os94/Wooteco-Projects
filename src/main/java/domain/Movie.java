@@ -8,10 +8,14 @@
 
 package domain;
 
+import view.OutputView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    private static final String ERROR_NOT_VALID_SCHEDULE_ID = "유효한 시간표 번호가 아닙니다.";
+    private static final String ERROR_MOVIE_ALREADY_STARTED = "이미 상영이 시작하였습니다.";
     private static final char NEW_LINE = '\n';
 
     private final int id;
@@ -35,12 +39,20 @@ public class Movie {
     }
 
     public boolean isValidScheduleId(int scheduleId) {
-        return (0 < scheduleId) && (scheduleId <= playSchedules.size());
+        if (!isScheduleId(scheduleId)) {
+            OutputView.printMessage(ERROR_NOT_VALID_SCHEDULE_ID);
+            return false;
+        }
+        if (!isBeforeStart(scheduleId)) {
+            OutputView.printMessage(ERROR_MOVIE_ALREADY_STARTED);
+            return false;
+        }
+        return true;
     }
 
     public boolean isValidPersonNo(int scheduleId, int personNo) {
         PlaySchedule schedule = playSchedules.get(scheduleId - 1);
-        return schedule.isValidCapacity(personNo) && schedule.isValidTime();
+        return schedule.isValidCapacity(personNo);
     }
 
     public void updateSchedule(int scheduleId, int personNo) {
@@ -68,5 +80,14 @@ public class Movie {
         sb.append(playSchedules.get(scheduleId - 1).toString(scheduleId));
 
         return sb.toString();
+    }
+
+    private boolean isScheduleId(int scheduleId) {
+        return (0 < scheduleId) && (scheduleId <= playSchedules.size());
+    }
+
+    private boolean isBeforeStart(int scheduleId) {
+        PlaySchedule schedule = playSchedules.get(scheduleId - 1);
+        return schedule.isValidTime();
     }
 }

@@ -15,8 +15,7 @@ import java.util.List;
 
 public class MovieSelector {
     private static final String ERROR_NOT_VALID_MOVIE_ID = "유효한 영화 ID가 아닙니다. 상영목록의 영화를 선택하세요.";
-    private static final String ERROR_NOT_VALID_SCHEDULE_ID = "유효한 시간표 번호가 아닙니다.";
-    private static final String ERROR_NOT_VALID_TIME_OR_PEOPLE = "이미 상영이 시작되었거나, 예매가능인원을 초과하였습니다.";
+    private static final String ERROR_NOT_VALID_TIME_OR_PEOPLE = "예매가능인원이 아닙니다.";
 
     private List<Movie> movies;
     private List<SelectedMovie> movieBag;
@@ -59,7 +58,6 @@ public class MovieSelector {
     private int getScheduleId(Movie movie) {
         int scheduleId = InputView.inputScheduleId();
         if (!movie.isValidScheduleId(scheduleId)) {
-            OutputView.printMessage(ERROR_NOT_VALID_SCHEDULE_ID);
             return getScheduleId(movie);
         }
         // add Validate OneHourWithinRange function.
