@@ -1,15 +1,11 @@
 package cal;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class StringCalculator {
     public int calculate(String value) {
-        /*value = value.replace(" ", "");
-        String[] expression = value.split("[\\+|\\-|\\*|\\/]");*/
         String[] expression = value.split(" ");
-        System.out.println(Arrays.asList(expression));
         Queue<Integer> numbers = new LinkedList<>();
         Queue<String> operators = new LinkedList<>();
 

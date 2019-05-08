@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
     StringCalculator cal;
@@ -13,14 +12,6 @@ public class CalculatorTest {
     @BeforeEach
     void setUp() {
         cal = new StringCalculator();
-
-    }
-
-    @Test
-    void 유효하지_않은_값() {
-        assertThrows(IllegalArgumentException.class, () -> {
-           cal.calculate("2");
-        });
     }
 
     @Test
@@ -30,6 +21,10 @@ public class CalculatorTest {
         assertThat(Validator.checkFormat("10 ^ 2")).isEqualTo(false);
         assertThat(Validator.checkFormat("2")).isEqualTo(false);
         assertThat(Validator.checkFormat("10 + 2 / 0")).isEqualTo(false);
+
+        /*assertThrows(IllegalArgumentException.class, () -> {
+            Validator.checkFormat("+ 3 + 3");
+        });*/
     }
 
     @Test
