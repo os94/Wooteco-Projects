@@ -6,7 +6,8 @@ import racing.view.OutputView;
 import java.util.List;
 
 public class Racing {
-    final static String MSG_GAME_RESULT = "실행 결과";
+    final static private String MSG_GAME_RESULT = "실행 결과";
+    final static private int RANDOM = 10;
 
     final private List<Car> cars;
     final private int count;
@@ -27,8 +28,12 @@ public class Racing {
 
     private void moveCars() {
         for (Car car : cars) {
-            car.move();
+            car.move(getRandomNumber());
             OutputView.print(car);
         }
+    }
+
+    private int getRandomNumber() {
+        return (int) (Math.random() * RANDOM);
     }
 }

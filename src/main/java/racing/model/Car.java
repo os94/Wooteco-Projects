@@ -1,6 +1,8 @@
 package racing.model;
 
 public class Car {
+    final static private int FORWARD_NUMBER = 4;
+
     private final String name;
     private int position;
 
@@ -21,6 +23,9 @@ public class Car {
         return position;
     }
 
-    public void move() {
+    public void move(int random) {
+        if (random >= FORWARD_NUMBER) {
+            position++;
+        }
     }
 }
