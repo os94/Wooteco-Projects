@@ -14,13 +14,13 @@ public class StringCalculator {
         return getResult(numbers, operators);
     }
 
-    private void divideExpression(Queue<Integer> numbers, Queue<String> operators, String[] temp) {
-        for (int i = 0; i < temp.length; i++) {
-            if (i % 2 == 0) {
-                numbers.add(Integer.parseInt(temp[i]));
+    private void divideExpression(Queue<Integer> numbers, Queue<String> operators, String[] expression) {
+        for (int i = 0; i < expression.length; i++) {
+            if (i % 2 == 0) { // even
+                numbers.add(Integer.parseInt(expression[i]));
             }
-            if (i % 2 == 1) {
-                operators.add(temp[i]);
+            if (i % 2 == 1) { // odd
+                operators.add(expression[i]);
             }
         }
     }

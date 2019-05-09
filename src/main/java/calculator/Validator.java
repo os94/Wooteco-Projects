@@ -4,7 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Validator {
-    private final static int START_NUMBER = 0;
+    private final static String REGEX_CALCULATOR_FORMAT = "[0-9]{1,}([\\+|\\-|\\*|\\/][0-9]{1,}){1,}";
+    private final static char SIGN_DIVIDE = '/';
 
     public static boolean isValid(String value) {
         value = value.replace(" ", "");
@@ -12,7 +13,7 @@ public class Validator {
     }
 
     public static boolean checkFormat(String value) {
-        Pattern pattern = Pattern.compile("[0-9]{1,}([\\+|\\-|\\*|\\/][0-9]{1,}){1,}");
+        Pattern pattern = Pattern.compile(REGEX_CALCULATOR_FORMAT);
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
     }
@@ -26,6 +27,6 @@ public class Validator {
     }
 
     private static boolean checkDivideZero(String values, int i) {
-        return (values.charAt(i) == '/' && values.charAt(i + 1) == 0);
+        return (values.charAt(i) == SIGN_DIVIDE && values.charAt(i + 1) == 0);
     }
 }

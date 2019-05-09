@@ -3,10 +3,12 @@ package calculator;
 public class Main {
     public static void main(String[] args) {
         StringCalculator stringCalculator = new StringCalculator();
+        int result;
 
-        String expression = User.input();
+        String expression = View.input();
         if (Validator.isValid(expression)) {
-            stringCalculator.calculate(expression);
+            result = stringCalculator.calculate(expression);
+            View.output(result);
         }
     }
 }
