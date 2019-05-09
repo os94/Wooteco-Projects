@@ -9,24 +9,24 @@ public class Validator {
 
     public static boolean isValid(String value) {
         value = value.replace(" ", "");
-        return checkFormat(value) && checkDivideZero(value);
+        return isRightFormat(value) && !isDivideZero(value);
     }
 
-    public static boolean checkFormat(String value) {
+    public static boolean isRightFormat(String value) {
         Pattern pattern = Pattern.compile(REGEX_CALCULATOR_FORMAT);
         Matcher matcher = pattern.matcher(value);
         return matcher.matches();
     }
 
-    public static boolean checkDivideZero(String values) {
-        boolean result = true;
+    public static boolean isDivideZero(String values) {
+        boolean result = false;
         for (int i = 0; i < values.length(); i++) {
-            result = result && checkDivideZero(values, i);
+            result = result || isDivideZero(values, i);
         }
         return result;
     }
 
-    private static boolean checkDivideZero(String values, int i) {
+    private static boolean isDivideZero(String values, int i) {
         return (values.charAt(i) == SIGN_DIVIDE && values.charAt(i + 1) == 0);
     }
 }

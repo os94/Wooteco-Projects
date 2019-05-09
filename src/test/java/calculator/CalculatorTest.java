@@ -16,11 +16,11 @@ public class CalculatorTest {
 
     @Test
     void 예외처리() {
-        assertThat(Validator.checkFormat("+ 3 + 3")).isEqualTo(false);
-        assertThat(Validator.checkFormat("10 + * 5")).isEqualTo(false);
-        assertThat(Validator.checkFormat("10 ^ 2")).isEqualTo(false);
-        assertThat(Validator.checkFormat("2")).isEqualTo(false);
-        assertThat(Validator.checkFormat("10 + 2 / 0")).isEqualTo(false);
+        assertThat(Validator.isRightFormat("+ 3 + 3")).isEqualTo(false);
+        assertThat(Validator.isRightFormat("10 + * 5")).isEqualTo(false);
+        assertThat(Validator.isRightFormat("10 ^ 2")).isEqualTo(false);
+        assertThat(Validator.isRightFormat("2")).isEqualTo(false);
+        assertThat(Validator.isRightFormat("10 + 2 / 0")).isEqualTo(false);
 
         /*assertThrows(IllegalArgumentException.class, () -> {
             Validator.checkFormat("+ 3 + 3");

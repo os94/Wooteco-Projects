@@ -4,6 +4,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class StringCalculator {
+    private final static String PLUS = "+";
+    private final static String MINUS = "-";
+    private final static String MULTIPLE = "*";
+    private final static String DIVIDE = "/";
+
     public int calculate(String value) {
         String[] expression = value.split(" ");
         Queue<Integer> numbers = new LinkedList<>();
@@ -34,16 +39,16 @@ public class StringCalculator {
     }
 
     private int map(int i, int j, String operator) {
-        if (operator.equals("+")) {
+        if (operator.equals(PLUS)) {
             return Calculator.add(i, j);
         }
-        if (operator.equals("-")) {
+        if (operator.equals(MINUS)) {
             return Calculator.subtract(i, j);
         }
-        if (operator.equals("*")) {
+        if (operator.equals(MULTIPLE)) {
             return Calculator.multiply(i, j);
         }
-        if (operator.equals("/")) {
+        if (operator.equals(DIVIDE)) {
             return Calculator.divide(i, j);
         }
         throw new IllegalArgumentException();
