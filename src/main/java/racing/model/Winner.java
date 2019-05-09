@@ -10,8 +10,8 @@ public class Winner {
         this.cars = cars;
     }
 
-    public List<Car> getWinners() {
-        List<Car> winners = new ArrayList<>();
+    public List<String> getWinners() {
+        List<String> winners = new ArrayList<>();
         for (Car car : cars) {
             determineWinner(winners, car);
         }
@@ -26,9 +26,9 @@ public class Winner {
         return max;
     }
 
-    private void determineWinner(List<Car> winners, Car car) {
+    private void determineWinner(List<String> winners, Car car) {
         if (car.isMaxPosition(getMaxDistance())) {
-            winners.add(car);
+            winners.add(car.getName());
         }
     }
 }
