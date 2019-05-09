@@ -30,7 +30,6 @@ public class Racing {
 
     public void run() {
         OutputView.print(MSG_GAME_RESULT);
-
         for (int i = 0; i < count; i++) {
             moveCars();
             OutputView.print("");
