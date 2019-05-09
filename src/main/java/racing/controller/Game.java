@@ -13,8 +13,12 @@ public class Game {
         List<Car> cars = makeCarList(InputView.carName());
         int count = InputView.gameCount();
 
-        Racing racing = new Racing(cars, count);
-        racing.run();
+        try {
+            Racing racing = new Racing(cars, count);
+            racing.run();
+        } catch (IllegalArgumentException e) {
+            System.exit(-1);
+        }
 
         Winner winner = new Winner(cars);
         OutputView.print(winner);
