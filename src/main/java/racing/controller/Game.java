@@ -8,7 +8,7 @@ import racing.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class Game {
     public static void main(String[] args) {
         List<Car> cars = makeCarList(InputView.carName());
         int count = InputView.gameCount();
