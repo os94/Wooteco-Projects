@@ -12,6 +12,8 @@ public class InputView {
     }
 
     public static int gameCount() {
-        return 0;
+        int count = scanner.nextInt();
+
+        return count;
     }
 }
