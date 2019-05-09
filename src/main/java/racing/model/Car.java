@@ -1,7 +1,7 @@
 package racing.model;
 
 public class Car {
-    final static private int FORWARD_NUMBER = 4;
+    private final static int FORWARD_NUMBER = 4;
 
     private final String name;
     private int position;

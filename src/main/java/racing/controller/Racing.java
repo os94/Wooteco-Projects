@@ -6,8 +6,8 @@ import racing.view.OutputView;
 import java.util.List;
 
 public class Racing {
-    final static private String MSG_GAME_RESULT = "실행 결과";
-    final static private int RANDOM = 10;
+    private final static String MSG_GAME_RESULT = "실행 결과";
+    private final static int RANDOM = 10;
 
     final private List<Car> cars;
     final private int count;
