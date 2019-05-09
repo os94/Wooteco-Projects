@@ -1,4 +1,4 @@
-package cal;
+package calculator;
 
 import java.util.LinkedList;
 import java.util.Queue;

@@ -24,14 +24,14 @@ public class RacingTest {
         cars.add(new Car("pobi"));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            Racing racing = new Racing(cars, 3);
+            new Racing(cars, 3);
         });
     }
 
     @Test
     void 이동횟수_음수() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Racing racing = new Racing(cars, -1);
+            new Racing(cars, -1);
         });
     }
 }

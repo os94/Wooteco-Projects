@@ -1,13 +1,12 @@
-package cal;
+package calculator;
 
 public class Main {
-
     public static void main(String[] args) {
-        StringCalculator cal = new StringCalculator();
+        StringCalculator stringCalculator = new StringCalculator();
 
         String expression = User.input();
         if (Validator.isValid(expression)) {
-            cal.calculate(expression);
+            stringCalculator.calculate(expression);
         }
     }
 }
