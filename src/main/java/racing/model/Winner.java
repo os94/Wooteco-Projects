@@ -18,17 +18,17 @@ public class Winner {
         return winners;
     }
 
+    private void determineWinner(List<String> winners, Car car) {
+        if (car.isMaxPosition(getMaxDistance())) {
+            winners.add(car.getName());
+        }
+    }
+
     private int getMaxDistance() {
         int max = 0;
         for (Car car : cars) {
             max = Math.max(max, car.getPosition());
         }
         return max;
-    }
-
-    private void determineWinner(List<String> winners, Car car) {
-        if (car.isMaxPosition(getMaxDistance())) {
-            winners.add(car.getName());
-        }
     }
 }

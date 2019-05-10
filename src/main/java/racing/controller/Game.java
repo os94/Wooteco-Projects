@@ -24,11 +24,11 @@ public class Game {
         OutputView.print(winner);
     }
 
-    private static List<Car> makeCarList(String carNames) {
-        String[] carNameArray = carNames.split(",");
+    private static List<Car> makeCarList(String carNameInputs) {
+        String[] carNames = carNameInputs.split(",");
         List<Car> cars = new ArrayList<>();
-        for (int i = 0; i < carNameArray.length; i++) {
-            cars.add(new Car(carNameArray[i]));
+        for (int i = 0; i < carNames.length; i++) {
+            cars.add(new Car(carNames[i]));
         }
         return cars;
     }

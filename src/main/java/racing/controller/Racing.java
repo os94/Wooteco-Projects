@@ -9,13 +9,13 @@ import java.util.Set;
 
 public class Racing {
     private final static String MSG_GAME_RESULT = "실행 결과";
-    private final static int RANDOM = 10;
-    private final static int POSITIVE = 1;
     private final static String MSG_DUPLICATE_CAR_NAME = "중복된 차량 이름이 있습니다.";
     private final static String MSG_COUNT_MUST_POSITIVE = "게임횟수는 0보다 커야합니다.";
+    private final static int RANDOM = 10;
+    private final static int POSITIVE = 1;
 
-    final private List<Car> cars;
-    final private int count;
+    private final List<Car> cars;
+    private final int count;
 
     public Racing(List<Car> cars, int count) {
         if (hasDuplicateCarName(cars)) {
@@ -35,6 +35,8 @@ public class Racing {
             OutputView.print("");
         }
     }
+
+
 
     private void moveCars() {
         for (Car car : cars) {
