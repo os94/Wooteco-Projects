@@ -43,7 +43,7 @@ public class Racing {
         }
     }
 
-    private int getRandomNumber() {
+    private static int getRandomNumber() {
         return (int) (Math.random() * RANDOM);
     }
 
