@@ -1,3 +1,11 @@
+/*
+ * @class       Racing class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       racing game main business logic
+ */
+
 package racing.controller;
 
 import racing.model.Car;

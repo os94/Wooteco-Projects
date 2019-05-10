@@ -1,3 +1,11 @@
+/*
+ * @class       View class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       input from User, print to User
+ */
+
 package calculator;
 
 import java.util.Scanner;

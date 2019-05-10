@@ -1,3 +1,11 @@
+/*
+ * @class       WinnerTest class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       test getWinners method
+ */
+
 package racing.model;
 
 import org.junit.jupiter.api.Test;

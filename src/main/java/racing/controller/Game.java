@@ -1,3 +1,11 @@
+/*
+ * @class       Game class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       racing game console
+ */
+
 package racing.controller;
 
 import racing.model.Car;

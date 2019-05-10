@@ -1,3 +1,11 @@
+/*
+ * @class       Winner class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       include win cars info. from racing
+ */
+
 package racing.model;
 
 import java.util.ArrayList;

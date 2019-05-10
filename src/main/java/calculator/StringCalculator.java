@@ -1,3 +1,11 @@
+/*
+ * @class       StringCalculator class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       string calculator main business logic
+ */
+
 package calculator;
 
 import java.util.LinkedList;

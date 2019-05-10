@@ -1,3 +1,11 @@
+/*
+ * @class       InputViewTest class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       temporarily change isRightCarName() from private to public, to use this test code
+ */
+
 package racing.view;
 
 import org.junit.jupiter.api.Test;

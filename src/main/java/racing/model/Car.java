@@ -1,3 +1,11 @@
+/*
+ * @class       Car class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       meaning each car
+ */
+
 package racing.model;
 
 import java.util.Objects;

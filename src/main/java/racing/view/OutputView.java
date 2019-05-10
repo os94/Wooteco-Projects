@@ -1,3 +1,11 @@
+/*
+ * @class       OutputView class
+ * @version     1.0.0
+ * @date        19.05.10
+ * @author      OHSANG SEO (tjdhtkd@gmail.com)
+ * @brief       print game message
+ */
+
 package racing.view;
 
 import racing.model.Car;
