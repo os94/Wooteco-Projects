@@ -30,6 +30,15 @@ public class Car {
         return position;
     }
 
+    public String getCurrentLocation() {
+        StringBuilder currentLocation = new StringBuilder();
+        currentLocation.append(String.format("%-5s : ", name));
+        for (int i = 0; i < position; i++) {
+            currentLocation.append("-");
+        }
+        return currentLocation.toString();
+    }
+
     public void move(int number) {
         if (number >= FORWARD_NUMBER) {
             position++;

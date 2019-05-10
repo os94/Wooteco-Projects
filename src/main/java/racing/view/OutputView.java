@@ -11,11 +11,7 @@ public class OutputView {
     }
 
     public static void print(Car car) {
-        System.out.printf("%-5s : ", car.getName());
-        for (int i = 0; i < car.getPosition(); i++) {
-            System.out.print("-");
-        }
-        System.out.println();
+        System.out.println(car.getCurrentLocation());
     }
 
     public static void print(Winner winner) {
