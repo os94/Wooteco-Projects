@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class CarTest {
     @Test
     void create_name() {
-        assertThat(new Car("pobi").equals(new Car("pobi"))).isEqualTo(true);
+        assertThat(new Car("pobi").equals(new Car("pobi"))).isTrue();
     }
 
     @Test
@@ -44,7 +44,7 @@ public class CarTest {
     void stop() {
         Car car = new Car("pobi");
         car.move(3);
-        assertThat(car.matchPosition(0)).isEqualTo(true);
+        assertThat(car.matchPosition(0)).isTrue();
     }
 
     @Test

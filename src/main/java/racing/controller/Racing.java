@@ -9,11 +9,10 @@
 package racing.controller;
 
 import racing.model.Car;
+import racing.model.Winner;
 import racing.view.OutputView;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Racing {
     private final static String MSG_GAME_RESULT = "실행 결과";
@@ -25,23 +24,36 @@ public class Racing {
     private final List<Car> cars;
     private final int count;
 
-    public Racing(List<Car> cars, int count) {
-        if (hasDuplicateCarName(cars)) {
+    public Racing(String[] carNames, int count) {
+        if (hasDuplicateCarName(carNames)) {
             throw new IllegalArgumentException(MSG_DUPLICATE_CAR_NAME);
         }
         if (count < CONDITION_TO_POSITIVE) {
             throw new IllegalArgumentException(MSG_COUNT_MUST_POSITIVE);
         }
-        this.cars = cars;
+        this.cars = bindCars(carNames);
         this.count = count;
     }
 
-    public void run() {
+    public Winner run() {
         OutputView.print(MSG_GAME_RESULT);
         for (int i = 0; i < count; i++) {
             moveCars();
             OutputView.print("");
         }
+        return new Winner(cars);
+    }
+
+    private boolean hasDuplicateCarName(String[] carNames) {
+        return carNames.length != new HashSet<>(Arrays.asList(carNames)).size();
+    }
+
+    private List<Car> bindCars(String[] carNames) {
+        List<Car> cars = new ArrayList<>();
+        for (int i = 0; i < carNames.length; i++) {
+            cars.add(new Car(carNames[i]));
+        }
+        return cars;
     }
 
     private void moveCars() {
@@ -53,13 +65,5 @@ public class Racing {
 
     private static int getRandomNumber() {
         return (int) (Math.random() * RANGE_OF_RANDOM);
-    }
-
-    private boolean hasDuplicateCarName(List<Car> cars) {
-        Set<String> carNames = new HashSet<>();
-        for (Car car : cars) {
-            carNames.add(car.getName());
-        }
-        return cars.size() != carNames.size();
     }
 }
