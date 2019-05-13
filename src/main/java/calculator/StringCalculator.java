@@ -1,21 +1,16 @@
 /*
  * @class       StringCalculator class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
  * @brief       string calculator main business logic
  */
 
 package calculator;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class StringCalculator {
-    private final static String PLUS = "+";
-    private final static String MINUS = "-";
-    private final static String MULTIPLE = "*";
-    private final static String DIVIDE = "/";
     private final static int INDEX_TWO = 2;
 
     public int calculate(String value) {
@@ -44,26 +39,14 @@ public class StringCalculator {
     }
 
     private int getResult(Queue<Integer> numbers, Queue<String> operators) {
-        int result = map(numbers.poll(), numbers.poll(), operators.poll());
+        int result = calculate(numbers.poll(), numbers.poll(), operators.poll());
         while (!operators.isEmpty()) {
-            result = map(result, numbers.poll(), operators.poll());
+            result = calculate(result, numbers.poll(), operators.poll());
         }
         return result;
     }
 
-    private int map(int i, int j, String operator) {
-        if (operator.equals(PLUS)) {
-            return Calculator.add(i, j);
-        }
-        if (operator.equals(MINUS)) {
-            return Calculator.subtract(i, j);
-        }
-        if (operator.equals(MULTIPLE)) {
-            return Calculator.multiply(i, j);
-        }
-        if (operator.equals(DIVIDE)) {
-            return Calculator.divide(i, j);
-        }
-        throw new IllegalArgumentException();
+    private int calculate(int num1, int num2, String operator) {
+        return Operator.calculate(num1, num2, operator);
     }
 }
