@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Game {
     public static void main(String[] args) {
-        List<Car> cars = makeCarList(InputView.carName());
+        List<Car> cars = makeCars(InputView.carName());
         int count = InputView.gameCount();
 
         try {
@@ -32,7 +32,7 @@ public class Game {
         OutputView.print(winner);
     }
 
-    private static List<Car> makeCarList(String carNameInputs) {
+    private static List<Car> makeCars(String carNameInputs) {
         String[] carNames = carNameInputs.split(",");
         List<Car> cars = new ArrayList<>();
         for (int i = 0; i < carNames.length; i++) {

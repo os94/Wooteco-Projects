@@ -19,8 +19,8 @@ public class Racing {
     private final static String MSG_GAME_RESULT = "실행 결과";
     private final static String MSG_DUPLICATE_CAR_NAME = "중복된 차량 이름이 있습니다.";
     private final static String MSG_COUNT_MUST_POSITIVE = "게임횟수는 0보다 커야합니다.";
-    private final static int RANDOM = 10;
-    private final static int POSITIVE = 1;
+    private final static int RANGE_OF_RANDOM = 10;
+    private final static int CONDITION_TO_POSITIVE = 1;
 
     private final List<Car> cars;
     private final int count;
@@ -29,7 +29,7 @@ public class Racing {
         if (hasDuplicateCarName(cars)) {
             throw new IllegalArgumentException(MSG_DUPLICATE_CAR_NAME);
         }
-        if (count < POSITIVE) {
+        if (count < CONDITION_TO_POSITIVE) {
             throw new IllegalArgumentException(MSG_COUNT_MUST_POSITIVE);
         }
         this.cars = cars;
@@ -52,7 +52,7 @@ public class Racing {
     }
 
     private static int getRandomNumber() {
-        return (int) (Math.random() * RANDOM);
+        return (int) (Math.random() * RANGE_OF_RANDOM);
     }
 
     private boolean hasDuplicateCarName(List<Car> cars) {
