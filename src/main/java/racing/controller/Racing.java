@@ -44,8 +44,6 @@ public class Racing {
         }
     }
 
-
-
     private void moveCars() {
         for (Car car : cars) {
             car.move(getRandomNumber());

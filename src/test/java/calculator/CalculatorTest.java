@@ -7,46 +7,46 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CalculatorTest {
-    StringCalculator cal;
+    StringCalculator stringCalculator;
 
     @BeforeEach
     void setUp() {
-        cal = new StringCalculator();
+        stringCalculator = new StringCalculator();
     }
 
     @Test
     void 덧셈() {
-        int result = cal.calculate("2 + 3");
+        int result = stringCalculator.calculate("2 + 3");
         assertThat(result).isEqualTo(5);
     }
 
     @Test
     void 뺄셈() {
-        int result = cal.calculate("3 - 2");
+        int result = stringCalculator.calculate("3 - 2");
         assertThat(result).isEqualTo(1);
     }
 
     @Test
     void 곱셈() {
-        int result = cal.calculate("3 * 2");
+        int result = stringCalculator.calculate("3 * 2");
         assertThat(result).isEqualTo(6);
     }
 
     @Test
     void 나눗셈() {
-        int result = cal.calculate("4 / 2");
+        int result = stringCalculator.calculate("4 / 2");
         assertThat(result).isEqualTo(2);
     }
 
     @Test
     void 복합_계산() {
-        assertThat(cal.calculate("5 * 2 + 2")).isEqualTo(12);
-        assertThat(cal.calculate("12 + 3 * 2")).isEqualTo(30);
-        assertThat(cal.calculate("100 / 25 + 5")).isEqualTo(9);
+        assertThat(stringCalculator.calculate("5 * 2 + 2")).isEqualTo(12);
+        assertThat(stringCalculator.calculate("12 + 3 * 2")).isEqualTo(30);
+        assertThat(stringCalculator.calculate("100 / 25 + 5")).isEqualTo(9);
     }
 
     @AfterEach
     void tearDown() {
-        cal = null;
+        stringCalculator = null;
     }
 }

@@ -39,14 +39,10 @@ public class StringCalculator {
     }
 
     private int getResult(Queue<Integer> numbers, Queue<String> operators) {
-        int result = calculate(numbers.poll(), numbers.poll(), operators.poll());
+        int result = Operator.calculate(numbers.poll(), numbers.poll(), operators.poll());
         while (!operators.isEmpty()) {
-            result = calculate(result, numbers.poll(), operators.poll());
+            result = Operator.calculate(result, numbers.poll(), operators.poll());
         }
         return result;
-    }
-
-    private int calculate(int num1, int num2, String operator) {
-        return Operator.calculate(num1, num2, operator);
     }
 }
