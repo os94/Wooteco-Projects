@@ -1,7 +1,7 @@
 /*
  * @class       Car class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
  * @brief       meaning each car
  */
@@ -36,15 +36,6 @@ public class Car {
 
     public int getPosition() {
         return position;
-    }
-
-    public String getCurrentLocation() {
-        StringBuilder currentLocation = new StringBuilder();
-        currentLocation.append(String.format("%-5s : ", name));
-        for (int i = 0; i < position; i++) {
-            currentLocation.append("-");
-        }
-        return currentLocation.toString();
     }
 
     public void move(int number) {

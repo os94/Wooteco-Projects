@@ -1,9 +1,9 @@
 /*
  * @class       WinnerTest class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
- * @brief       test getWinners method
+ * @brief       test getWinnerNames method
  */
 
 package racing.model;
@@ -23,6 +23,6 @@ public class WinnerTest {
                 , new Car("denis", 3), new Car("ms", 1));
         Winner winner = new Winner(cars);
 
-        assertThat(winner.getWinners()).containsExactlyInAnyOrder("pobi", "denis");
+        assertThat(winner.getWinnerNames()).containsExactlyInAnyOrder("pobi", "denis");
     }
 }

@@ -1,9 +1,9 @@
 /*
  * @class       CarTest class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
- * @brief       test constructor, move, getCurrentLocation methods
+ * @brief       test constructor, move method
  */
 
 package racing.model;
@@ -45,10 +45,5 @@ public class CarTest {
         Car car = new Car("pobi");
         car.move(3);
         assertThat(car.matchPosition(0)).isTrue();
-    }
-
-    @Test
-    void current_position() {
-        assertThat(new Car("pobi", 3).getCurrentLocation()).isEqualTo("pobi  : ---");
     }
 }

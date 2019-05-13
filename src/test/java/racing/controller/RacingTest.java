@@ -1,7 +1,7 @@
 /*
  * @class       RacingTest class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
  * @brief       test duplicate car name, negative move number
  */

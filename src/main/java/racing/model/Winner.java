@@ -1,7 +1,7 @@
 /*
  * @class       Winner class
- * @version     1.0.0
- * @date        19.05.10
+ * @version     1.1.0
+ * @date        19.05.13
  * @author      OHSANG SEO (tjdhtkd@gmail.com)
  * @brief       include win cars info. from racing
  */
@@ -18,18 +18,19 @@ public class Winner {
         this.cars = cars;
     }
 
-    public List<String> getWinners() {
-        List<String> winners = new ArrayList<>();
+    public List<String> getWinnerNames() {
+        List<String> winnerNames = new ArrayList<>();
         int maxDistance = getMaxDistance();
+
         for (Car car : cars) {
-            determineWinner(winners, car, maxDistance);
+            determineWinner(winnerNames, car, maxDistance);
         }
-        return winners;
+        return winnerNames;
     }
 
-    private void determineWinner(List<String> winners, Car car, int maxDistance) {
+    private void determineWinner(List<String> winnerNames, Car car, int maxDistance) {
         if (car.isMaxPosition(maxDistance)) {
-            winners.add(car.getName());
+            winnerNames.add(car.getName());
         }
     }
 
