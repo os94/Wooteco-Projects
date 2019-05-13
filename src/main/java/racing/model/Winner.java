@@ -20,14 +20,15 @@ public class Winner {
 
     public List<String> getWinners() {
         List<String> winners = new ArrayList<>();
+        int maxDistance = getMaxDistance();
         for (Car car : cars) {
-            determineWinner(winners, car);
+            determineWinner(winners, car, maxDistance);
         }
         return winners;
     }
 
-    private void determineWinner(List<String> winners, Car car) {
-        if (car.isMaxPosition(getMaxDistance())) {
+    private void determineWinner(List<String> winners, Car car, int maxDistance) {
+        if (car.isMaxPosition(maxDistance)) {
             winners.add(car.getName());
         }
     }
