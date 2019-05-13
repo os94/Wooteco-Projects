@@ -16,26 +16,31 @@ public class StringCalculator {
     private final static String MINUS = "-";
     private final static String MULTIPLE = "*";
     private final static String DIVIDE = "/";
+    private final static int INDEX_TWO = 2;
 
     public int calculate(String value) {
         String[] expression = value.split(" ");
-        Queue<Integer> numbers = new LinkedList<>();
-        Queue<String> operators = new LinkedList<>();
 
-        divideExpression(numbers, operators, expression);
+        Queue<Integer> numbers = extractNumbers(expression);
+        Queue<String> operators = extractOperators(expression);
 
         return getResult(numbers, operators);
     }
 
-    private void divideExpression(Queue<Integer> numbers, Queue<String> operators, String[] expression) {
-        for (int i = 0; i < expression.length; i++) {
-            if (i % 2 == 0) { // even
-                numbers.add(Integer.parseInt(expression[i]));
-            }
-            if (i % 2 == 1) { // odd
-                operators.add(expression[i]);
-            }
+    private Queue<Integer> extractNumbers(String[] expression) {
+        Queue<Integer> numbers = new LinkedList<>();
+        for (int i = 0; i < expression.length; i += INDEX_TWO) {
+            numbers.add(Integer.parseInt(expression[i]));
         }
+        return numbers;
+    }
+
+    private Queue<String> extractOperators(String[] expression) {
+        Queue<String> operators = new LinkedList<>();
+        for (int i = 1; i < expression.length; i += INDEX_TWO) {
+            operators.add(expression[i]);
+        }
+        return operators;
     }
 
     private int getResult(Queue<Integer> numbers, Queue<String> operators) {
