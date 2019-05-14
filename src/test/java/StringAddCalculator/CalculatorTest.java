@@ -25,4 +25,13 @@ public class CalculatorTest {
         int result = Calculator.add("1,2");
         assertThat(result).isEqualTo(3);
     }
+
+    @Test
+    void 쉼표_또는_콜론_구분자() {
+        int result = Calculator.add("1:2");
+        assertThat(result).isEqualTo(3);
+
+        result = Calculator.add("1,2:3");
+        assertThat(result).isEqualTo(6);
+    }
 }

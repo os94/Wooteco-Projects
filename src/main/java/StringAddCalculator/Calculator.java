@@ -9,6 +9,7 @@ public class Calculator {
             return 0;
         }
 
+        s = s.replace(":", ",");
         numbers = s.split(",");
 
         for (String number : numbers) {
