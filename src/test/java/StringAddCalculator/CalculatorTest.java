@@ -34,4 +34,10 @@ public class CalculatorTest {
         result = Calculator.add("1,2:3");
         assertThat(result).isEqualTo(6);
     }
+
+    @Test
+    void 커스텀_구분자_지정() {
+        int result = Calculator.add("//;\n1;2;3");
+        assertThat(result).isEqualTo(6);
+    }
 }
