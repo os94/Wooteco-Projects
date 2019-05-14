@@ -28,6 +28,12 @@ public class Calculator {
         numbers = s.split(",");
 
         for (String number : numbers) {
+            if (Integer.parseInt(number) < 0) {
+                throw new RuntimeException();
+            }
+        }
+
+        for (String number : numbers) {
             result += Integer.parseInt(number);
         }
 

@@ -3,6 +3,7 @@ package StringAddCalculator;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
     @Test
@@ -39,5 +40,12 @@ public class CalculatorTest {
     void 커스텀_구분자_지정() {
         int result = Calculator.add("//;\n1;2;3");
         assertThat(result).isEqualTo(6);
+    }
+
+    @Test
+    void 음수가_들어왔을때() {
+        assertThrows(RuntimeException.class, () -> {
+            int result = Calculator.add("-1,2,3");
+        });
     }
 }
