@@ -19,4 +19,10 @@ public class CalculatorTest {
         int result = Calculator.add("3");
         assertThat(result).isEqualTo(3);
     }
+
+    @Test
+    void 쉼표구분자() {
+        int result = Calculator.add("1,2");
+        assertThat(result).isEqualTo(3);
+    }
 }

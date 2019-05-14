@@ -9,6 +9,12 @@ public class Calculator {
             return 0;
         }
 
-        return Integer.parseInt(s);
+        numbers = s.split(",");
+
+        for (String number : numbers) {
+            result += Integer.parseInt(number);
+        }
+
+        return result;
     }
 }
