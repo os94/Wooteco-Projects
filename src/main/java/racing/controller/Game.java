@@ -18,19 +18,15 @@ public class Game {
         String[] carNames = InputView.carName().split(",");
         int count = InputView.gameCount();
 
-        try {
-            Racing racing = new Racing(carNames, count);
+        Racing racing = new Racing(carNames, count);
 
-            OutputView.print(MSG_GAME_RESULT);
-            for (int i = 0; i < racing.getCount(); i++) {
-                racing.moveCars();
-                OutputView.print(racing);
-                OutputView.print("");
-            }
-
-            OutputView.print(racing.getWinner());
-        } catch (IllegalArgumentException e) {
-            System.exit(-1);
+        OutputView.print(MSG_GAME_RESULT);
+        for (int i = 0; i < racing.getCount(); i++) {
+            racing.moveCars();
+            OutputView.print(racing);
+            OutputView.print("");
         }
+
+        OutputView.print(racing.getWinner());
     }
 }

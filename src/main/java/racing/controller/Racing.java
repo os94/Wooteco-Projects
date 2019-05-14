@@ -12,6 +12,7 @@ import racing.model.Car;
 import racing.model.Winner;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Racing {
     private final static String MSG_DUPLICATE_CAR_NAME = "중복된 차량 이름이 있습니다.";
@@ -56,11 +57,7 @@ public class Racing {
     }
 
     private List<Car> bindCars(String[] carNames) {
-        List<Car> cars = new ArrayList<>();
-        for (int i = 0; i < carNames.length; i++) {
-            cars.add(new Car(carNames[i]));
-        }
-        return cars;
+        return Arrays.stream(carNames).map(carName -> new Car(carName)).collect(Collectors.toList());
     }
 
     private static int getRandomNumber() {
