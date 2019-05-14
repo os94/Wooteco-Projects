@@ -3,7 +3,6 @@ package StringAddCalculator;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
     @Test
@@ -13,5 +12,11 @@ public class CalculatorTest {
 
         result = Calculator.add(null);
         assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    void 숫자_하나() {
+        int result = Calculator.add("3");
+        assertThat(result).isEqualTo(3);
     }
 }

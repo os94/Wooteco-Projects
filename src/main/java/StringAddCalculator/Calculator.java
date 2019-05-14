@@ -1,8 +1,5 @@
 package StringAddCalculator;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class Calculator {
     public static int add(String s) {
         int result = 0;
@@ -12,6 +9,6 @@ public class Calculator {
             return 0;
         }
 
-        return result;
+        return Integer.parseInt(s);
     }
 }
