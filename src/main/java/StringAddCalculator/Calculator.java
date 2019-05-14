@@ -33,8 +33,12 @@ public class Calculator {
             }
         }
 
-        for (String number : numbers) {
-            result += Integer.parseInt(number);
+        try {
+            for (String number : numbers) {
+                result += Integer.parseInt(number);
+            }
+        } catch (RuntimeException e) {
+            e.getMessage();
         }
 
         return result;

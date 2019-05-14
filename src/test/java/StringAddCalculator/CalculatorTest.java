@@ -48,4 +48,11 @@ public class CalculatorTest {
             int result = Calculator.add("-1,2,3");
         });
     }
+
+    @Test
+    void 숫자가_아닌_수가_들어왔을때() {
+        assertThrows(RuntimeException.class, () -> {
+            int result = Calculator.add("a,2,3");
+        });
+    }
 }
