@@ -4,6 +4,7 @@ import ladderGame.domain.Ladder;
 import ladderGame.domain.Member;
 import ladderGame.domain.MemberGroup;
 import ladderGame.view.InputView;
+import ladderGame.view.OutputView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +13,12 @@ public class LadderGame {
     public void run() {
         String[] names = InputView.inputName().split(",");
         int height = InputView.inputHeight();
-        MemberGroup memberGroup = new MemberGroup(makeMembers(names));
 
+        MemberGroup memberGroup = new MemberGroup(makeMembers(names));
         Ladder ladder = new Ladder(memberGroup.getCountOfPerson(), height);
+
         ladder.connectLine();
+        OutputView.print(memberGroup, ladder);
     }
 
     private List<Member> makeMembers(String[] names) {

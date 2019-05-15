@@ -17,8 +17,12 @@ public class Ladder {
 
     public void connectLine() {
         for (Line line : lines) {
-            line.connetLines();
+            line.connectLines();
         }
+    }
+
+    public List<Line> getLines() {
+        return lines;
     }
 
     @Override

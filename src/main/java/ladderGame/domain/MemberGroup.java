@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MemberGroup {
-    List<Member> members;
+    private List<Member> members;
 
     public MemberGroup(List<Member> members) {
         this.members = members;

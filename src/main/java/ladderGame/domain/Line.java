@@ -16,21 +16,25 @@ public class Line {
         }
     }
 
-    public void connetLines() {
+    public void connectLines() {
         for (int i = 0; i < points.size(); i++) {
             connectBridge(i);
         }
     }
 
+    public boolean isConnected(int i) {
+        return points.get(i);
+    }
+
     private void connectBridge(int index) {
         int number = new Random().nextInt(2);
 
-        if (number == 0 && isConeectable(index)) {
+        if (number == 0 && isConnectable(index)) {
             points.set(index, true);
         }
     }
 
-    private boolean isConeectable(int index) {
+    private boolean isConnectable(int index) {
         if (index == 0) {
             return true;
         }
