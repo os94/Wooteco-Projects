@@ -1,4 +1,4 @@
 package ladderGame.controller;
 
-public class ladderGame {
+public class LadderGame {
 }
