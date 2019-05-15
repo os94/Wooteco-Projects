@@ -1,46 +1,69 @@
-package StringAddCalculator;
+package stringAddCalculator;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
-    public static int add(String s) {
-        int result = 0;
+    public static int calculate(String input) {
         String[] numbers;
-        String customDelimiter;
 
-        if ("".equals(s) || s == null) {
+        if ("".equals(input) || input == null) {
             return 0;
         }
 
-        Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(s);
+        numbers = getNumbers(input);
+        checkNegativeNumber(numbers);
+
+        return add(numbers);
+    }
+
+    private static String[] getNumbers(String input) {
+        String[] numbers;
+
+        input = replaceDelimiter(input);
+        input = replaceColon(input);
+
+        numbers = input.split(",");
+        return numbers;
+    }
+
+    private static int add(String[] numbers) {
+        try {
+            return Arrays.stream(numbers).mapToInt(Integer::parseInt).sum();
+        } catch (RuntimeException e) {
+            throw e;
+        }
+    }
+
+    private static void checkNegativeNumber(String[] numbers) {
+        for (String number : numbers) {
+            negativeNumberException(number);
+        }
+    }
+
+    private static void negativeNumberException(String number) {
+        if (Integer.parseInt(number) < 0) {
+            throw new RuntimeException();
+        }
+    }
+
+    private static String replaceColon(String input) {
+        if (input.contains(":")) {
+            input = input.replace(":", ",");
+        }
+        return input;
+    }
+
+    private static String replaceDelimiter(String input) {
+        String customDelimiter;
+        Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(input);
 
         if (matcher.find()) {
             customDelimiter = matcher.group(1);
-            s = matcher.group(2);
-            s = s.replace(customDelimiter, ",");
+            input = matcher.group(2);
+            input = input.replace(customDelimiter, ",");
         }
-
-        if (s.contains(":")) {
-            s = s.replace(":", ",");
-        }
-
-        numbers = s.split(",");
-
-        for (String number : numbers) {
-            if (Integer.parseInt(number) < 0) {
-                throw new RuntimeException();
-            }
-        }
-
-        try {
-            for (String number : numbers) {
-                result += Integer.parseInt(number);
-            }
-        } catch (RuntimeException e) {
-            e.getMessage();
-        }
-
-        return result;
+        return input;
     }
 }
