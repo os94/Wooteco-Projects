@@ -15,6 +15,12 @@ public class Ladder {
         }
     }
 
+    public void connectLine() {
+        for (Line line : lines) {
+            line.connetLines();
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -3,6 +3,7 @@ package ladderGame.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 public class Line {
     private List<Boolean> points;
@@ -13,6 +14,28 @@ public class Line {
         for (int i = 0; i < countOfPerson - 1; i++) {
             points.add(false);
         }
+    }
+
+    public void connetLines() {
+        for (int i = 0; i < points.size(); i++) {
+            connectBridge(i);
+        }
+    }
+
+    private void connectBridge(int index) {
+        int number = new Random().nextInt(2);
+
+        if (number == 0 && isConeectable(index)) {
+            points.set(index, true);
+        }
+    }
+
+    private boolean isConeectable(int index) {
+        if (index == 0) {
+            return true;
+        }
+
+        return !points.get(index - 1);
     }
 
     @Override
