@@ -1,12 +1,18 @@
 package ladderGame.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Ladder {
-    int height;
+    private List<Line> lines;
 
-    public Ladder(int height) {
-        this.height = height;
+    public Ladder(int countOfPerson, int height) {
+        lines = new ArrayList<>();
+
+        for (int i = 0; i < height; i++) {
+            lines.add(new Line(countOfPerson));
+        }
     }
 
     @Override
@@ -14,11 +20,11 @@ public class Ladder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ladder ladder = (Ladder) o;
-        return height == ladder.height;
+        return Objects.equals(lines, ladder.lines);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(height);
+        return Objects.hash(lines);
     }
 }
