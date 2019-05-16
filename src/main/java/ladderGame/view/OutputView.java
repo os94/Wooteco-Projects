@@ -10,6 +10,7 @@ public class OutputView {
         System.out.println();
         printLadder(gameData, ladder);
         printResults(gameData);
+        System.out.println();
     }
 
     private static void printMember(GameData gameData) {

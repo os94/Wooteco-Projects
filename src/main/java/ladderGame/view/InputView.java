@@ -46,6 +46,17 @@ public class InputView {
         return result;
     }
 
+    public static String inputTargetName() {
+        System.out.println(MessageContants.INPUT_TARGET);
+        String target = SCAN.nextLine();
+
+        if (isBlank(target)) {
+            return inputTargetName();
+        }
+
+        return target;
+    }
+
     private static boolean validHeight(String height) {
         Pattern pattern = Pattern.compile(REGEX_HEIGHT);
         Matcher matcher = pattern.matcher(height);
@@ -81,6 +92,4 @@ public class InputView {
 
         return false;
     }
-
-
 }

@@ -23,6 +23,12 @@ public class LadderGame {
         OutputView.print(gameData, ladder);
 
         int destinationIndex = getDestination(ladder, 0);
+
+        String target = InputView.inputTargetName();
+
+        if (!gameData.hasMember(target) || target.equals("all")) {
+            throw new IllegalArgumentException("참가자의 이름이 없습니다.");
+        }
     }
 
     private List<Member> makeMembers(String[] names) {

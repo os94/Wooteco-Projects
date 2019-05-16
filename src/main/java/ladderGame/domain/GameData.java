@@ -28,6 +28,10 @@ public class GameData {
         return members.size();
     }
 
+    public boolean hasMember(String target) {
+        return members.contains(new Member(target));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
