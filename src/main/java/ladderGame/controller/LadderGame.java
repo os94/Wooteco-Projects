@@ -5,57 +5,49 @@ import ladderGame.domain.*;
 import ladderGame.view.InputView;
 import ladderGame.view.OutputView;
 
-import java.util.*;
-
 public class LadderGame {
     private final int STARTROW = 0;
 
     public void run() {
-        String[] names = InputView.inputName().split(",");
-        String[] results = InputView.inputResult().split(",");
-
-        GameData gameData = new GameData(makeMembers(names), makeGoal(results));
-        int height = InputView.inputHeight();
-
-        Ladder ladder = new Ladder(gameData.getCountOfPerson(), height);
+        GameData gameData = new GameData(InputView.inputName(), InputView.inputResult());
+        Ladder ladder = new Ladder(gameData.getCountOfPerson(), InputView.inputHeight());
 
         ladder.connectLine();
-        OutputView.print(gameData, ladder);
 
-        int destinationIndex = getDestination(ladder, 0);
-
+        OutputView.printLadder(gameData, ladder);
         String target = InputView.inputTargetName();
+        validateName(gameData, target);
+        printGameResult(target, gameData, ladder);
+    }
 
-        if (!gameData.hasMember(target) || target.equals("all")) {
-            throw new IllegalArgumentException("참가자의 이름이 없습니다.");
+    private void validateName(GameData gameData, String target) {
+        if (!gameData.hasMember(target) && !target.equals(MessageContants.MESSAGE_ALL)) {
+            throw new IllegalArgumentException(MessageContants.ERROR_NOT_EXIST_MEMBER);
         }
     }
 
-    private List<Member> makeMembers(String[] names) {
-        List<Member> memberGroup = new ArrayList<>();
-
-        if (hasDuplicateName(names)) {
-            throw new IllegalArgumentException(MessageContants.ERROR_DUPLICATE_NAME);
+    private void printGameResult(String target, GameData gameData, Ladder ladder) {
+        if (target.equals(MessageContants.MESSAGE_ALL)) {
+            printResultAll(gameData, ladder);
+            return;
         }
-        for (String name : names) {
-            memberGroup.add(new Member(name));
-        }
-
-        return memberGroup;
+        printResult(gameData, ladder, target);
     }
 
-    private List<Goal> makeGoal(String[] results) {
-        List<Goal> goals = new ArrayList<>();
+    private void printResultAll(GameData gameData, Ladder ladder) {
+        OutputView.printResultMessage();
 
-        for (String result : results) {
-            goals.add(new Goal(result));
+        for (int i = 0; i < gameData.getCountOfPerson(); i++) {
+            String name = gameData.getName(i);
+            int destinationIndex = getDestination(ladder, i);
+            OutputView.printResult(name, gameData.getResult(destinationIndex));
         }
-
-        return goals;
     }
 
-    private boolean hasDuplicateName(String[] names) {
-        return new HashSet<>(Arrays.asList(names)).size() != names.length;
+    private void printResult(GameData gameData, Ladder ladder, String target) {
+        OutputView.printResultMessage();
+        int destinationIndex = getDestination(ladder, gameData.getIndex(target));
+        OutputView.printResult(gameData.getResult(destinationIndex));
     }
 
     private int getDestination(Ladder ladder, int startPerson) {

@@ -29,4 +29,9 @@ public class Goal {
     public int hashCode() {
         return Objects.hash(playResult);
     }
+
+    @Override
+    public String toString() {
+        return playResult;
+    }
 }

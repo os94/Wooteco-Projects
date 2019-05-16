@@ -1,19 +1,20 @@
 package ladderGame.domain;
 
-import java.util.List;
-import java.util.Objects;
+import ladderGame.constant.MessageContants;
+
+import java.util.*;
 
 public class GameData {
     private List<Member> members;
     private List<Goal> goals;
 
-    public GameData(List<Member> members, List<Goal> goals) {
-        if (members.size() != goals.size()) {
+    public GameData(String members, String goals) {
+        this.members = makeMembers(members.split(MessageContants.DELIMITER_COMMA));
+        this.goals = makeGoal(goals.split(MessageContants.DELIMITER_COMMA));
+
+        if (members.length() != goals.length()) {
             throw new IllegalArgumentException();
         }
-
-        this.members = members;
-        this.goals = goals;
     }
 
     public List<Member> getMembers() {
@@ -30,6 +31,46 @@ public class GameData {
 
     public boolean hasMember(String target) {
         return members.contains(new Member(target));
+    }
+
+    public int getIndex(String target) {
+        return members.indexOf(new Member(target));
+    }
+
+    public String getResult(int index) {
+        return goals.get(index).toString();
+    }
+
+    public String getName(int index) {
+        return members.get(index).toString();
+    }
+
+
+    private List<Member> makeMembers(String[] names) {
+        List<Member> memberGroup = new ArrayList<>();
+
+        if (hasDuplicateName(names)) {
+            throw new IllegalArgumentException(MessageContants.ERROR_DUPLICATE_NAME);
+        }
+        for (String name : names) {
+            memberGroup.add(new Member(name));
+        }
+
+        return memberGroup;
+    }
+
+    private List<Goal> makeGoal(String[] results) {
+        List<Goal> goals = new ArrayList<>();
+
+        for (String result : results) {
+            goals.add(new Goal(result));
+        }
+
+        return goals;
+    }
+
+    private boolean hasDuplicateName(String[] names) {
+        return new HashSet<>(Arrays.asList(names)).size() != names.length;
     }
 
     @Override
