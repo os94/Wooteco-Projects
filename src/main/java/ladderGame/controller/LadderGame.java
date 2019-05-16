@@ -8,6 +8,8 @@ import ladderGame.view.OutputView;
 import java.util.*;
 
 public class LadderGame {
+    private final int STARTROW = 0;
+
     public void run() {
         String[] names = InputView.inputName().split(",");
         String[] results = InputView.inputResult().split(",");
@@ -19,6 +21,8 @@ public class LadderGame {
 
         ladder.connectLine();
         OutputView.print(gameData, ladder);
+
+        int destinationIndex = getDestination(ladder, 0);
     }
 
     private List<Member> makeMembers(String[] names) {
@@ -46,5 +50,28 @@ public class LadderGame {
 
     private boolean hasDuplicateName(String[] names) {
         return new HashSet<>(Arrays.asList(names)).size() != names.length;
+    }
+
+    private int getDestination(Ladder ladder, int startPerson) {
+        Node currentNode = new Node(STARTROW, startPerson);
+
+        do {
+            currentNode.move(getDirection(ladder, currentNode));
+        } while (!ladder.atDestination(currentNode));
+
+        return currentNode.getColumn();
+    }
+
+    private Direction getDirection(Ladder ladder, Node currentNode) {
+        if (Direction.LEFT.canMove(ladder, currentNode)) {
+            return Direction.LEFT;
+        }
+        if (Direction.RIGHT.canMove(ladder, currentNode)) {
+            return Direction.RIGHT;
+        }
+        if (Direction.DOWN.canMove(ladder, currentNode)) {
+            return Direction.DOWN;
+        }
+        throw new IllegalArgumentException();
     }
 }

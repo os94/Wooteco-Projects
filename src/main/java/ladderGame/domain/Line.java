@@ -22,8 +22,12 @@ public class Line {
         }
     }
 
-    public boolean isConnected(int i) {
-        return points.get(i);
+    public boolean isConnected(int column) {
+        return points.get(column);
+    }
+
+    public int getSize() {
+        return points.size();
     }
 
     private void connectBridge(int index) {

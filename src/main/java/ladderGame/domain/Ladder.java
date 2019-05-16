@@ -25,6 +25,22 @@ public class Ladder {
         return lines;
     }
 
+    public boolean atDestination(Node currentNode) {
+        return currentNode.getRow() >= lines.size();
+    }
+
+    public boolean atFirstColumn(Node currentNode) {
+        return currentNode.getColumn() == 0;
+    }
+
+    public boolean checkBridge(int row, int column) {
+        return lines.get(row).isConnected(column);
+    }
+
+    public boolean atLastColumn(Node currentNode) {
+        return currentNode.getColumn() == lines.get(currentNode.getRow()).getSize();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -37,4 +53,5 @@ public class Ladder {
     public int hashCode() {
         return Objects.hash(lines);
     }
+
 }
