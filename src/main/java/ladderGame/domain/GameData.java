@@ -12,7 +12,7 @@ public class GameData {
         this.members = makeMembers(members.split(MessageContants.DELIMITER_COMMA));
         this.goals = makeGoal(goals.split(MessageContants.DELIMITER_COMMA));
 
-        if (members.length() != goals.length()) {
+        if (this.members.size() != this.goals.size()) {
             throw new IllegalArgumentException();
         }
     }
