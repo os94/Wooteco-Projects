@@ -1,33 +1,39 @@
 package ladderGame.view;
 
-import ladderGame.domain.Ladder;
-import ladderGame.domain.Line;
-import ladderGame.domain.Member;
-import ladderGame.domain.MemberGroup;
+import ladderGame.domain.*;
+
+import java.util.List;
 
 public class OutputView {
-    public static void print(MemberGroup memberGroup, Ladder ladder) {
-        printMember(memberGroup);
+    public static void print(GameData gameData, Ladder ladder) {
+        printMember(gameData);
         System.out.println();
-        printLadder(memberGroup, ladder);
+        printLadder(gameData, ladder);
+        printResults(gameData);
     }
 
-    private static void printMember(MemberGroup memberGroup) {
-        for (Member member : memberGroup.getMembers()) {
+    private static void printMember(GameData gameData) {
+        for (Member member : gameData.getMembers()) {
             System.out.printf("%6s", member.getName());
         }
     }
 
-    private static void printLadder(MemberGroup memberGroup, Ladder ladder) {
+    private static void printResults(GameData gameData) {
+        for (Goal goal : gameData.getGoals()) {
+            System.out.printf("%6s", goal.getPlayResult());
+        }
+    }
+
+    private static void printLadder(GameData gameData, Ladder ladder) {
         for (Line line : ladder.getLines()) {
             System.out.print("     |");
-            printLine(memberGroup, line);
+            printLine(gameData.getMembers(), line);
             System.out.println();
         }
     }
 
-    private static void printLine(MemberGroup memberGroup, Line line) {
-        for (int i = 0; i < memberGroup.getCountOfPerson() - 1; i++) {
+    private static void printLine(List<Member> members, Line line) {
+        for (int i = 0; i < members.size() - 1; i++) {
             printPointLine(line, i);
             System.out.print("|");
         }
