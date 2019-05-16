@@ -35,6 +35,17 @@ public class InputView {
         return Integer.parseInt(height);
     }
 
+    public static String inputResult() {
+        System.out.println(MessageContants.INPUT_RESULT);
+        String result = SCAN.nextLine();
+
+        if (validGameResult(result)) {
+            return inputResult();
+        }
+
+        return result;
+    }
+
     private static boolean validHeight(String height) {
         Pattern pattern = Pattern.compile(REGEX_HEIGHT);
         Matcher matcher = pattern.matcher(height);
@@ -47,6 +58,28 @@ public class InputView {
         Matcher matcher = pattern.matcher(name);
 
         return matcher.matches();
+    }
+
+    private static boolean validGameResult(String result) {
+        return isBlank(result) || hasNotComma(result);
+    }
+
+    private static boolean isBlank(String text) {
+        if (text.isEmpty()) {
+            System.err.println(MessageContants.ERROR_EMPTY);
+            return true;
+        }
+
+        return false;
+    }
+
+    private static boolean hasNotComma(String text) {
+        if (!text.contains(",")) {
+            System.err.println(MessageContants.ERROR_COMMA);
+            return true;
+        }
+
+        return false;
     }
 
 
