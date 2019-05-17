@@ -31,9 +31,7 @@ public class Line {
     }
 
     private void connectBridge(int index) {
-        int number = new Random().nextInt(2);
-
-        if (number == 0 && isConnectable(index)) {
+        if (RandomGenerator.generate() && isConnectable(index)) {
             bridges.set(index, true);
         }
     }
