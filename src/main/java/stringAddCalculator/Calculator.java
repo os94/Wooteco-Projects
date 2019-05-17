@@ -5,6 +5,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Calculator {
+    private static final String COMMA = ",";
+    private static final String COLON = ":";
+    private static final String REGEX_DELIMITER = "//(.)\n(.*)";
+
     public static int calculate(String input) {
         String[] numbers;
 
@@ -19,13 +23,9 @@ public class Calculator {
     }
 
     private static String[] getNumbers(String input) {
-        String[] numbers;
-
-        input = replaceDelimiter(input);
+        input = replaceCustomDelimiter(input);
         input = replaceColon(input);
-
-        numbers = input.split(",");
-        return numbers;
+        return input.split(COMMA);
     }
 
     private static int add(String[] numbers) {
@@ -49,20 +49,20 @@ public class Calculator {
     }
 
     private static String replaceColon(String input) {
-        if (input.contains(":")) {
-            input = input.replace(":", ",");
+        if (input.contains(COLON)) {
+            input = input.replace(COLON, COMMA);
         }
         return input;
     }
 
-    private static String replaceDelimiter(String input) {
+    private static String replaceCustomDelimiter(String input) {
         String customDelimiter;
-        Matcher matcher = Pattern.compile("//(.)\n(.*)").matcher(input);
+        Matcher matcher = Pattern.compile(REGEX_DELIMITER).matcher(input);
 
         if (matcher.find()) {
             customDelimiter = matcher.group(1);
             input = matcher.group(2);
-            input = input.replace(customDelimiter, ",");
+            input = input.replace(customDelimiter, COMMA);
         }
         return input;
     }

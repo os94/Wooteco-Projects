@@ -6,9 +6,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CalculatorTest {
+    int result;
+
     @Test
     void 빈_문자열_또는_NULL_입력() {
-        int result = Calculator.calculate("");
+        result = Calculator.calculate("");
         assertThat(result).isEqualTo(0);
 
         result = Calculator.calculate(null);
@@ -17,19 +19,19 @@ public class CalculatorTest {
 
     @Test
     void 숫자_하나() {
-        int result = Calculator.calculate("3");
+        result = Calculator.calculate("3");
         assertThat(result).isEqualTo(3);
     }
 
     @Test
-    void 쉼표구분자() {
-        int result = Calculator.calculate("1,2");
+    void 쉼표_구분자() {
+        result = Calculator.calculate("1,2");
         assertThat(result).isEqualTo(3);
     }
 
     @Test
     void 쉼표_또는_콜론_구분자() {
-        int result = Calculator.calculate("1:2");
+        result = Calculator.calculate("1:2");
         assertThat(result).isEqualTo(3);
 
         result = Calculator.calculate("1,2:3");
@@ -37,8 +39,8 @@ public class CalculatorTest {
     }
 
     @Test
-    void 커스텀_구분자_지정() {
-        int result = Calculator.calculate("//;\n1;2;3");
+    void 커스텀_구분자() {
+        result = Calculator.calculate("//;\n1;2;3");
         assertThat(result).isEqualTo(6);
     }
 
