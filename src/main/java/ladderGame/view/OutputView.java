@@ -4,7 +4,10 @@ import ladderGame.constant.Contants;
 import ladderGame.domain.*;
 
 public class OutputView {
+    private static final String NEW_LINE = "\n";
+
     public static void printLadder(Ladder ladder, GameData gameData) {
+        System.out.println(NEW_LINE + Contants.MESSAGE_LADDER_RESULT + NEW_LINE);
         printMembers(gameData);
         System.out.println();
         printLadderShape(ladder, gameData);
@@ -13,7 +16,7 @@ public class OutputView {
     }
 
     public static void printResultMessage() {
-        System.out.println(Contants.MESSAGE_RESULT);
+        System.out.println(NEW_LINE + Contants.MESSAGE_GAME_RESULT);
     }
 
     public static void printDestination(String result) {

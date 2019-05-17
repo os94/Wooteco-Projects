@@ -6,7 +6,8 @@ public class Contants {
     public static final String INPUT_GOAL = "실행 결과를 입력하세요. (결과는 쉼표(,)로 구분하세요)";
     public static final String INPUT_TARGET = "결과를 보고 싶은 사람은?";
 
-    public static final String MESSAGE_RESULT = "실행 결과";
+    public static final String MESSAGE_LADDER_RESULT = "사다리 결과";
+    public static final String MESSAGE_GAME_RESULT = "실행 결과";
     public static final String MESSAGE_BRIDGE = "-----";
     public static final String MESSAGE_BLANK = "     ";
     public static final String MESSAGE_COLUMN = "|";

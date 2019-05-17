@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 public class InputView {
     private static final String REGEX_NAME = "^([a-zA-Zㄱ-ㅎ가-힣0-9]{1,5}){1}(,[a-zA-Zㄱ-ㅎ가-힣0-9]{1,5}){1,}$";
     private static final String REGEX_HEIGHT = "([0-9]){1}";
+    private static final String NEW_LINE = "\n";
     private static final Scanner SCAN = new Scanner(System.in);
 
     public static String inputNames() {
@@ -22,8 +23,18 @@ public class InputView {
         return names;
     }
 
+    public static String inputGoals() {
+        System.out.println(NEW_LINE + Contants.INPUT_GOAL);
+        String goals = SCAN.nextLine();
+
+        if (!validGoal(goals)) {
+            return inputGoals();
+        }
+        return goals;
+    }
+
     public static int inputHeight() {
-        System.out.println(Contants.INPUT_HEIGHT);
+        System.out.println(NEW_LINE + Contants.INPUT_HEIGHT);
         String height = SCAN.nextLine();
 
         if (!validHeight(height)) {
@@ -33,18 +44,8 @@ public class InputView {
         return Integer.parseInt(height);
     }
 
-    public static String inputGoals() {
-        System.out.println(Contants.INPUT_GOAL);
-        String goals = SCAN.nextLine();
-
-        if (!validGoal(goals)) {
-            return inputGoals();
-        }
-        return goals;
-    }
-
     public static String inputTargetName() {
-        System.out.println(Contants.INPUT_TARGET);
+        System.out.println(NEW_LINE + Contants.INPUT_TARGET);
         String target = SCAN.nextLine();
 
         if (isBlank(target)) {
