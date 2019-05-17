@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class Ladder {
+    private static final int FIRST_COLUMN = 0;
+
     private List<Line> lines;
 
     public Ladder(int countOfPerson, int height) {
@@ -15,14 +17,18 @@ public class Ladder {
         }
     }
 
-    public void connectLine() {
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void connectBridges() {
         for (Line line : lines) {
-            line.connectLines();
+            line.connectBridges();
         }
     }
 
-    public List<Line> getLines() {
-        return lines;
+    public boolean isConnected(int row, int column) {
+        return lines.get(row).isConnected(column);
     }
 
     public boolean atDestination(Node currentNode) {
@@ -30,11 +36,7 @@ public class Ladder {
     }
 
     public boolean atFirstColumn(Node currentNode) {
-        return currentNode.getColumn() == 0;
-    }
-
-    public boolean checkBridge(int row, int column) {
-        return lines.get(row).isConnected(column);
+        return currentNode.getColumn() == FIRST_COLUMN;
     }
 
     public boolean atLastColumn(Node currentNode) {
@@ -53,5 +55,4 @@ public class Ladder {
     public int hashCode() {
         return Objects.hash(lines);
     }
-
 }

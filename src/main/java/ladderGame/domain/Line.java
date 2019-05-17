@@ -6,35 +6,35 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Line {
-    private List<Boolean> points;
+    private List<Boolean> bridges;
 
     public Line(int countOfPerson) {
-        points = new ArrayList<>();
+        bridges = new ArrayList<>();
 
         for (int i = 0; i < countOfPerson - 1; i++) {
-            points.add(false);
+            bridges.add(false);
         }
     }
 
-    public void connectLines() {
-        for (int i = 0; i < points.size(); i++) {
+    public void connectBridges() {
+        for (int i = 0; i < bridges.size(); i++) {
             connectBridge(i);
         }
     }
 
     public boolean isConnected(int column) {
-        return points.get(column);
+        return bridges.get(column);
     }
 
     public int getSize() {
-        return points.size();
+        return bridges.size();
     }
 
     private void connectBridge(int index) {
         int number = new Random().nextInt(2);
 
         if (number == 0 && isConnectable(index)) {
-            points.set(index, true);
+            bridges.set(index, true);
         }
     }
 
@@ -42,8 +42,7 @@ public class Line {
         if (index == 0) {
             return true;
         }
-
-        return !points.get(index - 1);
+        return !bridges.get(index - 1);
     }
 
     @Override
@@ -51,11 +50,11 @@ public class Line {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Line line = (Line) o;
-        return Objects.equals(points, line.points);
+        return Objects.equals(bridges, line.bridges);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(points);
+        return Objects.hash(bridges);
     }
 }
