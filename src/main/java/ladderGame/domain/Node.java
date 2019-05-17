@@ -1,5 +1,7 @@
 package ladderGame.domain;
 
+import java.util.Objects;
+
 public class Node {
     private int row;
     private int column;
@@ -29,5 +31,19 @@ public class Node {
         if (direction == Direction.DOWN) {
             row++;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return row == node.row &&
+                column == node.column;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(row, column);
     }
 }
