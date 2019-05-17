@@ -22,15 +22,14 @@ public enum Direction {
     DOWN {
         @Override
         public boolean canMove(Ladder ladder, Node currentNode) {
-            Boolean hasLeft = ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1);
-            Boolean hasRight = ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
             if (ladder.atFirstColumn(currentNode)) {
-                return !hasRight;
+                return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
             }
             if (ladder.atLastColumn(currentNode)) {
-                return !hasLeft;
+                return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1);
             }
-            return !hasLeft && !hasRight;
+            return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1)
+                    && !ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
         }
     };
 
