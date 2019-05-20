@@ -7,7 +7,7 @@ public enum Direction {
             if (ladder.atFirstColumn(currentNode)) {
                 return false;
             }
-            return ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1);
+            return ladder.isConnected(currentNode.previous());
         }
     },
     RIGHT {
@@ -16,20 +16,20 @@ public enum Direction {
             if (ladder.atLastColumn(currentNode)) {
                 return false;
             }
-            return ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
+            return ladder.isConnected(currentNode);
         }
     },
     DOWN {
         @Override
         public boolean canMove(Ladder ladder, Node currentNode) {
             if (ladder.atFirstColumn(currentNode)) {
-                return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
+                return !ladder.isConnected(currentNode);
             }
             if (ladder.atLastColumn(currentNode)) {
-                return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1);
+                return !ladder.isConnected(currentNode.previous());
             }
-            return !ladder.isConnected(currentNode.getRow(), currentNode.getColumn() - 1)
-                    && !ladder.isConnected(currentNode.getRow(), currentNode.getColumn());
+            return !ladder.isConnected(currentNode.previous())
+                    && !ladder.isConnected(currentNode);
         }
     };
 

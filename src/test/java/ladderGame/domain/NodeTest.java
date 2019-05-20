@@ -30,4 +30,9 @@ public class NodeTest {
         node.move(Direction.DOWN);
         assertThat(node).isEqualTo(new Node(2, 1));
     }
+
+    @Test
+    void previous() {
+        assertThat(node.previous()).isEqualTo(new Node(1, 0));
+    }
 }

@@ -27,8 +27,8 @@ public class Ladder {
         }
     }
 
-    public boolean isConnected(int row, int column) {
-        return lines.get(row).isConnected(column);
+    public boolean isConnected(Node node) {
+        return lines.get(node.getRow()).isConnected(node.getColumn());
     }
 
     public boolean atDestination(Node currentNode) {

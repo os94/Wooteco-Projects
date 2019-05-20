@@ -33,6 +33,10 @@ public class Node {
         }
     }
 
+    public Node previous() {
+        return new Node(row, column - 1);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
