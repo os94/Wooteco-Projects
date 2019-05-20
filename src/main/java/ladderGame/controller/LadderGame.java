@@ -52,23 +52,10 @@ public class LadderGame {
         Node currentNode = new Node(START_ROW, startPerson);
 
         do {
-            Direction direction = getDirection(ladder, currentNode);
+            Direction direction = Direction.valueOf(ladder, currentNode);
             currentNode = direction.move(currentNode);
         } while (!ladder.atDestination(currentNode));
 
         return currentNode.getColumn();
-    }
-
-    private Direction getDirection(Ladder ladder, Node currentNode) {
-        if (Direction.LEFT.canMove(ladder, currentNode)) {
-            return Direction.LEFT;
-        }
-        if (Direction.RIGHT.canMove(ladder, currentNode)) {
-            return Direction.RIGHT;
-        }
-        if (Direction.DOWN.canMove(ladder, currentNode)) {
-            return Direction.DOWN;
-        }
-        throw new IllegalArgumentException();
     }
 }

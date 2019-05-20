@@ -48,6 +48,15 @@ public enum Direction {
         }
     };
 
+    public static Direction valueOf(Ladder ladder, Node currentNode) {
+        for (Direction direction : Direction.values()) {
+            if (direction.canMove(ladder, currentNode)) {
+                return direction;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
     public boolean canMove(Ladder ladder, Node currentNode) {
         return false;
     }
