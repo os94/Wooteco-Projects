@@ -37,6 +37,10 @@ public class Node {
         return new Node(row, column - 1);
     }
 
+    public boolean isConnected(Ladder ladder) {
+        return ladder.isConnected(row, column);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
