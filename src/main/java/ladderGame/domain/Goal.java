@@ -1,12 +1,14 @@
 package ladderGame.domain;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class Goal {
     private String goal;
 
     public Goal(String goal) {
-        if (goal.trim().equals("")) {
+        if (StringUtils.isBlank(goal)) {
             throw new IllegalArgumentException();
         }
         this.goal = goal;
