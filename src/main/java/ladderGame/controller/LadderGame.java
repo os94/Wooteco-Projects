@@ -52,7 +52,8 @@ public class LadderGame {
         Node currentNode = new Node(START_ROW, startPerson);
 
         do {
-            currentNode.move(getDirection(ladder, currentNode));
+            Direction direction = getDirection(ladder, currentNode);
+            currentNode = direction.move(currentNode);
         } while (!ladder.atDestination(currentNode));
 
         return currentNode.getColumn();

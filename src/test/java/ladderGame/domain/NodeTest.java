@@ -14,25 +14,17 @@ public class NodeTest {
     }
 
     @Test
-    void move_left() {
-        node.move(Direction.LEFT);
-        assertThat(node).isEqualTo(new Node(2, 0));
+    void left() {
+        assertThat(node.left()).isEqualTo(new Node(1, 0));
     }
 
     @Test
-    void move_right() {
-        node.move(Direction.RIGHT);
-        assertThat(node).isEqualTo(new Node(2, 2));
+    void right() {
+        assertThat(node.right()).isEqualTo(new Node(1, 2));
     }
 
     @Test
-    void move_down() {
-        node.move(Direction.DOWN);
-        assertThat(node).isEqualTo(new Node(2, 1));
-    }
-
-    @Test
-    void previous() {
-        assertThat(node.previous()).isEqualTo(new Node(1, 0));
+    void down() {
+        assertThat(node.down()).isEqualTo(new Node(2, 1));
     }
 }

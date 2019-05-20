@@ -19,22 +19,16 @@ public class Node {
         return column;
     }
 
-    public void move(Direction direction) {
-        if (direction == Direction.LEFT) {
-            column--;
-            row++;
-        }
-        if (direction == Direction.RIGHT) {
-            column++;
-            row++;
-        }
-        if (direction == Direction.DOWN) {
-            row++;
-        }
+    public Node left() {
+        return new Node(row, column - 1);
     }
 
-    public Node previous() {
-        return new Node(row, column - 1);
+    public Node right() {
+        return new Node(row, column + 1);
+    }
+
+    public Node down() {
+        return new Node(row + 1, column);
     }
 
     public boolean isConnected(Ladder ladder) {
