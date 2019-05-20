@@ -9,10 +9,10 @@ public class OutputView {
     public static void printLadder(Ladder ladder, GameData gameData) {
         System.out.println(NEW_LINE + Contants.MESSAGE_LADDER_RESULT + NEW_LINE);
         printMembers(gameData);
-        System.out.println();
+        emptyLine();
         printLadderShape(ladder, gameData);
         printGoals(gameData);
-        System.out.println();
+        emptyLine();
     }
 
     public static void printResultMessage() {
@@ -51,7 +51,7 @@ public class OutputView {
             printBridge(line, index);
             System.out.print(Contants.MESSAGE_COLUMN);
         }
-        System.out.println();
+        emptyLine();
     }
 
     private static void printBridge(Line line, int index) {
@@ -61,5 +61,9 @@ public class OutputView {
         if (!line.isConnected(index)) {
             System.out.print(Contants.MESSAGE_BLANK);
         }
+    }
+
+    private static void emptyLine() {
+        System.out.println();
     }
 }
