@@ -40,25 +40,25 @@ public class OutputView {
     }
 
     private static void printLadderShape(Ladder ladder, GameData gameData) {
-        for (Line line : ladder.getLines()) {
-            printLine(line, gameData.getCountOfPerson());
+        for (Row row : ladder.getRows()) {
+            printRow(row, gameData.getCountOfPerson());
         }
     }
 
-    private static void printLine(Line line, int countOfPerson) {
+    private static void printRow(Row row, int columnNumber) {
         System.out.print(Contants.MESSAGE_INDENT + Contants.MESSAGE_COLUMN);
-        for (int index = 0; index < countOfPerson - 1; index++) {
-            printBridge(line, index);
+        for (int index = 0; index < columnNumber - 1; index++) {
+            printBridge(row, index);
             System.out.print(Contants.MESSAGE_COLUMN);
         }
         emptyLine();
     }
 
-    private static void printBridge(Line line, int index) {
-        if (line.isConnected(index)) {
+    private static void printBridge(Row row, int index) {
+        if (row.isConnected(index)) {
             System.out.print(Contants.MESSAGE_BRIDGE);
         }
-        if (!line.isConnected(index)) {
+        if (!row.isConnected(index)) {
             System.out.print(Contants.MESSAGE_BLANK);
         }
     }

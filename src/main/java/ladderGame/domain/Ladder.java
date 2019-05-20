@@ -7,32 +7,32 @@ import java.util.Objects;
 public class Ladder {
     private static final int FIRST_COLUMN = 0;
 
-    private List<Line> lines;
+    private List<Row> rows;
 
-    public Ladder(int countOfPerson, int height) {
-        lines = new ArrayList<>();
+    public Ladder(int rowNumber, int columnNumber) {
+        rows = new ArrayList<>();
 
-        for (int i = 0; i < height; i++) {
-            lines.add(new Line(countOfPerson));
+        for (int i = 0; i < rowNumber; i++) {
+            rows.add(new Row(columnNumber));
         }
     }
 
-    public List<Line> getLines() {
-        return lines;
+    public List<Row> getRows() {
+        return rows;
     }
 
     public void connectBridges() {
-        for (Line line : lines) {
-            line.connectBridges();
+        for (Row row : rows) {
+            row.connectBridges();
         }
     }
 
     public boolean isConnected(int row, int column) {
-        return lines.get(row).isConnected(column);
+        return rows.get(row).isConnected(column);
     }
 
     public boolean atDestination(Node currentNode) {
-        return currentNode.getRow() >= lines.size();
+        return currentNode.getRow() >= rows.size();
     }
 
     public boolean atFirstColumn(Node currentNode) {
@@ -40,7 +40,7 @@ public class Ladder {
     }
 
     public boolean atLastColumn(Node currentNode) {
-        return currentNode.getColumn() == lines.get(currentNode.getRow()).getSize();
+        return currentNode.getColumn() == rows.get(currentNode.getRow()).getSize();
     }
 
     @Override
@@ -48,11 +48,11 @@ public class Ladder {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ladder ladder = (Ladder) o;
-        return Objects.equals(lines, ladder.lines);
+        return Objects.equals(rows, ladder.rows);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lines);
+        return Objects.hash(rows);
     }
 }

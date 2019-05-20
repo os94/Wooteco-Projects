@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LadderTest {
     @Test
     void 객체_생성() {
-        Ladder ladder = new Ladder(4, 5);
-        assertThat(ladder).isEqualTo(new Ladder(4, 5));
+        Ladder ladder = new Ladder(5, 4);
+        assertThat(ladder).isEqualTo(new Ladder(5, 4));
     }
 }

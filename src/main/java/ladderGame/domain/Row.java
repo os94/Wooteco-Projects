@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Line {
+public class Row {
     private List<Boolean> bridges;
 
-    public Line(int countOfPerson) {
+    public Row(int columnNumber) {
         bridges = new ArrayList<>();
 
-        for (int i = 0; i < countOfPerson - 1; i++) {
+        for (int i = 0; i < columnNumber - 1; i++) {
             bridges.add(false);
         }
     }
@@ -46,8 +46,8 @@ public class Line {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Line line = (Line) o;
-        return Objects.equals(bridges, line.bridges);
+        Row row = (Row) o;
+        return Objects.equals(bridges, row.bridges);
     }
 
     @Override

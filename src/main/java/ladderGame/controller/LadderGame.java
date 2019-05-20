@@ -10,7 +10,7 @@ public class LadderGame {
 
     public void run() {
         GameData gameData = new GameData(InputView.inputNames(), InputView.inputGoals());
-        Ladder ladder = new Ladder(gameData.getCountOfPerson(), InputView.inputHeight());
+        Ladder ladder = new Ladder(InputView.inputHeight(), gameData.getCountOfPerson());
 
         ladder.connectBridges();
         OutputView.printLadder(ladder, gameData);
