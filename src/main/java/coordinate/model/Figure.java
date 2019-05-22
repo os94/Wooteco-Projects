@@ -4,7 +4,7 @@ import coordinate.Message;
 
 import java.util.List;
 
-public class Figure {
+public abstract class Figure {
     private static final int ONE_POINT = 1;
     private static final int NUM_OF_VERTICES_OF_LINE = 2;
 
@@ -27,4 +27,6 @@ public class Figure {
         }
         throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
     }
+
+    public abstract boolean hasPoint(int x, int y);
 }

@@ -11,6 +11,11 @@ public class Line extends Figure {
     }
 
     @Override
+    public boolean hasPoint(int x, int y) {
+        return points.stream().anyMatch(point -> point.hasPoint(x, y));
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

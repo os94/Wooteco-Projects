@@ -27,6 +27,11 @@ public class Point extends Figure {
     }
 
     @Override
+    public boolean hasPoint(int x, int y) {
+        return this.x == x && this.y == y;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
