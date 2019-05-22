@@ -32,6 +32,19 @@ public class Point extends Figure {
     }
 
     @Override
+    public double area() {
+        return 0;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

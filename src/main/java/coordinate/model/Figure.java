@@ -29,4 +29,6 @@ public abstract class Figure {
     }
 
     public abstract boolean hasPoint(int x, int y);
+
+    public abstract double area();
 }

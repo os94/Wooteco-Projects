@@ -32,4 +32,9 @@ public class PointTest {
         assertThat(new Point(1, 2).hasPoint(1, 2)).isTrue();
         assertThat(new Point(1, 2).hasPoint(1, 3)).isFalse();
     }
+
+    @Test
+    void 포인트의_넓이는_0() {
+        assertThat(new Point(1, 2).area()).isEqualTo(0);
+    }
 }

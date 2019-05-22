@@ -16,6 +16,18 @@ public class Line extends Figure {
     }
 
     @Override
+    public double area() {
+        Point firstPoint = points.get(0);
+        Point secondPoint = points.get(1);
+        return Math.sqrt(squareDifference(firstPoint.getX(), secondPoint.getX())
+                + squareDifference(firstPoint.getY(), secondPoint.getY()));
+    }
+
+    private double squareDifference(int firstValue, int secondValue) {
+        return Math.pow(firstValue - secondValue, 2);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
