@@ -8,6 +8,9 @@ public class Figure {
     private static final int ONE_POINT = 1;
     private static final int NUM_OF_VERTICES_OF_LINE = 2;
 
+    Figure() {
+    }
+
     public static Figure create(List<Point> points) {
         if (points == null) {
             throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);

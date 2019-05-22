@@ -19,8 +19,9 @@ public class InputView {
         return inputCoordinates(scanner.nextLine());
     }
 
-    private static Figure inputCoordinates(String input) {
+    public static Figure inputCoordinates(String input) {
         try {
+            input = input.replace(" ", "");
             checkAccuracyOfPoints(input);
             List<Point> points = generatePoints(input);
             return Figure.create(points);
@@ -49,10 +50,13 @@ public class InputView {
     }
 
     private static Point generatePoint(String inputPoint) {
-        Pattern pattern = Pattern.compile("[0-9]{1,2}");
+        Pattern pattern = Pattern.compile("\\(([0-9]{1,2}),([0-9]{1,2})\\)");
         Matcher matcher = pattern.matcher(inputPoint);
-        int x = Integer.parseInt(matcher.group(1));
-        int y = Integer.parseInt(matcher.group(2));
-        return new Point(x, y);
+        if (matcher.find()) {
+            int x = Integer.parseInt(matcher.group(1));
+            int y = Integer.parseInt(matcher.group(2));
+            return new Point(x, y);
+        }
+        throw new IllegalArgumentException(Message.ERROR_INVALID_COORDINATES);
     }
 }
