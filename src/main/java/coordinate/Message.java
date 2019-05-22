@@ -11,4 +11,5 @@ public class Message {
     public static final String ERROR_INVALID_FIGURE_CREATION = "입력된 Point 개수가 유효하지 않습니다.";
     public static final String ERROR_FIGURE_NULL = "Point 입력값이 없습니다.";
     public static final String ERROR_DUPLICATE_POINTS = "중복된 좌표가 존재합니다.";
+    public static final String ERROR_INVALID_RECTANGLE = "직사각형 모양이 아닙니다.";
 }
