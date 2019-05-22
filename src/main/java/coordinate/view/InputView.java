@@ -5,6 +5,7 @@ import coordinate.model.Figure;
 import coordinate.model.Point;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -46,6 +47,7 @@ public class InputView {
         for (String inputPoint : inputPoints) {
             points.add(generatePoint(inputPoint));
         }
+        checkDuplicationOf(points);
         return points;
     }
 
@@ -58,5 +60,11 @@ public class InputView {
             return new Point(x, y);
         }
         throw new IllegalArgumentException(Message.ERROR_INVALID_COORDINATES);
+    }
+
+    private static void checkDuplicationOf(List<Point> points) {
+        if (points.size() != new HashSet<>(points).size()) {
+            throw new IllegalArgumentException(Message.ERROR_DUPLICATE_POINTS);
+        }
     }
 }
