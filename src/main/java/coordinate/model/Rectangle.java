@@ -35,7 +35,8 @@ public class Rectangle extends Figure {
 
     @Override
     public boolean hasPoint(int x, int y) {
-        return points.stream().anyMatch(point -> point.hasPoint(x, y));
+        return points.stream()
+                .anyMatch(point -> point.hasPoint(x, y));
     }
 
     @Override
