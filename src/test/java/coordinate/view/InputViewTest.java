@@ -3,6 +3,7 @@ package coordinate.view;
 import coordinate.model.Figure;
 import coordinate.model.Line;
 import coordinate.model.Point;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,5 +32,10 @@ class InputViewTest {
         points.add(new Point(1, 1));
         points.add(new Point(2, 2));
         assertThat(figure).isEqualTo(new Line(points));
+    }
+
+    @AfterEach
+    void tearDown() {
+        points = null;
     }
 }

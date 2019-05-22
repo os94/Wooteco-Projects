@@ -26,4 +26,10 @@ public class PointTest {
             new Point(1, 25);
         });
     }
+
+    @Test
+    void 주어진_좌표와_포인트를_비교() {
+        assertThat(new Point(1, 2).hasPoint(1, 2)).isTrue();
+        assertThat(new Point(1, 2).hasPoint(1, 3)).isFalse();
+    }
 }
