@@ -1,6 +1,7 @@
 package coordinate.view;
 
 import coordinate.model.Figure;
+import coordinate.model.Line;
 import coordinate.model.Point;
 
 public class OutputView {
@@ -34,7 +35,7 @@ public class OutputView {
     }
 
     private static void showPoints(Figure figure, int y) {
-        for (int x = Point.LOWER_LIMIT; x < Point.UPPER_LIMIT; x++) {
+        for (int x = Point.LOWER_LIMIT; x <= Point.UPPER_LIMIT; x++) {
             if (figure.hasPoint(x, y)) {
                 System.out.print(String.format("%4s", MARK_OF_POINT));
                 continue;
@@ -60,5 +61,14 @@ public class OutputView {
 
     private static void emptyLine() {
         System.out.println();
+    }
+
+    public static void showArea(Figure figure) {
+        if (figure instanceof Point) {
+            return;
+        }
+        if (figure instanceof Line) {
+            System.out.println("두 점 사이의 거리는 " + figure.area());
+        }
     }
 }
