@@ -11,8 +11,11 @@ public class FigureFactory {
     private static final int NUM_OF_VERTICES_OF_RECTANGLE = 4;
 
     public static Figure create(List<Point> points) {
-        if (points == null || points.size() == ONE_POINT) {
+        if (points == null) {
             throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);
+        }
+        if (points.size() == ONE_POINT) {
+            throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
         }
         return classifyFigure(points);
     }
