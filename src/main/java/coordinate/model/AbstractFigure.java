@@ -1,5 +1,7 @@
 package coordinate.model;
 
+import coordinate.Message;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -7,7 +9,15 @@ public abstract class AbstractFigure implements Figure {
     private final List<Point> points;
 
     AbstractFigure(List<Point> points) {
+        if (points.size() != size()) {
+            throw new IllegalArgumentException(getName() + Message.ERROR_MISMATCH_POINT_SIZE_1
+                    + size() + Message.ERROR_MISMATCH_POINT_SIZE_2);
+        }
         this.points = points;
+    }
+
+    protected Point getPoint(int index) {
+        return points.get(index);
     }
 
     @Override
@@ -17,7 +27,7 @@ public abstract class AbstractFigure implements Figure {
 
     @Override
     public boolean hasPoint(int x, int y) {
-        return getPoints().stream()
+        return points.stream()
                 .anyMatch(point -> point.isSame(x, y));
     }
 

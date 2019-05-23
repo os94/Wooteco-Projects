@@ -5,22 +5,35 @@ import coordinate.Message;
 import java.util.List;
 
 public class Triangle extends AbstractFigure {
+    private static final int SIZE = 3;
+    private static final String NAME = "삼각형";
+
     public Triangle(List<Point> points) {
         super(points);
-        if (isInStraightLine(points)) {
-            throw new IllegalArgumentException(Message.ERROR_INVALID_TRIANGLE);
+        if (isInStraightLine()) {
+            throw new IllegalArgumentException(NAME + Message.ERROR_INVALID_SHAPE);
         }
     }
 
-    private boolean isInStraightLine(List<Point> points) {
-        return points.get(0).calculateSlope(points.get(1)) == points.get(0).calculateSlope(points.get(2));
+    private boolean isInStraightLine() {
+        return getPoint(0).calculateSlope(getPoint(1)) == getPoint(0).calculateSlope(getPoint(2));
+    }
+
+    @Override
+    public int size() {
+        return SIZE;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override
     public double area() {
-        Point firstPoint = getPoints().get(0);
-        Point secondPoint = getPoints().get(1);
-        Point thirdPoint = getPoints().get(2);
+        Point firstPoint = getPoint(0);
+        Point secondPoint = getPoint(1);
+        Point thirdPoint = getPoint(2);
 
         double firstSide = firstPoint.calculateDistance(secondPoint);
         double secondSide = secondPoint.calculateDistance(thirdPoint);
@@ -31,7 +44,6 @@ public class Triangle extends AbstractFigure {
 
     private double calculateFormulaOfHero(double firstSide, double secondSide, double thirdSide) {
         double s = (firstSide + secondSide + thirdSide) / 2;
-
         return Math.sqrt(s * (s - firstSide) * (s - secondSide) * (s - thirdSide));
     }
 }

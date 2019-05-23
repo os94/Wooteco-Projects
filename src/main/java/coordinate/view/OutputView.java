@@ -64,13 +64,13 @@ public class OutputView {
 
     public static void showArea(Figure figure) {
         if (figure instanceof Line) {
-            System.out.println(Message.OUTPUT_AREA_OF_LINE + figure.area());
+            System.out.println(Message.OUTPUT_DISTANCE_OF_LINE + figure.area());
         }
         if (figure instanceof Triangle) {
-            System.out.println(Message.OUTPUT_AREA_OF_TRIANGLE + figure.area());
+            System.out.println(figure.getName() + Message.OUTPUT_AREA + figure.area());
         }
         if (figure instanceof Rectangle) {
-            System.out.println(Message.OUTPUT_AREA_OF_RECTANGLE + figure.area());
+            System.out.println(figure.getName() + Message.OUTPUT_AREA + figure.area());
         }
     }
 }

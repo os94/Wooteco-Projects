@@ -26,16 +26,16 @@ public class Point {
         return coordinate < LOWER_LIMIT || coordinate > UPPER_LIMIT;
     }
 
-    public double calculateSlope(Point point) {
-        if (this.x == point.x) {
+    public double calculateSlope(Point other) {
+        if (this.x == other.x) {
             return Double.MAX_VALUE;
         }
-        return Math.abs((double) (this.y - point.y) / (this.x - point.x));
+        return Math.abs((double) (this.y - other.y) / (this.x - other.x));
     }
 
-    public double calculateDistance(Point point) {
-        return Math.sqrt(squareDifference(this.x, point.x)
-                + squareDifference(this.y, point.y));
+    public double calculateDistance(Point other) {
+        return Math.sqrt(squareDifference(this.x, other.x)
+                + squareDifference(this.y, other.y));
     }
 
     private double squareDifference(int firstValue, int secondValue) {

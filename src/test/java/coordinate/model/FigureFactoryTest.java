@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FigureFactoryTest {
     private List<Point> points;
+    private Figure figure;
 
     @BeforeEach
     void setUp() {
@@ -49,7 +50,11 @@ class FigureFactoryTest {
     void Point가_2개일_경우_Line_생성() {
         points.add(new Point(1, 2));
         points.add(new Point(3, 4));
-        assertThat(FigureFactory.create(points)).isEqualTo(new Line(points));
+
+        figure = FigureFactory.create(points);
+        assertThat(figure).isInstanceOfAny(Line.class);
+        assertThat(figure.getName()).isEqualTo("선");
+        assertThat(figure).isEqualTo(new Line(points));
     }
 
     @Test
@@ -57,7 +62,11 @@ class FigureFactoryTest {
         points.add(new Point(1, 2));
         points.add(new Point(3, 4));
         points.add(new Point(4, 7));
-        assertThat(FigureFactory.create(points)).isEqualTo(new Triangle(points));
+
+        figure = FigureFactory.create(points);
+        assertThat(figure).isInstanceOfAny(Triangle.class);
+        assertThat(figure.getName()).isEqualTo("삼각형");
+        assertThat(figure).isEqualTo(new Triangle(points));
     }
 
     @Test
@@ -66,11 +75,16 @@ class FigureFactoryTest {
         points.add(new Point(3, 4));
         points.add(new Point(1, 4));
         points.add(new Point(3, 2));
-        assertThat(FigureFactory.create(points)).isEqualTo(new Rectangle(points));
+
+        figure = FigureFactory.create(points);
+        assertThat(figure).isInstanceOfAny(Rectangle.class);
+        assertThat(figure.getName()).isEqualTo("사각형");
+        assertThat(figure).isEqualTo(new Rectangle(points));
     }
 
     @AfterEach
     void tearDown() {
         points = null;
+        figure = null;
     }
 }

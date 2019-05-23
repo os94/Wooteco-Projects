@@ -24,7 +24,7 @@ public class InputView {
     public static Figure inputCoordinates(String input) {
         try {
             input = input.replace(" ", "");
-            checkAccuracyOfPoints(input);
+            checkInputPointsFormat(input);
             List<Point> points = generatePoints(input);
             return FigureFactory.create(points);
         } catch (IllegalArgumentException e) {
@@ -33,7 +33,7 @@ public class InputView {
         }
     }
 
-    private static void checkAccuracyOfPoints(String input) {
+    private static void checkInputPointsFormat(String input) {
         Pattern pattern = Pattern.compile("(\\([0-9]{1,2},[0-9]{1,2}\\))(-(\\([0-9]{1,2},[0-9]{1,2}\\))){0,3}");
         Matcher matcher = pattern.matcher(input);
         if (!matcher.matches()) {

@@ -5,7 +5,11 @@ import java.util.List;
 public interface Figure {
     List<Point> getPoints();
 
-    boolean hasPoint(int x, int y);
+    int size();
+
+    String getName();
 
     double area();
+
+    boolean hasPoint(int x, int y);
 }
