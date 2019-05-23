@@ -5,7 +5,7 @@ import coordinate.Message;
 import java.util.List;
 import java.util.Objects;
 
-public class Triangle extends Figure {
+public class Triangle extends AbstractFigure {
     private List<Point> points;
 
     public Triangle(List<Point> points) {

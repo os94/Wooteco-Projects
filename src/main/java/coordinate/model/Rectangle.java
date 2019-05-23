@@ -9,7 +9,7 @@ import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
-public class Rectangle extends Figure {
+public class Rectangle extends AbstractFigure {
     private List<Point> points;
 
     public Rectangle(List<Point> points) {

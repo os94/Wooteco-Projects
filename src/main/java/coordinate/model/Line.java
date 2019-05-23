@@ -3,7 +3,7 @@ package coordinate.model;
 import java.util.List;
 import java.util.Objects;
 
-public class Line extends Figure {
+public class Line extends AbstractFigure {
     private List<Point> points;
 
     public Line(List<Point> points) {

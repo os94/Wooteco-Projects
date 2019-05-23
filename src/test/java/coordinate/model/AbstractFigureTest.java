@@ -10,7 +10,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class FigureTest {
+class AbstractFigureTest {
     private List<Point> points;
 
     @BeforeEach
@@ -21,7 +21,7 @@ class FigureTest {
     @Test
     void 잘못된_Point_입력에_대한_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
-            Figure.create(null);
+            AbstractFigure.create(null);
         });
 
         points.add(new Point(1, 2));
@@ -30,21 +30,21 @@ class FigureTest {
         points.add(new Point(7,9));
         points.add(new Point(11,13));
         assertThrows(IllegalArgumentException.class, () -> {
-            Figure.create(points);
+            AbstractFigure.create(points);
         });
     }
 
     @Test
     void Point가_1개일_경우_Point_생성() {
         points.add(new Point(1, 2));
-        assertThat(Figure.create(points)).isEqualTo(new Point(1, 2));
+        assertThat(AbstractFigure.create(points)).isEqualTo(new Point(1, 2));
     }
 
     @Test
     void Point가_2개일_경우_Line_생성() {
         points.add(new Point(1, 2));
         points.add(new Point(3, 4));
-        assertThat(Figure.create(points)).isEqualTo(new Line(points));
+        assertThat(AbstractFigure.create(points)).isEqualTo(new Line(points));
     }
 
     @Test
@@ -52,7 +52,7 @@ class FigureTest {
         points.add(new Point(1, 2));
         points.add(new Point(3, 4));
         points.add(new Point(4, 7));
-        assertThat(Figure.create(points)).isEqualTo(new Triangle(points));
+        assertThat(AbstractFigure.create(points)).isEqualTo(new Triangle(points));
     }
 
     @Test
@@ -61,7 +61,7 @@ class FigureTest {
         points.add(new Point(3, 4));
         points.add(new Point(1, 4));
         points.add(new Point(3, 2));
-        assertThat(Figure.create(points)).isEqualTo(new Rectangle(points));
+        assertThat(AbstractFigure.create(points)).isEqualTo(new Rectangle(points));
     }
 
     @AfterEach

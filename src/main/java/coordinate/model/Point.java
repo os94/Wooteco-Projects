@@ -4,7 +4,7 @@ import coordinate.Message;
 
 import java.util.Objects;
 
-public class Point extends Figure {
+public class Point extends AbstractFigure {
     public static final int LOWER_LIMIT = 1;
     public static final int UPPER_LIMIT = 24;
     private final int x;
