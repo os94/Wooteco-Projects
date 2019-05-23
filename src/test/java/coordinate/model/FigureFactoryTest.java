@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FigureFactoryTest {
+    private static FigureFactory figureFactory = new FigureFactory();
     private List<Point> points;
     private Figure figure;
 
@@ -22,7 +23,7 @@ class FigureFactoryTest {
     @Test
     void null_입력에_대한_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
-            FigureFactory.create(null);
+            figureFactory.create(null);
         });
     }
 
@@ -30,7 +31,7 @@ class FigureFactoryTest {
     void Point_1개_입력에_대한_예외처리() {
         points.add(new Point(1, 2));
         assertThrows(IllegalArgumentException.class, () -> {
-            FigureFactory.create(points);
+            figureFactory.create(points);
         });
     }
 
@@ -42,7 +43,7 @@ class FigureFactoryTest {
         points.add(new Point(7, 9));
         points.add(new Point(11, 13));
         assertThrows(IllegalArgumentException.class, () -> {
-            FigureFactory.create(points);
+            figureFactory.create(points);
         });
     }
 
@@ -51,7 +52,7 @@ class FigureFactoryTest {
         points.add(new Point(1, 2));
         points.add(new Point(3, 4));
 
-        figure = FigureFactory.create(points);
+        figure = figureFactory.create(points);
         assertThat(figure).isInstanceOfAny(Line.class);
         assertThat(figure.getName()).isEqualTo("선");
         assertThat(figure).isEqualTo(new Line(points));
@@ -63,7 +64,7 @@ class FigureFactoryTest {
         points.add(new Point(3, 4));
         points.add(new Point(4, 7));
 
-        figure = FigureFactory.create(points);
+        figure = figureFactory.create(points);
         assertThat(figure).isInstanceOfAny(Triangle.class);
         assertThat(figure.getName()).isEqualTo("삼각형");
         assertThat(figure).isEqualTo(new Triangle(points));
@@ -76,7 +77,7 @@ class FigureFactoryTest {
         points.add(new Point(1, 4));
         points.add(new Point(3, 2));
 
-        figure = FigureFactory.create(points);
+        figure = figureFactory.create(points);
         assertThat(figure).isInstanceOfAny(Rectangle.class);
         assertThat(figure.getName()).isEqualTo("사각형");
         assertThat(figure).isEqualTo(new Rectangle(points));

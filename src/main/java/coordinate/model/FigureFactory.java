@@ -2,34 +2,40 @@ package coordinate.model;
 
 import coordinate.Message;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
-public class FigureFactory {
+public class FigureFactory implements FigureCreator{
     private static final int ONE_POINT = 1;
-    private static final int NUM_OF_VERTICES_OF_LINE = 2;
-    private static final int NUM_OF_VERTICES_OF_TRIANGLE = 3;
-    private static final int NUM_OF_VERTICES_OF_RECTANGLE = 4;
+    private static final int LINE_VERTEX = 2;
+    private static final int TRIANGLE_VERTEX = 3;
+    private static final int RECTANGLE_VERTEX = 4;
 
-    public static Figure create(List<Point> points) {
+    private static Map<Integer, Function<List<Point>, Figure>> figureClassifier = new HashMap<>();
+
+    static {
+        figureClassifier.put(LINE_VERTEX, Line::new);
+        figureClassifier.put(TRIANGLE_VERTEX, Triangle::new);
+        figureClassifier.put(RECTANGLE_VERTEX, Rectangle::new);
+    }
+
+    @Override
+    public Figure create(List<Point> points) {
+        checkNumberOf(points);
+        return figureClassifier.get(points.size()).apply(points);
+    }
+
+    private void checkNumberOf(List<Point> points) {
         if (points == null) {
             throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);
         }
         if (points.size() == ONE_POINT) {
             throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
         }
-        return classifyFigure(points);
-    }
-
-    private static Figure classifyFigure(List<Point> points) {
-        if (points.size() == NUM_OF_VERTICES_OF_LINE) {
-            return new Line(points);
+        if (points.size() > RECTANGLE_VERTEX) {
+            throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
         }
-        if (points.size() == NUM_OF_VERTICES_OF_TRIANGLE) {
-            return new Triangle(points);
-        }
-        if (points.size() == NUM_OF_VERTICES_OF_RECTANGLE) {
-            return new Rectangle(points);
-        }
-        throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
     }
 }

@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 public class InputView {
     private static final String POINT_DELIMITER = "-";
     private static Scanner scanner = new Scanner(System.in);
+    private static FigureFactory figureFactory = new FigureFactory();
 
     public static Figure inputCoordinates() {
         System.out.println(Message.INPUT_COORDINATE);
@@ -26,7 +27,7 @@ public class InputView {
             input = input.replace(" ", "");
             checkInputPointsFormat(input);
             List<Point> points = generatePoints(input);
-            return FigureFactory.create(points);
+            return figureFactory.create(points);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return inputCoordinates();
