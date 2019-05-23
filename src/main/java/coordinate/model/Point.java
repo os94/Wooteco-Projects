@@ -26,6 +26,22 @@ public class Point extends Figure {
         return coordinate < LOWER_LIMIT || coordinate > UPPER_LIMIT;
     }
 
+    public double calculateSlope(Point point) {
+        if (this.x == point.x) {
+            return Double.MAX_VALUE;
+        }
+        return Math.abs((double) (this.y - point.y) / (this.x - point.x));
+    }
+
+    public double calculateDistance(Point point) {
+        return Math.sqrt(squareDifference(this.x, point.x)
+                + squareDifference(this.y, point.y));
+    }
+
+    private double squareDifference(int firstValue, int secondValue) {
+        return Math.pow(firstValue - secondValue, 2);
+    }
+
     @Override
     public boolean hasPoint(int x, int y) {
         return this.x == x && this.y == y;

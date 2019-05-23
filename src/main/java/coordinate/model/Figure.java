@@ -7,6 +7,7 @@ import java.util.List;
 public abstract class Figure {
     private static final int ONE_POINT = 1;
     private static final int NUM_OF_VERTICES_OF_LINE = 2;
+    private static final int NUM_OF_VERTICES_OF_TRIANGLE = 3;
     private static final int NUM_OF_VERTICES_OF_RECTANGLE = 4;
 
     Figure() {
@@ -25,6 +26,9 @@ public abstract class Figure {
         }
         if (points.size() == NUM_OF_VERTICES_OF_LINE) {
             return new Line(points);
+        }
+        if (points.size() == NUM_OF_VERTICES_OF_TRIANGLE) {
+            return new Triangle(points);
         }
         if (points.size() == NUM_OF_VERTICES_OF_RECTANGLE) {
             return new Rectangle(points);
