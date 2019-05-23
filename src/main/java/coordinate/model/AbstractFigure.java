@@ -1,42 +1,36 @@
 package coordinate.model;
 
-import coordinate.Message;
-
 import java.util.List;
+import java.util.Objects;
 
-public abstract class AbstractFigure {
-    private static final int ONE_POINT = 1;
-    private static final int NUM_OF_VERTICES_OF_LINE = 2;
-    private static final int NUM_OF_VERTICES_OF_TRIANGLE = 3;
-    private static final int NUM_OF_VERTICES_OF_RECTANGLE = 4;
+public abstract class AbstractFigure implements Figure {
+    private final List<Point> points;
 
-    AbstractFigure() {
+    AbstractFigure(List<Point> points) {
+        this.points = points;
     }
 
-    public static AbstractFigure create(List<Point> points) {
-        if (points == null) {
-            throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);
-        }
-        return classifyFigure(points);
+    @Override
+    public List<Point> getPoints() {
+        return points;
     }
 
-    private static AbstractFigure classifyFigure(List<Point> points) {
-        if (points.size() == ONE_POINT) {
-            return points.get(0);
-        }
-        if (points.size() == NUM_OF_VERTICES_OF_LINE) {
-            return new Line(points);
-        }
-        if (points.size() == NUM_OF_VERTICES_OF_TRIANGLE) {
-            return new Triangle(points);
-        }
-        if (points.size() == NUM_OF_VERTICES_OF_RECTANGLE) {
-            return new Rectangle(points);
-        }
-        throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
+    @Override
+    public boolean hasPoint(int x, int y) {
+        return getPoints().stream()
+                .anyMatch(point -> point.isSame(x, y));
     }
 
-    public abstract boolean hasPoint(int x, int y);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final AbstractFigure that = (AbstractFigure) o;
+        return Objects.equals(points, that.points);
+    }
 
-    public abstract double area();
+    @Override
+    public int hashCode() {
+        return Objects.hash(points);
+    }
 }

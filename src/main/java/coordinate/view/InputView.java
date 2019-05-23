@@ -1,7 +1,8 @@
 package coordinate.view;
 
 import coordinate.Message;
-import coordinate.model.AbstractFigure;
+import coordinate.model.Figure;
+import coordinate.model.FigureFactory;
 import coordinate.model.Point;
 
 import java.util.ArrayList;
@@ -15,17 +16,17 @@ public class InputView {
     private static final String POINT_DELIMITER = "-";
     private static Scanner scanner = new Scanner(System.in);
 
-    public static AbstractFigure inputCoordinates() {
+    public static Figure inputCoordinates() {
         System.out.println(Message.INPUT_COORDINATE);
         return inputCoordinates(scanner.nextLine());
     }
 
-    public static AbstractFigure inputCoordinates(String input) {
+    public static Figure inputCoordinates(String input) {
         try {
             input = input.replace(" ", "");
             checkAccuracyOfPoints(input);
             List<Point> points = generatePoints(input);
-            return AbstractFigure.create(points);
+            return FigureFactory.create(points);
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return inputCoordinates();

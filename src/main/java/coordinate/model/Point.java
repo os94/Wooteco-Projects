@@ -4,7 +4,7 @@ import coordinate.Message;
 
 import java.util.Objects;
 
-public class Point extends AbstractFigure {
+public class Point {
     public static final int LOWER_LIMIT = 1;
     public static final int UPPER_LIMIT = 24;
     private final int x;
@@ -42,22 +42,16 @@ public class Point extends AbstractFigure {
         return Math.pow(firstValue - secondValue, 2);
     }
 
-    @Override
-    public boolean hasPoint(int x, int y) {
-        return this.x == x && this.y == y;
-    }
-
-    @Override
-    public double area() {
-        return 0;
-    }
-
     public int getX() {
         return x;
     }
 
     public int getY() {
         return y;
+    }
+
+    public boolean isSame(int x, int y) {
+        return this.x == x && this.y == y;
     }
 
     @Override

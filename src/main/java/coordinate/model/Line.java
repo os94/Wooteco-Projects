@@ -1,36 +1,14 @@
 package coordinate.model;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Line extends AbstractFigure {
-    private List<Point> points;
-
     public Line(List<Point> points) {
-        this.points = points;
-    }
-
-    @Override
-    public boolean hasPoint(int x, int y) {
-        return points.stream()
-                .anyMatch(point -> point.hasPoint(x, y));
+        super(points);
     }
 
     @Override
     public double area() {
-        return points.get(0).calculateDistance(points.get(1));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final Line line = (Line) o;
-        return Objects.equals(points, line.points);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(points);
+        return getPoints().get(0).calculateDistance(getPoints().get(1));
     }
 }

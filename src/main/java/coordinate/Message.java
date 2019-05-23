@@ -6,6 +6,7 @@ public class Message {
     public static final String INPUT_COORDINATE = "좌표를 입력하세요.";
 
     public static final String OUTPUT_AREA_OF_LINE = "두 점 사이의 거리는 ";
+    public static final String OUTPUT_AREA_OF_TRIANGLE = "삼각형의 넓이는 ";
     public static final String OUTPUT_AREA_OF_RECTANGLE = "사각형의 넓이는 ";
 
     public static final String ERROR_OUT_OF_POINT_RANGE

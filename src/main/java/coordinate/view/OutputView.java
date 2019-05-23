@@ -1,10 +1,7 @@
 package coordinate.view;
 
 import coordinate.Message;
-import coordinate.model.AbstractFigure;
-import coordinate.model.Line;
-import coordinate.model.Point;
-import coordinate.model.Rectangle;
+import coordinate.model.*;
 
 public class OutputView {
     private static final String FOUR_BLANK = "    ";
@@ -13,17 +10,17 @@ public class OutputView {
     private static final String HORIZONTAL_AXIS = "----";
     private static final String MARK_OF_POINT = ".";
 
-    public static void showCoordinatePlane(AbstractFigure abstractFigure) {
-        showVerticalNumbersWith(abstractFigure);
+    public static void showCoordinatePlane(Figure figure) {
+        showVerticalNumbersWith(figure);
         showHorizontalAxis();
         showHorizontalNumbers();
     }
 
-    private static void showVerticalNumbersWith(AbstractFigure abstractFigure) {
+    private static void showVerticalNumbersWith(Figure figure) {
         for (int y = Point.UPPER_LIMIT; y >= Point.LOWER_LIMIT; y--) {
             showAxisNumber(y);
             System.out.print(VERTICAL_AXIS);
-            showPoints(abstractFigure, y);
+            showPoints(figure, y);
             emptyLine();
         }
     }
@@ -36,9 +33,9 @@ public class OutputView {
         System.out.print(FOUR_BLANK);
     }
 
-    private static void showPoints(AbstractFigure abstractFigure, int y) {
+    private static void showPoints(Figure figure, int y) {
         for (int x = Point.LOWER_LIMIT; x <= Point.UPPER_LIMIT; x++) {
-            if (abstractFigure.hasPoint(x, y)) {
+            if (figure.hasPoint(x, y)) {
                 System.out.print(String.format("%4s", MARK_OF_POINT));
                 continue;
             }
@@ -65,15 +62,15 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void showArea(AbstractFigure abstractFigure) {
-        if (abstractFigure instanceof Point) {
-            return;
+    public static void showArea(Figure figure) {
+        if (figure instanceof Line) {
+            System.out.println(Message.OUTPUT_AREA_OF_LINE + figure.area());
         }
-        if (abstractFigure instanceof Line) {
-            System.out.println(Message.OUTPUT_AREA_OF_LINE + abstractFigure.area());
+        if (figure instanceof Triangle) {
+            System.out.println(Message.OUTPUT_AREA_OF_TRIANGLE + figure.area());
         }
-        if (abstractFigure instanceof Rectangle) {
-            System.out.println(Message.OUTPUT_AREA_OF_RECTANGLE + abstractFigure.area());
+        if (figure instanceof Rectangle) {
+            System.out.println(Message.OUTPUT_AREA_OF_RECTANGLE + figure.area());
         }
     }
 }

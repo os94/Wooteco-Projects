@@ -29,12 +29,7 @@ public class PointTest {
 
     @Test
     void 주어진_좌표와_포인트를_비교() {
-        assertThat(new Point(1, 2).hasPoint(1, 2)).isTrue();
-        assertThat(new Point(1, 2).hasPoint(1, 3)).isFalse();
-    }
-
-    @Test
-    void 포인트의_넓이는_0() {
-        assertThat(new Point(1, 2).area()).isEqualTo(0);
+        assertThat(new Point(1, 2).isSame(1, 2)).isTrue();
+        assertThat(new Point(1, 2).isSame(1, 3)).isFalse();
     }
 }
