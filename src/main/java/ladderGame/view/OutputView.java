@@ -1,7 +1,10 @@
 package ladderGame.view;
 
 import ladderGame.constant.Contants;
-import ladderGame.domain.*;
+import ladderGame.domain.Goals;
+import ladderGame.domain.Ladder;
+import ladderGame.domain.Members;
+import ladderGame.domain.Row;
 
 public class OutputView {
     private static final String NEW_LINE = "\n";
