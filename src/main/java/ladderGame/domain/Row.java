@@ -15,10 +15,8 @@ public class Row {
         }
     }
 
-    public void connectBridges() {
-        for (int i = 0; i < bridges.size(); i++) {
-            bridges.set(i, RandomGenerator.generate() && isConnectable(i));
-        }
+    public void connectBridge(int index, boolean connectOrNot) {
+        bridges.set(index, connectOrNot && isConnectable(index));
     }
 
     private boolean isConnectable(int index) {

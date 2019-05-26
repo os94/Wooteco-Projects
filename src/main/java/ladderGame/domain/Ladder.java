@@ -16,10 +16,16 @@ public class Ladder {
         }
     }
 
-    public void connectBridges() {
-        for (Row row : rows) {
-            row.connectBridges();
+    public void connect() {
+        for (int rowIndex = 0; rowIndex < rows.size(); rowIndex++) {
+            for (int columnIndex = 0; columnIndex < getNumberOfColumn() - 1; columnIndex++) {
+                connectBridge(rowIndex, columnIndex, RandomGenerator.generate());
+            }
         }
+    }
+
+    public void connectBridge(int rowIndex, int columnIndex, boolean connectOrNot) {
+        rows.get(rowIndex).connectBridge(columnIndex, connectOrNot);
     }
 
     public LadderResult play() {
