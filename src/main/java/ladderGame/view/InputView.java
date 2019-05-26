@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 public class InputView {
     private static final String REGEX_NAME = "^([a-zA-Zㄱ-ㅎ가-힣0-9]{1,5}){1}(,[a-zA-Zㄱ-ㅎ가-힣0-9]{1,5}){1,}$";
-    private static final String REGEX_HEIGHT = "([0-9]){1}";
+    private static final String REGEX_HEIGHT = "([0-9]){1,}";
     private static final String NEW_LINE = "\n";
     private static final Scanner SCAN = new Scanner(System.in);
 

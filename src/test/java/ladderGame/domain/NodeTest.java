@@ -10,7 +10,7 @@ public class NodeTest {
 
     @BeforeEach
     void setUp() {
-        node = new Node(1,1);
+        node = new Node(1, 1);
     }
 
     @Test

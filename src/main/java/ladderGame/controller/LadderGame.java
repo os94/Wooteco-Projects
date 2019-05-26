@@ -1,7 +1,10 @@
 package ladderGame.controller;
 
 import ladderGame.constant.Contants;
-import ladderGame.domain.*;
+import ladderGame.domain.LadderDirection;
+import ladderGame.domain.GameData;
+import ladderGame.domain.Ladder;
+import ladderGame.domain.Node;
 import ladderGame.view.InputView;
 import ladderGame.view.OutputView;
 
@@ -52,7 +55,7 @@ public class LadderGame {
         Node currentNode = new Node(START_ROW, startPerson);
 
         do {
-            Direction direction = Direction.valueOf(ladder, currentNode);
+            LadderDirection direction = LadderDirection.valueOf(ladder, currentNode);
             currentNode = direction.move(currentNode);
         } while (!ladder.atDestination(currentNode));
 

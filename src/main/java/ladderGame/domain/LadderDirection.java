@@ -1,6 +1,6 @@
 package ladderGame.domain;
 
-public enum Direction {
+public enum LadderDirection {
     LEFT {
         @Override
         public boolean canMove(Ladder ladder, Node currentNode) {
@@ -48,8 +48,8 @@ public enum Direction {
         }
     };
 
-    public static Direction valueOf(Ladder ladder, Node currentNode) {
-        for (Direction direction : Direction.values()) {
+    public static LadderDirection valueOf(Ladder ladder, Node currentNode) {
+        for (LadderDirection direction : LadderDirection.values()) {
             if (direction.canMove(ladder, currentNode)) {
                 return direction;
             }
