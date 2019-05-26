@@ -10,11 +10,12 @@ public class GoalsTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Goals(null, 3);
             new Goals("", 3);
+            new Goals("win,,fail", 3);
         });
     }
 
     @Test
-    void match_with_members() {
+    void mismatch_with_members() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Goals("pobi,crong", 3);
         });

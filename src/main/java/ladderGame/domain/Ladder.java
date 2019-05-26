@@ -1,6 +1,9 @@
 package ladderGame.domain;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Ladder {
     private static final int FIRST_ROW = 0;
@@ -72,18 +75,5 @@ public class Ladder {
 
     public boolean atLastColumn(Node currentNode) {
         return currentNode.getColumn() + 1 == getNumberOfColumn();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ladder ladder = (Ladder) o;
-        return Objects.equals(rows, ladder.rows);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(rows);
     }
 }

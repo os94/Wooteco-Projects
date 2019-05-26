@@ -10,6 +10,7 @@ public class MembersTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Members(null);
             new Members("");
+            new Members("pobi,,crong");
         });
     }
 
