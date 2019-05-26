@@ -1,10 +1,9 @@
 package ladderGame.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Ladder {
+    private static final int FIRST_ROW = 0;
     private static final int FIRST_COLUMN = 0;
 
     private List<Row> rows;
@@ -27,6 +26,28 @@ public class Ladder {
         }
     }
 
+    public LadderResult play() {
+        Map<Integer, Integer> result = new HashMap<>();
+
+        for (int startIndex = 0; startIndex < getNumberOfColumn(); startIndex++) {
+            int destinationIndex = getDestination(startIndex);
+            result.put(startIndex, destinationIndex);
+        }
+
+        return new LadderResult(result);
+    }
+
+    private int getDestination(int startIndex) {
+        Node currentNode = new Node(FIRST_ROW, startIndex);
+
+        do {
+            LadderDirection direction = LadderDirection.valueOf(this, currentNode);
+            currentNode = direction.move(currentNode);
+        } while (!atDestination(currentNode));
+
+        return currentNode.getColumn();
+    }
+
     public boolean isConnected(int row, int column) {
         return rows.get(row).isConnected(column);
     }
@@ -40,7 +61,11 @@ public class Ladder {
     }
 
     public boolean atLastColumn(Node currentNode) {
-        return currentNode.getColumn() == rows.get(currentNode.getRow()).getSize();
+        return currentNode.getColumn() + 1 == getNumberOfColumn();
+    }
+
+    public int getNumberOfColumn() {
+        return rows.get(FIRST_ROW).size();
     }
 
     @Override

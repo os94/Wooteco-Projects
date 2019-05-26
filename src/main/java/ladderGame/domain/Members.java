@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Members {
-    private List<String> members;
+    private final List<String> members;
 
     public Members(String input) {
         if (StringUtils.isBlank(input)) {
@@ -46,10 +46,6 @@ public class Members {
 
     public int getIndexOf(String member) {
         return member.indexOf(member);
-    }
-
-    public boolean has(String target) {
-        return members.stream().anyMatch(member -> member.equals(target));
     }
 
     public int size() {

@@ -1,25 +1,10 @@
 package ladderGame.view;
 
 import ladderGame.constant.Contants;
-import ladderGame.domain.Goals;
-import ladderGame.domain.Ladder;
-import ladderGame.domain.Members;
-import ladderGame.domain.Row;
+import ladderGame.domain.*;
 
 public class OutputView {
     private static final String NEW_LINE = "\n";
-
-    public static void printResultMessage() {
-        System.out.println(NEW_LINE + Contants.MESSAGE_GAME_RESULT);
-    }
-
-    public static void printDestination(String result) {
-        System.out.println(result);
-    }
-
-    public static void printDestination(String name, String result) {
-        System.out.println(name + " : " + result);
-    }
 
     public static void printLadder(Ladder ladder, Members members, Goals goals) {
         System.out.println(NEW_LINE + Contants.MESSAGE_LADDER_RESULT + NEW_LINE);
@@ -64,6 +49,26 @@ public class OutputView {
         if (!row.isConnected(index)) {
             System.out.print(Contants.MESSAGE_BLANK);
         }
+    }
+
+    public static void printResult(String target, GameResult gameResult) {
+        validateTarget(target, gameResult);
+        OutputView.printResultMessage();
+        if (Contants.MESSAGE_ALL.equals(target)) {
+            System.out.println(gameResult.toString());
+            return;
+        }
+        System.out.println(gameResult.of(target));
+    }
+
+    private static void validateTarget(String target, GameResult gameResult) {
+        if (!gameResult.has(target) && !Contants.MESSAGE_ALL.equals(target)) {
+            throw new IllegalArgumentException(Contants.ERROR_NOT_EXIST_MEMBER);
+        }
+    }
+
+    private static void printResultMessage() {
+        System.out.println(NEW_LINE + Contants.MESSAGE_GAME_RESULT);
     }
 
     private static void emptyLine() {

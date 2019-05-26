@@ -25,8 +25,8 @@ public class Row {
         return bridges.get(column);
     }
 
-    public int getSize() {
-        return bridges.size();
+    public int size() {
+        return bridges.size() + 1;
     }
 
     private void connectBridge(int index) {

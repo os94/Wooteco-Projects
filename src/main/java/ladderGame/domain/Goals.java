@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Goals {
-    private List<String> goals;
+    private final List<String> goals;
 
     public Goals(String input, int memberSize) {
         if (StringUtils.isBlank(input)) {
