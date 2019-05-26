@@ -6,15 +6,6 @@ import ladderGame.domain.*;
 public class OutputView {
     private static final String NEW_LINE = "\n";
 
-    public static void printLadder(Ladder ladder, GameData gameData) {
-        System.out.println(NEW_LINE + Contants.MESSAGE_LADDER_RESULT + NEW_LINE);
-        printMembers(gameData);
-        emptyLine();
-        printLadderShape(ladder, gameData);
-        printGoals(gameData);
-        emptyLine();
-    }
-
     public static void printResultMessage() {
         System.out.println(NEW_LINE + Contants.MESSAGE_GAME_RESULT);
     }
@@ -27,21 +18,30 @@ public class OutputView {
         System.out.println(name + " : " + result);
     }
 
-    private static void printMembers(GameData gameData) {
-        for (Member member : gameData.getMembers()) {
-            System.out.printf("%6s", member.getName());
+    public static void printLadder(Ladder ladder, Members members, Goals goals) {
+        System.out.println(NEW_LINE + Contants.MESSAGE_LADDER_RESULT + NEW_LINE);
+        printMembers(members);
+        emptyLine();
+        printLadderShape(ladder, members.size());
+        printGoals(goals);
+        emptyLine();
+    }
+
+    private static void printMembers(Members members) {
+        for (String member : members.getMembers()) {
+            System.out.printf("%6s", member);
         }
     }
 
-    private static void printGoals(GameData gameData) {
-        for (Goal goal : gameData.getGoals()) {
-            System.out.printf("%6s", goal.getGoal());
+    private static void printGoals(Goals goals) {
+        for (String goal : goals.getGoals()) {
+            System.out.printf("%6s", goal);
         }
     }
 
-    private static void printLadderShape(Ladder ladder, GameData gameData) {
+    private static void printLadderShape(Ladder ladder, int size) {
         for (Row row : ladder.getRows()) {
-            printRow(row, gameData.getCountOfPerson());
+            printRow(row, size);
         }
     }
 

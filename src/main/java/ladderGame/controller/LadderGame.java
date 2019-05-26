@@ -1,10 +1,7 @@
 package ladderGame.controller;
 
 import ladderGame.constant.Contants;
-import ladderGame.domain.LadderDirection;
-import ladderGame.domain.GameData;
-import ladderGame.domain.Ladder;
-import ladderGame.domain.Node;
+import ladderGame.domain.*;
 import ladderGame.view.InputView;
 import ladderGame.view.OutputView;
 
@@ -12,43 +9,44 @@ public class LadderGame {
     private final int START_ROW = 0;
 
     public void run() {
-        GameData gameData = new GameData(InputView.inputNames(), InputView.inputGoals());
-        Ladder ladder = new Ladder(InputView.inputHeight(), gameData.getCountOfPerson());
+        Members members = new Members(InputView.inputMembers());
+        Goals goals = new Goals(InputView.inputGoals(), members.size());
+        Ladder ladder = new Ladder(InputView.inputHeight(), members.size());
 
         ladder.connectBridges();
-        OutputView.printLadder(ladder, gameData);
+        OutputView.printLadder(ladder, members, goals);
 
-        String target = InputView.inputTargetName();
-        validateName(gameData, target);
-        printGameResult(ladder, gameData, target);
+        String target = InputView.inputTarget();
+        validateName(members, target);
+        printGameResult(ladder, members, goals, target);
     }
 
-    private void validateName(GameData gameData, String target) {
-        if (!gameData.hasMember(target) && !target.equals(Contants.MESSAGE_ALL)) {
+    private void validateName(Members members, String target) {
+        if (!members.has(target) && !target.equals(Contants.MESSAGE_ALL)) {
             throw new IllegalArgumentException(Contants.ERROR_NOT_EXIST_MEMBER);
         }
     }
 
-    private void printGameResult(Ladder ladder, GameData gameData, String target) {
+    private void printGameResult(Ladder ladder, Members members, Goals goals, String target) {
         OutputView.printResultMessage();
         if (target.equals(Contants.MESSAGE_ALL)) {
-            printResultAll(ladder, gameData);
+            printResultAll(ladder, members, goals);
             return;
         }
-        printResult(ladder, gameData, target);
+        printResult(ladder, goals, members.getIndexOf(target));
     }
 
-    private void printResultAll(Ladder ladder, GameData gameData) {
-        for (int index = 0; index < gameData.getCountOfPerson(); index++) {
-            String name = gameData.getName(index);
+    private void printResultAll(Ladder ladder, Members members, Goals goals) {
+        for (int index = 0; index < members.size(); index++) {
+            String name = members.getMember(index);
             int destinationIndex = getDestination(ladder, index);
-            OutputView.printDestination(name, gameData.getGoal(destinationIndex));
+            OutputView.printDestination(name, goals.getGoal(destinationIndex));
         }
     }
 
-    private void printResult(Ladder ladder, GameData gameData, String target) {
-        int destinationIndex = getDestination(ladder, gameData.getMemberIndex(target));
-        OutputView.printDestination(gameData.getGoal(destinationIndex));
+    private void printResult(Ladder ladder, Goals goals, int index) {
+        int destinationIndex = getDestination(ladder, index);
+        OutputView.printDestination(goals.getGoal(destinationIndex));
     }
 
     private int getDestination(Ladder ladder, int startPerson) {
