@@ -44,10 +44,6 @@ public class Members {
         return members.get(index);
     }
 
-    public int getIndexOf(String member) {
-        return member.indexOf(member);
-    }
-
     public int size() {
         return members.size();
     }

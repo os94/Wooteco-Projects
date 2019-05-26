@@ -17,21 +17,7 @@ public class Row {
 
     public void connectBridges() {
         for (int i = 0; i < bridges.size(); i++) {
-            connectBridge(i);
-        }
-    }
-
-    public boolean isConnected(int column) {
-        return bridges.get(column);
-    }
-
-    public int size() {
-        return bridges.size() + 1;
-    }
-
-    private void connectBridge(int index) {
-        if (RandomGenerator.generate() && isConnectable(index)) {
-            bridges.set(index, true);
+            bridges.set(i, RandomGenerator.generate() && isConnectable(i));
         }
     }
 
@@ -40,6 +26,14 @@ public class Row {
             return true;
         }
         return !bridges.get(index - 1);
+    }
+
+    public int size() {
+        return bridges.size() + 1;
+    }
+
+    public boolean isConnected(int column) {
+        return bridges.get(column);
     }
 
     @Override

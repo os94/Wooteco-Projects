@@ -16,10 +16,6 @@ public class Ladder {
         }
     }
 
-    public List<Row> getRows() {
-        return rows;
-    }
-
     public void connectBridges() {
         for (Row row : rows) {
             row.connectBridges();
@@ -48,6 +44,14 @@ public class Ladder {
         return currentNode.getColumn();
     }
 
+    public List<Row> getRows() {
+        return rows;
+    }
+
+    public int getNumberOfColumn() {
+        return rows.get(FIRST_ROW).size();
+    }
+
     public boolean isConnected(int row, int column) {
         return rows.get(row).isConnected(column);
     }
@@ -62,10 +66,6 @@ public class Ladder {
 
     public boolean atLastColumn(Node currentNode) {
         return currentNode.getColumn() + 1 == getNumberOfColumn();
-    }
-
-    public int getNumberOfColumn() {
-        return rows.get(FIRST_ROW).size();
     }
 
     @Override

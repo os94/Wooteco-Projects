@@ -55,7 +55,7 @@ public class OutputView {
         validateTarget(target, gameResult);
         OutputView.printResultMessage();
         if (Contants.MESSAGE_ALL.equals(target)) {
-            System.out.println(gameResult.toString());
+            System.out.println(gameResult);
             return;
         }
         System.out.println(gameResult.of(target));
