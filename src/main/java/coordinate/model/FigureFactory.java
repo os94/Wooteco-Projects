@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class FigureFactory implements FigureCreator{
+public class FigureFactory implements FigureCreator {
     private static final int ONE_POINT = 1;
     private static final int LINE_VERTEX = 2;
     private static final int TRIANGLE_VERTEX = 3;

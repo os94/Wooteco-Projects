@@ -1,7 +1,8 @@
 package coordinate.view;
 
 import coordinate.Message;
-import coordinate.model.*;
+import coordinate.model.Figure;
+import coordinate.model.Point;
 
 import java.util.Arrays;
 import java.util.HashMap;
