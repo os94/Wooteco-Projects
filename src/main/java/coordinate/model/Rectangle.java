@@ -58,4 +58,9 @@ public class Rectangle extends AbstractFigure {
     private Set<Integer> getValuesFromPoints(Function<Point, Integer> function) {
         return getPoints().stream().map(function).collect(toSet());
     }
+
+    @Override
+    public String getAreaInfo() {
+        return NAME + Message.OUTPUT_AREA + area();
+    }
 }

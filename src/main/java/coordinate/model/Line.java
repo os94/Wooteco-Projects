@@ -1,5 +1,7 @@
 package coordinate.model;
 
+import coordinate.Message;
+
 import java.util.List;
 
 public class Line extends AbstractFigure {
@@ -23,5 +25,10 @@ public class Line extends AbstractFigure {
     @Override
     public double area() {
         return getPoint(0).calculateDistance(getPoint(1));
+    }
+
+    @Override
+    public String getAreaInfo() {
+        return Message.OUTPUT_DISTANCE_OF_LINE + area();
     }
 }

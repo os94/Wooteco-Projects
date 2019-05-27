@@ -46,4 +46,9 @@ public class Triangle extends AbstractFigure {
         double s = (firstSide + secondSide + thirdSide) / 2;
         return Math.sqrt(s * (s - firstSide) * (s - secondSide) * (s - thirdSide));
     }
+
+    @Override
+    public String getAreaInfo() {
+        return NAME + Message.OUTPUT_AREA + area();
+    }
 }
