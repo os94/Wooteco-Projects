@@ -5,6 +5,7 @@ import coordinate.Message;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import static java.util.stream.Collectors.toSet;
 
@@ -19,12 +20,8 @@ public class Rectangle extends AbstractFigure {
     }
 
     private void checkIsRectangle() {
-        Set<Integer> xValuesOfPoints = getPoints().stream()
-                .map(Point::getX)
-                .collect(toSet());
-        Set<Integer> yValuesOfPoints = getPoints().stream()
-                .map(Point::getY)
-                .collect(toSet());
+        Set<Integer> xValuesOfPoints = getValuesFromPoints(Point::getX);
+        Set<Integer> yValuesOfPoints = getValuesFromPoints(Point::getY);
 
         if (hasNotTwoPoints(xValuesOfPoints) || hasNotTwoPoints(yValuesOfPoints)) {
             throw new IllegalArgumentException(NAME + Message.ERROR_INVALID_SHAPE);
@@ -47,12 +44,8 @@ public class Rectangle extends AbstractFigure {
 
     @Override
     public double area() {
-        int differenceOfXValues = calculateDifference(getPoints().stream()
-                .map(Point::getX)
-                .collect(toSet()));
-        int differenceOfYValues = calculateDifference(getPoints().stream()
-                .map(Point::getY)
-                .collect(toSet()));
+        int differenceOfXValues = calculateDifference(getValuesFromPoints(Point::getX));
+        int differenceOfYValues = calculateDifference(getValuesFromPoints(Point::getY));
 
         return (double) (differenceOfXValues * differenceOfYValues);
     }
@@ -60,5 +53,9 @@ public class Rectangle extends AbstractFigure {
     private int calculateDifference(Set<Integer> valuesOfPoints) {
         List<Integer> values = new ArrayList<>(valuesOfPoints);
         return Math.abs(values.get(0) - values.get(1));
+    }
+
+    private Set<Integer> getValuesFromPoints(Function<Point, Integer> function) {
+        return getPoints().stream().map(function).collect(toSet());
     }
 }
