@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 public class FigureFactoryTest {
     @Test
@@ -42,5 +43,13 @@ public class FigureFactoryTest {
         Figure figure = FigureFactory.getInstance(points);
         assertThat(figure).isInstanceOfAny(Rectangle.class);
         assertThat(figure.getName()).isEqualTo("사각형");
+    }
+
+    @Test
+    public void invalid_figure() {
+        List<Point> points = Arrays.asList(Point.of(1, 2));
+        assertThatIllegalArgumentException().isThrownBy(() -> {
+            FigureFactory.getInstance(points);
+        });
     }
 }
