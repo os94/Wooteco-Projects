@@ -9,6 +9,9 @@ public abstract class AbstractFigure implements Figure {
     private final List<Point> points;
 
     AbstractFigure(List<Point> points) {
+        if (points == null || points.isEmpty()) {
+            throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);
+        }
         if (points.size() != size()) {
             throw new IllegalArgumentException(getName() + Message.ERROR_MISMATCH_POINT_SIZE_1
                     + size() + Message.ERROR_MISMATCH_POINT_SIZE_2);

@@ -25,7 +25,8 @@ class InputViewTest {
         Figure figure = InputView.inputCoordinates("(1, 1) - (2, 2)");
         points.add(new Point(1, 1));
         points.add(new Point(2, 2));
-        assertThat(figure).isEqualTo(new Line(points));
+        assertThat(figure).isInstanceOfAny(Line.class);
+        assertThat(figure.getName()).isEqualTo("선");
     }
 
     @AfterEach

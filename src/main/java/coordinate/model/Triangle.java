@@ -8,7 +8,7 @@ public class Triangle extends AbstractFigure {
     private static final int SIZE = 3;
     private static final String NAME = "삼각형";
 
-    public Triangle(List<Point> points) {
+    Triangle(List<Point> points) {
         super(points);
         if (isInStraightLine()) {
             throw new IllegalArgumentException(NAME + Message.ERROR_INVALID_SHAPE);

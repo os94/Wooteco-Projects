@@ -13,7 +13,7 @@ public class Rectangle extends AbstractFigure {
     private static final String NAME = "사각형";
     private static final int NUM_OF_VERTEX_IN_RECTANGLE = 2;
 
-    public Rectangle(List<Point> points) {
+    Rectangle(List<Point> points) {
         super(points);
         checkIsRectangle();
     }
@@ -25,6 +25,7 @@ public class Rectangle extends AbstractFigure {
         Set<Integer> yValuesOfPoints = getPoints().stream()
                 .map(Point::getY)
                 .collect(toSet());
+
         if (hasNotTwoPoints(xValuesOfPoints) || hasNotTwoPoints(yValuesOfPoints)) {
             throw new IllegalArgumentException(NAME + Message.ERROR_INVALID_SHAPE);
         }

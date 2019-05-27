@@ -6,7 +6,7 @@ public class Line extends AbstractFigure {
     private static final int SIZE = 2;
     private static final String NAME = "선";
 
-    public Line(List<Point> points) {
+    Line(List<Point> points) {
         super(points);
     }
 
