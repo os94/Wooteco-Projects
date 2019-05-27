@@ -1,9 +1,11 @@
-package coordinate;
+package coordinate.domain.figure;
+
+import coordinate.domain.Point;
 
 import java.util.List;
 
-public class Line extends AbstractFigure {
-    public Line(List<Point> points) {
+class Line extends AbstractFigure {
+    Line(List<Point> points) {
         super(points);
     }
 

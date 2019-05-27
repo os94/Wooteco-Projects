@@ -1,4 +1,6 @@
-package coordinate;
+package coordinate.domain.figure;
+
+import coordinate.domain.Point;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +15,7 @@ public class FigureFactory {
         creators.put(4, new RectangleCreator());
     }
 
-    static Figure getFigure(List<Point> points) {
+    public static Figure getFigure(List<Point> points) {
         FigureCreator figureCreator = creators.get(points.size());
         if (figureCreator == null) {
             throw new IllegalArgumentException("유효하지 않은 도형입니다.");
