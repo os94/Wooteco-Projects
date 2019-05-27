@@ -3,12 +3,26 @@ package coordinate.view;
 import coordinate.Message;
 import coordinate.model.*;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class OutputView {
     private static final String FOUR_BLANK = "    ";
     private static final String VERTICAL_AXIS = "|";
     private static final String ORIGIN = "+";
     private static final String HORIZONTAL_AXIS = "----";
     private static final String MARK_OF_POINT = ".";
+
+    private static final List<String> FIGURE_NAMES = Arrays.asList("선", "삼각형", "사각형");
+    private static Map<String, String> printClassifier = new HashMap<>();
+
+    static {
+        printClassifier.put(FIGURE_NAMES.get(0), Message.OUTPUT_DISTANCE_OF_LINE);
+        printClassifier.put(FIGURE_NAMES.get(1), FIGURE_NAMES.get(1) + Message.OUTPUT_AREA);
+        printClassifier.put(FIGURE_NAMES.get(2), FIGURE_NAMES.get(2) + Message.OUTPUT_AREA);
+    }
 
     public static void showCoordinatePlane(Figure figure) {
         showVerticalNumbersWith(figure);
@@ -63,14 +77,6 @@ public class OutputView {
     }
 
     public static void showArea(Figure figure) {
-        if (figure instanceof Line) {
-            System.out.println(Message.OUTPUT_DISTANCE_OF_LINE + figure.area());
-        }
-        if (figure instanceof Triangle) {
-            System.out.println(figure.getName() + Message.OUTPUT_AREA + figure.area());
-        }
-        if (figure instanceof Rectangle) {
-            System.out.println(figure.getName() + Message.OUTPUT_AREA + figure.area());
-        }
+        System.out.println(printClassifier.get(figure.getName()) + figure.area());
     }
 }
