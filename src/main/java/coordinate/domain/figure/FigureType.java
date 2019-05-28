@@ -36,7 +36,7 @@ public enum FigureType {
                 return figureType;
             }
         }
-        throw new IllegalArgumentException("유효하지 않은 도형입니다.");
+        throw new InvalidFigureException("유효하지 않은 도형입니다.");
     }
 
     private boolean match(int size) {
