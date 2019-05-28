@@ -9,6 +9,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FigureFactoryTest {
     @Test
@@ -50,7 +51,7 @@ public class FigureFactoryTest {
     @Test
     public void invalid_figure() {
         List<Point> points = Arrays.asList(Point.of(1, 2));
-        assertThatIllegalArgumentException().isThrownBy(() -> {
+        assertThrows(InvalidFigureException.class, () -> {
             FigureFactory.getFigure(points);
         });
     }
