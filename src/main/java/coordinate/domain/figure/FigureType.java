@@ -1,28 +1,9 @@
 package coordinate.domain.figure;
 
-import coordinate.domain.Point;
-
-import java.util.List;
-
 public enum FigureType {
-    LINE(2) {
-        @Override
-        public Figure create(List<Point> points) {
-            return new Line(points);
-        }
-    },
-    TRIANGLE(3) {
-        @Override
-        public Figure create(List<Point> points) {
-            return new Triangle(points);
-        }
-    },
-    RECTANGLE(4) {
-        @Override
-        public Figure create(List<Point> points) {
-            return new Rectangle(points);
-        }
-    };
+    LINE(2),
+    TRIANGLE(3),
+    RECTANGLE(4);
 
     private final int size;
 
@@ -41,9 +22,5 @@ public enum FigureType {
 
     private boolean match(int size) {
         return this.size == size;
-    }
-
-    public Figure create(List<Point> points) {
-        return null;
     }
 }
