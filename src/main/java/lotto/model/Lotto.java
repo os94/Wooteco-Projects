@@ -19,4 +19,9 @@ public class Lotto {
         }
         this.lottoNumbers = lottoNumbers;
     }
+
+    @Override
+    public String toString() {
+        return String.valueOf(lottoNumbers);
+    }
 }
