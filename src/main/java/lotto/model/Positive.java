@@ -9,4 +9,8 @@ public class Positive {
         }
         this.number = number;
     }
+
+    public int per(int other) {
+        return number / other;
+    }
 }

@@ -18,13 +18,6 @@ public class MoneyTest {
     }
 
     @Test
-    void constructor_with_negative() {
-        assertThrows(IllegalArgumentException.class, () -> {
-           new Money("-1000");
-        });
-    }
-
-    @Test
     void constructor_with_character() {
         assertThrows(NumberFormatException.class, () -> {
             new Money("abc");
