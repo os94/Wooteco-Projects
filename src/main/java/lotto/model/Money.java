@@ -15,7 +15,7 @@ public class Money {
         this.money = new Positive(Integer.parseInt(input));
     }
 
-    public int getNumberOfLotto() {
+    public int getCountOfLotto() {
         return money.per(PRICE_OF_LOTTO);
     }
 }
