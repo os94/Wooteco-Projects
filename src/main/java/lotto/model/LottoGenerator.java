@@ -1,18 +1,12 @@
 package lotto.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 public class LottoGenerator {
-    public static List<Lotto> generate(int countOfLotto) {
-        List<Lotto> lottos = new ArrayList<>();
-
-        for (int i = 0; i < countOfLotto; i++) {
-            lottos.add(getRandomLotto());
-        }
-        return lottos;
-    }
-
-    private static Lotto getRandomLotto() {
+    public static Lotto generate() {
         Set<LottoNumber> lottoNumbers = new HashSet<>();
 
         while (lottoNumbers.size() != Lotto.NUMBER_OF_LOTTO_NUMBERS) {
