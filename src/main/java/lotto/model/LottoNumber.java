@@ -5,7 +5,7 @@ import java.util.Objects;
 public class LottoNumber {
     private static final String ERROR_NOT_LOTTO_NUMBER = "로또 숫자는 1~45사이 입니다.";
     private static final int LOWER_LIMIT = 1;
-    private static final int UPPER_LIMIT = 45;
+    public static final int UPPER_LIMIT = 45;
 
     private final int number;
 
