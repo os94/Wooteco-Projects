@@ -22,6 +22,11 @@ public class PositiveTest {
     }
 
     @Test
+    void constructor_normal() {
+        assertThat(new Positive(1)).isInstanceOfAny(Positive.class);
+    }
+
+    @Test
     void calculate_per() {
         Positive number = new Positive(2000);
         assertThat(number.per(1000)).isEqualTo(2);
