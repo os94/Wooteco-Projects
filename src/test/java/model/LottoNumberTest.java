@@ -22,4 +22,9 @@ public class LottoNumberTest {
         assertThat(new LottoNumber(1)).isInstanceOfAny(LottoNumber.class);
         assertThat(new LottoNumber(45)).isInstanceOfAny(LottoNumber.class);
     }
+
+    @Test
+    void equal() {
+        assertThat(new LottoNumber(1)).isEqualByComparingTo(new LottoNumber(1));
+    }
 }
