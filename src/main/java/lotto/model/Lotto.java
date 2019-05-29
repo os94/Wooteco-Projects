@@ -2,6 +2,7 @@ package lotto.model;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 public class Lotto {
     private static final String ERROR_LOTTO_NUMBER_NULL = "로또 숫자 값들이 입력되지 않았습니다.";
@@ -18,6 +19,19 @@ public class Lotto {
             throw new IllegalArgumentException(ERROR_NUMBER_OF_LOTTO_NUMBERS);
         }
         this.lottoNumbers = lottoNumbers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lotto lotto = (Lotto) o;
+        return Objects.equals(lottoNumbers, lotto.lottoNumbers);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lottoNumbers);
     }
 
     @Override
