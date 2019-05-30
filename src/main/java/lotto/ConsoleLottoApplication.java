@@ -4,34 +4,45 @@ import lotto.model.*;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConsoleLottoApplication {
     private static final String MESSAGE_MONEY = "구입금액을 입력해 주세요.";
     private static final String MESSAGE_COUNT_OF_MANUAL_LOTTO = "수동으로 구매할 로또 수를 입력해 주세요.";
+    private static final String MESSAGE_MANUAL_LOTTO = "수동으로 구매할 번호를 입력해 주세요.";
     private static final String MESSAGE_WINNING_LOTTO = "지난 주 당첨 번호를 입력해 주세요.";
     private static final String MESSAGE_BONUS_NO = "보너스 볼을 입력해 주세요.";
 
     public static void main(String[] args) {
-        Money money = new Money(InputView.inputPositiveNumber(MESSAGE_MONEY));
-        Positive countOfManualLotto = new Positive(InputView.inputPositiveNumber(MESSAGE_COUNT_OF_MANUAL_LOTTO));
-        Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
-        List<String> lottos = inputManualLotto(countOfManualLotto);
-
-        LottoResult lottoResult = new LottoResult();
-        lottoResult.add(buyManual(lottos));
-        lottoResult.add(buyAuto(countOfAutoLotto));
-
-        OutputView.print(countOfManualLotto, countOfAutoLotto);
-        OutputView.print(lottoResult);
-
         try {
+            Money money = new Money(InputView.inputPositiveNumber(MESSAGE_MONEY));
+            Positive countOfManualLotto = new Positive(InputView.inputPositiveNumber(MESSAGE_COUNT_OF_MANUAL_LOTTO));
+            Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
+            List<String> lottos = inputLotto(countOfManualLotto);
+
+            LottoResult lottoResult = new LottoResult();
+            lottoResult.add(buyManual(lottos));
+            lottoResult.add(buyAuto(countOfAutoLotto));
+
+            OutputView.print(countOfManualLotto, countOfAutoLotto);
+            OutputView.print(lottoResult);
+
             WinningLotto winningLotto = new WinningLotto(
                     LottoGenerator.generate(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
                     new LottoNumber(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
         } catch (Exception e) {
             System.err.println(e);
         }
+    }
+
+    private static List<String> inputLotto(Positive countOfLotto) {
+        List<String> lottos = new ArrayList<>();
+
+        for (int i = 0; i < countOfLotto.get(); i++) {
+            lottos.add(InputView.inputLotto(MESSAGE_MANUAL_LOTTO));
+        }
+        return lottos;
     }
 
     private static LottoResult buyManual(List<String> lottos) {

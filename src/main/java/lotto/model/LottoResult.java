@@ -7,9 +7,13 @@ public class LottoResult {
     private static final String ERROR_LOTTO_NULL = "로또가 입력되지 않았습니다.";
     private static final String NEW_LINE = System.getProperty("line.separator");
 
-    private static final List<Lotto> lottos = new ArrayList<>();
+    private final List<Lotto> lottos;
 
-    public static List<Lotto> getLottos() {
+    public LottoResult() {
+        lottos = new ArrayList<>();
+    }
+
+    public List<Lotto> getLottos() {
         return lottos;
     }
 
