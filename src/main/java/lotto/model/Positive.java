@@ -12,7 +12,15 @@ public class Positive {
         this.number = number;
     }
 
-    public int per(int other) {
-        return number / other;
+    public int get() {
+        return number;
+    }
+
+    public Positive subtract(Positive other) {
+        return new Positive(number - other.number);
+    }
+
+    public Positive divide(Positive other) {
+        return new Positive(number / other.number);
     }
 }

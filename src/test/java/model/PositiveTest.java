@@ -29,6 +29,6 @@ public class PositiveTest {
     @Test
     void calculate_per() {
         Positive number = new Positive(2000);
-        assertThat(number.per(1000)).isEqualTo(2);
+        assertThat(number.divide(1000)).isEqualTo(2);
     }
 }

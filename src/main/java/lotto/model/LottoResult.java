@@ -9,11 +9,24 @@ public class LottoResult {
 
     private static final List<Lotto> lottos = new ArrayList<>();
 
+    public static List<Lotto> getLottos() {
+        return lottos;
+    }
+
     public void add(Lotto lotto) {
         if (lotto == null) {
             throw new IllegalArgumentException(ERROR_LOTTO_NULL);
         }
         lottos.add(lotto);
+    }
+
+    public void add(LottoResult other) {
+        if (other == null) {
+            throw new IllegalArgumentException(ERROR_LOTTO_NULL);
+        }
+        for (Lotto lotto : other.getLottos()) {
+            lottos.add(lotto);
+        }
     }
 
     @Override

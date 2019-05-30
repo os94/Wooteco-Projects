@@ -1,7 +1,7 @@
 package lotto.model;
 
 public class Money {
-    private static final int PRICE_OF_LOTTO = 1_000;
+    private static final Positive PRICE_OF_LOTTO = new Positive(1_000);
 
     private final Positive money;
 
@@ -9,7 +9,7 @@ public class Money {
         this.money = new Positive(number);
     }
 
-    public int getCountOfLotto() {
-        return money.per(PRICE_OF_LOTTO);
+    public Positive getCountOfLotto() {
+        return money.divide(PRICE_OF_LOTTO);
     }
 }
