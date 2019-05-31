@@ -19,6 +19,14 @@ public enum Rank {
         this.prizeMoney = prizeMoney;
     }
 
+    public int getCountOfMatch() {
+        return countOfMatch;
+    }
+
+    public int getPrizeMoney() {
+        return prizeMoney;
+    }
+
     public static Rank valueOf(int countOfMatch, boolean matchBonus) {
         if (countOfMatch < MIN_LIMIT_OF_WIN) {
             return MISS;

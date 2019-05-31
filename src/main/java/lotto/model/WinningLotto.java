@@ -14,16 +14,16 @@ public class WinningLotto {
         this.bonusNo = bonusNo;
     }
 
-    public Rank match(Lotto lotto) {
-        int countOfMatch = getCountOfMatch(lotto);
-        boolean matchBonus = getMatchBonus(lotto);
+    public Rank match(Lotto userLotto) {
+        int countOfMatch = getCountOfMatch(userLotto);
+        boolean matchBonus = userLotto.contains(bonusNo);
         return Rank.valueOf(countOfMatch, matchBonus);
     }
 
-    private int getCountOfMatch(Lotto lotto) {
+    private int getCountOfMatch(Lotto userLotto) {
         int count = 0;
-        for (LottoNumber lottoNumber : this.lotto.getLottoNumbers()) {
-            count += containOrNot(lotto, lottoNumber);
+        for (LottoNumber lottoNumber : lotto.getLottoNumbers()) {
+            count += containOrNot(userLotto, lottoNumber);
         }
         return count;
     }
@@ -33,9 +33,5 @@ public class WinningLotto {
             return 1;
         }
         return 0;
-    }
-
-    private boolean getMatchBonus(Lotto lotto) {
-        return lotto.contains(bonusNo);
     }
 }
