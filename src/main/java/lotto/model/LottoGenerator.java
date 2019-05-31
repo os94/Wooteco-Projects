@@ -3,6 +3,9 @@ package lotto.model;
 import java.util.*;
 
 public class LottoGenerator {
+    private static final String COMMA = ",";
+
+    // generate Lotto auto (by random)
     public static Lotto generate() {
         Set<LottoNumber> uniqueLottoNumbers = new HashSet<>();
         while (uniqueLottoNumbers.size() != Lotto.NUMBER_OF_LOTTO_NUMBERS) {
@@ -21,9 +24,10 @@ public class LottoGenerator {
         return lottoNumbers;
     }
 
+    // generate Lotto manually (by input values)
     public static Lotto generate(String inputNumbers) {
         inputNumbers = inputNumbers.replace(" ", "");
-        String[] numbers = inputNumbers.split(",");
+        String[] numbers = inputNumbers.split(COMMA);
         return new Lotto(getLottoNumber(numbers));
     }
 
