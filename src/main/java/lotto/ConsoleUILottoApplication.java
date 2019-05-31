@@ -7,7 +7,7 @@ import lotto.view.OutputView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConsoleLottoApplication {
+public class ConsoleUILottoApplication {
     private static final String MESSAGE_MONEY = "구입금액을 입력해 주세요.";
     private static final String MESSAGE_COUNT_OF_MANUAL_LOTTO = "수동으로 구매할 로또 수를 입력해 주세요.";
     private static final String MESSAGE_MANUAL_LOTTO = "수동으로 구매할 번호를 입력해 주세요.";
@@ -19,14 +19,14 @@ public class ConsoleLottoApplication {
             Money money = new Money(InputView.inputPositiveNumber(MESSAGE_MONEY));
             Positive countOfManualLotto = new Positive(InputView.inputPositiveNumber(MESSAGE_COUNT_OF_MANUAL_LOTTO));
             Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
-            List<String> lottos = inputLotto(countOfManualLotto);
+            List<String> inputLottos = inputLotto(countOfManualLotto);
 
-            Lottos lottoResult = new Lottos();
-            lottoResult.add(buyManual(lottos));
-            lottoResult.add(buyAuto(countOfAutoLotto));
+            Lottos lottos = new Lottos();
+            lottos.add(buyManual(inputLottos));
+            lottos.add(buyAuto(countOfAutoLotto));
 
             OutputView.print(countOfManualLotto, countOfAutoLotto);
-            OutputView.print(lottoResult);
+            OutputView.print(lottos);
 
             WinningLotto winningLotto = new WinningLotto(
                     LottoGenerator.generate(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
@@ -45,13 +45,13 @@ public class ConsoleLottoApplication {
         return lottos;
     }
 
-    private static Lottos buyManual(List<String> lottos) {
-        Lottos lottoResult = new Lottos();
+    private static Lottos buyManual(List<String> inputLottos) {
+        Lottos lottos = new Lottos();
 
-        for (String lotto : lottos) {
-            lottoResult.add(LottoGenerator.generate(lotto));
+        for (String lotto : inputLottos) {
+            lottos.add(LottoGenerator.generate(lotto));
         }
-        return lottoResult;
+        return lottos;
     }
 
     private static Lottos buyAuto(Positive countOfLotto) {
