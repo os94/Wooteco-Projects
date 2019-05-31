@@ -21,7 +21,7 @@ public class ConsoleLottoApplication {
             Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
             List<String> lottos = inputLotto(countOfManualLotto);
 
-            LottoResult lottoResult = new LottoResult();
+            Lottos lottoResult = new Lottos();
             lottoResult.add(buyManual(lottos));
             lottoResult.add(buyAuto(countOfAutoLotto));
 
@@ -45,8 +45,8 @@ public class ConsoleLottoApplication {
         return lottos;
     }
 
-    private static LottoResult buyManual(List<String> lottos) {
-        LottoResult lottoResult = new LottoResult();
+    private static Lottos buyManual(List<String> lottos) {
+        Lottos lottoResult = new Lottos();
 
         for (String lotto : lottos) {
             lottoResult.add(LottoGenerator.generate(lotto));
@@ -54,12 +54,12 @@ public class ConsoleLottoApplication {
         return lottoResult;
     }
 
-    private static LottoResult buyAuto(Positive countOfLotto) {
-        LottoResult lottoResult = new LottoResult();
+    private static Lottos buyAuto(Positive countOfLotto) {
+        Lottos lottos = new Lottos();
 
         for (int i = 0; i < countOfLotto.get(); i++) {
-            lottoResult.add(LottoGenerator.generate());
+            lottos.add(LottoGenerator.generate());
         }
-        return lottoResult;
+        return lottos;
     }
 }

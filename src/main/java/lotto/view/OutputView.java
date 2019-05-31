@@ -1,6 +1,6 @@
 package lotto.view;
 
-import lotto.model.LottoResult;
+import lotto.model.Lottos;
 import lotto.model.Positive;
 
 public class OutputView {
@@ -10,7 +10,7 @@ public class OutputView {
         System.out.printf(MESSAGE_BUY_COMPLETE, manual.get(), auto.get());
     }
 
-    public static void print(LottoResult lottoResult) {
-        System.out.println(lottoResult);
+    public static void print(Lottos lottos) {
+        System.out.println(lottos);
     }
 }

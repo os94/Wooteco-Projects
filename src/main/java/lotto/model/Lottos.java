@@ -3,13 +3,13 @@ package lotto.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LottoResult {
+public class Lottos {
     private static final String ERROR_LOTTO_NULL = "로또가 입력되지 않았습니다.";
     private static final String NEW_LINE = System.getProperty("line.separator");
 
     private final List<Lotto> lottos;
 
-    public LottoResult() {
+    public Lottos() {
         lottos = new ArrayList<>();
     }
 
@@ -24,7 +24,7 @@ public class LottoResult {
         lottos.add(lotto);
     }
 
-    public void add(LottoResult other) {
+    public void add(Lottos other) {
         if (other == null) {
             throw new IllegalArgumentException(ERROR_LOTTO_NULL);
         }
