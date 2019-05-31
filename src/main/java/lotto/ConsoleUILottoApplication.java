@@ -34,7 +34,7 @@ public class ConsoleUILottoApplication {
 
             GameResult gameResult = matchLotto(lottos, winningLotto);
             OutputView.print(gameResult);
-            // todo print profit rate.
+            OutputView.print(money.getRateOfProfit(gameResult.getTotalPrizeMoney()));
         } catch (Exception e) {
             System.err.println(e);
         }

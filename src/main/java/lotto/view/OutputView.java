@@ -6,15 +6,16 @@ import lotto.model.Positive;
 import lotto.model.Rank;
 
 public class OutputView {
-    private static final String MESSAGE_BUY_COMPLETE = "수동으로 %d장, 자동으로 %d개를 구매했습니다.\n";
+    private static final String MESSAGE_BUY_COMPLETE = "수동으로 %d장, 자동으로 %d개를 구매했습니다.";
     private static final String MESSAGE_RESULT = "당첨 통계";
     private static final String DIVISION_LINE = "----------";
     private static final String MESSAGE_RESULT_RANK_SECOND = "%d개 일치, 보너스 볼 일치 (%d원) - %d개";
     private static final String MESSAGE_RESULT_RANK = "%d개 일치 (%d원) - %d개";
     private static final String NEW_LINE = System.getProperty("line.separator");
+    private static final String MESSAGE_RATE_OF_PROFIT = "총 수익률은 %.1f%%입니다.";
 
     public static void print(Positive manual, Positive auto) {
-        System.out.printf(NEW_LINE + MESSAGE_BUY_COMPLETE, manual.get(), auto.get());
+        System.out.printf(NEW_LINE + MESSAGE_BUY_COMPLETE + NEW_LINE, manual.get(), auto.get());
     }
 
     public static void print(Lottos lottos) {
@@ -39,5 +40,9 @@ public class OutputView {
         }
         System.out.printf(MESSAGE_RESULT_RANK + NEW_LINE,
                 rank.getCountOfMatch(), rank.getPrizeMoney(), gameResult.get(rank));
+    }
+
+    public static void print(double rateOfProfit) {
+        System.out.printf(MESSAGE_RATE_OF_PROFIT + NEW_LINE, rateOfProfit);
     }
 }

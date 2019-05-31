@@ -24,4 +24,12 @@ public class GameResult {
     public int get(Rank rank) {
         return gameResult.get(rank);
     }
+
+    public int getTotalPrizeMoney() {
+        int sum = 0;
+        for (Rank rank : Rank.values()) {
+            sum += rank.getPrizeMoney(gameResult.get(rank));
+        }
+        return sum;
+    }
 }
