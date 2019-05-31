@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Positive {
     private static final String ERROR_NOT_POSITIVE = "양의 값을 입력해주세요.";
+    private static final String ERROR_DIVIDE_RESULT_ZERO = "나눗셈의 결과가 0입니다.";
 
     private final int number;
 
@@ -23,7 +24,14 @@ public class Positive {
     }
 
     public Positive divide(Positive other) {
+        if (number / other.number == 0) {
+            throw new IllegalArgumentException(ERROR_DIVIDE_RESULT_ZERO);
+        }
         return new Positive(number / other.number);
+    }
+
+    public boolean isSmallerThan(Positive other) {
+        return number < other.number;
     }
 
     @Override
