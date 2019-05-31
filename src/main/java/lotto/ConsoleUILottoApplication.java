@@ -31,6 +31,10 @@ public class ConsoleUILottoApplication {
             WinningLotto winningLotto = new WinningLotto(
                     LottoGenerator.generate(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
                     new LottoNumber(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
+
+            GameResult gameResult = matchLotto(lottos, winningLotto);
+            OutputView.print(gameResult);
+            // todo print profit rate.
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -61,5 +65,13 @@ public class ConsoleUILottoApplication {
             lottos.add(LottoGenerator.generate());
         }
         return lottos;
+    }
+
+    private static GameResult matchLotto(Lottos lottos, WinningLotto winningLotto) {
+        GameResult gameResult = new GameResult();
+        for (Lotto lotto : lottos.getLottos()) {
+            gameResult.add(winningLotto.match(lotto));
+        }
+        return gameResult;
     }
 }

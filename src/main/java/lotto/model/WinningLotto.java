@@ -13,4 +13,29 @@ public class WinningLotto {
         this.lotto = lotto;
         this.bonusNo = bonusNo;
     }
+
+    public Rank match(Lotto lotto) {
+        int countOfMatch = getCountOfMatch(lotto);
+        boolean matchBonus = getMatchBonus(lotto);
+        return Rank.valueOf(countOfMatch, matchBonus);
+    }
+
+    private int getCountOfMatch(Lotto lotto) {
+        int count = 0;
+        for (LottoNumber lottoNumber : this.lotto.getLottoNumbers()) {
+            count += containOrNot(lotto, lottoNumber);
+        }
+        return count;
+    }
+
+    private int containOrNot(Lotto lotto, LottoNumber lottoNumber) {
+        if (lotto.contains(lottoNumber)) {
+            return 1;
+        }
+        return 0;
+    }
+
+    private boolean getMatchBonus(Lotto lotto) {
+        return lotto.contains(bonusNo);
+    }
 }

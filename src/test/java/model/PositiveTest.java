@@ -1,6 +1,7 @@
 package model;
 
 import lotto.model.Positive;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -57,5 +58,11 @@ public class PositiveTest {
     void is_smaller_than() {
         assertThat(number2.isSmallerThan(number4)).isTrue();
         assertThat(number4.isSmallerThan(number2)).isFalse();
+    }
+
+    @AfterEach
+    void tearDown() {
+        number4 = null;
+        number2 = null;
     }
 }

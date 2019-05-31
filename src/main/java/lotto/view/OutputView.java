@@ -1,5 +1,6 @@
 package lotto.view;
 
+import lotto.model.GameResult;
 import lotto.model.Lottos;
 import lotto.model.Positive;
 
@@ -12,5 +13,9 @@ public class OutputView {
 
     public static void print(Lottos lottos) {
         System.out.println(lottos);
+    }
+
+    public static void print(GameResult gameResult) {
+
     }
 }
