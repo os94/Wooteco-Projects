@@ -15,7 +15,7 @@ public class LottoGenerator {
     }
 
     private static LottoNumber getLottoNumber(Random random) {
-        return new LottoNumber(random.nextInt(LottoNumber.UPPER_LIMIT) + 1);
+        return LottoNumber.of(random.nextInt(LottoNumber.UPPER_LIMIT) + 1);
     }
 
     private static List<LottoNumber> setToOrderedList(Set<LottoNumber> uniqueLottoNumbers) {
@@ -34,7 +34,7 @@ public class LottoGenerator {
     private static List<LottoNumber> getLottoNumber(String[] numbers) {
         List<LottoNumber> lottoNumbers = new ArrayList<>();
         for (String number : numbers) {
-            lottoNumbers.add(new LottoNumber(Integer.parseInt(number)));
+            lottoNumbers.add(LottoNumber.of(Integer.parseInt(number)));
         }
         return lottoNumbers;
     }

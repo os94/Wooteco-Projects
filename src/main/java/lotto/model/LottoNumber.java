@@ -1,5 +1,7 @@
 package lotto.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class LottoNumber implements Comparable<LottoNumber> {
@@ -7,13 +9,24 @@ public class LottoNumber implements Comparable<LottoNumber> {
     private static final int LOWER_LIMIT = 1;
     public static final int UPPER_LIMIT = 45;
 
+    private static final Map<Integer, LottoNumber> lottoNumbers = new HashMap<>();
     private final Integer number;
 
-    public LottoNumber(int number) {
+    static {
+        for (int i = LOWER_LIMIT; i <= UPPER_LIMIT; i++) {
+            lottoNumbers.put(i, new LottoNumber(i));
+        }
+    }
+
+    private LottoNumber(int number) {
+        this.number = number;
+    }
+
+    public static LottoNumber of(int number) {
         if (number < LOWER_LIMIT || UPPER_LIMIT < number) {
             throw new IllegalArgumentException(ERROR_NOT_LOTTO_NUMBER);
         }
-        this.number = number;
+        return lottoNumbers.get(number);
     }
 
     @Override

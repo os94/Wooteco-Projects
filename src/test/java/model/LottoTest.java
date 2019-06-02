@@ -19,8 +19,8 @@ public class LottoTest {
 
     @Test
     void constructor_with_mismatch_size() {
-        List<LottoNumber> fiveNumbers = Arrays.asList(new LottoNumber(1), new LottoNumber(2),
-                new LottoNumber(3), new LottoNumber(4), new LottoNumber(5));
+        List<LottoNumber> fiveNumbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
+                LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5));
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(fiveNumbers);
@@ -29,8 +29,8 @@ public class LottoTest {
 
     @Test
     void constructor_with_duplicate_numbers() {
-        List<LottoNumber> duplicateNumbers = Arrays.asList(new LottoNumber(1), new LottoNumber(2),
-                new LottoNumber(3), new LottoNumber(4), new LottoNumber(5), new LottoNumber(1));
+        List<LottoNumber> duplicateNumbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
+                LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(1));
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(duplicateNumbers);

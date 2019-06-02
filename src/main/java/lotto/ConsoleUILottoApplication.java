@@ -30,7 +30,7 @@ public class ConsoleUILottoApplication {
 
             WinningLotto winningLotto = new WinningLotto(
                     LottoGenerator.generate(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
-                    new LottoNumber(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
+                    LottoNumber.of(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
 
             GameResult gameResult = matchLotto(lottos, winningLotto);
             OutputView.print(gameResult);

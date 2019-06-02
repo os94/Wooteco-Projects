@@ -20,24 +20,24 @@ public class WinningLottoTest {
 
     @BeforeEach
     void setUp() {
-        numbers = Arrays.asList(new LottoNumber(1), new LottoNumber(2), new LottoNumber(3)
-                , new LottoNumber(4), new LottoNumber(5), new LottoNumber(6));
+        numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
+                LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(6));
         lotto = new Lotto(numbers);
     }
 
     @Test
     void duplicate_winning_lotto() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new WinningLotto(lotto, new LottoNumber(3));
+            new WinningLotto(lotto, LottoNumber.of(3));
         });
     }
 
     @Test
     void match() {
-        numbers = Arrays.asList(new LottoNumber(1), new LottoNumber(2), new LottoNumber(3)
-                , new LottoNumber(4), new LottoNumber(5), new LottoNumber(45));
+        numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
+                LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(45));
         Lotto winLotto = new Lotto(numbers);
-        WinningLotto winningLotto = new WinningLotto(winLotto, new LottoNumber(6));
+        WinningLotto winningLotto = new WinningLotto(winLotto, LottoNumber.of(6));
 
         assertThat(winningLotto.match(lotto)).isEqualTo(Rank.SECOND);
     }

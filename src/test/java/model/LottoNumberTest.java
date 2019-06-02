@@ -8,23 +8,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoNumberTest {
     @Test
-    void constructor_out_of_range() {
+    void of_method_over_range() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new LottoNumber(0);
+            LottoNumber.of(0);
         });
         assertThrows(IllegalArgumentException.class, () -> {
-            new LottoNumber(46);
+            LottoNumber.of(46);
         });
     }
 
     @Test
-    void constructor_normal() {
-        assertThat(new LottoNumber(1)).isInstanceOfAny(LottoNumber.class);
-        assertThat(new LottoNumber(45)).isInstanceOfAny(LottoNumber.class);
+    void of_method_normal() {
+        assertThat(LottoNumber.of(1)).isInstanceOfAny(LottoNumber.class);
+        assertThat(LottoNumber.of(45)).isInstanceOfAny(LottoNumber.class);
     }
 
     @Test
     void equal() {
-        assertThat(new LottoNumber(1)).isEqualByComparingTo(new LottoNumber(1));
+        assertThat(LottoNumber.of(1)).isEqualByComparingTo(LottoNumber.of(1));
     }
 }
