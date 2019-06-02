@@ -1,9 +1,6 @@
 package lotto.view;
 
-import lotto.model.GameResult;
-import lotto.model.Lottos;
-import lotto.model.Positive;
-import lotto.model.Rank;
+import lotto.model.*;
 
 public class OutputView {
     private static final String MESSAGE_BUY_COMPLETE = "수동으로 %d장, 자동으로 %d개를 구매했습니다.";
@@ -14,16 +11,14 @@ public class OutputView {
     private static final String NEW_LINE = System.getProperty("line.separator");
     private static final String MESSAGE_RATE_OF_PROFIT = "총 수익률은 %.1f%%입니다.";
 
-    public static void print(Positive countOfManualLotto, Positive countOfAutoLotto) {
+    public static void print(Positive countOfManualLotto, Positive countOfAutoLotto, Lottos lottos) {
         System.out.printf(NEW_LINE + MESSAGE_BUY_COMPLETE + NEW_LINE
                 , countOfManualLotto.get(), countOfAutoLotto.get());
-    }
 
-    public static void print(Lottos lottos) {
         System.out.println(lottos);
     }
 
-    public static void print(GameResult gameResult) {
+    public static void print(GameResult gameResult, Money money) {
         System.out.println(NEW_LINE + MESSAGE_RESULT);
         System.out.println(DIVISION_LINE);
 
@@ -31,6 +26,9 @@ public class OutputView {
         for (int i = rankValues.length - 2; i >= 0; i--) {
             printMatchResult(gameResult, rankValues[i]);
         }
+
+        System.out.printf(MESSAGE_RATE_OF_PROFIT + NEW_LINE
+                , money.getRateOfProfit(gameResult.getTotalPrizeMoney()));
     }
 
     private static void printMatchResult(GameResult gameResult, Rank rank) {
@@ -41,9 +39,5 @@ public class OutputView {
         }
         System.out.printf(MESSAGE_RESULT_RANK + NEW_LINE,
                 rank.getCountOfMatch(), rank.getPrizeMoney(), gameResult.get(rank));
-    }
-
-    public static void print(double rateOfProfit) {
-        System.out.printf(MESSAGE_RATE_OF_PROFIT + NEW_LINE, rateOfProfit);
     }
 }

@@ -20,22 +20,12 @@ public class ConsoleUILottoApplication {
             Money money = new Money(InputView.inputPositiveNumber(MESSAGE_MONEY));
             Positive countOfManualLotto = new Positive(InputView.inputPositiveNumber(MESSAGE_COUNT_OF_MANUAL_LOTTO));
             Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
-            List<String> inputLottos = inputLotto(countOfManualLotto);
+            Lottos lottos = LottoGame.buy(inputLotto(countOfManualLotto), countOfAutoLotto);
+            OutputView.print(countOfManualLotto, countOfAutoLotto, lottos);
 
-            Lottos lottos = new Lottos();
-            lottos.add(buyManual(inputLottos));
-            lottos.add(buyAuto(countOfAutoLotto));
-
-            OutputView.print(countOfManualLotto, countOfAutoLotto);
-            OutputView.print(lottos);
-
-            WinningLotto winningLotto = new WinningLotto(
-                    LottoFactory.create(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
-                    LottoNumber.of(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
-
-            GameResult gameResult = matchLotto(lottos, winningLotto);
-            OutputView.print(gameResult);
-            OutputView.print(money.getRateOfProfit(gameResult.getTotalPrizeMoney()));
+            WinningLotto winningLotto = inputWinningLotto();
+            GameResult gameResult = LottoGame.match(lottos, winningLotto);
+            OutputView.print(gameResult, money);
         } catch (Exception e) {
             System.err.println(e);
         }
@@ -50,29 +40,9 @@ public class ConsoleUILottoApplication {
         return lottos;
     }
 
-    private static Lottos buyManual(List<String> inputLottos) {
-        Lottos lottos = new Lottos();
-
-        for (String lotto : inputLottos) {
-            lottos.add(LottoFactory.create(lotto));
-        }
-        return lottos;
-    }
-
-    private static Lottos buyAuto(Positive countOfLotto) {
-        Lottos lottos = new Lottos();
-
-        for (int i = 0; i < countOfLotto.get(); i++) {
-            lottos.add(LottoFactory.create(null));
-        }
-        return lottos;
-    }
-
-    private static GameResult matchLotto(Lottos lottos, WinningLotto winningLotto) {
-        GameResult gameResult = new GameResult();
-        for (Lotto lotto : lottos.getLottos()) {
-            gameResult.add(winningLotto.match(lotto));
-        }
-        return gameResult;
+    private static WinningLotto inputWinningLotto() {
+        return new WinningLotto(
+                LottoFactory.create(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
+                LottoNumber.of(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
     }
 }
