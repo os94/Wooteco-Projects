@@ -1,5 +1,8 @@
 package lotto.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public enum Rank {
     FIRST(6, 2_000_000_000),
     SECOND(5, 30_000_000),
@@ -8,13 +11,22 @@ public enum Rank {
     FIFTH(3, 5_000),
     MISS(0, 0);
 
-    private static final int MIN_LIMIT_OF_WIN = 3;
     private static final String ERROR_INVALID_RANK = "는 유효하지 않은 값입니다.";
+    private static final Map<Integer, Rank> ranks = new HashMap<>();
 
     private int countOfMatch;
     private int prizeMoney;
 
-    private Rank(int countOfMatch, int prizeMoney) {
+    static {
+        ranks.put(6, FIRST);
+        ranks.put(4, FOURTH);
+        ranks.put(3, FIFTH);
+        ranks.put(2, MISS);
+        ranks.put(1, MISS);
+        ranks.put(0, MISS);
+    }
+
+    Rank(int countOfMatch, int prizeMoney) {
         this.countOfMatch = countOfMatch;
         this.prizeMoney = prizeMoney;
     }
@@ -32,16 +44,14 @@ public enum Rank {
     }
 
     public static Rank valueOf(int countOfMatch, boolean matchBonus) {
-        if (countOfMatch < MIN_LIMIT_OF_WIN) {
-            return MISS;
+        if (ranks.containsKey(countOfMatch)) {
+            return ranks.get(countOfMatch);
+        }
+        if (SECOND.matchCount(countOfMatch) && matchBonus) {
+            return SECOND;
         }
         if (THIRD.matchCount(countOfMatch) && !matchBonus) {
             return THIRD;
-        }
-        for (Rank rank : Rank.values()) {
-            if (rank.matchCount(countOfMatch)) {
-                return rank;
-            }
         }
         throw new IllegalArgumentException(countOfMatch + ERROR_INVALID_RANK);
     }
