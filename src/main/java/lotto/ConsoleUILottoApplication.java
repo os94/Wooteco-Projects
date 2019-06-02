@@ -1,6 +1,7 @@
 package lotto;
 
 import lotto.model.*;
+import lotto.model.lottogenerator.LottoFactory;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
@@ -29,7 +30,7 @@ public class ConsoleUILottoApplication {
             OutputView.print(lottos);
 
             WinningLotto winningLotto = new WinningLotto(
-                    LottoGenerator.generate(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
+                    LottoFactory.create(InputView.inputLotto(MESSAGE_WINNING_LOTTO)),
                     LottoNumber.of(InputView.inputPositiveNumber(MESSAGE_BONUS_NO)));
 
             GameResult gameResult = matchLotto(lottos, winningLotto);
@@ -53,7 +54,7 @@ public class ConsoleUILottoApplication {
         Lottos lottos = new Lottos();
 
         for (String lotto : inputLottos) {
-            lottos.add(LottoGenerator.generate(lotto));
+            lottos.add(LottoFactory.create(lotto));
         }
         return lottos;
     }
@@ -62,7 +63,7 @@ public class ConsoleUILottoApplication {
         Lottos lottos = new Lottos();
 
         for (int i = 0; i < countOfLotto.get(); i++) {
-            lottos.add(LottoGenerator.generate());
+            lottos.add(LottoFactory.create(null));
         }
         return lottos;
     }
