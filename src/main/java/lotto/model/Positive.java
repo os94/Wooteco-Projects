@@ -2,15 +2,15 @@ package lotto.model;
 
 import java.util.Objects;
 
+// this class means Positive & Zero Integer, not Negative.
 public class Positive {
-    private static final String ERROR_NOT_POSITIVE = "양의 값을 입력해주세요.";
-    private static final String ERROR_DIVIDE_RESULT_ZERO = "나눗셈의 결과가 0입니다.";
+    private static final String ERROR_NOT_POSITIVE = "음수를 입력하셨습니다.";
     private static final int ZERO = 0;
 
     private final int number;
 
     public Positive(final int number) {
-        if (number <= ZERO) {
+        if (number < ZERO) {
             throw new IllegalArgumentException(ERROR_NOT_POSITIVE);
         }
         this.number = number;
@@ -25,9 +25,6 @@ public class Positive {
     }
 
     public Positive divide(Positive other) {
-        if (number / other.number == ZERO) {
-            throw new IllegalArgumentException(ERROR_DIVIDE_RESULT_ZERO);
-        }
         return new Positive(number / other.number);
     }
 

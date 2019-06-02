@@ -13,13 +13,6 @@ public class PositiveTest {
     Positive number2;
 
     @Test
-    void constructor_with_zero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Positive(0);
-        });
-    }
-
-    @Test
     void constructor_with_negative() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Positive(-1);
@@ -45,13 +38,6 @@ public class PositiveTest {
     @Test
     void divide() {
         assertThat(number4.divide(number2)).isEqualTo(number2);
-    }
-
-    @Test
-    void divide_result_is_zero() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            number2.divide(number4);
-        });
     }
 
     @Test
