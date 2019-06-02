@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoTest {
@@ -35,5 +36,15 @@ public class LottoTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(duplicateNumbers);
         });
+    }
+
+    @Test
+    void contains() {
+        List<LottoNumber> numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
+                LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(6));
+        Lotto lotto = new Lotto(numbers);
+
+        assertThat(lotto.contains(LottoNumber.of(3))).isTrue();
+        assertThat(lotto.contains(LottoNumber.of(7))).isFalse();
     }
 }

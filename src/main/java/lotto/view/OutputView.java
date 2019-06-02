@@ -14,8 +14,9 @@ public class OutputView {
     private static final String NEW_LINE = System.getProperty("line.separator");
     private static final String MESSAGE_RATE_OF_PROFIT = "총 수익률은 %.1f%%입니다.";
 
-    public static void print(Positive manual, Positive auto) {
-        System.out.printf(NEW_LINE + MESSAGE_BUY_COMPLETE + NEW_LINE, manual.get(), auto.get());
+    public static void print(Positive countOfManualLotto, Positive countOfAutoLotto) {
+        System.out.printf(NEW_LINE + MESSAGE_BUY_COMPLETE + NEW_LINE
+                , countOfManualLotto.get(), countOfAutoLotto.get());
     }
 
     public static void print(Lottos lottos) {

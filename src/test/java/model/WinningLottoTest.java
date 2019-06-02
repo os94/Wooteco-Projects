@@ -26,7 +26,7 @@ public class WinningLottoTest {
     }
 
     @Test
-    void duplicate_winning_lotto() {
+    void duplicate_winning_lotto_and_bonus_no() {
         assertThrows(IllegalArgumentException.class, () -> {
             new WinningLotto(lotto, LottoNumber.of(3));
         });
