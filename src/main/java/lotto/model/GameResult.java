@@ -8,27 +8,20 @@ public class GameResult {
 
     public GameResult() {
         this.gameResult = new HashMap<>();
-        initialize();
-    }
-
-    private void initialize() {
-        for (Rank rank : Rank.values()) {
-            gameResult.put(rank, 0);
-        }
     }
 
     public void add(Rank rank) {
-        gameResult.put(rank, gameResult.get(rank) + 1);
+        gameResult.put(rank, gameResult.getOrDefault(rank, 0) + 1);
     }
 
     public int get(Rank rank) {
-        return gameResult.get(rank);
+        return gameResult.getOrDefault(rank, 0);
     }
 
     public int getTotalPrizeMoney() {
         int sum = 0;
         for (Rank rank : Rank.values()) {
-            sum += rank.getPrizeMoney(gameResult.get(rank));
+            sum += rank.getPrizeMoney(gameResult.getOrDefault(rank, 0));
         }
         return sum;
     }
