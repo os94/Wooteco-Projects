@@ -1,5 +1,7 @@
 package ladderGame.domain;
 
+import java.util.Arrays;
+
 public enum LadderDirection {
     LEFT {
         @Override
@@ -49,12 +51,11 @@ public enum LadderDirection {
     };
 
     public static LadderDirection valueOf(Ladder ladder, Node currentNode) {
-        for (LadderDirection direction : LadderDirection.values()) {
-            if (direction.canMove(ladder, currentNode)) {
-                return direction;
-            }
-        }
-        throw new IllegalArgumentException();
+        return Arrays.stream(LadderDirection.values())
+                .filter(direction -> direction.canMove(ladder, currentNode))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new)
+                ;
     }
 
     public boolean canMove(Ladder ladder, Node currentNode) {
