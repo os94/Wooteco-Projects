@@ -13,26 +13,26 @@ public class Goals {
         if (StringUtils.isBlank(input)) {
             throw new IllegalArgumentException();
         }
-        String[] inputs = input.split(Contants.DELIMITER_COMMA);
-        this.goals = Arrays.asList(inputs);
-        validateGoals(memberSize);
+        List<String> inputs = Arrays.asList(input.split(Contants.DELIMITER_COMMA));
+        validateGoals(inputs, memberSize);
+        this.goals = inputs;
     }
 
-    private void validateGoals(int memberSize) {
-        if (hasBlank()) {
+    private void validateGoals(List<String> inputs, int memberSize) {
+        if (hasBlank(inputs)) {
             throw new IllegalArgumentException(Contants.ERROR_INPUT);
         }
-        if (misMatchWithMembers(memberSize)) {
+        if (misMatchWithMembers(inputs, memberSize)) {
             throw new IllegalArgumentException(Contants.ERROR_MISMATCH_MEMBER_AND_GOAL);
         }
     }
 
-    private boolean hasBlank() {
-        return goals.contains("");
+    private boolean hasBlank(List<String> inputs) {
+        return inputs.contains("");
     }
 
-    private boolean misMatchWithMembers(int memberSize) {
-        return goals.size() != memberSize;
+    private boolean misMatchWithMembers(List<String> inputs, int memberSize) {
+        return inputs.size() != memberSize;
     }
 
     public List<String> getGoals() {
