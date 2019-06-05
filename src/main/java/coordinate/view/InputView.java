@@ -4,6 +4,7 @@ import coordinate.Message;
 import coordinate.model.Figure;
 import coordinate.model.FigureFactory;
 import coordinate.model.Point;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class InputView {
 
     public static Figure inputCoordinates(String input) {
         try {
-            input = input.replace(" ", "");
+            input = StringUtils.deleteWhitespace(input);
             checkInputPointsFormat(input);
             List<Point> points = generatePoints(input);
             return figureFactory.create(points);

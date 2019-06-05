@@ -1,7 +1,5 @@
 package coordinate.model;
 
-import coordinate.Message;
-
 import java.util.Arrays;
 
 public enum FigureType {
