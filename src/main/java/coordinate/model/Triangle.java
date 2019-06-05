@@ -16,7 +16,8 @@ public class Triangle extends AbstractFigure {
     }
 
     private boolean isInStraightLine() {
-        return getPoint(0).calculateSlope(getPoint(1)) == getPoint(0).calculateSlope(getPoint(2));
+        return getPoint(0).calculateSlope(getPoint(1))
+                == getPoint(0).calculateSlope(getPoint(2));
     }
 
     @Override

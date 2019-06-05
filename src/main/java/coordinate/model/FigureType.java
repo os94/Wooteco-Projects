@@ -2,6 +2,8 @@ package coordinate.model;
 
 import coordinate.Message;
 
+import java.util.Arrays;
+
 public enum FigureType {
     LINE(2),
     TRIANGLE(3),
@@ -14,12 +16,11 @@ public enum FigureType {
     }
 
     public static FigureType valueOf(int size) {
-        for (FigureType figureType : FigureType.values()) {
-            if (figureType.match(size)) {
-                return figureType;
-            }
-        }
-        throw new IllegalArgumentException(Message.ERROR_INVALID_FIGURE_CREATION);
+        return Arrays.stream(FigureType.values())
+                .filter(type -> type.match(size))
+                .findFirst()
+                .orElseThrow(InvalidFigureTypeException::new)
+                ;
     }
 
     private boolean match(int size) {

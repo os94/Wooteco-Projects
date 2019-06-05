@@ -30,8 +30,10 @@ public abstract class AbstractFigure implements Figure {
 
     @Override
     public boolean hasPoint(int x, int y) {
-        return points.stream()
-                .anyMatch(point -> point.isSame(x, y));
+        return points
+                .stream()
+                .anyMatch(point -> point.isSame(x, y))
+                ;
     }
 
     @Override
