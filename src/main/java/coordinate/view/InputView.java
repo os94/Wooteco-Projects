@@ -15,6 +15,8 @@ import java.util.regex.Pattern;
 public class InputView {
     private static final String POINT_DELIMITER = "-";
     private static Scanner scanner = new Scanner(System.in);
+    private static final Pattern PATTERN_MULTIPLE_POINTS = Pattern.compile("(\\([0-9]{1,2},[0-9]{1,2}\\))(-(\\([0-9]{1,2},[0-9]{1,2}\\))){0,3}");
+    private static final Pattern PATTERN_POINT = Pattern.compile("\\(([0-9]{1,2}),([0-9]{1,2})\\)");
     private static FigureFactory figureFactory = new FigureFactory();
 
     public static Figure inputCoordinates() {
@@ -35,8 +37,7 @@ public class InputView {
     }
 
     private static void checkInputPointsFormat(String input) {
-        Pattern pattern = Pattern.compile("(\\([0-9]{1,2},[0-9]{1,2}\\))(-(\\([0-9]{1,2},[0-9]{1,2}\\))){0,3}");
-        Matcher matcher = pattern.matcher(input);
+        Matcher matcher = PATTERN_MULTIPLE_POINTS.matcher(input);
         if (!matcher.matches()) {
             throw new IllegalArgumentException(Message.ERROR_INVALID_COORDINATES);
         }
@@ -54,8 +55,7 @@ public class InputView {
     }
 
     private static Point generatePoint(String inputPoint) {
-        Pattern pattern = Pattern.compile("\\(([0-9]{1,2}),([0-9]{1,2})\\)");
-        Matcher matcher = pattern.matcher(inputPoint);
+        Matcher matcher = PATTERN_POINT.matcher(inputPoint);
         if (matcher.find()) {
             int x = Integer.parseInt(matcher.group(1));
             int y = Integer.parseInt(matcher.group(2));
