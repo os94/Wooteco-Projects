@@ -12,8 +12,8 @@ public class ConsoleUILottoApplication {
     public static void main(String[] args) {
         try {
             Money money = new Money(InputView.inputMoney());
-            Positive countOfManualLotto = new Positive(InputView.inputCountOfManualLotto());
-            Positive countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
+            PositiveNumber countOfManualLotto = new PositiveNumber(InputView.inputCountOfManualLotto());
+            PositiveNumber countOfAutoLotto = money.getCountOfLotto().subtract(countOfManualLotto);
             Lottos lottos = LottoGame.buy(inputLotto(countOfManualLotto), countOfAutoLotto);
             OutputView.print(countOfManualLotto, countOfAutoLotto, lottos);
 
@@ -25,7 +25,7 @@ public class ConsoleUILottoApplication {
         }
     }
 
-    private static List<String> inputLotto(Positive countOfLotto) {
+    private static List<String> inputLotto(PositiveNumber countOfLotto) {
         List<String> lottos = new ArrayList<>();
 
         for (int i = 0; i < countOfLotto.get(); i++) {

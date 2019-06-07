@@ -1,7 +1,7 @@
 package model;
 
 import lotto.model.Money;
-import lotto.model.Positive;
+import lotto.model.PositiveNumber;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class MoneyTest {
 
     @Test
     void 구매가능한_로또개수_계산() {
-        assertThat(money.getCountOfLotto()).isEqualTo(new Positive(10));
+        assertThat(money.getCountOfLotto()).isEqualTo(new PositiveNumber(10));
     }
 
     @Test

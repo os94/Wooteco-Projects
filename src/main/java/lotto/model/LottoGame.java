@@ -5,7 +5,7 @@ import lotto.model.lottogenerator.LottoFactory;
 import java.util.List;
 
 public class LottoGame {
-    public static Lottos buy(List<String> inputLottos, Positive countOfLotto) {
+    public static Lottos buy(List<String> inputLottos, PositiveNumber countOfLotto) {
         Lottos lottos = new Lottos();
         lottos.add(buyManual(inputLottos));
         lottos.add(buyAuto(countOfLotto));
@@ -22,7 +22,7 @@ public class LottoGame {
         return lottos;
     }
 
-    private static Lottos buyAuto(Positive countOfLotto) {
+    private static Lottos buyAuto(PositiveNumber countOfLotto) {
         Lottos lottos = new Lottos();
 
         for (int i = 0; i < countOfLotto.get(); i++) {
