@@ -25,7 +25,7 @@ public class GameResultTest {
 
     @Test
     void 게임결과로부터_합산한_우승상금_확인() {
-        assertThat(gameResult.getTotalPrizeMoney()).isEqualTo(30_000_000);
+        assertThat(gameResult.totalPrizeMoney()).isEqualTo(30_000_000);
     }
 
     @AfterEach

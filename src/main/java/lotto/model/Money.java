@@ -11,14 +11,14 @@ public class Money {
         this.money = new PositiveNumber(number);
     }
 
-    public PositiveNumber getCountOfLotto() {
+    public PositiveNumber countOfLotto() {
         if (money.lessThan(PRICE_OF_LOTTO)) {
             throw new IllegalArgumentException(ERROR_LACK_OF_MONEY);
         }
         return money.divide(PRICE_OF_LOTTO);
     }
 
-    public double getRateOfProfit(int prizeMoney) {
+    public double rateOfProfit(int prizeMoney) {
         return ((double) prizeMoney / money.get()) * PERCENTAGE;
     }
 }

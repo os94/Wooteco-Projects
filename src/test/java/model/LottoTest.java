@@ -58,6 +58,6 @@ public class LottoTest {
                 LottoNumber.of(3), LottoNumber.of(7), LottoNumber.of(8), LottoNumber.of(9));
         Lotto lotto2 = new Lotto(numbers2);
 
-        assertThat(lotto1.getCountOfMatch(lotto2)).isEqualTo(3);
+        assertThat(lotto1.countOfMatch(lotto2)).isEqualTo(3);
     }
 }

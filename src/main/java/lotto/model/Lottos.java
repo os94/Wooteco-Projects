@@ -28,16 +28,14 @@ public class Lottos {
         if (other == null) {
             throw new IllegalArgumentException(ERROR_LOTTO_NULL);
         }
-        for (Lotto lotto : other.getLottos()) {
-            lottos.add(lotto);
-        }
+        lottos.addAll(other.getLottos());
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Lotto lotto : lottos) {
-            stringBuilder.append(lotto + NEW_LINE);
+            stringBuilder.append(lotto).append(NEW_LINE);
         }
         return stringBuilder.toString();
     }

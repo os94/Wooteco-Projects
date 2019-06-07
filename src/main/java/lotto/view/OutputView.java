@@ -28,7 +28,7 @@ public class OutputView {
         }
 
         System.out.printf(MESSAGE_RATE_OF_PROFIT + NEW_LINE
-                , money.getRateOfProfit(gameResult.getTotalPrizeMoney()));
+                , money.rateOfProfit(gameResult.totalPrizeMoney()));
     }
 
     private static void printMatchResult(GameResult gameResult, Rank rank) {

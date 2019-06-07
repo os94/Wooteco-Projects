@@ -25,7 +25,7 @@ public class Lotto {
         return lottoNumbers.contains(number);
     }
 
-    public int getCountOfMatch(Lotto other) {
+    public int countOfMatch(Lotto other) {
         return (int) lottoNumbers
                 .stream()
                 .filter(other::contains)

@@ -18,7 +18,7 @@ public class GameResult {
         return gameResult.getOrDefault(rank, 0);
     }
 
-    public int getTotalPrizeMoney() {
+    public int totalPrizeMoney() {
         int sum = 0;
         for (Rank rank : Rank.values()) {
             sum += rank.getPrizeMoney(gameResult.getOrDefault(rank, 0));

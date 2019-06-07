@@ -19,19 +19,19 @@ public class MoneyTest {
 
     @Test
     void 구매가능한_로또개수_계산() {
-        assertThat(money.getCountOfLotto()).isEqualTo(new PositiveNumber(10));
+        assertThat(money.countOfLotto()).isEqualTo(new PositiveNumber(10));
     }
 
     @Test
     void 금액이_부족한_경우_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Money(900).getCountOfLotto();
+            new Money(900).countOfLotto();
         });
     }
 
     @Test
     void 수익률_계산() {
-        assertThat(money.getRateOfProfit(10_000)).isEqualTo(100);
+        assertThat(money.rateOfProfit(10_000)).isEqualTo(100);
     }
 
     @AfterEach
