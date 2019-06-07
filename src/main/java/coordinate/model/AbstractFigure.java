@@ -4,6 +4,7 @@ import coordinate.Message;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class AbstractFigure implements Figure {
     private final List<Point> points;
@@ -16,10 +17,18 @@ public abstract class AbstractFigure implements Figure {
             throw new IllegalArgumentException(getName() + Message.ERROR_MISMATCH_POINT_SIZE_1
                     + size() + Message.ERROR_MISMATCH_POINT_SIZE_2);
         }
-        this.points = points;
+        this.points = copy(points);
     }
 
-    protected Point getPoint(int index) {
+    private List<Point> copy(List<Point> points) {
+        return points
+                .stream()
+                .map(Point::clone)
+                .collect(Collectors.toList())
+                ;
+    }
+
+    public Point getPoint(int index) {
         return points.get(index);
     }
 

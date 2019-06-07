@@ -71,4 +71,9 @@ public class Point {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    protected Point clone() {
+        return new Point(this.x, this.y);
+    }
 }
