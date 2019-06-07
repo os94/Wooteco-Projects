@@ -13,14 +13,14 @@ public class PositiveTest {
     Positive number2;
 
     @Test
-    void constructor_with_negative() {
+    void 음수로_생성시_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Positive(-1);
         });
     }
 
     @Test
-    void constructor_normal() {
+    void 정상적으로_생성하는_경우() {
         assertThat(new Positive(1)).isInstanceOfAny(Positive.class);
     }
 
@@ -31,17 +31,17 @@ public class PositiveTest {
     }
 
     @Test
-    void subtract() {
+    void 뺄셈_계산() {
         assertThat(number4.subtract(number2)).isEqualTo(number2);
     }
 
     @Test
-    void divide() {
+    void 나눗셈_계산() {
         assertThat(number4.divide(number2)).isEqualTo(number2);
     }
 
     @Test
-    void is_smaller_than() {
+    void 부등호_비교_계산() {
         assertThat(number2.isSmallerThan(number4)).isTrue();
         assertThat(number4.isSmallerThan(number2)).isFalse();
     }

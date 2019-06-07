@@ -12,14 +12,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoTest {
     @Test
-    void constructor_with_null() {
+    void null값으로_생성시_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
             new Lotto(null);
         });
     }
 
     @Test
-    void constructor_with_mismatch_size() {
+    void 일치하지않는_숫자개수로_생성시_예외처리() {
         List<LottoNumber> fiveNumbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5));
 
@@ -29,7 +29,7 @@ public class LottoTest {
     }
 
     @Test
-    void constructor_with_duplicate_numbers() {
+    void 중복된_숫자로_생성시_예외처리() {
         List<LottoNumber> duplicateNumbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(1));
 
@@ -39,7 +39,7 @@ public class LottoTest {
     }
 
     @Test
-    void contains() {
+    void 숫자를_가지고있는지_확인() {
         List<LottoNumber> numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(6));
         Lotto lotto = new Lotto(numbers);

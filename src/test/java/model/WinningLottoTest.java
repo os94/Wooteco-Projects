@@ -26,14 +26,14 @@ public class WinningLottoTest {
     }
 
     @Test
-    void duplicate_winning_lotto_and_bonus_no() {
+    void 당첨번호와_보너스볼이_겹치는_경우() {
         assertThrows(IllegalArgumentException.class, () -> {
             new WinningLotto(lotto, LottoNumber.of(3));
         });
     }
 
     @Test
-    void match() {
+    void 구입한로또와_당첨로또_매치() {
         numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(45));
         Lotto winLotto = new Lotto(numbers);

@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ManualGeneratorTest {
     @Test
-    void generate() {
+    void 로또_수동생성_확인() {
         List<LottoNumber> numbers = Arrays.asList(LottoNumber.of(1), LottoNumber.of(2),
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(6));
         Lotto lotto = new Lotto(numbers);

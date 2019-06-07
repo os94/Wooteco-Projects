@@ -25,16 +25,17 @@ public class LottosTest {
     }
 
     @Test
-    void add_lotto() {
+    void lotto를_추가하는_경우() {
         lottos.add(lotto);
         assertThat(lottos.getLottos().size()).isEqualTo(1);
     }
 
     @Test
-    void add_other_lottos() {
+    void lottos를_추가하는_경우() {
         Lottos otherLottos = new Lottos();
         otherLottos.add(lotto);
 
-        assertThat(otherLottos.getLottos().size()).isEqualTo(1);
+        lottos.add(otherLottos);
+        assertThat(lottos.getLottos().size()).isEqualTo(1);
     }
 }

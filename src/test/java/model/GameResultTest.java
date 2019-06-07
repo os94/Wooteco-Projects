@@ -18,13 +18,13 @@ public class GameResultTest {
     }
 
     @Test
-    void add_get() {
+    void 게임결과를_올바르게_가져오는지_확인() {
         assertThat(gameResult.get(Rank.SECOND)).isEqualTo(1);
         assertThat(gameResult.get(Rank.FIRST)).isEqualTo(0);
     }
 
     @Test
-    void getTotalPrizeMoney() {
+    void 게임결과로부터_합산한_우승상금_확인() {
         assertThat(gameResult.getTotalPrizeMoney()).isEqualTo(30_000_000);
     }
 

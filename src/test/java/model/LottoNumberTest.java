@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LottoNumberTest {
     @Test
-    void of_method_over_range() {
+    void 로또숫자의_범위를_벗어나는_경우_예외처리() {
         assertThrows(IllegalArgumentException.class, () -> {
             LottoNumber.of(0);
         });
@@ -18,13 +18,13 @@ public class LottoNumberTest {
     }
 
     @Test
-    void of_method_normal() {
+    void 로또숫자의_범위에_들어가는_경우() {
         assertThat(LottoNumber.of(1)).isInstanceOfAny(LottoNumber.class);
         assertThat(LottoNumber.of(45)).isInstanceOfAny(LottoNumber.class);
     }
 
     @Test
-    void equal() {
+    void 같은_로또숫자인지_비교() {
         assertThat(LottoNumber.of(1)).isEqualByComparingTo(LottoNumber.of(1));
     }
 }
