@@ -3,6 +3,7 @@ package coordinate.model;
 import coordinate.Message;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -22,8 +23,15 @@ public class FigureFactory {
         if (points == null) {
             throw new IllegalArgumentException(Message.ERROR_FIGURE_NULL);
         }
+        checkDuplicationOf(points);
         return figureClassifier
                 .get(FigureType.valueOf(points.size()))
                 .apply(points);
+    }
+
+    private static void checkDuplicationOf(List<Point> points) {
+        if (points.size() != new HashSet<>(points).size()) {
+            throw new IllegalArgumentException(Message.ERROR_DUPLICATE_POINTS);
+        }
     }
 }

@@ -27,8 +27,20 @@ class FigureFactoryTest {
     }
 
     @Test
+    void Point_중복_입력에_대한_예외처리() {
+        points.add(new Point(1, 2));
+        points.add(new Point(3, 5));
+        points.add(new Point(1, 2));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            FigureFactory.create(points);
+        });
+    }
+
+    @Test
     void Point_1개_입력에_대한_예외처리() {
         points.add(new Point(1, 2));
+
         assertThrows(InvalidFigureTypeException.class, () -> {
             FigureFactory.create(points);
         });
@@ -41,6 +53,7 @@ class FigureFactoryTest {
         points.add(new Point(5, 6));
         points.add(new Point(7, 9));
         points.add(new Point(11, 13));
+
         assertThrows(InvalidFigureTypeException.class, () -> {
             FigureFactory.create(points);
         });
