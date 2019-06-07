@@ -37,8 +37,8 @@ public class RectangleTest {
 
     @Test
     void 주어진_포인트를_가지고_있는지_확인() {
-        assertThat(rectangle.hasPoint(3, 1)).isTrue();
-        assertThat(rectangle.hasPoint(3, 5)).isFalse();
+        assertThat(rectangle.hasPoint(new Point(3, 1))).isTrue();
+        assertThat(rectangle.hasPoint(new Point(3, 5))).isFalse();
     }
 
     @Test

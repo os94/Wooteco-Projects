@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Point {
     public static final int LOWER_LIMIT = 1;
     public static final int UPPER_LIMIT = 24;
-    private final int x;
+    private int x;
     private final int y;
 
     public Point(int x, int y) {
@@ -50,8 +50,12 @@ public class Point {
         return y;
     }
 
-    public boolean isSame(int x, int y) {
-        return this.x == x && this.y == y;
+    public void moveRight() {
+        x++;
+    }
+
+    public boolean hasNext() {
+        return x <= UPPER_LIMIT;
     }
 
     @Override

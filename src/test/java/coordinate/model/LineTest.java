@@ -21,8 +21,8 @@ public class LineTest {
 
     @Test
     void 주어진_포인트를_가지고_있는지_확인() {
-        assertThat(line.hasPoint(3, 4)).isTrue();
-        assertThat(line.hasPoint(3, 5)).isFalse();
+        assertThat(line.hasPoint(new Point(3, 4))).isTrue();
+        assertThat(line.hasPoint(new Point(3, 5))).isFalse();
     }
 
     @Test

@@ -37,10 +37,4 @@ public class PointTest {
     void 두_점_사이의_거리_계산() {
         assertThat(new Point(1, 1).calculateDistance(new Point(2, 2))).isEqualTo(1.414, offset(0.00099));
     }
-
-    @Test
-    void 주어진_좌표와_포인트를_비교() {
-        assertThat(new Point(1, 2).isSame(1, 2)).isTrue();
-        assertThat(new Point(1, 2).isSame(1, 3)).isFalse();
-    }
 }

@@ -36,8 +36,8 @@ public class TriangleTest {
 
     @Test
     void 주어진_포인트를_가지고_있는지_확인() {
-        assertThat(triangle.hasPoint(1, 1)).isTrue();
-        assertThat(triangle.hasPoint(1, 3)).isFalse();
+        assertThat(triangle.hasPoint(new Point(1, 1))).isTrue();
+        assertThat(triangle.hasPoint(new Point(1, 3))).isFalse();
     }
 
     @Test

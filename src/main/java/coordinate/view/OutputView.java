@@ -9,6 +9,7 @@ public class OutputView {
     private static final String ORIGIN = "+";
     private static final String HORIZONTAL_AXIS = "----";
     private static final String MARK_OF_POINT = ".";
+    private static final int FIRST = 1;
 
     public static void showCoordinatePlane(Figure figure) {
         showVerticalNumbersWith(figure);
@@ -34,13 +35,19 @@ public class OutputView {
     }
 
     private static void showPoints(Figure figure, int y) {
-        for (int x = Point.LOWER_LIMIT; x <= Point.UPPER_LIMIT; x++) {
-            if (figure.hasPoint(x, y)) {
-                System.out.print(String.format("%4s", MARK_OF_POINT));
-                continue;
-            }
-            System.out.print(FOUR_BLANK);
+        Point currentPoint = new Point(FIRST, y);
+        while (currentPoint.hasNext()) {
+            showPointOrBlank(figure, currentPoint);
+            currentPoint.moveRight();
         }
+    }
+
+    private static void showPointOrBlank(Figure figure, Point point) {
+        if (figure.hasPoint(point)) {
+            System.out.print(String.format("%4s", MARK_OF_POINT));
+            return;
+        }
+        System.out.print(FOUR_BLANK);
     }
 
     private static void showHorizontalAxis() {

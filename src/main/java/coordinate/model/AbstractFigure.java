@@ -29,10 +29,10 @@ public abstract class AbstractFigure implements Figure {
     }
 
     @Override
-    public boolean hasPoint(int x, int y) {
+    public boolean hasPoint(Point other) {
         return points
                 .stream()
-                .anyMatch(point -> point.isSame(x, y))
+                .anyMatch(point -> point.equals(other))
                 ;
     }
 

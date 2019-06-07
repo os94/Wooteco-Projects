@@ -11,7 +11,7 @@ public interface Figure {
 
     double area();
 
-    boolean hasPoint(int x, int y);
+    boolean hasPoint(Point other);
 
     String getAreaInfo();
 }
