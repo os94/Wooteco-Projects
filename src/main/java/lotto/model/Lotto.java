@@ -21,12 +21,16 @@ public class Lotto {
         this.lottoNumbers = lottoNumbers;
     }
 
-    public List<LottoNumber> getLottoNumbers() {
-        return lottoNumbers;
-    }
-
     public boolean contains(LottoNumber number) {
         return lottoNumbers.contains(number);
+    }
+
+    public int getCountOfMatch(Lotto other) {
+        return (int) lottoNumbers
+                .stream()
+                .filter(other::contains)
+                .count()
+                ;
     }
 
     @Override

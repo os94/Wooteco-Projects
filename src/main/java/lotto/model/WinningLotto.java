@@ -15,23 +15,8 @@ public class WinningLotto {
     }
 
     public Rank match(Lotto userLotto) {
-        int countOfMatch = getCountOfMatch(userLotto);
+        int countOfMatch = winningLotto.getCountOfMatch(userLotto);
         boolean matchBonus = userLotto.contains(bonusNo);
         return Rank.valueOf(countOfMatch, matchBonus);
-    }
-
-    private int getCountOfMatch(Lotto userLotto) {
-        int count = 0;
-        for (LottoNumber lottoNumber : winningLotto.getLottoNumbers()) {
-            count += containOrNot(userLotto, lottoNumber);
-        }
-        return count;
-    }
-
-    private int containOrNot(Lotto lotto, LottoNumber lottoNumber) {
-        if (lotto.contains(lottoNumber)) {
-            return 1;
-        }
-        return 0;
     }
 }
