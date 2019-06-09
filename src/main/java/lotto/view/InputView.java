@@ -1,7 +1,10 @@
 package lotto.view;
 
+import lotto.model.PositiveNumber;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class InputView {
@@ -32,7 +35,16 @@ public class InputView {
         }
     }
 
-    public static String inputManualLotto() {
+    public static List<String> inputManualLottos(PositiveNumber countOfLotto) {
+        List<String> inputs = new ArrayList<>();
+
+        for (int i = 0; i < countOfLotto.get(); i++) {
+            inputs.add(inputManualLotto());
+        }
+        return inputs;
+    }
+
+    private static String inputManualLotto() {
         System.out.println(MESSAGE_INPUT_MANUAL_LOTTO);
         String input = scanner.nextLine();
         if (StringUtils.isBlank(input)) {

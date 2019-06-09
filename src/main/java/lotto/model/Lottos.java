@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Lottos {
     private static final String ERROR_LOTTO_NULL = "로또가 입력되지 않았습니다.";
-    private static final String NEW_LINE = System.getProperty("line.separator");
 
     private final List<Lotto> lottos;
 
@@ -35,7 +34,7 @@ public class Lottos {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (Lotto lotto : lottos) {
-            stringBuilder.append(lotto).append(NEW_LINE);
+            stringBuilder.append(lotto).append("\n");
         }
         return stringBuilder.toString();
     }
