@@ -26,7 +26,7 @@ public class LottoGame {
         Lottos lottos = new Lottos();
 
         for (int i = 0; i < countOfLotto.get(); i++) {
-            lottos.add(LottoFactory.create(null));
+            lottos.add(LottoFactory.create());
         }
         return lottos;
     }

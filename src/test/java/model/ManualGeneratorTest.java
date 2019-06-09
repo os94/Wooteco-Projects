@@ -17,7 +17,7 @@ public class ManualGeneratorTest {
                 LottoNumber.of(3), LottoNumber.of(4), LottoNumber.of(5), LottoNumber.of(6));
         Lotto lotto = new Lotto(numbers);
 
-        ManualGenerator manualGenerator = new ManualGenerator();
-        assertThat(manualGenerator.generate("1, 2, 3, 4, 5, 6")).isEqualTo(lotto);
+        ManualGenerator manualGenerator = new ManualGenerator("1, 2, 3, 4, 5, 6");
+        assertThat(manualGenerator.generate()).isEqualTo(lotto);
     }
 }
