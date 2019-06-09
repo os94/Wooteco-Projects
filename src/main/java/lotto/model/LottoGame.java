@@ -17,7 +17,7 @@ public class LottoGame {
         Lottos lottos = new Lottos();
 
         for (String lotto : inputLottos) {
-            lottos.add(LottoFactory.create(lotto));
+            lottos.add(LottoFactory.createManualGenerator(lotto));
         }
         return lottos;
     }
@@ -26,7 +26,7 @@ public class LottoGame {
         Lottos lottos = new Lottos();
 
         for (int i = 0; i < countOfLotto.get(); i++) {
-            lottos.add(LottoFactory.create());
+            lottos.add(LottoFactory.createRandomGenerator());
         }
         return lottos;
     }

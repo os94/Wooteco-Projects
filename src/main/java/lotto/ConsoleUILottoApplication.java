@@ -15,7 +15,7 @@ public class ConsoleUILottoApplication {
             OutputView.print(countOfManualLotto, countOfAutoLotto, lottos);
 
             WinningLotto winningLotto = new WinningLotto(
-                    LottoFactory.create(InputView.inputWinningLotto()), LottoNumber.of(InputView.inputBonusNo()));
+                    LottoFactory.createManualGenerator(InputView.inputWinningLotto()), LottoNumber.of(InputView.inputBonusNo()));
             GameResult gameResult = LottoGame.match(lottos, winningLotto);
             OutputView.print(gameResult, money);
         } catch (Exception e) {
