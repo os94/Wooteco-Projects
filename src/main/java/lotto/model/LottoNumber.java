@@ -3,6 +3,7 @@ package lotto.model;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 public class LottoNumber implements Comparable<LottoNumber> {
     private static final String ERROR_NOT_LOTTO_NUMBER = "로또 숫자는 1~45사이 입니다.";
@@ -27,6 +28,10 @@ public class LottoNumber implements Comparable<LottoNumber> {
             throw new IllegalArgumentException(ERROR_NOT_LOTTO_NUMBER);
         }
         return lottoNumbers.get(number);
+    }
+
+    public static Set<Integer> getAll() {
+        return lottoNumbers.keySet();
     }
 
     @Override

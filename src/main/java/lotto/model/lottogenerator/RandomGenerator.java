@@ -3,25 +3,29 @@ package lotto.model.lottogenerator;
 import lotto.model.Lotto;
 import lotto.model.LottoNumber;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class RandomGenerator implements LottoGenerator {
+    private final List<Integer> numbers;
+
+    public RandomGenerator() {
+        this.numbers = new ArrayList<>(LottoNumber.getAll());
+    }
+
     @Override
-    public Lotto generate(String lottoNumbers) {
-        Set<LottoNumber> uniqueLottoNumbers = new HashSet<>();
-        while (uniqueLottoNumbers.size() != Lotto.NUMBER_OF_LOTTO_NUMBERS) {
-            uniqueLottoNumbers.add(getLottoNumber(new Random()));
-        }
-        return new Lotto(setToOrderedList(uniqueLottoNumbers));
-    }
+    public Lotto generate() {
+        Collections.shuffle(numbers);
 
-    private LottoNumber getLottoNumber(Random random) {
-        return LottoNumber.of(random.nextInt(LottoNumber.UPPER_LIMIT) + 1);
-    }
+        List<LottoNumber> lottoNumbers = IntStream
+                .range(0, Lotto.NUMBER_OF_LOTTO_NUMBERS)
+                .mapToObj(i -> LottoNumber.of(numbers.get(i)))
+                .sorted()
+                .collect(Collectors.toList());
 
-    private List<LottoNumber> setToOrderedList(Set<LottoNumber> uniqueLottoNumbers) {
-        List<LottoNumber> lottoNumbers = new ArrayList<>(uniqueLottoNumbers);
-        Collections.sort(lottoNumbers);
-        return lottoNumbers;
+        return new Lotto(lottoNumbers);
     }
 }
