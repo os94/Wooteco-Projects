@@ -4,12 +4,21 @@ import lotto.model.Rank;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RankTest {
     @Test
     void Rank가_MISS인_경우() {
         assertThat(Rank.valueOf(2, false)).isEqualTo(Rank.MISS);
+    }
+
+    @Test
+    void Rank가_FIFTH인_경우() {
+        assertThat(Rank.valueOf(3, false)).isEqualTo(Rank.FIFTH);
+    }
+
+    @Test
+    void Rank가_FOURTH인_경우() {
+        assertThat(Rank.valueOf(4, false)).isEqualTo(Rank.FOURTH);
     }
 
     @Test
@@ -23,9 +32,7 @@ public class RankTest {
     }
 
     @Test
-    void 유효하지않은_Rank생성시_예외처리() {
-        assertThrows(IllegalArgumentException.class, () -> {
-            Rank.valueOf(7, false);
-        });
+    void Rank가_FIRST인_경우() {
+        assertThat(Rank.valueOf(6, false)).isEqualTo(Rank.FIRST);
     }
 }
