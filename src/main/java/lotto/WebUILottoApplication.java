@@ -1,17 +1,17 @@
 package lotto;
 
 import lotto.model.*;
+import lotto.model.dao.LottoDAO;
 import lotto.model.dao.PrizeMoneyDAO;
 import lotto.model.dao.RoundDAO;
+import lotto.model.dto.LottoDTO;
 import lotto.model.lottogenerator.LottoFactory;
 import lotto.view.WebViewBuilder;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 
@@ -60,8 +60,19 @@ public class WebUILottoApplication {
         model.put("gameResult", WebViewBuilder.of(gameResult));
         model.put("rateOfProfit", money.rateOfProfit(gameResult.totalPrizeMoney()));
 
+        int round = new RoundDAO().getRound();
         new RoundDAO().increaseRound();
         new PrizeMoneyDAO().addPrizeMoney(gameResult.totalPrizeMoney(), money.rateOfProfit(gameResult.totalPrizeMoney()));
+        List<LottoDTO> lottoDTOs = new ArrayList<>();
+        lottos.getLottos().stream()
+                .map(Lotto::dto)
+                .forEach(lottoDTO -> {
+                    lottoDTO.setFk_lotto_round(round);
+                    lottoDTOs.add(lottoDTO);
+                });
+        for (LottoDTO lottoDTO : lottoDTOs) {
+            new LottoDAO().addLotto(lottoDTO);
+        }
 
     }
 

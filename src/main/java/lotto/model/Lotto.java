@@ -1,5 +1,7 @@
 package lotto.model;
 
+import lotto.model.dto.LottoDTO;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +33,10 @@ public class Lotto {
                 .filter(other::contains)
                 .count()
                 ;
+    }
+
+    public LottoDTO dto() {
+        return new LottoDTO(lottoNumbers);
     }
 
     @Override
