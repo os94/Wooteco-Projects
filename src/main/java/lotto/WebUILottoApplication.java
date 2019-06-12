@@ -1,6 +1,7 @@
 package lotto;
 
 import lotto.model.*;
+import lotto.model.dao.PrizeMoneyDAO;
 import lotto.model.dao.RoundDAO;
 import lotto.model.lottogenerator.LottoFactory;
 import lotto.view.WebViewBuilder;
@@ -8,7 +9,6 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +38,8 @@ public class WebUILottoApplication {
         }
     }
 
-    private static int currentRound() throws SQLException {
-        return new RoundDAO().getRoundNo();
+    private static int currentRound() {
+        return new RoundDAO().getRound();
     }
 
     private static void playLotto(Request req, Map<String, Object> model) {
@@ -59,6 +59,10 @@ public class WebUILottoApplication {
 
         model.put("gameResult", WebViewBuilder.of(gameResult));
         model.put("rateOfProfit", money.rateOfProfit(gameResult.totalPrizeMoney()));
+
+        new RoundDAO().increaseRound();
+        new PrizeMoneyDAO().addPrizeMoney(gameResult.totalPrizeMoney(), money.rateOfProfit(gameResult.totalPrizeMoney()));
+
     }
 
     private static String render(Map<String, Object> model, String templatePath) {
