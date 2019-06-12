@@ -2,39 +2,101 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>로또</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        h1 {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .col-6 {
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
+
 <h1>Lotto</h1>
 
-<form action="/result" method="post">
-    구입금액 : <input type="text" name="input_money">
-    <br>
-    수동으로 구매할 로또 수 : <input type="text" name="count_of_manual_lotto">
-    <br>
-    <input type="button" value="구매" onclick="add_manual_lotto_box()">
 
-    <div id="manual_lotto_box">
-    </div>
+<br>
+<div class="row">
+    <div class="col-6">
+        <form action="/result" method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="input_money">구입금액</span>
+                </div>
+                <input type="text" class="form-control" name="input_money" placeholder="10000" aria-label="input_money"
+                       aria-describedby="input_money">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="count_of_manual_lotto">수동구매 로또수</span>
+                </div>
+                <input type="text" class="form-control" name="count_of_manual_lotto" placeholder="1"
+                       aria-label="count_of_manual_lotto" aria-describedby="count_of_manual_lotto">
+            </div>
+            <div id="btn_purchase" style="display: block">
+                <button type="button" class="btn btn-info" onclick="add_manual_lotto_box()">구매</button>
+            </div>
 
-    <div id="block_winning_lotto" style="display:none">
-        지난주 당첨번호 : <input type="text" name="winning_lotto">
-        <br>
-        보너스 볼 : <input type="text" name="bonus_no">
-        <br>
-        <input type="submit" value="결과">
+            <br><br>
+
+            <div id="manual_lotto_box">
+            </div>
+
+            <br><br>
+
+            <div id="block_winning_lotto" style="display:none">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="winning_lotto">지난주 당첨번호</span>
+                    </div>
+                    <input type="text" class="form-control" name="winning_lotto" placeholder="1,2,3,4,5,6"
+                           aria-label="winning_lotto" aria-describedby="winning_lotto">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="bonus_no">보너스 볼</span>
+                    </div>
+                    <input type="text" class="form-control" name="bonus_no" placeholder="45" aria-label="bonus_no"
+                           aria-describedby="bonus_no">
+                </div>
+                <button type="submit" class="btn btn-info">로또 결과</button>
+            </div>
+        </form>
     </div>
-</form>
+</div>
 
 <script type="text/javascript">
     function add_manual_lotto_box() {
         for (var i = 0; i < document.getElementsByName("count_of_manual_lotto")[0].value; i++) {
             document.getElementById("manual_lotto_box").innerHTML +=
-                "수동으로 구매할 로또 번호 : <input type='text' name='manual_lotto' ><br>";
+                "<div class='input-group mb-3'>" +
+                "    <div class='input-group-prepend'>" +
+                "        <span class='input-group-text' id='manual_lotto'>수동구매 로또번호</span>" +
+                "    </div>" +
+                "    <input type='text' class='form-control' name='manual_lotto' placeholder='1,2,3,4,5,6' aria-label='manual_lotto' aria-describedby='manual_lotto'>" +
+                "</div>";
         }
 
         document.getElementById("block_winning_lotto").style.display = "block";
+        document.getElementById("btn_purchase").style.display = "none";
     }
 </script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
