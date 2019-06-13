@@ -10,6 +10,9 @@ public class GameResultDTO {
     private int fifth;
     private int fk_lotto_round;
 
+    public GameResultDTO() {
+    }
+
     public GameResultDTO(List<Integer> results) {
         first = results.get(0);
         second = results.get(1);
