@@ -1,7 +1,5 @@
 package lotto.model;
 
-import lotto.model.dto.WinningLottoDTO;
-
 public class WinningLotto {
     private static final String ERROR_DUPLICATE_WINNING_LOTTO = "잘못된 입력입니다. 로또번호와 보너스볼에 중복이 있습니다.";
 
@@ -20,9 +18,5 @@ public class WinningLotto {
         int countOfMatch = winningLotto.countOfMatch(userLotto);
         boolean matchBonus = userLotto.contains(bonusNo);
         return Rank.valueOf(countOfMatch, matchBonus);
-    }
-
-    public WinningLottoDTO dto() {
-        return new WinningLottoDTO(winningLotto.dto(), bonusNo);
     }
 }

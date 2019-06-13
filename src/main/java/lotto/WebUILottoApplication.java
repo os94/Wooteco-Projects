@@ -4,9 +4,7 @@ import lotto.model.*;
 import lotto.model.dao.LottoDAO;
 import lotto.model.dao.PrizeMoneyDAO;
 import lotto.model.dao.RoundDAO;
-import lotto.model.dao.WinningLottoDAO;
 import lotto.model.dto.LottoDTO;
-import lotto.model.dto.WinningLottoDTO;
 import lotto.model.lottogenerator.LottoFactory;
 import lotto.view.WebViewBuilder;
 import spark.ModelAndView;
@@ -64,9 +62,7 @@ public class WebUILottoApplication {
 
         int round = new RoundDAO().getRound();
         new RoundDAO().increaseRound();
-
         new PrizeMoneyDAO().addPrizeMoney(gameResult.totalPrizeMoney(), money.rateOfProfit(gameResult.totalPrizeMoney()));
-
         List<LottoDTO> lottoDTOs = new ArrayList<>();
         lottos.getLottos().stream()
                 .map(Lotto::dto)
@@ -77,11 +73,6 @@ public class WebUILottoApplication {
         for (LottoDTO lottoDTO : lottoDTOs) {
             new LottoDAO().addLotto(lottoDTO);
         }
-
-        WinningLottoDTO winningLottoDTO = winningLotto.dto();
-        winningLottoDTO.setFk_lotto_round(round);
-        new WinningLottoDAO().addWinningLotto(winningLottoDTO);
-
 
     }
 
