@@ -8,13 +8,42 @@
 
 <h1>Lotto</h1>
 
-{{currentRound}} 회차
-<br>
+{{round}} 회차
+<br><br>
 
 <form action="/result" method="post">
     조회할 회차 <input type="text" name="input_round">
     <button type="submit">Go !</button>
 </form>
+<br>
 
+<form action="/buyLotto" method="post">
+    <div>
+        구입금액 <input type="text" name="input_money"><br>
+        수동구매 로또수 <input type="text" name="input_count_of_manual_lotto"><br>
+        <button type="button" onclick="set_manual_lotto_box()">결제</button>
+    </div>
+
+    <div id="block_buy_lotto" style="display: none">
+        <div id="manual_lotto_box">
+
+        </div>
+        <button type="submit">구입</button>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    function set_manual_lotto_box() {
+        document.getElementById("manual_lotto_box").innerHTML = null;
+        for (var i = 0; i < document.getElementsByName("input_count_of_manual_lotto")[0].value; i++) {
+            document.getElementById("manual_lotto_box").innerHTML +=
+                "<div>" +
+                "        수동구매 로또번호 <input type='text' name='input_manual_lotto'>" +
+                "    </div>";
+        }
+        document.getElementById("block_buy_lotto").style.display = "block";
+    }
+</script>
 </body>
 </html>

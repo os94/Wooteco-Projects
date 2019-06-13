@@ -6,36 +6,43 @@ import lotto.model.dao.RoundDAO;
 import lotto.model.dao.WinningLottoDAO;
 import lotto.view.WebViewBuilder;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LottoGameService {
-    public Map<String, Object> getCurrentRound() {
-        Map<String, Object> model = new HashMap<>();
-        model.put("currentRound", new RoundDAO().findCurrentRound());
-        return model;
+    public int recentRound() {
+        return new RoundDAO().recentRound();
     }
 
-    public Map<String, Object> getResult(String input_round) {
+    public Map<String, Object> result(String input_round) {
+
+        // Todo : validate 'input_round'
+
         Map<String, Object> model = new HashMap<>();
         int round = Integer.parseInt(input_round);
 
-        model.put("round", round);
-
         Lottos lottos = new LottosDAO().findAllLottosByRound(round);
-        model.put("lottos", WebViewBuilder.of(lottos));
-
         WinningLotto winningLotto = new WinningLottoDAO().findWinningLottoByRound(round);
-        model.put("winningLotto", winningLotto.toString());
-
         GameResult gameResult = LottoGame.match(lottos, winningLotto);
-        model.put("resultStatistics", WebViewBuilder.of(gameResult));
-
-        model.put("prizeMoney", gameResult.totalPrizeMoney());
-
         Money money = new RoundDAO().findMoneyByRound(round);
-        model.put("profitRate", money.rateOfProfit(gameResult.totalPrizeMoney()));
 
+        model.put("round", round);
+        model.put("lottos", WebViewBuilder.of(lottos));
+        model.put("winningLotto", winningLotto.toString());
+        model.put("resultStatistics", WebViewBuilder.of(gameResult));
+        model.put("prizeMoney", gameResult.totalPrizeMoney());
+        model.put("profitRate", money.rateOfProfit(gameResult.totalPrizeMoney()));
         return model;
+    }
+
+    public void buyLotto(String input_money, String[] input_manual_lottos) {
+        Money money = new Money(Integer.parseInt(input_money));
+        PositiveNumber countOfManualLotto = new PositiveNumber(input_manual_lottos.length);
+        PositiveNumber countOfAutoLotto = money.countOfLotto().subtract(countOfManualLotto);
+        Lottos lottos = LottoGame.buy(Arrays.asList(input_manual_lottos), countOfAutoLotto);
+
+        new RoundDAO().updateRoundWith(input_money);
+        // Todo : save lottos into DB using DTO
     }
 }

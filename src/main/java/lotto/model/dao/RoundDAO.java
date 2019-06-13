@@ -8,21 +8,39 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RoundDAO {
-    public int findCurrentRound() {
+    public void updateRoundWith(String input_money) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DBManager.getConnection();
+            String query = "INSERT INTO round_tb VALUES (0, ?)";
+            statement = connection.prepareStatement(query);
+
+            statement.setInt(1, Integer.parseInt(input_money));
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            DBManager.close(connection, statement, null);
+        }
+    }
+
+    public int recentRound() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
         try {
             connection = DBManager.getConnection();
-            String query = "SELECT max(round) FROM round_tb";
+            String query = "select count(*) from round_tb";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
             if (!resultSet.next()) {
                 throw new SQLException();
             }
-            return resultSet.getInt("max(round)") + 1;
+            return resultSet.getInt("count(*)");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
