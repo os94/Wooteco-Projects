@@ -1,8 +1,10 @@
 package lotto.model.dao;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public class DBManager {
+public class LottoGameDAO {
     public static Connection getConnection() {
         Connection connection = null;
         String server = "localhost:3306";
@@ -29,19 +31,13 @@ public class DBManager {
         return connection;
     }
 
-    public static void close(Connection connection, PreparedStatement statement, ResultSet resultSet) {
+    public static void closeConnection(Connection connection) {
         try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
             if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
-            System.err.println("close 오류 : " + e.getMessage());
+            System.err.println("con 오류 : " + e.getMessage());
         }
     }
 }
