@@ -19,4 +19,9 @@ public class WinningLotto {
         boolean matchBonus = userLotto.contains(bonusNo);
         return Rank.valueOf(countOfMatch, matchBonus);
     }
+
+    @Override
+    public String toString() {
+        return winningLotto + ", " + bonusNo;
+    }
 }
