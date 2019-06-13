@@ -26,12 +26,6 @@ public class WebUILottoApplication {
                 return render(model, "main.html");
             });
 
-            post("/round", (req, res) -> {
-                Map<String, Object> model = new HashMap<>();
-                model = getGameDataByRound(req.queryParams("input_round"));
-                return render(model, "round.html");
-            });
-
             post("/result", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
 
@@ -44,34 +38,28 @@ public class WebUILottoApplication {
         }
     }
 
-    private static Map<String, Object> getGameDataByRound(String input_round) {
-        int round = Integer.parseInt(input_round);
-        Map<String, Object> results = new HashMap<>();
-        results.put("round", round);
-        /*results.put("lottos", new LottoDAO().findAllByRound(round));
-        results.put("winningLotto", new WinningLottoDAO().findByRound(round));
-        results.put("gameResult", new GameResultDAO().findByRound(round));*/
-        results.put("prizeMoney", new PrizeMoneyDAO().findPrizeMoneyByRound(round));
-        results.put("profitRate", new PrizeMoneyDAO().findProfitRateByRound(round));
-        return results;
-    }
-
     private static int currentRound() {
         return new RoundDAO().getRound();
     }
 
     private static void playLotto(Request req, Map<String, Object> model) {
-        // core logics
         Money money = new Money(Integer.parseInt(req.queryParams("input_money")));
         PositiveNumber countOfManualLotto = new PositiveNumber(Integer.parseInt(req.queryParams("count_of_manual_lotto")));
         PositiveNumber countOfAutoLotto = money.countOfLotto().subtract(countOfManualLotto);
         Lottos lottos = LottoGame.buy(Arrays.asList(req.queryParamsValues("manual_lotto")), countOfAutoLotto);
+
+        model.put("lottos", WebViewBuilder.of(lottos));
+        model.put("countOfManualLotto", countOfManualLotto.toString());
+        model.put("countOfAutoLotto", countOfAutoLotto.toString());
+
         WinningLotto winningLotto = new WinningLotto(
                 LottoFactory.createManualGenerator(req.queryParams("winning_lotto")),
                 LottoNumber.of(Integer.parseInt(req.queryParams("bonus_no"))));
         GameResult gameResult = LottoGame.match(lottos, winningLotto);
 
-        // about DB
+        model.put("gameResult", WebViewBuilder.of(gameResult));
+        model.put("rateOfProfit", money.rateOfProfit(gameResult.totalPrizeMoney()));
+
         int round = new RoundDAO().getRound();
         new RoundDAO().increaseRound();
 
@@ -96,12 +84,6 @@ public class WebUILottoApplication {
         gameResultDTO.setFk_lotto_round(round);
         new GameResultDAO().addGameResult(gameResultDTO);
 
-        // model.put
-        model.put("lottos", WebViewBuilder.of(lottos));
-        model.put("countOfManualLotto", countOfManualLotto.toString());
-        model.put("countOfAutoLotto", countOfAutoLotto.toString());
-        model.put("gameResult", WebViewBuilder.of(gameResult));
-        model.put("rateOfProfit", money.rateOfProfit(gameResult.totalPrizeMoney()));
     }
 
     private static String render(Map<String, Object> model, String templatePath) {
