@@ -6,6 +6,7 @@ import spark.template.handlebars.HandlebarsTemplateEngine;
 import java.util.Map;
 
 import static spark.Spark.get;
+import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 public class WebUILottoApplication {
@@ -14,8 +15,14 @@ public class WebUILottoApplication {
 
         get("/", (req, res) -> {
             Map<String, Object> model;
-            model = new LottoGameService().currentRound();
+            model = new LottoGameService().getCurrentRound();
             return render(model, "main.html");
+        });
+
+        post("/result", (req, res) -> {
+            Map<String, Object> model;
+            model = new LottoGameService().getResult(req.queryParams("input_round"));
+            return render(model, "result.html");
         });
     }
 

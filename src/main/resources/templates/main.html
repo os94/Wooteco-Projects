@@ -2,15 +2,19 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>로또</title>
+    <title>Lotto</title>
 </head>
 <body>
 
 <h1>Lotto</h1>
 
 {{currentRound}} 회차
+<br>
 
-
+<form action="/result" method="post">
+    조회할 회차 <input type="text" name="input_round">
+    <button type="submit">Go !</button>
+</form>
 
 </body>
 </html>
