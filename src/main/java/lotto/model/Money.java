@@ -19,6 +19,7 @@ public class Money {
     }
 
     public double rateOfProfit(int prizeMoney) {
-        return ((double) prizeMoney / money.get()) * PERCENTAGE;
+        double result = ((double) prizeMoney / money.get()) * PERCENTAGE;
+        return Math.round(result * 100) / 100.0;
     }
 }

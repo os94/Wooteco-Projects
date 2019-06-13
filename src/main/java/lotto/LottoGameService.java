@@ -1,9 +1,6 @@
 package lotto;
 
-import lotto.model.GameResult;
-import lotto.model.LottoGame;
-import lotto.model.Lottos;
-import lotto.model.WinningLotto;
+import lotto.model.*;
 import lotto.model.dao.LottosDAO;
 import lotto.model.dao.RoundDAO;
 import lotto.model.dao.WinningLottoDAO;
@@ -35,6 +32,9 @@ public class LottoGameService {
         model.put("resultStatistics", WebViewBuilder.of(gameResult));
 
         model.put("prizeMoney", gameResult.totalPrizeMoney());
+
+        Money money = new RoundDAO().findMoneyByRound(round);
+        model.put("profitRate", money.rateOfProfit(gameResult.totalPrizeMoney()));
 
         return model;
     }
