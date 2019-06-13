@@ -1,5 +1,7 @@
 package lotto;
 
+import lotto.model.GameResult;
+import lotto.model.LottoGame;
 import lotto.model.Lottos;
 import lotto.model.WinningLotto;
 import lotto.model.dao.LottosDAO;
@@ -28,6 +30,11 @@ public class LottoGameService {
 
         WinningLotto winningLotto = new WinningLottoDAO().findWinningLottoByRound(round);
         model.put("winningLotto", winningLotto.toString());
+
+        GameResult gameResult = LottoGame.match(lottos, winningLotto);
+        model.put("resultStatistics", WebViewBuilder.of(gameResult));
+
+        model.put("prizeMoney", gameResult.totalPrizeMoney());
 
         return model;
     }
