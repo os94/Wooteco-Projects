@@ -1,8 +1,10 @@
 package lotto;
 
 import lotto.model.*;
-import lotto.model.dao.*;
-import lotto.model.dto.GameResultDTO;
+import lotto.model.dao.LottoDAO;
+import lotto.model.dao.PrizeMoneyDAO;
+import lotto.model.dao.RoundDAO;
+import lotto.model.dao.WinningLottoDAO;
 import lotto.model.dto.LottoDTO;
 import lotto.model.dto.WinningLottoDTO;
 import lotto.model.lottogenerator.LottoFactory;
@@ -80,9 +82,6 @@ public class WebUILottoApplication {
         winningLottoDTO.setFk_lotto_round(round);
         new WinningLottoDAO().addWinningLotto(winningLottoDTO);
 
-        GameResultDTO gameResultDTO = gameResult.dto();
-        gameResultDTO.setFk_lotto_round(round);
-        new GameResultDAO().addGameResult(gameResultDTO);
 
     }
 
