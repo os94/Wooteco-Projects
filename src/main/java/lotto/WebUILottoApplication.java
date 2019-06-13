@@ -3,16 +3,19 @@ package lotto;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static spark.Spark.get;
+import static spark.Spark.staticFiles;
 
 public class WebUILottoApplication {
     public static void main(String[] args) {
+        staticFiles.location("/templates");
+
         get("/", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            return render(model, "index.html");
+            Map<String, Object> model;
+            model = new LottoGameService().currentRound();
+            return render(model, "main.html");
         });
     }
 
