@@ -34,10 +34,6 @@ public class LottoNumber implements Comparable<LottoNumber> {
         return lottoNumbers.keySet();
     }
 
-    public int value() {
-        return number;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
