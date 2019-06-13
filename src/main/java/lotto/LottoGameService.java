@@ -1,6 +1,9 @@
 package lotto;
 
+import lotto.model.Lottos;
+import lotto.model.dao.LottosDAO;
 import lotto.model.dao.RoundDAO;
+import lotto.view.WebViewBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +20,9 @@ public class LottoGameService {
         int round = Integer.parseInt(input_round);
 
         model.put("round", round);
-        
 
+        Lottos lottos = new LottosDAO().findAllLottosByRound(round);
+        model.put("lottos", WebViewBuilder.of(lottos));
 
         return model;
     }
