@@ -32,9 +32,13 @@ public class WebUILottoApplication {
                 return render(model, "winningLotto.html");
             });
 
-            // Todo add post /registerWinningLotto
-            // after Task, redirect to result with round Value
-
+            post("/registerWinningLotto", (req, res) -> {
+                Map<String, Object> model;
+                new LottoGameService().registerWinningLotto(req.queryParams("input_winning_lotto"), req.queryParams("input_bonus"));
+                int round = new LottoGameService().recentRound();
+                model = new LottoGameService().result(String.valueOf(round));
+                return render(model, "result.html");
+            });
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

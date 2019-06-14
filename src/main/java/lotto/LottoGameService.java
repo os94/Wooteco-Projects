@@ -4,6 +4,7 @@ import lotto.model.*;
 import lotto.model.dao.LottosDAO;
 import lotto.model.dao.RoundDAO;
 import lotto.model.dao.WinningLottoDAO;
+import lotto.model.lottogenerator.LottoFactory;
 import lotto.view.WebViewBuilder;
 
 import java.util.Arrays;
@@ -18,7 +19,6 @@ public class LottoGameService {
     public Map<String, Object> result(String input_round) {
         Map<String, Object> model = new HashMap<>();
         int round = Integer.parseInt(input_round);
-
         Lottos lottos = new LottosDAO().findAllLottosByRound(round);
         WinningLotto winningLotto = new WinningLottoDAO().findWinningLottoByRound(round);
         GameResult gameResult = LottoGame.match(lottos, winningLotto);
@@ -43,5 +43,15 @@ public class LottoGameService {
         for (Lotto lotto : lottos.getLottos()) {
             new LottosDAO().addLotto(lotto.toString(), new RoundDAO().recentRound());
         }
+    }
+
+    public void registerWinningLotto(String input_winning_lotto, String input_bonus) {
+        int bonus = Integer.parseInt(input_bonus);
+        new WinningLotto(
+                LottoFactory.createManualGenerator(input_winning_lotto),
+                LottoNumber.of(bonus)
+        );
+
+        new WinningLottoDAO().addWinningLotto(input_winning_lotto, bonus, new RoundDAO().recentRound());
     }
 }

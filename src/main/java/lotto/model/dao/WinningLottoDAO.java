@@ -36,4 +36,24 @@ public class WinningLottoDAO {
         }
         return null;
     }
+
+    public void addWinningLotto(String winningLotto, int bonus, int round) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DBManager.getConnection();
+            String query = "INSERT INTO winninglotto_tb VALUES (?, ?, ?)";
+            statement = connection.prepareStatement(query);
+
+            statement.setString(1, winningLotto);
+            statement.setInt(2, bonus);
+            statement.setInt(3, round);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            DBManager.close(connection, statement, null);
+        }
+    }
 }
