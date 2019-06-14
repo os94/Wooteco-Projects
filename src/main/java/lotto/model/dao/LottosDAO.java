@@ -34,4 +34,23 @@ public class LottosDAO {
         }
         return lottos;
     }
+
+    public void addLotto(String lotto, int round) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DBManager.getConnection();
+            String query = "INSERT INTO lottos_tb VALUES (?, ?)";
+            statement = connection.prepareStatement(query);
+
+            statement.setString(1, lotto);
+            statement.setInt(2, round);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            DBManager.close(connection, statement, null);
+        }
+    }
 }

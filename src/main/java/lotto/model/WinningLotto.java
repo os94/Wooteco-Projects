@@ -22,6 +22,6 @@ public class WinningLotto {
 
     @Override
     public String toString() {
-        return winningLotto + ", " + bonusNo;
+        return winningLotto + " + " + bonusNo;
     }
 }

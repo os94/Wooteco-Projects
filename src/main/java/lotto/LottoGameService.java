@@ -16,9 +16,6 @@ public class LottoGameService {
     }
 
     public Map<String, Object> result(String input_round) {
-
-        // Todo : validate 'input_round'
-
         Map<String, Object> model = new HashMap<>();
         int round = Integer.parseInt(input_round);
 
@@ -43,6 +40,8 @@ public class LottoGameService {
         Lottos lottos = LottoGame.buy(Arrays.asList(input_manual_lottos), countOfAutoLotto);
 
         new RoundDAO().updateRoundWith(input_money);
-        // Todo : save lottos into DB using DTO
+        for (Lotto lotto : lottos.getLottos()) {
+            new LottosDAO().addLotto(lotto.toString(), new RoundDAO().recentRound());
+        }
     }
 }

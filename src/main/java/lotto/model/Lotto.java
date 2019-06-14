@@ -3,6 +3,7 @@ package lotto.model;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Lotto {
     private static final String ERROR_LOTTO_NUMBER_NULL = "로또 숫자 값들이 입력되지 않았습니다.";
@@ -26,8 +27,7 @@ public class Lotto {
     }
 
     public int countOfMatch(Lotto other) {
-        return (int) lottoNumbers
-                .stream()
+        return (int) lottoNumbers.stream()
                 .filter(other::contains)
                 .count()
                 ;
@@ -48,6 +48,9 @@ public class Lotto {
 
     @Override
     public String toString() {
-        return String.valueOf(lottoNumbers);
+        return lottoNumbers.stream()
+                .map(LottoNumber::toString)
+                .collect(Collectors.joining(","))
+                ;
     }
 }
