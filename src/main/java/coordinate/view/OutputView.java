@@ -38,8 +38,9 @@ public class OutputView {
         Point currentPoint = new Point(FIRST, y);
         while (currentPoint.hasNext()) {
             showPointOrBlank(figure, currentPoint);
-            currentPoint.moveRight();
+            currentPoint = currentPoint.right();
         }
+        showPointOrBlank(figure, currentPoint);
     }
 
     private static void showPointOrBlank(Figure figure, Point point) {

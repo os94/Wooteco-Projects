@@ -7,7 +7,7 @@ import java.util.Objects;
 public class Point {
     public static final int LOWER_LIMIT = 1;
     public static final int UPPER_LIMIT = 24;
-    private int x;
+    private final int x;
     private final int y;
 
     public Point(int x, int y) {
@@ -50,12 +50,12 @@ public class Point {
         return y;
     }
 
-    public void moveRight() {
-        x++;
+    public Point right() {
+        return new Point(x + 1, y);
     }
 
     public boolean hasNext() {
-        return x <= UPPER_LIMIT;
+        return x < UPPER_LIMIT;
     }
 
     @Override
@@ -70,10 +70,5 @@ public class Point {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
-    }
-
-    @Override
-    protected Point clone() {
-        return new Point(this.x, this.y);
     }
 }
