@@ -2,10 +2,7 @@ package coordinate.model;
 
 import coordinate.Message;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public abstract class AbstractFigure implements Figure {
     private final List<Point> points;
@@ -23,6 +20,15 @@ public abstract class AbstractFigure implements Figure {
 
     public Point getPoint(int index) {
         return points.get(index);
+    }
+
+    @Override
+    public Map<Integer, Integer> getXYCoordinates() {
+        Map<Integer, Integer> xAndY = new HashMap<>();
+        for (Point point : points) {
+            xAndY.put(point.getX(), point.getY());
+        }
+        return xAndY;
     }
 
     @Override

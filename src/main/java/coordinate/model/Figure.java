@@ -1,6 +1,7 @@
 package coordinate.model;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Figure {
     List<Point> getPoints();
@@ -14,4 +15,6 @@ public interface Figure {
     boolean hasPoint(Point other);
 
     String getAreaInfo();
+
+    Map<Integer, Integer> getXYCoordinates();
 }

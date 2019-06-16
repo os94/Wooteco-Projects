@@ -1,7 +1,8 @@
 package coordinate.view;
 
-import coordinate.model.Figure;
 import coordinate.model.Point;
+
+import java.util.Map;
 
 public class OutputView {
     private static final String FOUR_BLANK = "    ";
@@ -9,19 +10,18 @@ public class OutputView {
     private static final String ORIGIN = "+";
     private static final String HORIZONTAL_AXIS = "----";
     private static final String MARK_OF_POINT = ".";
-    private static final int FIRST = 1;
 
-    public static void showCoordinatePlane(Figure figure) {
-        showVerticalNumbersWith(figure);
+    public static void showCoordinatePlane(Map<Integer, Integer> xyCoordinates) {
+        showVerticalNumbersWith(xyCoordinates);
         showHorizontalAxis();
         showHorizontalNumbers();
     }
 
-    private static void showVerticalNumbersWith(Figure figure) {
+    private static void showVerticalNumbersWith(Map<Integer, Integer> xyCoordinates) {
         for (int y = Point.UPPER_LIMIT; y >= Point.LOWER_LIMIT; y--) {
             showAxisNumber(y);
             System.out.print(VERTICAL_AXIS);
-            showPoints(figure, y);
+            showPoints(xyCoordinates, y);
             emptyLine();
         }
     }
@@ -34,17 +34,17 @@ public class OutputView {
         System.out.print(FOUR_BLANK);
     }
 
-    private static void showPoints(Figure figure, int y) {
-        Point currentPoint = new Point(FIRST, y);
-        while (currentPoint.hasNext()) {
-            showPointOrBlank(figure, currentPoint);
-            currentPoint = currentPoint.right();
+    private static void showPoints(Map<Integer, Integer> xyCoordinates, int y) {
+        if (!xyCoordinates.containsValue(y)) {
+            return;
         }
-        showPointOrBlank(figure, currentPoint);
+        for (int x = Point.LOWER_LIMIT; x <= Point.UPPER_LIMIT; x++) {
+            showPointOrBlank(xyCoordinates.getOrDefault(x, 0), y);
+        }
     }
 
-    private static void showPointOrBlank(Figure figure, Point point) {
-        if (figure.hasPoint(point)) {
+    private static void showPointOrBlank(int pointY, int currentY) {
+        if (pointY == currentY) {
             System.out.print(String.format("%4s", MARK_OF_POINT));
             return;
         }
@@ -70,7 +70,7 @@ public class OutputView {
         System.out.println();
     }
 
-    public static void showArea(Figure figure) {
-        System.out.println(figure.getAreaInfo());
+    public static void print(String message) {
+        System.out.println(message);
     }
 }

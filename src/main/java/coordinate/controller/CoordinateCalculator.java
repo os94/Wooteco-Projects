@@ -9,8 +9,8 @@ public class CoordinateCalculator {
     public void run() {
         try {
             Figure figure = FigureFactory.create(InputView.inputCoordinates());
-            OutputView.showCoordinatePlane(figure);
-            OutputView.showArea(figure);
+            OutputView.showCoordinatePlane(figure.getXYCoordinates());
+            OutputView.print(figure.getAreaInfo());
         } catch (Exception e) {
             System.err.println(e);
         }
