@@ -30,7 +30,7 @@ public enum Chess {
         public boolean canMove(Point source, Point destination) {
             double xDistance = source.xDistanceFrom(destination);
             double yDistance = source.yDistanceFrom(destination);
-            double slope = xDistance / yDistance;
+            double slope = yDistance / xDistance;
 
             return Math.abs(slope) == 1;
         }

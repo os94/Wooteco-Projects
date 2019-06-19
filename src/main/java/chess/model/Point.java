@@ -17,11 +17,11 @@ public class Point {
     }
 
     public double xDistanceFrom(Point other) {
-        return this.x - other.x;
+        return other.x - this.x;
     }
 
     public double yDistanceFrom(Point other) {
-        return this.y - other.y;
+        return other.y - this.y;
     }
 
     @Override
@@ -44,5 +44,9 @@ public class Point {
 
     public int getY() {
         return y;
+    }
+
+    public Point next(int xDirection, int yDirection) {
+        return Point.of(x + xDirection, y + yDirection);
     }
 }
