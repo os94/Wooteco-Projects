@@ -1,11 +1,14 @@
 package chess.model;
 
+import chess.model.chesspiece.Chess;
+import chess.model.chesspiece.King;
+
 import java.util.Map;
 
 public class User {
-    private final Map<Point, ChessEnum> chesses;
+    private final Map<Point, Chess> chesses;
 
-    public User(Map<Point, ChessEnum> chesses) {
+    public User(Map<Point, Chess> chesses) {
         this.chesses = chesses;
     }
 
@@ -22,8 +25,8 @@ public class User {
         return chesses.containsKey(point);
     }
 
-    public boolean isKingAt(Point arrival) {
-        return chesses.get(arrival) == ChessEnum.KING;
+    public boolean isKingAt(Point point) {
+        return chesses.get(point).isKing();
     }
 
     public void removePoint(Point point) {
@@ -35,7 +38,7 @@ public class User {
         removePoint(source);
     }
 
-    public ChessEnum getChess(Point point) {
+    public Chess getChess(Point point) {
         return chesses.get(point);
     }
 }

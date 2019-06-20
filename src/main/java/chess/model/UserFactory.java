@@ -1,14 +1,17 @@
 package chess.model;
 
+
+import chess.model.chesspiece.*;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserFactory {
-    private static List<ChessEnum> defaultChesses = Arrays.asList(
-            ChessEnum.ROOK, ChessEnum.KNIGHT, ChessEnum.BISHOP, ChessEnum.QUEEN,
-            ChessEnum.KING, ChessEnum.BISHOP, ChessEnum.KNIGHT, ChessEnum.ROOK);
+    private static List<chess.model.chesspiece.Chess> defaultChesses = Arrays.asList(
+            new Rook(), new Knight(), new Bishop(), new Queen(),
+            new King(), new Bishop(), new Knight(), new Rook());
 
     public static Map<Boolean, User> createUsers() {
         Map<Boolean, User> users = new HashMap<>();
@@ -18,26 +21,32 @@ public class UserFactory {
     }
 
     private static User createWhite() {
-        Map<Point, ChessEnum> chesses = new HashMap<>();
+        Map<Point, Chess> chesses = new HashMap<>();
         initializeChesses(chesses, 1);
-        initializePawns(chesses, 2);
+        initializeWhitePawns(chesses, 2);
         return new User(chesses);
     }
 
     private static User createBlack() {
-        Map<Point, ChessEnum> chesses = new HashMap<>();
+        Map<Point, Chess> chesses = new HashMap<>();
         initializeChesses(chesses, 8);
-        initializePawns(chesses, 7);
+        initializeBlackPawns(chesses, 7);
         return new User(chesses);
     }
 
-    private static void initializePawns(Map<Point, ChessEnum> chesses, int y) {
+    private static void initializeWhitePawns(Map<Point, Chess> chesses, int y) {
         for (int i = 1; i <= 8; i++) {
-            chesses.put(Point.of(i, y), ChessEnum.Pawn);
+            chesses.put(Point.of(i, y), new WhitePawn());
         }
     }
 
-    private static void initializeChesses(Map<Point, ChessEnum> chesses, int y) {
+    private static void initializeBlackPawns(Map<Point, Chess> chesses, int y) {
+        for (int i = 1; i <= 8; i++) {
+            chesses.put(Point.of(i, y), new BlackPawn());
+        }
+    }
+
+    private static void initializeChesses(Map<Point, Chess> chesses, int y) {
         for (int i = 1; i <= 8; i++) {
             chesses.put(Point.of(i, y), defaultChesses.get(i - 1));
         }
