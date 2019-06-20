@@ -15,11 +15,11 @@ public class ChessGame {
         User other = users.get(!turn);
 
         mine.checkValidPoint(source, destination);
-        Chess sourceChess = mine.getChess(source);
+        ChessEnum sourceChess = mine.getChess(source);
         if (!sourceChess.canMove(source, destination, users)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-        if (!Chess.KNIGHT.equals(sourceChess)) {
+        if (!ChessEnum.KNIGHT.equals(sourceChess)) {
             checkObstacle(source, destination);
         }
         if (other.isContain(destination)) {

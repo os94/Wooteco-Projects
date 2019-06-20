@@ -2,7 +2,7 @@ package chess.model;
 
 import java.util.Map;
 
-public enum Chess {
+public enum ChessEnum {
     KING(0) {
         @Override
         public boolean canMove(Point source, Point destination, Map<Boolean, User> users) {
@@ -78,11 +78,11 @@ public enum Chess {
 
     private double score;
 
-    Chess(double score) {
+    ChessEnum(double score) {
         this.score = score;
     }
 
-    Chess() {
+    ChessEnum() {
     }
 
     public double getScore() {

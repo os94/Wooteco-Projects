@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 public class UserFactory {
-    private static List<Chess> defaultChesses = Arrays.asList(
-            Chess.ROOK, Chess.KNIGHT, Chess.BISHOP, Chess.QUEEN,
-            Chess.KING, Chess.BISHOP, Chess.KNIGHT, Chess.ROOK);
+    private static List<ChessEnum> defaultChesses = Arrays.asList(
+            ChessEnum.ROOK, ChessEnum.KNIGHT, ChessEnum.BISHOP, ChessEnum.QUEEN,
+            ChessEnum.KING, ChessEnum.BISHOP, ChessEnum.KNIGHT, ChessEnum.ROOK);
 
     public static Map<Boolean, User> createUsers() {
         Map<Boolean, User> users = new HashMap<>();
@@ -18,26 +18,26 @@ public class UserFactory {
     }
 
     private static User createWhite() {
-        Map<Point, Chess> chesses = new HashMap<>();
+        Map<Point, ChessEnum> chesses = new HashMap<>();
         initializeChesses(chesses, 1);
         initializePawns(chesses, 2);
         return new User(chesses);
     }
 
     private static User createBlack() {
-        Map<Point, Chess> chesses = new HashMap<>();
+        Map<Point, ChessEnum> chesses = new HashMap<>();
         initializeChesses(chesses, 8);
         initializePawns(chesses, 7);
         return new User(chesses);
     }
 
-    private static void initializePawns(Map<Point, Chess> chesses, int y) {
+    private static void initializePawns(Map<Point, ChessEnum> chesses, int y) {
         for (int i = 1; i <= 8; i++) {
-            chesses.put(Point.of(i, y), Chess.Pawn);
+            chesses.put(Point.of(i, y), ChessEnum.Pawn);
         }
     }
 
-    private static void initializeChesses(Map<Point, Chess> chesses, int y) {
+    private static void initializeChesses(Map<Point, ChessEnum> chesses, int y) {
         for (int i = 1; i <= 8; i++) {
             chesses.put(Point.of(i, y), defaultChesses.get(i - 1));
         }

@@ -14,12 +14,12 @@ public class ChessGameTest {
 
     @Test
     void King을_잡을_경우_true_반환() {
-        Map<Point, Chess> whiteChess = new HashMap<>();
-        whiteChess.put(Point.of(4, 5), Chess.ROOK);
+        Map<Point, ChessEnum> whiteChess = new HashMap<>();
+        whiteChess.put(Point.of(4, 5), ChessEnum.ROOK);
         User white = new User(whiteChess);
 
-        Map<Point, Chess> blackChess = new HashMap<>();
-        blackChess.put(Point.of(4, 8), Chess.KING);
+        Map<Point, ChessEnum> blackChess = new HashMap<>();
+        blackChess.put(Point.of(4, 8), ChessEnum.KING);
         User black = new User(blackChess);
 
         Map<Boolean, User> users = new HashMap<>();
