@@ -1,15 +1,13 @@
 package chess.model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class ChessGame {
-    private final Map<Boolean, User> users = new HashMap<>();
+    private final Map<Boolean, User> users;
     private boolean turn = true; // white turn is true.
 
-    public ChessGame() {
-        users.put(true, UserFactory.createWhite());
-        users.put(false, UserFactory.createBlack());
+    public ChessGame(Map<Boolean, User> users) {
+        this.users = users;
     }
 
     public boolean move(Point source, Point destination) {
@@ -21,7 +19,6 @@ public class ChessGame {
         if (!sourceChess.canMove(source, destination)) {
             throw new IllegalArgumentException("이동할 수 없는 위치입니다.");
         }
-        // Todo 목적지까지 경로 비어있는지 확인
         checkObstacle(source, destination);
         if (other.isContain(destination)) {
             if (other.isKingAt(destination)) {
@@ -36,9 +33,9 @@ public class ChessGame {
     }
 
     private void checkObstacle(Point source, Point destination) {
-        Point current = source;
         int xDirection = getDirection(source.xDistanceFrom(destination));
         int yDirection = getDirection(source.yDistanceFrom(destination));
+        Point current = source.next(xDirection, yDirection);
 
         while (!current.equals(destination)) {
             if (users.get(true).isContain(current) || users.get(false).isContain(current)) {

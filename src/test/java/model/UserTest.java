@@ -13,7 +13,7 @@ public class UserTest {
 
     @BeforeEach
     void setUp() {
-        white = UserFactory.createWhite();
+        white = UserFactory.createUsers().get(true);
     }
 
     @Test

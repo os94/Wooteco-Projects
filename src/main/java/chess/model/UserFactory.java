@@ -10,14 +10,21 @@ public class UserFactory {
             Chess.ROOK, Chess.KNIGHT, Chess.BISHOP, Chess.QUEEN,
             Chess.KING, Chess.BISHOP, Chess.KNIGHT, Chess.ROOK);
 
-    public static User createWhite() {
+    public static Map<Boolean, User> createUsers() {
+        Map<Boolean, User> users = new HashMap<>();
+        users.put(true, createWhite());
+        users.put(false, createBlack());
+        return users;
+    }
+
+    private static User createWhite() {
         Map<Point, Chess> chesses = new HashMap<>();
         initializeChesses(chesses, 1);
         initializePawns(chesses, 2);
         return new User(chesses);
     }
 
-    public static User createBlack() {
+    private static User createBlack() {
         Map<Point, Chess> chesses = new HashMap<>();
         initializeChesses(chesses, 8);
         initializePawns(chesses, 7);
