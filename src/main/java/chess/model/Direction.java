@@ -35,7 +35,12 @@ public enum Direction {
             int min = Math.min(Math.abs(xDistance), Math.abs(yDistance));
             return Direction.of(xDistance / min, yDistance / min);
         }
-        return Direction.of(Integer.compare(xDistance, 0), Integer.compare(yDistance, 0));
+        if (xDistance == 0 || yDistance == 0
+                || Math.abs(xDistance) == Math.abs(yDistance)) {
+            int max = Math.max(Math.abs(xDistance), Math.abs(yDistance));
+            return Direction.of(xDistance / max, yDistance / max);
+        }
+        throw new IllegalArgumentException("유효한 Direction 생성이 아닙니다.");
     }
 
     private static boolean isTwice(int xDistance, int yDistance) {
