@@ -3,9 +3,8 @@ package pieces;
 import org.junit.jupiter.api.Test;
 import pieces.Piece.Type;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PawnTest extends PieceTest {
     @Test
@@ -17,14 +16,14 @@ public class PawnTest extends PieceTest {
     @Test
     public void isStartingPosition() throws Exception {
         Pawn pawn = Pawn.createWhite(new Position("e2"));
-        assertTrue(pawn.isStartingPosition());
+        assertThat(pawn.isStartingPosition()).isTrue();
         pawn = Pawn.createWhite(new Position("e3"));
-        assertFalse(pawn.isStartingPosition());
-        
+        assertThat(pawn.isStartingPosition()).isFalse();
+
         pawn = Pawn.createBlack(new Position("e7"));
-        assertTrue(pawn.isStartingPosition());
+        assertThat(pawn.isStartingPosition()).isTrue();
         pawn = Pawn.createBlack(new Position("e6"));
-        assertFalse(pawn.isStartingPosition());
+        assertThat(pawn.isStartingPosition()).isFalse();
     }
 
     @Test
