@@ -1,34 +1,54 @@
 package chess.model.piece;
 
 import chess.model.Direction;
+import chess.model.PlayerType;
 import chess.model.Point;
+
+import java.util.List;
 
 public class Pawn extends Piece {
     private boolean isFirstMove = true;
 
-    private Pawn(String team, Point point) {
+    private Pawn(PlayerType team, Point point) {
         super(team, point);
     }
 
-    public boolean canMove(Point destination) {
+    @Override
+    public boolean isPossibleDirection(Direction direction, Point destination) {
+        List<Direction> pawnDirections = Direction.pawnDirection(team);
         double distance = point.calculateDistance(destination);
-        Direction direction = Direction.valueOf(point.xDistanceFrom(destination), point.yDistanceFrom(destination));
-        if (Direction.NORTH == direction) {
-            return distance == 1 || distance == 2;
+        if (distance == 2) {
+            return pawnDirections.get(0) == direction && isFirstMove;
         }
-        if (Direction.NORTHEAST == direction || Direction.NORTHWEST == direction) {
-            return distance == Math.sqrt(2);
+        if (distance == 1) {
+            return pawnDirections.get(0) == direction;
+        }
+        if (distance == Math.sqrt(2)) {
+            return pawnDirections.get(1) == direction || pawnDirections.get(2) == direction;
         }
         throw new IllegalArgumentException();
     }
 
     @Override
+    public boolean canMove(Direction direction, Piece destinationPiece) {
+        List<Direction> pawnDirections = Direction.pawnDirection(team);
+        if (direction == pawnDirections.get(0))
+            if (!destinationPiece.isNone()) {
+                return false;
+            }
+        if (direction == pawnDirections.get(1) || direction == pawnDirections.get(2)) {
+            return destinationPiece.isOpponent(team);
+        }
+        return true;
+    }
+
+    @Override
     public Piece createBlack(Point point) {
-        return new Pawn("black", point);
+        return new Pawn(PlayerType.BLACK, point);
     }
 
     @Override
     public Piece createWhite(Point point) {
-        return new Pawn("white", point);
+        return new Pawn(PlayerType.WHITE, point);
     }
 }

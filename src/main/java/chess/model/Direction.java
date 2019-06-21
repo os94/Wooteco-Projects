@@ -75,11 +75,10 @@ public enum Direction {
         return Arrays.asList(NNE, NNW, SSE, SSW, EEN, EES, WWN, WWS);
     }
 
-    public static List<Direction> whitePawnDirection() {
-        return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
-    }
-
-    public static List<Direction> blackPawnDirection() {
+    public static List<Direction> pawnDirection(PlayerType currentTeam) {
+        if (currentTeam == PlayerType.WHITE) {
+            return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
+        }
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
     }
 }
