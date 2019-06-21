@@ -22,12 +22,12 @@ public class Blank extends Piece {
     }
 
     @Override
-    public boolean isPossibleDirection(Direction direction, Point destination) {
+    public boolean canMove(Direction direction, Point destination) {
         throw new IllegalArgumentException(ERROR_MESSAGE_BLANK);
     }
 
     @Override
-    public boolean canMove(Direction direction, Piece destinationPiece) {
+    public boolean isAvailableDestinationOfPawn(Direction direction, Piece destinationPiece) {
         throw new IllegalArgumentException(ERROR_MESSAGE_BLANK);
     }
 }

@@ -20,7 +20,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean isPossibleDirection(Direction direction, Point destination) {
+    public boolean canMove(Direction direction, Point destination) {
         List<Direction> pawnDirections = Direction.pawnDirection(team);
         double distance = point.calculateDistance(destination);
         if (distance == 2) {
@@ -36,7 +36,7 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public boolean canMove(Direction direction, Piece destinationPiece) {
+    public boolean isAvailableDestinationOfPawn(Direction direction, Piece destinationPiece) {
         List<Direction> pawnDirections = Direction.pawnDirection(team);
         if (direction == pawnDirections.get(0))
             if (!destinationPiece.isNone()) {

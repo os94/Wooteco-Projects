@@ -30,9 +30,11 @@ public abstract class Piece {
         return team == PlayerType.NONE;
     }
 
-    public abstract boolean isPossibleDirection(Direction direction, Point destination);
+    public abstract boolean canMove(Direction direction, Point destination);
 
-    public abstract boolean canMove(Direction direction, Piece destinationPiece);
+    public boolean isAvailableDestinationOfPawn(Direction direction, Piece destinationPiece) {
+        return true;
+    }
 
     public void move(Point destination) {
         point = destination;

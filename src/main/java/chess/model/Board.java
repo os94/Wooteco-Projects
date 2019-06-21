@@ -26,12 +26,12 @@ public class Board {
 
         //이동방향이 rule에 없는 방향 확인
         Direction direction = source.calculateDirection(destination);
-        if (!sourcePiece.isPossibleDirection(direction, destination)) {
-            throw new IllegalArgumentException("움직일 수 있는 방향이 아닙니다.");
+        if (!sourcePiece.canMove(direction, destination)) {
+            throw new IllegalArgumentException("이동할 수 있는 위치가 아닙니다.");
         }
 
-        if (!sourcePiece.canMove(direction, destinationPiece)) {
-            throw new IllegalArgumentException("움직일 수 없습니다.");
+        if (!sourcePiece.isAvailableDestinationOfPawn(direction, destinationPiece)) {
+            throw new IllegalArgumentException("Pawn이 이동할 수 있는 위치가 아닙니다.");
         }
 
         checkObstacle(source, destination);

@@ -5,18 +5,14 @@ import chess.model.PlayerType;
 import chess.model.Point;
 
 public class King extends Piece {
-    @Override
-    public boolean isPossibleDirection(Direction direction, Point destination) {
-        return false;
-    }
-
-    @Override
-    public boolean canMove(Direction direction, Piece destinationPiece) {
-        return false;
-    }
-
-    private King(PlayerType team, Point point) {
+    public King(PlayerType team, Point point) {
         super(team, point);
+    }
+
+    @Override
+    public boolean canMove(Direction direction, Point destination) {
+        double distance = point.calculateDistance(destination);
+        return distance <= Math.sqrt(2) && Direction.allDirection().contains(direction);
     }
 
     @Override
