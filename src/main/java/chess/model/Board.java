@@ -1,20 +1,20 @@
 package chess.model;
 
-import chess.model.piece.Pawn;
+import chess.model.piece.Blank;
+import chess.model.piece.King;
 import chess.model.piece.Piece;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Board {
     private Map<Point, Piece> chessBoard = new HashMap<>();
     private PlayerType currentTeam = PlayerType.WHITE;
 
-    public void move(Point source, Point destination) {
+    public boolean move(Point source, Point destination) {
         //내말 움직이려는지 , 도착지에 내말 있는지
-        Piece sourcePiece = chessBoard.get(source);
-        Piece destinationPiece = chessBoard.get(destination);
+        Piece sourcePiece = chessBoard.getOrDefault(source, new Blank(PlayerType.NONE, source));
+        Piece destinationPiece = chessBoard.getOrDefault(destination, new Blank(PlayerType.NONE, destination));
 
         if (destinationPiece.isSameTeam(currentTeam)) {
             throw new IllegalArgumentException("자신의 말이 도착지에 있으면 안됩니다.");
@@ -25,9 +25,7 @@ public class Board {
         }// 출발지에 내 말 아님
 
         //이동방향이 rule에 없는 방향 확인
-        int xDistance = source.xDistanceFrom(destination);
-        int yDistance = source.yDistanceFrom(destination);
-        Direction direction = Direction.valueOf(xDistance, yDistance);
+        Direction direction = source.calculateDirection(destination);
         if (!sourcePiece.isPossibleDirection(direction, destination)) {
             throw new IllegalArgumentException("움직일 수 있는 방향이 아닙니다.");
         }
@@ -36,11 +34,31 @@ public class Board {
             throw new IllegalArgumentException("움직일 수 없습니다.");
         }
 
-        //중간경로에 장애물이 있는지 확인
-        sourcePiece.isPossibleDirection(direction,destination);
-        
+        checkObstacle(source, destination);
 
+        // 이동로직
+        chessBoard.remove(source);
+        sourcePiece.move(destination);
+        chessBoard.put(destination, sourcePiece);
+
+
+        if (destinationPiece instanceof King) {
+            return true;
+        }
 
         currentTeam.toggle();
+        return false;
+    }
+
+    private void checkObstacle(Point source, Point destination) {
+        Direction direction = source.calculateDirection(destination);
+
+        Point current = source.next(direction);
+        while (!current.equals(destination)) {
+            if (chessBoard.containsKey(current)) {
+                throw new IllegalArgumentException("경로상에 장애물이 존재합니다.");
+            }
+            current = current.next(direction);
+        }
     }
 }

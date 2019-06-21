@@ -18,7 +18,7 @@ public abstract class Piece {
 
     public abstract Piece createWhite(Point point);
 
-    public boolean isSameTeam(PlayerType team){
+    public boolean isSameTeam(PlayerType team) {
         return this.team == team;
     }
 
@@ -33,4 +33,8 @@ public abstract class Piece {
     public abstract boolean isPossibleDirection(Direction direction, Point destination);
 
     public abstract boolean canMove(Direction direction, Piece destinationPiece);
+
+    public void move(Point destination) {
+        point = destination;
+    }
 }

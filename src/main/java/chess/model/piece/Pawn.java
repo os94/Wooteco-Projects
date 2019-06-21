@@ -9,8 +9,14 @@ import java.util.List;
 public class Pawn extends Piece {
     private boolean isFirstMove = true;
 
-    private Pawn(PlayerType team, Point point) {
+    public Pawn(PlayerType team, Point point) {
         super(team, point);
+    }
+
+    @Override
+    public void move(Point destination) {
+        super.move(destination);
+        isFirstMove = false;
     }
 
     @Override
