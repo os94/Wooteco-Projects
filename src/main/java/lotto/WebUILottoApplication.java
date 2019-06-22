@@ -25,19 +25,29 @@ public class WebUILottoApplication {
                 return render(model, "result.html");
             });
 
-            post("/buyLotto", (req, res) -> {
+            post("/buy-lotto", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
                 new LottoGameService().buyLotto(req.queryParams("input_money"), req.queryParamsValues("input_manual_lotto"));
                 model.put("round", new LottoGameService().recentRound());
                 return render(model, "winningLotto.html");
             });
 
-            post("/registerWinningLotto", (req, res) -> {
+            post("/register-winning-lotto", (req, res) -> {
                 Map<String, Object> model;
                 new LottoGameService().registerWinningLotto(req.queryParams("input_winning_lotto"), req.queryParams("input_bonus"));
                 int round = new LottoGameService().recentRound();
                 model = new LottoGameService().result(String.valueOf(round));
                 return render(model, "result.html");
+            });
+
+            get("/error", (req, res) -> {
+                Map<String, Object> model = new HashMap<>();
+                model.put("message", req.queryParams("message"));
+                return render(model, "error.html");
+            });
+
+            exception(Exception.class, (exception, req, res) -> {
+                res.redirect("/error?message=" + exception.getMessage());
             });
         } catch (Exception e) {
             System.err.println(e.getMessage());
