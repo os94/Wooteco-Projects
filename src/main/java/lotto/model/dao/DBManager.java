@@ -3,8 +3,16 @@ package lotto.model.dao;
 import java.sql.*;
 
 public class DBManager {
+    private static Connection connection;
+
+    private DBManager() {
+    }
+
     public static Connection getConnection() {
-        Connection connection = null;
+        if (connection != null) {
+            return connection;
+        }
+
         String server = "localhost:3306";
         String database = "lotto";
         String userName = "sean";
@@ -29,16 +37,13 @@ public class DBManager {
         return connection;
     }
 
-    public static void close(Connection connection, PreparedStatement statement, ResultSet resultSet) {
+    public static void close(PreparedStatement statement, ResultSet resultSet) {
         try {
             if (resultSet != null) {
                 resultSet.close();
             }
             if (statement != null) {
                 statement.close();
-            }
-            if (connection != null) {
-                connection.close();
             }
         } catch (SQLException e) {
             System.err.println("close 오류 : " + e.getMessage());

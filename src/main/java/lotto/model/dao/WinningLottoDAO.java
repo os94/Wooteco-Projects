@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class WinningLottoDAO {
     public WinningLotto findWinningLottoByRound(int round) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
@@ -32,13 +32,13 @@ public class WinningLottoDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, resultSet);
+            DBManager.close(statement, resultSet);
         }
         return null;
     }
 
     public void addWinningLotto(String winningLotto, int bonus, int round) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
 
         try {
@@ -53,7 +53,7 @@ public class WinningLottoDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, null);
+            DBManager.close(statement, null);
         }
     }
 }

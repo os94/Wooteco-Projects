@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class RoundDAO {
     public void updateRoundWith(String inputMoney) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
 
         try {
@@ -22,12 +22,12 @@ public class RoundDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, null);
+            DBManager.close(statement, null);
         }
     }
 
     public int recentRound() {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
@@ -44,13 +44,13 @@ public class RoundDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, resultSet);
+            DBManager.close(statement, resultSet);
         }
         return -1;
     }
 
     public Money findMoneyByRound(int round) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
@@ -69,7 +69,7 @@ public class RoundDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, resultSet);
+            DBManager.close(statement, resultSet);
         }
         return null;
     }

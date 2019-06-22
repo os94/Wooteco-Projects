@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class LottosDAO {
     public Lottos findAllLottosByRound(int round) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         Lottos lottos = new Lottos();
@@ -30,13 +30,13 @@ public class LottosDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, resultSet);
+            DBManager.close(statement, resultSet);
         }
         return lottos;
     }
 
     public void addLotto(String lotto, int round) {
-        Connection connection = null;
+        Connection connection;
         PreparedStatement statement = null;
 
         try {
@@ -50,7 +50,7 @@ public class LottosDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
-            DBManager.close(connection, statement, null);
+            DBManager.close(statement, null);
         }
     }
 }
