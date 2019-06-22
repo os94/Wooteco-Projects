@@ -27,7 +27,7 @@ CREATE TABLE `winninglotto_tb` (
   `bonus` int(10) unsigned NOT NULL,
   `fk_winninglotto_round` int(10) unsigned NOT NULL,
   UNIQUE KEY `fk_winninglotto_round_UNIQUE` (`fk_winninglotto_round`),
-  CONSTRAINT `fk_winninglotto_round` FOREIGN KEY (`fk_winninglotto_round`) REFERENCES `round_tb` (`round`) ON DELETE CASCADE
+  CONSTRAINT `fk_winninglotto_round` FOREIGN KEY (`fk_winninglotto_round`) REFERENCES round (`round`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

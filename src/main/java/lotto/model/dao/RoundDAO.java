@@ -8,16 +8,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class RoundDAO {
-    public void updateRoundWith(String input_money) {
+    public void updateRoundWith(String inputMoney) {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = DBManager.getConnection();
-            String query = "INSERT INTO round_tb VALUES (0, ?)";
+            String query = "INSERT INTO round VALUES (0, ?)";
             statement = connection.prepareStatement(query);
 
-            statement.setInt(1, Integer.parseInt(input_money));
+            statement.setInt(1, Integer.parseInt(inputMoney));
             statement.executeUpdate();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -33,7 +33,7 @@ public class RoundDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "select count(*) from round_tb";
+            String query = "select count(*) from round";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
@@ -56,7 +56,7 @@ public class RoundDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "SELECT * FROM round_tb WHERE round = ?";
+            String query = "SELECT * FROM round WHERE round = ?";
             statement = connection.prepareStatement(query);
 
             statement.setInt(1, round);

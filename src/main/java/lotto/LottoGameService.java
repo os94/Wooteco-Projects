@@ -16,9 +16,9 @@ public class LottoGameService {
         return new RoundDAO().recentRound();
     }
 
-    public Map<String, Object> result(String input_round) {
+    public Map<String, Object> result(String inputRound) {
         Map<String, Object> model = new HashMap<>();
-        int round = Integer.parseInt(input_round);
+        int round = Integer.parseInt(inputRound);
         Lottos lottos = new LottosDAO().findAllLottosByRound(round);
         WinningLotto winningLotto = new WinningLottoDAO().findWinningLottoByRound(round);
         GameResult gameResult = LottoGame.match(lottos, winningLotto);
@@ -33,25 +33,25 @@ public class LottoGameService {
         return model;
     }
 
-    public void buyLotto(String input_money, String[] input_manual_lottos) {
-        Money money = new Money(Integer.parseInt(input_money));
-        PositiveNumber countOfManualLotto = new PositiveNumber(input_manual_lottos.length);
+    public void buyLotto(String inputMoney, String[] inputManualLottos) {
+        Money money = new Money(Integer.parseInt(inputMoney));
+        PositiveNumber countOfManualLotto = new PositiveNumber(inputManualLottos.length);
         PositiveNumber countOfAutoLotto = money.countOfLotto().subtract(countOfManualLotto);
-        Lottos lottos = LottoGame.buy(Arrays.asList(input_manual_lottos), countOfAutoLotto);
+        Lottos lottos = LottoGame.buy(Arrays.asList(inputManualLottos), countOfAutoLotto);
 
-        new RoundDAO().updateRoundWith(input_money);
+        new RoundDAO().updateRoundWith(inputMoney);
         for (Lotto lotto : lottos.getLottos()) {
             new LottosDAO().addLotto(lotto.toString(), new RoundDAO().recentRound());
         }
     }
 
-    public void registerWinningLotto(String input_winning_lotto, String input_bonus) {
-        int bonus = Integer.parseInt(input_bonus);
+    public void registerWinningLotto(String inputWinningLotto, String inputBonus) {
+        int bonus = Integer.parseInt(inputBonus);
         new WinningLotto(
-                LottoFactory.createManualGenerator(input_winning_lotto),
+                LottoFactory.createManualGenerator(inputWinningLotto),
                 LottoNumber.of(bonus)
         );
 
-        new WinningLottoDAO().addWinningLotto(input_winning_lotto, bonus, new RoundDAO().recentRound());
+        new WinningLottoDAO().addWinningLotto(inputWinningLotto, bonus, new RoundDAO().recentRound());
     }
 }

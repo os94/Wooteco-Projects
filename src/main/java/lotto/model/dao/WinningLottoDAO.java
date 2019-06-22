@@ -17,7 +17,7 @@ public class WinningLottoDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "SELECT * FROM winninglotto_tb WHERE fk_winninglotto_round = ?";
+            String query = "SELECT * FROM winninglotto WHERE fk_winninglotto_round = ?";
             statement = connection.prepareStatement(query);
 
             statement.setInt(1, round);
@@ -43,7 +43,7 @@ public class WinningLottoDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "INSERT INTO winninglotto_tb VALUES (?, ?, ?)";
+            String query = "INSERT INTO winninglotto VALUES (?, ?, ?)";
             statement = connection.prepareStatement(query);
 
             statement.setString(1, winningLotto);
