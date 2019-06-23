@@ -17,7 +17,7 @@ public class LottosDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "SELECT * FROM lottos WHERE fk_lottos_round = ?";
+            String query = "SELECT lotto FROM lottos WHERE fk_lottos_round = ?";
             statement = connection.prepareStatement(query);
 
             statement.setInt(1, round);

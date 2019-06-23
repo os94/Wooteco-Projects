@@ -33,14 +33,14 @@ public class RoundDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "select count(*) from round";
+            String query = "select count(*) as total from round";
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
             if (!resultSet.next()) {
                 throw new SQLException();
             }
-            return resultSet.getInt("count(*)");
+            return resultSet.getInt("total");
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } finally {
@@ -56,7 +56,7 @@ public class RoundDAO {
 
         try {
             connection = DBManager.getConnection();
-            String query = "SELECT * FROM round WHERE round = ?";
+            String query = "SELECT money FROM round WHERE round = ?";
             statement = connection.prepareStatement(query);
 
             statement.setInt(1, round);
