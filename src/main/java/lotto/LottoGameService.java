@@ -12,17 +12,27 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LottoGameService {
+    private final RoundDAO roundDAO;
+    private final LottosDAO lottosDAO;
+    private final WinningLottoDAO winningLottoDAO;
+
+    public LottoGameService() {
+        this.roundDAO = new RoundDAO();
+        this.lottosDAO = new LottosDAO();
+        this.winningLottoDAO = new WinningLottoDAO();
+    }
+
     public int recentRound() {
-        return new RoundDAO().recentRound();
+        return roundDAO.recentRound();
     }
 
     public Map<String, Object> result(String inputRound) {
         Map<String, Object> model = new HashMap<>();
         int round = Integer.parseInt(inputRound);
-        Lottos lottos = new LottosDAO().findAllLottosByRound(round);
-        WinningLotto winningLotto = new WinningLottoDAO().findWinningLottoByRound(round);
+        Lottos lottos = lottosDAO.findAllLottosByRound(round);
+        WinningLotto winningLotto = winningLottoDAO.findWinningLottoByRound(round);
         GameResult gameResult = LottoGame.match(lottos, winningLotto);
-        Money money = new RoundDAO().findMoneyByRound(round);
+        Money money = roundDAO.findMoneyByRound(round);
 
         model.put("round", round);
         model.put("lottos", WebViewBuilder.of(lottos));
@@ -39,9 +49,9 @@ public class LottoGameService {
         PositiveNumber countOfAutoLotto = money.countOfLotto().subtract(countOfManualLotto);
         Lottos lottos = LottoGame.buy(Arrays.asList(inputManualLottos), countOfAutoLotto);
 
-        new RoundDAO().updateRoundWith(inputMoney);
+        roundDAO.updateRoundWith(inputMoney);
         for (Lotto lotto : lottos.getLottos()) {
-            new LottosDAO().addLotto(lotto.toString(), new RoundDAO().recentRound());
+            lottosDAO.addLotto(lotto.toString(), roundDAO.recentRound());
         }
     }
 
@@ -52,6 +62,6 @@ public class LottoGameService {
                 LottoNumber.of(bonus)
         );
 
-        new WinningLottoDAO().addWinningLotto(inputWinningLotto, bonus, new RoundDAO().recentRound());
+        winningLottoDAO.addWinningLotto(inputWinningLotto, bonus, roundDAO.recentRound());
     }
 }
