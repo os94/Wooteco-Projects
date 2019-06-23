@@ -8,7 +8,7 @@
 
 <h1>Lotto</h1>
 
-{{round}} 회차
+<span id="current_round">{{round}}</span> 회차
 <br><br>
 
 <form action="/result" method="post">
@@ -44,6 +44,10 @@
         }
         document.getElementById("block_buy_lotto").style.display = "block";
     }
+
+    var currentRound = document.getElementById("current_round").innerHTML;
+    document.getElementById("current_round").innerHTML = ++currentRound;
+
 </script>
 </body>
 </html>

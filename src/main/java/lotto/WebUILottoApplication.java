@@ -17,7 +17,7 @@ public class WebUILottoApplication {
 
             get("/", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
-                model.put("round", lottoGameService.recentRound() + 1);
+                model.put("round", lottoGameService.recentRound());
                 return render(model, "main.html");
             });
 
