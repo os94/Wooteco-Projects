@@ -21,7 +21,14 @@ public class Point {
     }
 
     public static Point of(int x, int y) {
+        checkValidPoint(x, y);
         return points.get(x + "," + y);
+    }
+
+    private static void checkValidPoint(int x, int y) {
+        if (1 > x || 8 < x || 1 > y || 8 < y) {
+            throw new IllegalArgumentException("올바르지 않은 위치입니다.");
+        }
     }
 
     public double calculateDistance(Point other) {
