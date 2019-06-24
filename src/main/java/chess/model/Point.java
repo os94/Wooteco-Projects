@@ -1,10 +1,19 @@
 package chess.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class Point {
-    private int x;
-    private int y;
+    private static final Map<String, Point> points = new HashMap<>();
+    private final int x;
+    private final int y;
+
+    static {
+        for (int i = 1; i <= 8; i++) {
+            setPoints(i);
+        }
+    }
 
     private Point(int x, int y) {
         this.x = x;
@@ -12,7 +21,7 @@ public class Point {
     }
 
     public static Point of(int x, int y) {
-        return new Point(x, y);
+        return points.get(x + "," + y);
     }
 
     public double calculateDistance(Point other) {
@@ -41,5 +50,15 @@ public class Point {
     @Override
     public int hashCode() {
         return Objects.hash(x, y);
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    private static void setPoints(int i) {
+        for (int j = 1; j <= 8; j++) {
+            points.put(i + "," + j, new Point(i, j));
+        }
     }
 }
