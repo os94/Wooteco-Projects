@@ -6,7 +6,7 @@ import chess.model.Point;
 
 public class Rook extends Piece {
     public Rook(PlayerType team, Point point) {
-        super(team, point);
+        super(team, point, 5);
     }
 
     @Override

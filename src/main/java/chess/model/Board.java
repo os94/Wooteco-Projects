@@ -61,4 +61,8 @@ public class Board {
             current = current.next(direction);
         }
     }
+
+    public double calculateScore(PlayerType team) {
+        return new ScoreCalculator(chessBoard.values()).calculateScore(team);
+    }
 }

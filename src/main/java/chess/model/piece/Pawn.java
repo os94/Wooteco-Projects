@@ -10,7 +10,7 @@ public class Pawn extends Piece {
     private boolean isFirstMove = true;
 
     public Pawn(PlayerType team, Point point) {
-        super(team, point);
+        super(team, point, 1);
     }
 
     @Override

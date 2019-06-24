@@ -8,7 +8,7 @@ public class Blank extends Piece {
     private static final String ERROR_MESSAGE_BLANK = "Blank 호출 오류";
 
     public Blank(PlayerType team, Point point) {
-        super(team, point);
+        super(team, point, 0);
     }
 
     @Override

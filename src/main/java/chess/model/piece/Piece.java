@@ -7,11 +7,12 @@ import chess.model.Point;
 public abstract class Piece {
     PlayerType team;
     Point point;
-    int score;
+    double score;
 
-    Piece(PlayerType team, Point point) {
+    Piece(PlayerType team, Point point, double score) {
         this.team = team;
         this.point = point;
+        this.score = score;
     }
 
     public abstract Piece createBlack(Point point);
@@ -38,5 +39,13 @@ public abstract class Piece {
 
     public void move(Point destination) {
         point = destination;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public int getX() {
+        return point.getX();
     }
 }

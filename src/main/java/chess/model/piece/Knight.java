@@ -6,7 +6,7 @@ import chess.model.Point;
 
 public class Knight extends Piece {
     public Knight(PlayerType team, Point point) {
-        super(team, point);
+        super(team, point, 2.5);
     }
 
     @Override

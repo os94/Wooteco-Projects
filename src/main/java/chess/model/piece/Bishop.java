@@ -6,7 +6,7 @@ import chess.model.Point;
 
 public class Bishop extends Piece {
     public Bishop(PlayerType team, Point point) {
-        super(team, point);
+        super(team, point, 3);
     }
 
     @Override
