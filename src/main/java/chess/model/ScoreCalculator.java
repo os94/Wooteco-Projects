@@ -3,8 +3,6 @@ package chess.model;
 import chess.model.piece.Pawn;
 import chess.model.piece.Piece;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -14,8 +12,8 @@ import static java.util.stream.Collectors.groupingBy;
 public class ScoreCalculator {
     List<Piece> pieces;
 
-    public ScoreCalculator(Collection<Piece> values) {
-        this.pieces = new ArrayList<>(values);
+    public ScoreCalculator(List<Piece> pieces) {
+        this.pieces = pieces;
     }
 
     public double calculateScore(PlayerType team) {
