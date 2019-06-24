@@ -1,35 +1,31 @@
 package chess.model;
 
-import chess.model.piece.*;
+import chess.model.piece.Blank;
+import chess.model.piece.King;
+import chess.model.piece.Piece;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 public class Board {
-    private Map<Point, Piece> chessBoard = new HashMap<>();
+    private Map<Point, Piece> chessBoard;
     private PlayerType currentTeam = PlayerType.WHITE;
 
-    public Board() {
-        initialize();
-    }
-
-    private void initialize() {
-        createChessPieces(PlayerType.WHITE);
-        createPawn(PlayerType.WHITE);
-        createChessPieces(PlayerType.BLACK);
-        createPawn(PlayerType.BLACK);
+    Board(Map<Point, Piece> chessBoard) {
+        this.chessBoard = chessBoard;
     }
 
     public boolean executeMovement(Point source, Point destination) {
         checkMyPiece(source, destination);
         checkMovablePoint(source, destination);
         checkObstacle(source, destination);
+        if (chessBoard.get(destination) instanceof King) {
+            return true;
+        }
         move(source, destination);
         currentTeam.toggle();
-        return chessBoard.get(destination) instanceof King;
+        return false;
     }
 
     private void checkMyPiece(Point source, Point destination) {
@@ -78,24 +74,7 @@ public class Board {
     }
 
     public double calculateScore(PlayerType team) {
-        return new ScoreCalculator(chessBoard.values()).calculateScore(team);
-    }
-
-    private void createChessPieces(PlayerType team) {
-        List<BiFunction<PlayerType, Point, Piece>> pieces =
-                Arrays.asList(Rook::new, King::new, Bishop::new, King::new,
-                        Queen::new, Bishop::new, Knight::new, Rook::new);
-        int pieceYPoint = team == PlayerType.WHITE ? 1 : 8;
-        for (int i = 1; i <= 8; i++) {
-            chessBoard.put(Point.of(i, pieceYPoint), pieces.get(i - 1).apply(team, Point.of(i, pieceYPoint)));
-        }
-    }
-
-    private void createPawn(PlayerType team) {
-        int pawnYPoint = team == PlayerType.WHITE ? 2 : 7;
-        for (int i = 1; i <= 8; i++) {
-            Point point = Point.of(i, pawnYPoint);
-            chessBoard.put(point, new Pawn(team, point));
-        }
+        List<Piece> pieces = new ArrayList<>(chessBoard.values());
+        return new ScoreCalculator(pieces).calculateScore(team);
     }
 }
