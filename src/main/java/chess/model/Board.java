@@ -12,8 +12,8 @@ public class Board {
     private Map<Point, Piece> chessBoard;
     private PlayerType currentTeam = PlayerType.WHITE;
 
-    Board(Map<Point, Piece> chessBoard) {
-        this.chessBoard = chessBoard;
+    public Board(BoardInitializer initializer) {
+        this.chessBoard = initializer.initialize();
     }
 
     public boolean executeMovement(Point source, Point destination) {

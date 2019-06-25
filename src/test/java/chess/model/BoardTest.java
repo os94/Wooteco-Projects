@@ -17,7 +17,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new BoardInitializer().initialize();
+        board = new Board(new ChessInitializer());
     }
 
     @Test
@@ -43,10 +43,12 @@ public class BoardTest {
 
     @Test
     void 도착지가_King인_경우_true() {
-        Map<Point, Piece> chessBoard = new HashMap<>();
-        chessBoard.put(Point.of(4, 8), new King(PlayerType.BLACK, Point.of(4, 8)));
-        chessBoard.put(Point.of(4, 3), new Rook(PlayerType.WHITE, Point.of(4, 3)));
-        Board board = new Board(chessBoard);
+        Board board = new Board(() -> {
+            Map<Point, Piece> chessBoard = new HashMap<>();
+            chessBoard.put(Point.of(4, 8), new King(PlayerType.BLACK, Point.of(4, 8)));
+            chessBoard.put(Point.of(4, 3), new Rook(PlayerType.WHITE, Point.of(4, 3)));
+            return chessBoard;
+        });
 
         assertThat(board.executeMovement(Point.of(4, 3), Point.of(4, 8))).isTrue();
     }
