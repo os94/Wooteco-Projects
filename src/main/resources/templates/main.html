@@ -1,0 +1,98 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/mycss.css"/>
+</head>
+<body>
+
+<p>지금은 {{team}} 차례입니다.</p>
+
+<form action="/start">
+    <button type="submit" id="start">Start</button>
+</form>
+
+<button id="move">Move</button>
+<button id="status">Status</button>
+<button id="end">End</button>
+
+<div id="checker-board">
+</div>
+
+<script>
+    window.onload = showBoard();
+
+    function showBoard() {
+        var checkerBoard = document.getElementById("checker-board");
+        var white = false;
+        var chesses = JSON.parse('{{{chesses}}}');
+
+        for (var y = 8; y >= 1; y--) {
+            for (var x = 1; x <= 8; x++) {
+                var div = document.createElement("div");
+                div.id = x + "," + y;
+
+                if (white) {
+                    div.classList.add('light', 'square');
+                }
+                if (!white) {
+                    div.classList.add('dark', 'square');
+                }
+                white = !white;
+
+                for(var key in chesses){
+                    if(chesses[key].point == x + "," + y){
+                        addPieces(chesses[key],div);
+                    }
+                }
+                checkerBoard.append(div);
+            }
+            white = !white;
+        }
+    }
+
+    function addPieces(piece, div) {
+        var black = ['bishopBlack', 'kingBlack', 'knightBlack', 'pawnBlack', 'queenBlack', 'rookBlack'];
+        var white = ['bishopWhite', 'kingWhite', 'knightWhite', 'pawnWhite', 'queenWhite', 'rookWhite'];
+
+        if (piece.team == "WHITE" && piece.piece == "king") {
+            div.classList.add(white[1]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "king") {
+            div.classList.add(black[1]);
+        }
+        if (piece.team == "WHITE" && piece.piece == "bishop") {
+            div.classList.add(white[0]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "bishop") {
+            div.classList.add(black[0]);
+        }
+        if (piece.team == "WHITE" && piece.piece == "knight") {
+            div.classList.add(white[2]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "knight") {
+            div.classList.add(black[2]);
+        }
+        if (piece.team == "WHITE" && piece.piece == "pawn") {
+            div.classList.add(white[3]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "pawn") {
+            div.classList.add(black[3]);
+        }
+        if (piece.team == "WHITE" && piece.piece == "queen") {
+            div.classList.add(white[4]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "queen") {
+            div.classList.add(black[4]);
+        }
+        if (piece.team == "WHITE" && piece.piece == "rook") {
+            div.classList.add(white[5]);
+        }
+        if (piece.team == "BLACK" && piece.piece == "rook") {
+            div.classList.add(black[5]);
+        }
+    }
+
+
+</script>
+</body>
+</html>

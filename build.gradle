@@ -16,4 +16,6 @@ dependencies {
     testCompile('org.assertj:assertj-core:3.11.1')
 
     compile("mysql:mysql-connector-java:8.0.16")
+    compile("com.googlecode.json-simple:json-simple:1.1")
+    compile("com.google.code.gson:gson:2.8.0")
 }

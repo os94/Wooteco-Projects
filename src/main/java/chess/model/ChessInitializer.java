@@ -23,8 +23,8 @@ public class ChessInitializer implements BoardInitializer {
 
     private void createChessPieces(PlayerType team) {
         List<BiFunction<PlayerType, Point, Piece>> pieces =
-                Arrays.asList(Rook::new, King::new, Bishop::new, King::new,
-                        Queen::new, Bishop::new, Knight::new, Rook::new);
+                Arrays.asList(Rook::new, Knight::new, Bishop::new, Queen::new,
+                        King::new, Bishop::new, Knight::new, Rook::new);
         int pieceYPoint = team == PlayerType.WHITE ? 1 : 8;
         for (int i = 1; i <= 8; i++) {
             chessBoard.put(Point.of(i, pieceYPoint), pieces.get(i - 1).apply(team, Point.of(i, pieceYPoint)));
