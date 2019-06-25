@@ -22,7 +22,7 @@ public class BoardTest {
 
     @Test
     public void create() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
         String blankRank = appendNewLine("........");
         assertThat(chessView.view(board))
                 .isEqualTo(
@@ -39,13 +39,13 @@ public class BoardTest {
 
     @Test
     public void print() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
         System.out.println(chessView.view(board));
     }
 
     @Test
     public void countPieceByColorAndType() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
 
         assertThat(board.countPieceByColorAndType(Color.WHITE, Type.PAWN)).isEqualTo(8);
         assertThat(board.countPieceByColorAndType(Color.BLACK, Type.KNIGHT)).isEqualTo(2);
@@ -54,7 +54,7 @@ public class BoardTest {
 
     @Test
     public void findPiece() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
 
         assertFindPiece(Rook.createBlack(new Position("a8")));
         assertFindPiece(Rook.createBlack(new Position("h8")));
@@ -68,7 +68,7 @@ public class BoardTest {
 
     @Test
     public void addPiece() throws Exception {
-        board.initializeEmpty();
+        board.initialize(new EmptyInitializer());
 
         Position position = new Position("b5");
         Rook piece = Rook.createBlack(position);
@@ -80,7 +80,7 @@ public class BoardTest {
 
     @Test
     public void caculcatePoint() throws Exception {
-        board.initializeEmpty();
+        board.initialize(new EmptyInitializer());
 
         addPiece(Pawn.createBlack(new Position("b6")));
         addPiece(Queen.createBlack(new Position("e6")));
@@ -100,7 +100,7 @@ public class BoardTest {
 
     @Test
     public void caculcatePoint_pawn() throws Exception {
-        board.initializeEmpty();
+        board.initialize(new EmptyInitializer());
 
         addPiece(Pawn.createBlack(new Position("b6")));
         addPiece(Pawn.createBlack(new Position("b5")));
@@ -111,7 +111,7 @@ public class BoardTest {
     
     @Test
     public void move_valid() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
         
         Position sourcePosition = new Position("b2");
         Position targetPosition = new Position("b3");
@@ -124,7 +124,7 @@ public class BoardTest {
     
     @Test
     public void move_invalid() throws Exception {
-        board.initialize();
+        board.initialize(new RankInitializer());
 
         assertThatThrownBy(() -> {
             Position sourcePosition = new Position("a1");
