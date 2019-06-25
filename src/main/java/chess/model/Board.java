@@ -6,6 +6,9 @@ import chess.model.piece.Piece;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 
 public class Board {
     private Map<Point, Piece> chessBoard;
@@ -75,5 +78,16 @@ public class Board {
     public double calculateScore(PlayerType team) {
         List<Piece> pieces = new ArrayList<>(chessBoard.values());
         return new ScoreCalculator(pieces).calculateScore(team);
+    }
+
+    public List<BoardDto> convertToDto(int round) {
+        List<BoardDto> boardDtos = chessBoard.keySet().stream()
+                .map(point -> new BoardDto(
+                        chessBoard.get(point).toString(),
+                        chessBoard.get(point).getTeam(),
+                        point.toString(),
+                        round))
+                .collect(toList());
+        return boardDtos;
     }
 }

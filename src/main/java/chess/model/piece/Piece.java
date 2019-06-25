@@ -56,4 +56,8 @@ public abstract class Piece {
     public int getX() {
         return point.getX();
     }
+
+    public String getTeam() {
+        return team.name();
+    }
 }
