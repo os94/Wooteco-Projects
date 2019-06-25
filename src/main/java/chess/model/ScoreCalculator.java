@@ -1,6 +1,5 @@
 package chess.model;
 
-import chess.model.piece.Pawn;
 import chess.model.piece.Piece;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class ScoreCalculator {
     public double calculateScore(PlayerType team) {
         double sum = pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
-                .filter(piece -> !(piece instanceof Pawn))
+                .filter(piece -> !piece.isPawn())
                 .mapToDouble(Piece::getScore)
                 .sum();
         return sum + calculatePawnScore(team);
@@ -28,7 +27,7 @@ public class ScoreCalculator {
     private double calculatePawnScore(PlayerType team) {
         Map<Integer, Long> xGroup = pieces.stream()
                 .filter(piece -> piece.isSameTeam(team))
-                .filter(piece -> piece instanceof Pawn)
+                .filter(Piece::isPawn)
                 .collect(groupingBy(Piece::getX, counting()));
 
         return xGroup.values().stream()

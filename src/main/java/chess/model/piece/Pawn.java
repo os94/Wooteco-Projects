@@ -57,4 +57,9 @@ public class Pawn extends Piece {
     public Piece createWhite(Point point) {
         return new Pawn(PlayerType.WHITE, point);
     }
+
+    @Override
+    public boolean isPawn() {
+        return true;
+    }
 }

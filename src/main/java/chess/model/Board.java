@@ -1,7 +1,6 @@
 package chess.model;
 
 import chess.model.piece.Blank;
-import chess.model.piece.King;
 import chess.model.piece.Piece;
 
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ public class Board {
         checkMyPiece(source, destination);
         checkMovablePoint(source, destination);
         checkObstacle(source, destination);
-        if (chessBoard.get(destination) instanceof King) {
+        if (chessBoard.get(destination).isKing()) {
             return true;
         }
         move(source, destination);

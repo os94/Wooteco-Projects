@@ -31,6 +31,14 @@ public abstract class Piece {
         return team == PlayerType.NONE;
     }
 
+    public boolean isKing() {
+        return false;
+    }
+
+    public boolean isPawn() {
+        return false;
+    }
+
     public abstract boolean canMove(Direction direction, Point destination);
 
     public boolean isAvailableDestinationOfPawn(Direction direction, Piece destinationPiece) {

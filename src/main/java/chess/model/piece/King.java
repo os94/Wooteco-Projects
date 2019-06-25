@@ -24,4 +24,9 @@ public class King extends Piece {
     public Piece createWhite(Point point) {
         return new King(PlayerType.WHITE, point);
     }
+
+    @Override
+    public boolean isKing() {
+        return true;
+    }
 }
