@@ -11,7 +11,12 @@
     <button type="submit" id="start">Start</button>
 </form>
 
-<button id="move">Move</button>
+<form action="/move" method="post">
+    <input type="text" name="source">
+    <input type="text" name="destination">
+    <button type="submit" id="move">Move</button>
+</form>
+
 <button id="status">Status</button>
 <button id="end">End</button>
 
@@ -39,9 +44,9 @@
                 }
                 white = !white;
 
-                for(var key in chesses){
-                    if(chesses[key].point == x + "," + y){
-                        addPieces(chesses[key],div);
+                for (var key in chesses) {
+                    if (chesses[key].point == x + "," + y) {
+                        addPieces(chesses[key], div);
                     }
                 }
                 checkerBoard.append(div);

@@ -37,6 +37,7 @@
     background-image: url("../images/black_king.png");
     background-repeat: no-repeat;
 }
+
 .knightBlack {
     background-image: url("../images/black_knight.png");
     background-repeat: no-repeat;
@@ -62,10 +63,12 @@
     background-image: url("../images/white_bishop.png");
     background-repeat: no-repeat;
 }
+
 .kingWhite {
     background-image: url("../images/white_king.png");
     background-repeat: no-repeat;
 }
+
 .knightWhite {
     background-image: url("../images/white_knight.png");
     background-repeat: no-repeat;

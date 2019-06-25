@@ -14,22 +14,13 @@ public class BoardDao {
     private static final String SELECT_CURRENT_ROUND = "select round from board order by round desc limit 1";
     private static final String SELECT_CURRENT_TEAM = "select current_team from team";
     private static final String SELECT_CHESSES = "select piece, team, point from board where round = ?";
-
+    private static final String DELETE_PIECE = "delete from board where round = ? and point = ?";
+    private static final String UPDATE_PIECE = "update board set point = ? where point = ? and round = ?";
 
     private final Connection connection;
 
     public BoardDao(Connection connection) {
         this.connection = connection;
-    }
-
-    public void delete() throws SQLException {
-        PreparedStatement pstmt;
-
-        String sql = "delete from board";
-        pstmt = connection.prepareStatement(sql);
-        pstmt.executeUpdate();
-
-        DBManager.close(pstmt);
     }
 
     public void initialize(List<BoardDto> boardDtos) throws SQLException {
@@ -74,5 +65,20 @@ public class BoardDao {
             chesses.add(new BoardDto(piece, team, point, round));
         }
         return chesses;
+    }
+
+    public void remove(int round, String destination) throws SQLException {
+        PreparedStatement pstmt = connection.prepareStatement(DELETE_PIECE);
+        pstmt.setInt(1, round);
+        pstmt.setString(2, destination);
+        pstmt.executeUpdate();
+    }
+
+    public void update(int round, String source, String destination) throws SQLException {
+        PreparedStatement pstmt = connection.prepareStatement(UPDATE_PIECE);
+        pstmt.setString(1, destination);
+        pstmt.setString(2, source);
+        pstmt.setInt(3, round);
+        pstmt.executeUpdate();
     }
 }

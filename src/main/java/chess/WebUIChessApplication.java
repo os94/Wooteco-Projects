@@ -12,5 +12,7 @@ public class WebUIChessApplication {
         get("/", ChessGameController.load);
 
         get("/start", ChessGameController.start);
+
+        get("/move", ChessGameController.move);
     }
 }
