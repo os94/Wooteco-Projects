@@ -24,4 +24,9 @@ public class Knight extends Piece {
         double distance = point.calculateDistance(destination);
         return distance == Math.sqrt(5) && Direction.knightDirection().contains(direction);
     }
+
+    @Override
+    public String toString() {
+        return "knight";
+    }
 }

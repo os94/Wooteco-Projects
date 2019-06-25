@@ -68,4 +68,9 @@ public class Point {
             points.put(i + "," + j, new Point(i, j));
         }
     }
+
+    @Override
+    public String toString() {
+        return x + "," + y;
+    }
 }

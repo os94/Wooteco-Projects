@@ -23,4 +23,9 @@ public class Rook extends Piece {
     public boolean canMove(Direction direction, Point destination) {
         return Direction.rookDirection().contains(direction);
     }
+
+    @Override
+    public String toString() {
+        return "rook";
+    }
 }

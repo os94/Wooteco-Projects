@@ -23,4 +23,9 @@ public class Bishop extends Piece {
     public boolean canMove(Direction direction, Point destination) {
         return Direction.bishopDirection().contains(direction);
     }
+
+    @Override
+    public String toString() {
+        return "bishop";
+    }
 }

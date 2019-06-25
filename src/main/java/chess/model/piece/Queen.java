@@ -24,4 +24,9 @@ public class Queen extends Piece {
         return Direction.rookDirection().contains(direction)
                 || Direction.bishopDirection().contains(direction);
     }
+
+    @Override
+    public String toString() {
+        return "queen";
+    }
 }
