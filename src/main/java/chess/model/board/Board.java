@@ -1,5 +1,10 @@
-package chess.model;
+package chess.model.board;
 
+import chess.db.BoardDto;
+import chess.model.Direction;
+import chess.model.PlayerType;
+import chess.model.Point;
+import chess.model.ScoreCalculator;
 import chess.model.piece.Blank;
 import chess.model.piece.Piece;
 

@@ -1,4 +1,4 @@
-package chess.model;
+package chess.db;
 
 public class BoardDto {
     private final String piece;

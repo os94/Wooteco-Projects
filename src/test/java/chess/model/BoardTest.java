@@ -1,5 +1,7 @@
 package chess.model;
 
+import chess.model.board.Board;
+import chess.model.board.ChessInitializer;
 import chess.model.piece.King;
 import chess.model.piece.Piece;
 import chess.model.piece.Rook;

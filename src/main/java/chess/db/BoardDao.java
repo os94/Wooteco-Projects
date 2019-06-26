@@ -1,4 +1,4 @@
-package chess.model;
+package chess.db;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ import java.util.List;
 public class BoardDao {
     private static final String INSERT_BOARD_SQL = "INSERT INTO board(piece,team,point,round) values(?,?,?,?)";
     private static final String SELECT_CURRENT_ROUND = "select round from board order by round desc limit 1";
-    private static final String SELECT_CURRENT_TEAM = "select current_team from team";
+    private static final String SELECT_CURRENT_TEAM = "select current_team from turn";
     private static final String SELECT_CHESSES = "select piece, team, point from board where round = ?";
     private static final String DELETE_PIECE = "delete from board where round = ? and point = ?";
     private static final String UPDATE_PIECE = "update board set point = ? where point = ? and round = ?";

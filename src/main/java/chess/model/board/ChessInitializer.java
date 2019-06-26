@@ -1,5 +1,7 @@
-package chess.model;
+package chess.model.board;
 
+import chess.model.PlayerType;
+import chess.model.Point;
 import chess.model.piece.Piece;
 import chess.model.piece.PieceFactory;
 

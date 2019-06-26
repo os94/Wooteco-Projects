@@ -1,7 +1,5 @@
 package chess;
 
-import chess.model.ChessGameController;
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 

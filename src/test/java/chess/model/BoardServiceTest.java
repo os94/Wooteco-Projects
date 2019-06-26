@@ -1,5 +1,6 @@
 package chess.model;
 
+import chess.model.board.BoardService;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;

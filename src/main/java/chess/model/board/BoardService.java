@@ -1,7 +1,11 @@
-package chess.model;
+package chess.model.board;
 
-import chess.DBManager;
-import chess.PointConverter;
+import chess.db.DBManager;
+import chess.model.PlayerType;
+import chess.model.Point;
+import chess.util.PointConverter;
+import chess.db.BoardDao;
+import chess.db.BoardDto;
 import chess.model.piece.PieceFactory;
 
 import java.sql.SQLException;
