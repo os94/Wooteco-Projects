@@ -1,7 +1,5 @@
 package chess.model;
 
-import chess.DBManager;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

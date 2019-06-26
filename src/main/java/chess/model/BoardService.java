@@ -2,6 +2,7 @@ package chess.model;
 
 import chess.DBManager;
 import chess.PointConverter;
+import chess.model.piece.PieceFactory;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,19 +29,25 @@ public class BoardService {
         return boardDao.findChesses(round);
     }
 
-    public void move(String inputSource, String inputDestination) throws SQLException {
+    public List<BoardDto> move(String inputSource, String inputDestination) throws SQLException {
         Point source = PointConverter.convertToPoint(inputSource);
         Point destination = PointConverter.convertToPoint(inputDestination);
+        int round = boardDao.recentRound();
 
         BoardLoader boardLoader = new BoardLoader();
-        // todo : add current board dtos
+        List<BoardDto> boardDtos = getChesses();
+        for (BoardDto boardDto : boardDtos) {
+            Point point = PointConverter.convertToPoint(boardDto.getPoint());
+            boardLoader.add(point, PieceFactory.create(
+                    boardDto.getPiece(), PlayerType.valueOf(boardDto.getTeam()), point));
+        }
         Board board = new Board(boardLoader);
-        if(board.executeMovement(source,destination)){
+        if (board.executeMovement(source, destination)) {
             //todo : king die
         }
-        //todo
-        int round = boardDao.recentRound();
         boardDao.remove(round, destination.toString());
         boardDao.update(round, source.toString(), destination.toString());
+
+        return getChesses();
     }
 }

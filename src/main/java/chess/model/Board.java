@@ -21,7 +21,7 @@ public class Board {
         checkMyPiece(source, destination);
         checkMovablePoint(source, destination);
         checkObstacle(source, destination);
-        if (chessBoard.get(destination).isKing()) {
+        if (chessBoard.getOrDefault(destination, new Blank(PlayerType.NONE, destination)).isKing()) {
             return true;
         }
         move(source, destination);
