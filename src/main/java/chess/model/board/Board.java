@@ -16,10 +16,11 @@ import static java.util.stream.Collectors.toList;
 
 public class Board {
     private Map<Point, Piece> chessBoard;
-    private PlayerType currentTeam = PlayerType.WHITE;
+    private PlayerType currentTeam;
 
-    public Board(BoardInitializer initializer) {
+    public Board(BoardInitializer initializer , PlayerType currentTeam) {
         this.chessBoard = initializer.initialize();
+        this.currentTeam = currentTeam;
     }
 
     public boolean executeMovement(Point source, Point destination) {

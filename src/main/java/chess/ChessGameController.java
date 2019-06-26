@@ -43,11 +43,14 @@ public class ChessGameController {
 
         String source = request.queryParams("source");
         String destination = request.queryParams("destination");
-        boardService.move(source, destination);
+        String moveResult = boardService.move(source, destination);
 
         Gson gson = new Gson();
         String json = gson.toJson(boardService.getChesses());
         model.put("chesses", json);
+
+        model.put("team", boardService.currentTeam());
+        model.put("moveResult", moveResult);
 
         return render(model, "main.html");
     };
