@@ -19,7 +19,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        board = new Board(new ChessInitializer());
+        board = new Board(new ChessInitializer(), PlayerType.WHITE);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class BoardTest {
             chessBoard.put(Point.of(4, 8), new King(PlayerType.BLACK, Point.of(4, 8)));
             chessBoard.put(Point.of(4, 3), new Rook(PlayerType.WHITE, Point.of(4, 3)));
             return chessBoard;
-        });
+        }, PlayerType.WHITE);
 
         assertThat(board.executeMovement(Point.of(4, 3), Point.of(4, 8))).isTrue();
     }
