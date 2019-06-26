@@ -2,6 +2,9 @@ package chess;
 
 import chess.model.ChessGameController;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import static spark.Spark.*;
 
 public class WebUIChessApplication {
@@ -13,5 +16,20 @@ public class WebUIChessApplication {
         get("/start", ChessGameController.start);
 
         post("/move", ChessGameController.move);
+
+        exception(Exception.class, (exception, req, res) -> {
+            String message = null;
+            try {
+                message = encodeUTF8(exception.getMessage());
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            res.redirect("/?error=" + message);
+
+        });
+    }
+
+    private static String encodeUTF8(final String message) throws UnsupportedEncodingException {
+        return URLEncoder.encode(message, "UTF-8");
     }
 }

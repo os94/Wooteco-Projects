@@ -32,7 +32,7 @@ public class ChessGameController {
         Gson gson = new Gson();
         String json = gson.toJson(boardService.getChesses());
         model.put("chesses", json);
-
+        model.put("error",request.queryParams("error"));
         return render(model, "main.html");
     };
 
