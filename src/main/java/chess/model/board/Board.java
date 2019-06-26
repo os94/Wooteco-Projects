@@ -18,7 +18,7 @@ public class Board {
     private Map<Point, Piece> chessBoard;
     private PlayerType currentTeam;
 
-    public Board(BoardInitializer initializer , PlayerType currentTeam) {
+    public Board(BoardInitializer initializer, PlayerType currentTeam) {
         this.chessBoard = initializer.initialize();
         this.currentTeam = currentTeam;
     }

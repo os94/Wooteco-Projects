@@ -1,7 +1,5 @@
 package chess.db;
 
-import chess.model.PlayerType;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -46,8 +44,8 @@ public class TurnDao {
 
     private String changeTeam(String currentTeam) {
         if ("WHITE".equals(currentTeam)) {
-            return  "BLACK";
+            return "BLACK";
         }
-        return  "WHITE";
+        return "WHITE";
     }
 }

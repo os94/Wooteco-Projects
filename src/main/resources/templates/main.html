@@ -5,11 +5,12 @@
 </head>
 <body>
 
-<p>지금은 {{team}} 차례입니다.</p>
-
 <form action="/start">
     <button type="submit" id="start">Start</button>
 </form>
+
+{{^isGameFinish}}
+<div>지금은 {{team}} 차례입니다.</div>
 
 <form action="/move" method="post">
     <input type="text" name="source">
@@ -17,10 +18,21 @@
     <button type="submit" id="move">Move</button>
 </form>
 
-<button id="status">Status</button>
+<form action="/score" method="get">
+    <button type="submit">Status</button>
+</form>
+{{/isGameFinish}}
 
-<div>{{moveResult}}</div>
+{{#isGameFinish}}
+<div>{{team}} 승리!</div>
+{{/isGameFinish}}
+
 <div>{{error}}</div>
+
+{{#score}}
+<div id="score">{{score}}</div>
+{{/score}}
+
 <div id="checker-board">
 </div>
 
@@ -97,7 +109,6 @@
             div.classList.add(black[5]);
         }
     }
-
 
 </script>
 </body>

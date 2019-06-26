@@ -15,6 +15,8 @@ public class WebUIChessApplication {
 
         post("/move", ChessGameController.move);
 
+        get("/score", ChessGameController.score);
+
         exception(Exception.class, (exception, req, res) -> {
             String message = null;
             try {

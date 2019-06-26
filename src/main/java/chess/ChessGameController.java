@@ -32,8 +32,9 @@ public class ChessGameController {
         model.put("team", boardService.currentTeam());
         Gson gson = new Gson();
         String json = gson.toJson(boardService.getChesses());
+
         model.put("chesses", json);
-        model.put("error",request.queryParams("error"));
+        model.put("error", request.queryParams("error"));
         return render(model, "main.html");
     };
 
@@ -43,14 +44,30 @@ public class ChessGameController {
 
         String source = request.queryParams("source");
         String destination = request.queryParams("destination");
-        String moveResult = boardService.move(source, destination);
+        boolean isGameFinish = boardService.move(source, destination);
 
         Gson gson = new Gson();
         String json = gson.toJson(boardService.getChesses());
         model.put("chesses", json);
 
         model.put("team", boardService.currentTeam());
-        model.put("moveResult", moveResult);
+        model.put("isGameFinish", isGameFinish);
+
+        return render(model, "main.html");
+    };
+
+    public static Route score = (Request request, Response response) -> {
+        Map<String, Object> model = new HashMap<>();
+        BoardService boardService = new BoardService();
+
+        Gson gson = new Gson();
+        String json = gson.toJson(boardService.calculateScore());
+        model.put("score", json);
+
+        json = gson.toJson(boardService.getChesses());
+        model.put("chesses", json);
+
+        model.put("team", boardService.currentTeam());
 
         return render(model, "main.html");
     };
