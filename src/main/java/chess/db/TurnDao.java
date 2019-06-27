@@ -1,9 +1,8 @@
 package chess.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 public class TurnDao {
     private static final String SELECT_CURRENT_TURN_BY_ROUND = "select current_team from turn where round = ?";
@@ -12,37 +11,33 @@ public class TurnDao {
     private static final String TEAM_WHITE = "WHITE";
     private static final String TEAM_BLACK = "BLACK";
 
-    private final Connection connection;
+    private final JDBCTemplate jdbcTemplate;
 
-    public TurnDao(Connection connection) {
-        this.connection = connection;
+    public TurnDao() {
+        this.jdbcTemplate = JDBCTemplate.getInstance();
     }
 
-    public void addFirstTurn(int round) throws SQLException {
-        PreparedStatement pstmt = connection.prepareStatement(INSERT_FIRST_TURN_BY_ROUND);
-        pstmt.setString(1, TEAM_WHITE);
-        pstmt.setInt(2, round);
-        pstmt.executeUpdate();
+    public void addFirstTurn(int round) {
+        jdbcTemplate.updateQuery(INSERT_FIRST_TURN_BY_ROUND, TEAM_WHITE, round);
     }
 
     public String selectCurrentTurn(int round) throws SQLException {
-        PreparedStatement pstmt = connection.prepareStatement(SELECT_CURRENT_TURN_BY_ROUND);
-        pstmt.setInt(1, round);
-        ResultSet resultSet = pstmt.executeQuery();
-        if (resultSet.next()) {
-            return resultSet.getString("current_team");
+        List<Map<String, Object>> results = jdbcTemplate.selectQuery(SELECT_CURRENT_TURN_BY_ROUND, round);
+        return makeCurrentTurn(results);
+    }
+
+    private String makeCurrentTurn(List<Map<String, Object>> results) {
+        if (results.isEmpty()) {
+            return TEAM_WHITE;
         }
-        return TEAM_WHITE;
+        return String.valueOf(results.get(0).getOrDefault("current_team", TEAM_WHITE));
     }
 
     public void updateCurrentTurn(int round) throws SQLException {
         String currentTeam = selectCurrentTurn(round);
         currentTeam = changeTeam(currentTeam);
 
-        PreparedStatement pstmt = connection.prepareStatement(UPDATE_CURRENT_TURN_BY_ROUND);
-        pstmt.setString(1, currentTeam);
-        pstmt.setInt(2, round);
-        pstmt.executeUpdate();
+        jdbcTemplate.updateQuery(UPDATE_CURRENT_TURN_BY_ROUND, currentTeam, round);
     }
 
     private String changeTeam(String currentTeam) {

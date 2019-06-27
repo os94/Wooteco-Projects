@@ -2,7 +2,6 @@ package chess.model.board;
 
 import chess.db.BoardDao;
 import chess.db.BoardDto;
-import chess.db.DBManager;
 import chess.db.TurnDao;
 import chess.model.PlayerType;
 import chess.model.Point;
@@ -22,8 +21,8 @@ public class BoardService {
     private final TurnDao turnDao;
 
     public BoardService() {
-        this.boardDao = new BoardDao(DBManager.getConnection());
-        this.turnDao = new TurnDao(DBManager.getConnection());
+        this.boardDao = new BoardDao();
+        this.turnDao = new TurnDao();
     }
 
     public void initialize() throws SQLException {
