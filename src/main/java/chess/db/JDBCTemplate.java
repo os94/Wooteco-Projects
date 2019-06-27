@@ -28,6 +28,15 @@ public class JDBCTemplate {
         }
     }
 
+    public void updateBatchQuery(String query, List<List<Object>> args) {
+        try (Connection connection = DBManager.getConnection();
+             PreparedStatement pstmt = createBatchedPreparedStatement(connection, query, args)) {
+            pstmt.executeBatch();
+        } catch (SQLException exception) {
+            System.err.println(exception.getMessage());
+        }
+    }
+
     public List<Map<String, Object>> selectQuery(String query, Object... args) throws SQLException {
         try (Connection connection = DBManager.getConnection();
              PreparedStatement pstmt = createPreparedStatement(connection, query, args);
@@ -65,6 +74,18 @@ public class JDBCTemplate {
 
         for (int i = 0; i < args.length; i++) {
             pstmt.setObject(i + 1, args[i]);
+        }
+        return pstmt;
+    }
+
+    private PreparedStatement createBatchedPreparedStatement(Connection connection, String query, List<List<Object>> args) throws SQLException {
+        PreparedStatement pstmt = connection.prepareStatement(query);
+
+        for (List<Object> arg : args) {
+            for (int i = 0; i < arg.size(); i++) {
+                pstmt.setObject(i + 1, arg.get(i));
+            }
+            pstmt.addBatch();
         }
         return pstmt;
     }

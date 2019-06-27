@@ -26,22 +26,8 @@ public class BoardDao {
         return INSTANCE;
     }
 
-    public void initialize(List<BoardDto> boardDtos) {
-        for (BoardDto boardDto : boardDtos) {
-            jdbcTemplate.updateQuery(
-                    INSERT_BOARD_SQL,
-                    boardDto.getPiece(), boardDto.getTeam(), boardDto.getPoint(), boardDto.getRound());
-        }
-
-        /*PreparedStatement pstmt = connection.prepareStatement(INSERT_BOARD_SQL);
-        for (BoardDto boardDto : boardDtos) {
-            pstmt.setString(1, boardDto.getPiece());
-            pstmt.setString(2, boardDto.getTeam());
-            pstmt.setString(3, boardDto.getPoint());
-            pstmt.setInt(4, boardDto.getRound());
-            pstmt.addBatch();
-        }
-        pstmt.executeBatch();*/
+    public void initialize(List<List<Object>> boardDtos) {
+        jdbcTemplate.updateBatchQuery(INSERT_BOARD_SQL, boardDtos);
     }
 
     public int recentRound() throws SQLException {

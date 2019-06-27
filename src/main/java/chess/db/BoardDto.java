@@ -1,5 +1,8 @@
 package chess.db;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BoardDto {
     private final String piece;
     private final String team;
@@ -25,7 +28,7 @@ public class BoardDto {
         return point;
     }
 
-    public int getRound() {
-        return round;
+    public List<Object> getAll() {
+        return Arrays.asList(piece, team, point, round);
     }
 }
