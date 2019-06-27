@@ -19,19 +19,23 @@ public class BoardService {
     private static final String TEAM_WHITE = "WHITE";
     private static final String TEAM_BLACK = "BLACK";
 
-    private final BoardDao boardDao;
-    private final TurnDao turnDao;
+    private static BoardService INSTANCE = null;
 
-    public BoardService() {
-        this.boardDao = BoardDao.getInstance();
-        this.turnDao = TurnDao.getInstance();
+    private BoardService() {
+    }
+
+    public static BoardService getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BoardService();
+        }
+        return INSTANCE;
     }
 
     public void initialize() throws SQLException {
         Board board = new Board(new ChessInitializer(), PlayerType.WHITE);
-        int round = boardDao.recentRound();
-        turnDao.addFirstTurn(round + 1);
-        boardDao.initialize(makeFields(board.convertToDtos(round + 1)));
+        int round = BoardDao.getInstance().recentRound();
+        TurnDao.getInstance().addFirstTurn(round + 1);
+        BoardDao.getInstance().initialize(makeFields(board.convertToDtos(round + 1)));
     }
 
     private List<List<Object>> makeFields(List<BoardDto> boardDtos) {
@@ -41,19 +45,19 @@ public class BoardService {
     }
 
     public String currentTeam() throws SQLException {
-        int round = boardDao.recentRound();
-        return turnDao.selectCurrentTurn(round);
+        int round = BoardDao.getInstance().recentRound();
+        return TurnDao.getInstance().selectCurrentTurn(round);
     }
 
     public List<BoardDto> getChesses() throws SQLException {
-        int round = boardDao.recentRound();
-        return boardDao.findChesses(round);
+        int round = BoardDao.getInstance().recentRound();
+        return BoardDao.getInstance().findChesses(round);
     }
 
     public boolean move(String inputSource, String inputDestination) throws SQLException {
         Point source = PointConverter.convertToPoint(inputSource);
         Point destination = PointConverter.convertToPoint(inputDestination);
-        int round = boardDao.recentRound();
+        int round = BoardDao.getInstance().recentRound();
 
         BoardLoader boardLoader = new BoardLoader();
         List<BoardDto> boardDtos = getChesses();
@@ -62,21 +66,21 @@ public class BoardService {
             boardLoader.add(point, PieceFactory.create(
                     boardDto.getPiece(), PlayerType.valueOf(boardDto.getTeam()), point));
         }
-        Board board = new Board(boardLoader, PlayerType.valueOf(turnDao.selectCurrentTurn(round)));
+        Board board = new Board(boardLoader, PlayerType.valueOf(TurnDao.getInstance().selectCurrentTurn(round)));
 
         if (board.executeMovement(source, destination)) {
             return true;
         }
-        boardDao.remove(round, destination.toString());
-        boardDao.update(round, source.toString(), destination.toString());
+        BoardDao.getInstance().remove(round, destination.toString());
+        BoardDao.getInstance().update(round, source.toString(), destination.toString());
 
-        turnDao.updateCurrentTurn(round);
+        TurnDao.getInstance().updateCurrentTurn(round);
 
         return false;
     }
 
     public Map<String, Double> calculateScore() throws SQLException {
-        int round = boardDao.recentRound();
+        int round = BoardDao.getInstance().recentRound();
 
         BoardLoader boardLoader = new BoardLoader();
         List<BoardDto> boardDtos = getChesses();
@@ -85,7 +89,7 @@ public class BoardService {
             boardLoader.add(point, PieceFactory.create(
                     boardDto.getPiece(), PlayerType.valueOf(boardDto.getTeam()), point));
         }
-        Board board = new Board(boardLoader, PlayerType.valueOf(turnDao.selectCurrentTurn(round)));
+        Board board = new Board(boardLoader, PlayerType.valueOf(TurnDao.getInstance().selectCurrentTurn(round)));
 
         Map<String, Double> scores = new HashMap<>();
         scores.put(TEAM_WHITE, board.calculateScore(PlayerType.WHITE));

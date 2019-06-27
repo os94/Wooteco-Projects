@@ -13,10 +13,8 @@ public class BoardDao {
     private static final String UPDATE_PIECE = "update board set point = ? where point = ? and round = ?";
 
     private static BoardDao INSTANCE = null;
-    private final JDBCTemplate jdbcTemplate;
 
     private BoardDao() {
-        this.jdbcTemplate = JDBCTemplate.getInstance();
     }
 
     public static BoardDao getInstance() {
@@ -27,11 +25,11 @@ public class BoardDao {
     }
 
     public void initialize(List<List<Object>> boardDtos) {
-        jdbcTemplate.updateBatchQuery(INSERT_BOARD_SQL, boardDtos);
+        JDBCTemplate.getInstance().updateBatchQuery(INSERT_BOARD_SQL, boardDtos);
     }
 
     public int recentRound() throws SQLException {
-        List<Map<String, Object>> results = jdbcTemplate.selectQuery(SELECT_CURRENT_ROUND);
+        List<Map<String, Object>> results = JDBCTemplate.getInstance().selectQuery(SELECT_CURRENT_ROUND);
         return makeRecentRound(results);
     }
 
@@ -43,7 +41,7 @@ public class BoardDao {
     }
 
     public List<BoardDto> findChesses(int round) throws SQLException {
-        List<Map<String, Object>> results = jdbcTemplate.selectQuery(SELECT_CHESSES, round);
+        List<Map<String, Object>> results = JDBCTemplate.getInstance().selectQuery(SELECT_CHESSES, round);
         return makeChesses(results, round);
     }
 
@@ -61,10 +59,10 @@ public class BoardDao {
     }
 
     public void remove(int round, String destination) {
-        jdbcTemplate.updateQuery(DELETE_PIECE, round, destination);
+        JDBCTemplate.getInstance().updateQuery(DELETE_PIECE, round, destination);
     }
 
     public void update(int round, String source, String destination) {
-        jdbcTemplate.updateQuery(UPDATE_PIECE, destination, source, round);
+        JDBCTemplate.getInstance().updateQuery(UPDATE_PIECE, destination, source, round);
     }
 }

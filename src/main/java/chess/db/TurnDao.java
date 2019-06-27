@@ -12,10 +12,8 @@ public class TurnDao {
     private static final String TEAM_BLACK = "BLACK";
 
     private static TurnDao INSTANCE = null;
-    private final JDBCTemplate jdbcTemplate;
 
     private TurnDao() {
-        this.jdbcTemplate = JDBCTemplate.getInstance();
     }
 
     public static TurnDao getInstance() {
@@ -26,11 +24,11 @@ public class TurnDao {
     }
 
     public void addFirstTurn(int round) {
-        jdbcTemplate.updateQuery(INSERT_FIRST_TURN_BY_ROUND, TEAM_WHITE, round);
+        JDBCTemplate.getInstance().updateQuery(INSERT_FIRST_TURN_BY_ROUND, TEAM_WHITE, round);
     }
 
     public String selectCurrentTurn(int round) throws SQLException {
-        List<Map<String, Object>> results = jdbcTemplate.selectQuery(SELECT_CURRENT_TURN_BY_ROUND, round);
+        List<Map<String, Object>> results = JDBCTemplate.getInstance().selectQuery(SELECT_CURRENT_TURN_BY_ROUND, round);
         return makeCurrentTurn(results);
     }
 
@@ -45,7 +43,7 @@ public class TurnDao {
         String currentTeam = selectCurrentTurn(round);
         currentTeam = changeTeam(currentTeam);
 
-        jdbcTemplate.updateQuery(UPDATE_CURRENT_TURN_BY_ROUND, currentTeam, round);
+        JDBCTemplate.getInstance().updateQuery(UPDATE_CURRENT_TURN_BY_ROUND, currentTeam, round);
     }
 
     private String changeTeam(String currentTeam) {
