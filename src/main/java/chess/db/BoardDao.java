@@ -12,10 +12,18 @@ public class BoardDao {
     private static final String DELETE_PIECE = "delete from board where round = ? and point = ?";
     private static final String UPDATE_PIECE = "update board set point = ? where point = ? and round = ?";
 
+    private static BoardDao INSTANCE = null;
     private final JDBCTemplate jdbcTemplate;
 
-    public BoardDao() {
+    private BoardDao() {
         this.jdbcTemplate = JDBCTemplate.getInstance();
+    }
+
+    public static BoardDao getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new BoardDao();
+        }
+        return INSTANCE;
     }
 
     public void initialize(List<BoardDto> boardDtos) {

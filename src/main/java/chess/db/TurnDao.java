@@ -11,10 +11,18 @@ public class TurnDao {
     private static final String TEAM_WHITE = "WHITE";
     private static final String TEAM_BLACK = "BLACK";
 
+    private static TurnDao INSTANCE = null;
     private final JDBCTemplate jdbcTemplate;
 
-    public TurnDao() {
+    private TurnDao() {
         this.jdbcTemplate = JDBCTemplate.getInstance();
+    }
+
+    public static TurnDao getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new TurnDao();
+        }
+        return INSTANCE;
     }
 
     public void addFirstTurn(int round) {

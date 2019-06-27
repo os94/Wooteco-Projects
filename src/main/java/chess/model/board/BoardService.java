@@ -21,8 +21,8 @@ public class BoardService {
     private final TurnDao turnDao;
 
     public BoardService() {
-        this.boardDao = new BoardDao();
-        this.turnDao = new TurnDao();
+        this.boardDao = BoardDao.getInstance();
+        this.turnDao = TurnDao.getInstance();
     }
 
     public void initialize() throws SQLException {
