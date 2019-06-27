@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PointConverter {
+    private static final String DELIMITER_COLON = ",";
+
     public static Point convertToPoint(String point) {
-        List<Integer> xAndY = Arrays.asList(point.split(",")).stream()
+        List<Integer> xAndY = Arrays.asList(point.split(DELIMITER_COLON)).stream()
                 .map(String::trim)
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());

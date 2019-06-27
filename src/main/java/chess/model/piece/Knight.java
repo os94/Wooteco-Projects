@@ -5,18 +5,10 @@ import chess.model.PlayerType;
 import chess.model.Point;
 
 public class Knight extends Piece {
+    private static final double SCORE_OF_KNIGHT = 2.5;
+
     public Knight(PlayerType team, Point point) {
-        super(team, point, 2.5);
-    }
-
-    @Override
-    public Piece createBlack(Point point) {
-        return new Knight(PlayerType.BLACK, point);
-    }
-
-    @Override
-    public Piece createWhite(Point point) {
-        return new Knight(PlayerType.WHITE, point);
+        super(team, point, SCORE_OF_KNIGHT);
     }
 
     @Override

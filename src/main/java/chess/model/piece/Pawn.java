@@ -7,10 +7,11 @@ import chess.model.Point;
 import java.util.List;
 
 public class Pawn extends Piece {
+    private static final double SCORE_OF_PAWN = 1;
     private boolean isFirstMove = true;
 
     public Pawn(PlayerType team, Point point) {
-        super(team, point, 1);
+        super(team, point, SCORE_OF_PAWN);
     }
 
     @Override
@@ -46,16 +47,6 @@ public class Pawn extends Piece {
             return destinationPiece.isOpponent(team);
         }
         return true;
-    }
-
-    @Override
-    public Piece createBlack(Point point) {
-        return new Pawn(PlayerType.BLACK, point);
-    }
-
-    @Override
-    public Piece createWhite(Point point) {
-        return new Pawn(PlayerType.WHITE, point);
     }
 
     @Override

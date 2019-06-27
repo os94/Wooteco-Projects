@@ -5,18 +5,10 @@ import chess.model.PlayerType;
 import chess.model.Point;
 
 public class Bishop extends Piece {
+    private static final double SCORE_OF_BISHOP = 3;
+
     public Bishop(PlayerType team, Point point) {
-        super(team, point, 3);
-    }
-
-    @Override
-    public Piece createBlack(Point point) {
-        return new Bishop(PlayerType.BLACK, point);
-    }
-
-    @Override
-    public Piece createWhite(Point point) {
-        return new Bishop(PlayerType.WHITE, point);
+        super(team, point, SCORE_OF_BISHOP);
     }
 
     @Override

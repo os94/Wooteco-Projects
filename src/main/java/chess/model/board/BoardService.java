@@ -15,8 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 public class BoardService {
-    private BoardDao boardDao;
-    private TurnDao turnDao;
+    private static final String TEAM_WHITE = "WHITE";
+    private static final String TEAM_BLACK = "BLACK";
+
+    private final BoardDao boardDao;
+    private final TurnDao turnDao;
 
     public BoardService() {
         this.boardDao = new BoardDao(DBManager.getConnection());
@@ -78,8 +81,8 @@ public class BoardService {
         Board board = new Board(boardLoader, PlayerType.valueOf(turnDao.selectCurrentTurn(round)));
 
         Map<String, Double> scores = new HashMap<>();
-        scores.put("WHITE", board.calculateScore(PlayerType.WHITE));
-        scores.put("BLACK", board.calculateScore(PlayerType.BLACK));
+        scores.put(TEAM_WHITE, board.calculateScore(PlayerType.WHITE));
+        scores.put(TEAM_BLACK, board.calculateScore(PlayerType.BLACK));
         return scores;
     }
 }

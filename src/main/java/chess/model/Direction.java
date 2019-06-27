@@ -25,7 +25,7 @@ public enum Direction {
     private int xDirection;
     private int yDirection;
 
-    private Direction(int xDirection, int yDirection) {
+    Direction(int xDirection, int yDirection) {
         this.xDirection = xDirection;
         this.yDirection = yDirection;
     }
@@ -56,14 +56,6 @@ public enum Direction {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    public int getXDegree() {
-        return xDirection;
-    }
-
-    public int getYDegree() {
-        return yDirection;
-    }
-
     public static List<Direction> rookDirection() {
         return Arrays.asList(NORTH, EAST, SOUTH, WEST);
     }
@@ -85,5 +77,13 @@ public enum Direction {
             return Arrays.asList(NORTH, NORTHEAST, NORTHWEST);
         }
         return Arrays.asList(SOUTH, SOUTHEAST, SOUTHWEST);
+    }
+
+    public int getXDegree() {
+        return xDirection;
+    }
+
+    public int getYDegree() {
+        return yDirection;
     }
 }

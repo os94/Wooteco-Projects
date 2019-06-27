@@ -9,7 +9,11 @@ import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
 
 public class ScoreCalculator {
-    List<Piece> pieces;
+    private static final double SCORE_OF_PAWN = 1;
+    private static final double HALF_SCORE_OF_PAWN = 0.5;
+    private static final int LIMIT_PAWN_NO_OF_ONE_LINE = 2;
+
+    private final List<Piece> pieces;
 
     public ScoreCalculator(List<Piece> pieces) {
         this.pieces = pieces;
@@ -36,9 +40,9 @@ public class ScoreCalculator {
     }
 
     private double relativePawnScore(long number) {
-        if (number >= 2) {
-            return number * 0.5;
+        if (number >= LIMIT_PAWN_NO_OF_ONE_LINE) {
+            return number * HALF_SCORE_OF_PAWN;
         }
-        return 1;
+        return SCORE_OF_PAWN;
     }
 }

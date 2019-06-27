@@ -5,9 +5,9 @@ import chess.model.PlayerType;
 import chess.model.Point;
 
 public abstract class Piece {
-    PlayerType team;
+    final PlayerType team;
     Point point;
-    double score;
+    private final double score;
 
     Piece(PlayerType team, Point point, double score) {
         this.team = team;
@@ -15,9 +15,7 @@ public abstract class Piece {
         this.score = score;
     }
 
-    public abstract Piece createBlack(Point point);
-
-    public abstract Piece createWhite(Point point);
+    public abstract boolean canMove(Direction direction, Point destination);
 
     public boolean isSameTeam(PlayerType team) {
         return this.team == team;
@@ -38,8 +36,6 @@ public abstract class Piece {
     public boolean isPawn() {
         return false;
     }
-
-    public abstract boolean canMove(Direction direction, Point destination);
 
     public boolean isAvailableDestinationOfPawn(Direction direction, Piece destinationPiece) {
         return true;

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BoardDao {
-    private static final String INSERT_BOARD_SQL = "INSERT INTO board(piece,team,point,round) values(?,?,?,?)";
+    private static final String INSERT_BOARD_SQL = "INSERT INTO board(piece,team,point,round) values(?, ?, ?, ?)";
     private static final String SELECT_CURRENT_ROUND = "select round from board order by round desc limit 1";
     private static final String SELECT_CHESSES = "select piece, team, point from board where round = ?";
     private static final String DELETE_PIECE = "delete from board where round = ? and point = ?";

@@ -5,13 +5,16 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Point {
+    private static final String DELIMITER_COLON = ",";
+    private static final int MAX_RANGE_OF_POINT = 8;
+    private static final int MIN_RANGE_OF_POINT = 1;
     private static final Map<String, Point> points = new HashMap<>();
     private final int x;
     private final int y;
 
     static {
-        for (int i = 1; i <= 8; i++) {
-            setPoints(i);
+        for (int x = 1; x <= MAX_RANGE_OF_POINT; x++) {
+            setPoints(x);
         }
     }
 
@@ -22,13 +25,11 @@ public class Point {
 
     public static Point of(int x, int y) {
         checkValidPoint(x, y);
-        return points.get(x + "," + y);
+        return points.get(x + DELIMITER_COLON + y);
     }
 
-    private static void checkValidPoint(int x, int y) {
-        if (1 > x || 8 < x || 1 > y || 8 < y) {
-            throw new IllegalArgumentException("올바르지 않은 위치입니다.");
-        }
+    public Point next(Direction direction) {
+        return of(x + direction.getXDegree(), y + direction.getYDegree());
     }
 
     public double calculateDistance(Point other) {
@@ -41,8 +42,20 @@ public class Point {
         return Direction.valueOf(xDistance, yDistance);
     }
 
-    public Point next(Direction direction) {
-        return of(x + direction.getXDegree(), y + direction.getYDegree());
+    private static void setPoints(int x) {
+        for (int y = 1; y <= MAX_RANGE_OF_POINT; y++) {
+            points.put(x + DELIMITER_COLON + y, new Point(x, y));
+        }
+    }
+
+    private static void checkValidPoint(int x, int y) {
+        if (MIN_RANGE_OF_POINT > x || MAX_RANGE_OF_POINT < x || MIN_RANGE_OF_POINT > y || MAX_RANGE_OF_POINT < y) {
+            throw new IllegalArgumentException("올바르지 않은 위치입니다.");
+        }
+    }
+
+    public int getX() {
+        return x;
     }
 
     @Override
@@ -59,18 +72,8 @@ public class Point {
         return Objects.hash(x, y);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    private static void setPoints(int i) {
-        for (int j = 1; j <= 8; j++) {
-            points.put(i + "," + j, new Point(i, j));
-        }
-    }
-
     @Override
     public String toString() {
-        return x + "," + y;
+        return x + DELIMITER_COLON + y;
     }
 }

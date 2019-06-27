@@ -15,7 +15,7 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 public class Board {
-    private Map<Point, Piece> chessBoard;
+    private final Map<Point, Piece> chessBoard;
     private PlayerType currentTeam;
 
     public Board(BoardInitializer initializer, PlayerType currentTeam) {
