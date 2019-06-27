@@ -12,9 +12,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 public class BoardService {
     private static final String TEAM_WHITE = "WHITE";
@@ -32,7 +31,7 @@ public class BoardService {
         Board board = new Board(new ChessInitializer(), PlayerType.WHITE);
         int round = boardDao.recentRound();
         turnDao.addFirstTurn(round + 1);
-        boardDao.initialize(makeFields(board.convertToDto(round + 1)));
+        boardDao.initialize(makeFields(board.convertToDtos(round + 1)));
     }
 
     private List<List<Object>> makeFields(List<BoardDto> boardDtos) {

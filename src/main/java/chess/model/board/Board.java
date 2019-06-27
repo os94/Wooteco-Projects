@@ -85,7 +85,7 @@ public class Board {
         return new ScoreCalculator(pieces).calculateScore(team);
     }
 
-    public List<BoardDto> convertToDto(int round) {
+    public List<BoardDto> convertToDtos(int round) {
         List<BoardDto> boardDtos = chessBoard.keySet().stream()
                 .map(point -> new BoardDto(
                         chessBoard.get(point).toString(),

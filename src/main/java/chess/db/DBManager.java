@@ -2,7 +2,6 @@ package chess.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DBManager {
@@ -30,15 +29,5 @@ public class DBManager {
         }
 
         return connection;
-    }
-
-    public static void close(PreparedStatement pstmt) {
-        try {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

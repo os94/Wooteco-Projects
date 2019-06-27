@@ -1,5 +1,6 @@
 package chess.model;
 
+import chess.db.BoardDto;
 import chess.model.board.Board;
 import chess.model.board.ChessInitializer;
 import chess.model.piece.King;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,5 +55,18 @@ public class BoardTest {
         }, PlayerType.WHITE);
 
         assertThat(board.executeMovement(Point.of(4, 3), Point.of(4, 8))).isTrue();
+    }
+
+    @Test
+    void 점수_계산_확인() {
+        assertThat(board.calculateScore(PlayerType.WHITE)).isEqualTo(38.0);
+    }
+
+    @Test
+    void Dto리스트_변환_확인() {
+        List<BoardDto> boardDtos = board.convertToDtos(123);
+
+        assertThat(boardDtos.size()).isEqualTo(32);
+        assertThat(boardDtos.get(0)).isInstanceOf(BoardDto.class);
     }
 }
