@@ -44,6 +44,7 @@
 .lg-text {
     display: block;
 }
+
 .sm-text {
     display: none;
 }
@@ -70,6 +71,7 @@
     .lg-text {
         display: none !important;
     }
+
     .sm-text {
         display: block !important;
     }
