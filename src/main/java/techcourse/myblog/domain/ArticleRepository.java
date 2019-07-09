@@ -12,4 +12,8 @@ public class ArticleRepository {
     public List<Article> findAll() {
         return articles;
     }
+
+    public void add(Article article) {
+        this.articles.add(article);
+    }
 }
