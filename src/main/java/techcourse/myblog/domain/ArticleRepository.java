@@ -3,10 +3,9 @@ package techcourse.myblog.domain;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static java.util.Collections.*;
+import static java.util.Collections.unmodifiableList;
 
 @Repository
 public class ArticleRepository {

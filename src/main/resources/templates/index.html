@@ -38,29 +38,7 @@
 </head>
 <body>
 <div>
-    <header id="header" class="header navbar bg-transparent no-border">
-        <div class="header-container">
-            <ul class="nav-left mrg-left-0">
-                <li>
-                    <a href="index.html">
-                        <div class="logo logo-dark d-none"
-                             style="background-image: url('/images/logo/logo_full_dark.png')"></div>
-                        <div class="logo logo-white"
-                             style="background-image: url('/images/logo/logo_full_white.png')"></div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav-right">
-                <li class="user-profile">
-                    <a href="/login.html">
-                        <div class="user-info login-btn pointer mrg-right-10">
-                            <span class="name pdd-right-5 text-white">Login</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </header>
+    <div th:include="layout/header :: common_header"></div>
 
     <div class="about-cover card no-border mrg-btm-0">
         <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/bg.jpg')"></div>
@@ -102,7 +80,8 @@
                                             <div class="row">
                                                 <div class="col-md-8 ml-auto">
                                                     <div class="pdd-vertical-30 pdd-horizon-25">
-                                                        <h2 th:text="${article.title}" class="mrg-btm-20 text-bold"></h2>
+                                                        <h2 th:text="${article.title}"
+                                                            class="mrg-btm-20 text-bold"></h2>
                                                         <p th:text="${article.contents}"></p>
                                                         <ul class="list-style-none pdd-left-0">
                                                             <li class="inline-block mrg-right-5">

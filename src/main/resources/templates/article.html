@@ -41,46 +41,7 @@
 </head>
 <body>
 <div>
-    <header id="header" class="header navbar bg-transparent no-border">
-        <div class="header-container">
-            <ul class="nav-left mrg-left-0">
-                <li>
-                    <a href="index.html">
-                        <div id="logo-dark" class="logo logo-dark d-none"
-                             style="background-image: url('/images/logo/logo_full_dark.png')"></div>
-                        <div id="logo-white" class="logo logo-white"
-                             style="background-image: url('/images/logo/logo_full_white.png')"></div>
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav-right">
-                <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
-                    <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
-                        <img class="profile-img img-fluid"
-                             src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
-                        <div class="user-info text-white">
-                            <span class="name pdd-right-5">Brown</span>
-                        </div>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="text-dark">
-                            <a href="/mypage.html">
-                                <i class="ti-user pdd-right-10"></i>
-                                <span class="text-dark">마이 페이지</span>
-                            </a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li class="text-dark">
-                            <a href="index.html">
-                                <i class="ti-power-off pdd-right-10"></i>
-                                <span class="text-dark">로그아웃</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </header>
+    <div th:include="layout/header :: common_header"></div>
 
     <div class="about-cover card no-border ">
         <div class="cover-img overlay-dark bg" th:style="'background-image: url('+${article.coverUrl}+');'">

@@ -8,15 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.reactive.function.BodyInserters;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.stream.Collectors;
-
-import static io.netty.util.CharsetUtil.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureWebTestClient
