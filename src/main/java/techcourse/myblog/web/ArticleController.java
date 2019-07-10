@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import techcourse.myblog.domain.Article;
@@ -29,6 +30,12 @@ public class ArticleController {
     public String createArticle(Article article, Model model) {
         model.addAttribute("article", article);
         this.articleRepository.add(article);
+        return "article";
+    }
+
+    @GetMapping("/articles/{articleId}")
+    public String selectArticle(@PathVariable int articleId, Model model) {
+        model.addAttribute("article", this.articleRepository.findById(articleId));
         return "article";
     }
 }

@@ -89,10 +89,10 @@
                     </ul>
                     <div class="width-100 fixed left-0 border bottom"></div>
                     <div class="none-article" th:if="${articles.size() == 0}"><span>작성된 게시글이 없습니다.</span></div>
-                    <div class="tab-content" th:if="${articles.size() > 0}" th:each="article : ${articles}">
+                    <div class="tab-content" th:if="${articles.size() > 0}" th:each="article, id : ${articles}">
                         <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-1">
                             <div class="pdd-horizon-15 pdd-vertical-20">
-                                <a href="/article.html" class="card article-container">
+                                <a th:href="@{/articles/{id}(id=${id.index})}" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
                                             <div class="background-holder has-content"
