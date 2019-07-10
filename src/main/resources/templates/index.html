@@ -88,22 +88,22 @@
                         </li>
                     </ul>
                     <div class="width-100 fixed left-0 border bottom"></div>
-                    <div class="tab-content">
+                    <div class="none-article" th:if="${articles.size() == 0}"><span>작성된 게시글이 없습니다.</span></div>
+                    <div class="tab-content" th:if="${articles.size() > 0}" th:each="article : ${articles}">
                         <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-1">
                             <div class="pdd-horizon-15 pdd-vertical-20">
                                 <a href="/article.html" class="card article-container">
                                     <div class="card-horizon">
                                         <div class="image-container col-md-4">
                                             <div class="background-holder has-content"
-                                                 style="background-image: url('/images/pages/index/study.jpg')"></div>
+                                                 th:style="'background-image: url('+${article.coverUrl}+');'"></div>
                                         </div>
                                         <div class="container-fluid">
                                             <div class="row">
                                                 <div class="col-md-8 ml-auto">
                                                     <div class="pdd-vertical-30 pdd-horizon-25">
-                                                        <h2 class="mrg-btm-20 text-bold">목적의식 있는 연습을 통한 효과적인 학습</h2>
-                                                        <p>우아한테크코스의 선발 과정을 목적의식 있는 연습으로 설계한 내용과 목적의식 있는 연습으로 진행했을 때의 학습
-                                                            효과에 대해 다루고 있습니다.</p>
+                                                        <h2 th:text="${article.title}" class="mrg-btm-20 text-bold"></h2>
+                                                        <p th:text="${article.contents}"></p>
                                                         <ul class="list-style-none pdd-left-0">
                                                             <li class="inline-block mrg-right-5">
                                                                 <i class="ti-heart text-danger pdd-right-5"></i>
