@@ -16,7 +16,7 @@ public class ArticleRepository {
     }
 
     public void add(Article article) {
-        this.articles.add(newArticleId(), article);
+        this.articles.add(article);
     }
 
     public Article findById(int id) {
@@ -36,5 +36,14 @@ public class ArticleRepository {
     public void update(int articleId, Article article) {
         Article articleToUpdate = findById(articleId);
         articles.set(articles.indexOf(articleToUpdate), article);
+    }
+
+    public void remove(int articleId) {
+        int indexToRemove = articles.stream()
+                .filter(article -> article.getId() == articleId)
+                .map(article -> articles.indexOf(article))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+        articles.remove(indexToRemove);
     }
 }
