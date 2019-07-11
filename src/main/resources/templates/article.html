@@ -23,7 +23,7 @@
     <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <a href="article-edit.html" class="float-right pointer btn btn-icon">
+                <a th:href="@{/articles/{id}/edit(id=${article.id})}" class="float-right pointer btn btn-icon">
                     <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                 </a>
                 <div id="viewerSection"></div>

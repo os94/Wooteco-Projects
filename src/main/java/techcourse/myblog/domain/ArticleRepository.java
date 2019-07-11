@@ -16,10 +16,25 @@ public class ArticleRepository {
     }
 
     public void add(Article article) {
-        this.articles.add(article);
+        this.articles.add(newArticleId(), article);
     }
 
     public Article findById(int id) {
-        return this.articles.get(id);
+        return articles.stream()
+                .filter(article -> id == article.getId())
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+    }
+
+    public int newArticleId() {
+        return articles.stream()
+                .mapToInt(Article::getId)
+                .max()
+                .orElse(-1) + 1;
+    }
+
+    public void update(int articleId, Article article) {
+        Article articleToUpdate = findById(articleId);
+        articles.set(articles.indexOf(articleToUpdate), article);
     }
 }
