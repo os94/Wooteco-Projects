@@ -1,10 +1,10 @@
 package techcourse.myblog.domain;
 
 public class Article {
-    int id;
-    String title;
-    String coverUrl;
-    String contents;
+    private int id;
+    private String title;
+    private String coverUrl;
+    private String contents;
 
     public int getId() {
         return id;
