@@ -19,7 +19,7 @@ public class ArticleControllerTests {
     @Autowired
     private WebTestClient webTestClient;
 
-    private static final int ARTICLE_ID = 0;
+    private static final int ARTICLE_ID = 1;
 
     @BeforeEach
     void 게시글_작성_확인() {

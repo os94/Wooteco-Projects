@@ -40,7 +40,7 @@ public class ArticleRepositoryTest {
     void article_업데이트_테스트() {
         Article articleToCompare = new Article();
         articleToCompare.setId(1);
-        articleRepository.update(1, articleToCompare);
+        articleRepository.update(articleToCompare);
         assertThat(articleRepository.findById(1)).isEqualTo(articleToCompare);
     }
 

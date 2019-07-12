@@ -30,8 +30,8 @@ public class ArticleController {
     @PostMapping("/articles")
     public String createArticle(Article article, Model model) {
         article.setId(articleRepository.newArticleId());
-        model.addAttribute("article", article);
         articleRepository.add(article);
+        model.addAttribute("article", article);
         return "redirect:/articles/" + article.getId();
     }
 
@@ -50,8 +50,8 @@ public class ArticleController {
     @PutMapping("/articles/{articleId}")
     public String updateArticle(@PathVariable int articleId, Article article, Model model) {
         article.setId(articleId);
-        articleRepository.update(articleId, article);
-        model.addAttribute("article", articleRepository.findById(articleId));
+        articleRepository.update(article);
+        model.addAttribute("article", article);
         return "redirect:/articles/" + article.getId();
     }
 

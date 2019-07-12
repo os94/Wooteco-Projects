@@ -9,7 +9,7 @@ import static java.util.Collections.unmodifiableList;
 
 @Repository
 public class ArticleRepository {
-    private static final int INITIAL_VALUE = -1;
+    private static final int INITIAL_VALUE = 0;
     private static final int INCREMENT_VALUE = 1;
 
     private List<Article> articles = new ArrayList<>();
@@ -37,9 +37,10 @@ public class ArticleRepository {
                 .orElse(INITIAL_VALUE) + INCREMENT_VALUE;
     }
 
-    public void update(int id, Article article) {
-        Article articleToUpdate = findById(id);
-        articles.set(articles.indexOf(articleToUpdate), article);
+    public void update(Article article) {
+        Article oldArticle = findById(article.getId());
+        int index = articles.indexOf(oldArticle);
+        articles.set(index, article);
     }
 
     public void remove(int id) {
