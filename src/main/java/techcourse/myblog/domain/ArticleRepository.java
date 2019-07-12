@@ -9,6 +9,9 @@ import static java.util.Collections.unmodifiableList;
 
 @Repository
 public class ArticleRepository {
+    private static final int INITIAL_VALUE = -1;
+    private static final int INCREMENT_VALUE = 1;
+
     private List<Article> articles = new ArrayList<>();
 
     public List<Article> findAll() {
@@ -30,7 +33,7 @@ public class ArticleRepository {
         return this.articles.stream()
                 .mapToInt(Article::getId)
                 .max()
-                .orElse(-1) + 1;
+                .orElse(INITIAL_VALUE) + INCREMENT_VALUE;
     }
 
     public void update(int articleId, Article article) {
