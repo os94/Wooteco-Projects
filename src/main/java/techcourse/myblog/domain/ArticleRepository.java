@@ -27,7 +27,7 @@ public class ArticleRepository {
         return articles.stream()
                 .filter(article -> article.matchId(id))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+                .orElseThrow(ArticleNotFoundException::new);
     }
 
     public int newArticleId() {
@@ -48,7 +48,7 @@ public class ArticleRepository {
                 .filter(article -> article.matchId(id))
                 .map(article -> articles.indexOf(article))
                 .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+                .orElseThrow(ArticleNotFoundException::new);
         articles.remove(indexToRemove);
     }
 }

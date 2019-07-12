@@ -22,22 +22,27 @@ public class ArticleRepositoryTest {
     }
 
     @Test
-    void findAll_호출후_값_조작시_에러_테스트() {
+    void findAll_호출후_값_조작시_에러() {
         assertThrows(UnsupportedOperationException.class, () -> articleRepository.findAll().add(new Article()));
     }
 
     @Test
-    void 아이디값으로_조회_테스트() {
+    void id값으로_조회() {
         assertThat(testArticle).isEqualTo(articleRepository.findById(1));
     }
 
     @Test
-    void 다음_아이디값_생성_테스트() {
+    void 존재하지않는_id값으로_조회시_에러() {
+        assertThrows(ArticleNotFoundException.class, () -> articleRepository.findById(2));
+    }
+
+    @Test
+    void 다음_id값_생성() {
         assertThat(articleRepository.newArticleId()).isEqualTo(2);
     }
 
     @Test
-    void article_업데이트_테스트() {
+    void article_업데이트() {
         Article articleToCompare = new Article();
         articleToCompare.setId(1);
         articleRepository.update(articleToCompare);
@@ -45,8 +50,8 @@ public class ArticleRepositoryTest {
     }
 
     @Test
-    void article_삭제_테스트() {
+    void article_삭제() {
         articleRepository.remove(1);
-        assertThrows(IllegalArgumentException.class, () -> articleRepository.findById(1));
+        assertThrows(ArticleNotFoundException.class, () -> articleRepository.findById(1));
     }
 }
