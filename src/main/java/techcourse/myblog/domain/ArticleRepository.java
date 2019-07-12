@@ -18,8 +18,9 @@ public class ArticleRepository {
         return unmodifiableList(this.articles);
     }
 
-    public void add(Article article) {
+    public boolean add(Article article) {
         this.articles.add(article);
+        return true;
     }
 
     public Article findById(int id) {
