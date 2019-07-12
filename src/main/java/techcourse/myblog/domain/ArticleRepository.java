@@ -15,23 +15,23 @@ public class ArticleRepository {
     private List<Article> articles = new ArrayList<>();
 
     public List<Article> findAll() {
-        return unmodifiableList(this.articles);
+        return unmodifiableList(articles);
     }
 
     public boolean add(Article article) {
-        this.articles.add(article);
+        articles.add(article);
         return true;
     }
 
     public Article findById(int id) {
-        return this.articles.stream()
+        return articles.stream()
                 .filter(article -> article.matchId(id))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
     }
 
     public int newArticleId() {
-        return this.articles.stream()
+        return articles.stream()
                 .mapToInt(Article::getId)
                 .max()
                 .orElse(INITIAL_VALUE) + INCREMENT_VALUE;
@@ -39,15 +39,15 @@ public class ArticleRepository {
 
     public void update(int id, Article article) {
         Article articleToUpdate = findById(id);
-        this.articles.set(this.articles.indexOf(articleToUpdate), article);
+        articles.set(articles.indexOf(articleToUpdate), article);
     }
 
     public void remove(int id) {
-        int indexToRemove = this.articles.stream()
+        int indexToRemove = articles.stream()
                 .filter(article -> article.matchId(id))
-                .map(article -> this.articles.indexOf(article))
+                .map(article -> articles.indexOf(article))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-        this.articles.remove(indexToRemove);
+        articles.remove(indexToRemove);
     }
 }

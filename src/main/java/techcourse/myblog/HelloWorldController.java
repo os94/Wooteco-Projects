@@ -14,12 +14,6 @@ public class HelloWorldController {
         return blogName;
     }
 
-    /*@GetMapping("/")
-    public String helloworld2(String blogName, Model model) {
-        model.addAttribute("blogName", blogName);
-        return "index";
-    }*/
-
     @ResponseBody
     @PostMapping("/helloworld")
     public String helloworld3(@RequestBody String body) {

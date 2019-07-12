@@ -29,21 +29,21 @@ public class ArticleController {
 
     @PostMapping("/articles")
     public String createArticle(Article article, Model model) {
-        article.setId(this.articleRepository.newArticleId());
+        article.setId(articleRepository.newArticleId());
         model.addAttribute("article", article);
-        this.articleRepository.add(article);
+        articleRepository.add(article);
         return "redirect:/articles/" + article.getId();
     }
 
     @GetMapping("/articles/{articleId}")
     public String selectArticle(@PathVariable int articleId, Model model) {
-        model.addAttribute("article", this.articleRepository.findById(articleId));
+        model.addAttribute("article", articleRepository.findById(articleId));
         return "article";
     }
 
     @GetMapping("/articles/{articleId}/edit")
     public String updateArticleForm(@PathVariable int articleId, Model model) {
-        model.addAttribute("article", this.articleRepository.findById(articleId));
+        model.addAttribute("article", articleRepository.findById(articleId));
         return "article-edit";
     }
 
@@ -51,7 +51,7 @@ public class ArticleController {
     public String updateArticle(@PathVariable int articleId, Article article, Model model) {
         article.setId(articleId);
         articleRepository.update(articleId, article);
-        model.addAttribute("article", this.articleRepository.findById(articleId));
+        model.addAttribute("article", articleRepository.findById(articleId));
         return "redirect:/articles/" + article.getId();
     }
 
