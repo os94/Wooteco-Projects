@@ -6,6 +6,10 @@ public class Article {
     private String coverUrl;
     private String contents;
 
+    public boolean matchId(int id) {
+        return this.id == id;
+    }
+
     public int getId() {
         return id;
     }
