@@ -28,7 +28,7 @@ public class ArticleController {
         article.setId(this.articleRepository.newArticleId());
         model.addAttribute("article", article);
         this.articleRepository.add(article);
-        return "article";
+        return "redirect:/articles/" + article.getId();
     }
 
     @GetMapping("/articles/{articleId}")
@@ -48,7 +48,7 @@ public class ArticleController {
         article.setId(articleId);
         articleRepository.update(articleId, article);
         model.addAttribute("article", this.articleRepository.findById(articleId));
-        return "article";
+        return "redirect:/articles/" + article.getId();
     }
 
     @DeleteMapping("/articles/{articleId}")

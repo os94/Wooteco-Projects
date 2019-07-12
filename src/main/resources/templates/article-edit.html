@@ -75,11 +75,9 @@
 <script type="text/javascript" th:inline="javascript">
     var initValue = "";
     /* <![CDATA[ */
-    [
-    #
-    th:if = "${article}"]
+    [# th:if = "${article}"]
     initValue = /*[[${article.contents}]]*/
-        [/]
+    [/]
     /*]]>*/
     const editor = new tui.Editor({
         el: document.querySelector('#editSection'),

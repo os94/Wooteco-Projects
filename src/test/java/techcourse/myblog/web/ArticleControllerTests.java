@@ -15,6 +15,7 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.web.reactive.function.BodyInserters.fromFormData;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
@@ -61,11 +62,10 @@ public class ArticleControllerTests {
         String coverUrl = "https://t1.daumcdn.net/thumb/R1280x0/?fname=http://t1.daumcdn.net/brunch/service/user/5tdm/image/7OdaODfUPkDqDYIQKXk_ET3pfKo.jpeg";
         String contents = "나는 우아한형제들에서 우아한테크코스 교육 과정을 진행하고 있다. 우테코를 설계하면서 고민스러웠던 부분 중의 하나는 '선발 과정을 어떻게 하면 의미 있는 시간으로 만들 것인가?'였다.";
 
-        webTestClient.post()
+        /*webTestClient.post()
                 .uri("/articles")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(BodyInserters
-                        .fromFormData("title", title)
+                .body(fromFormData("title", title)
                         .with("coverUrl", coverUrl)
                         .with("contents", contents))
                 .exchange()
@@ -76,7 +76,14 @@ public class ArticleControllerTests {
                     assertThat(body.contains(title)).isTrue();
                     assertThat(body.contains(coverUrl)).isTrue();
                     assertThat(body.contains(StringEscapeUtils.escapeJava(contents))).isTrue();
-                });
+                });*/
+
+        webTestClient.post()
+                .uri("/articles")
+                .body(fromFormData("title", "title").with("contents", "123123"))
+                .exchange()
+                .expectStatus().isFound()
+                .expectHeader().valueMatches("location", ".*articles.*");
     }
 
     @Test
