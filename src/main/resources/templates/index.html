@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <th:block th:include="layout/head :: common_head"></th:block>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<div>
+    <div th:include="layout/header :: common_header"></div>
+
+    <div class="about-cover card no-border mrg-btm-0">
+        <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/bg.jpg')"></div>
+        <div class="welcome-text-container">
+            <div class="welcome-txt">
+                <h1 class="text-white border bottom font-size-35 padding-5" th:text="${blogName}">Welcome Brown!</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid width-100 mrg-btm-30">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="tab-info center-tabs">
+                    <ul class="nav nav-tabs no-border" role="tablist">
+                        <li class="nav-item">
+                            <a href="#tab-centered-1" class="nav-link active" role="tab" data-toggle="tab">All</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tab-centered-2" class="nav-link" role="tab" data-toggle="tab">Java</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#tab-centered-3" class="nav-link" role="tab" data-toggle="tab">Learning</a>
+                        </li>
+                    </ul>
+                    <div class="width-100 fixed left-0 border bottom"></div>
+                    <div class="none-article" th:if="${articles.size() == 0}"><span>작성된 게시글이 없습니다.</span></div>
+                    <div class="tab-content" th:if="${articles.size() > 0}" th:each="article : ${articles}">
+                        <div role="tabpanel" class="tab-pane fade in active" id="tab-centered-1">
+                            <div class="pdd-horizon-15 pdd-vertical-20">
+                                <a th:href="@{/articles/{id}(id=${article.id})}" class="card article-container">
+                                    <div class="card-horizon">
+                                        <div class="image-container col-md-4">
+                                            <div class="background-holder has-content"
+                                                 th:style="'background-image: url('+${article.coverUrl}+');'"></div>
+                                        </div>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-8 ml-auto">
+                                                    <div class="pdd-vertical-30 pdd-horizon-25">
+                                                        <h2 th:text="${article.title}"
+                                                            class="mrg-btm-20 text-bold"></h2>
+                                                        <p th:text="${article.contents}"></p>
+                                                        <ul class="list-style-none pdd-left-0">
+                                                            <li class="inline-block mrg-right-5">
+                                                                <i class="ti-heart text-danger pdd-right-5"></i>
+                                                                <span class="text-gray font-size-14 relative">33</span>
+                                                            </li>
+                                                            <li class="inline-block">
+                                                                <i class="ti-comments text-primary pdd-right-5"></i>
+                                                                <span class="text-gray font-size-14 relative">3</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab-centered-2">
+                            <div class="pdd-horizon-15 pdd-vertical-20">
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab-centered-3">
+                            <div class="pdd-horizon-15 pdd-vertical-20">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+
+        <a href="/writing"
+           class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
+            <i class="ti-plus"></i>
+        </a>
+
+    </div>
+</div>
+
+<footer class="content-footer">
+    <div class="footer">
+        <div class="copyright">
+            <img class="d-inline-block logo relative right-5" src="/images/logo/logo_full_dark.png">
+            <p class="pdd-left-5 mrg-top-minus-15px">Copyright © <b class="text-dark">우아한테크코스</b>. All rights reserved.
+            </p>
+        </div>
+        <a href="https://woowabros.github.io/" target="_blank" class="btn btn-default btn-rounded bg-transparent">우아한형제들
+            기술블로그</a>
+    </div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
+        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>

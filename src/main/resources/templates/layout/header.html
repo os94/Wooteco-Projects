@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <div th:fragment="common_header">
+            <header id="header" class="header navbar bg-transparent no-border">
+                <div class="header-container">
+                    <div th:include="layout/header_left :: common_header_left"></div>
+                    <ul class="nav-right">
+                        <li class="user-profile">
+                            <a href="/login.html">
+                                <div class="user-info login-btn pointer mrg-right-10">
+                                    <span class="name pdd-right-5 text-white">Login</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- 나중에 로그인 기능구현을 위한 코드 -->
+                    <!--<ul class="nav-right">
+                        <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
+                            <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
+                                <img class="profile-img img-fluid"
+                                     src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
+                                <div class="user-info text-white">
+                                    <span class="name pdd-right-5">Brown</span>
+                                    <i class="ti-angle-down font-size-10"></i>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="text-dark">
+                                    <a href="/mypage.html">
+                                        <i class="ti-user pdd-right-10"></i>
+                                        <span class="text-dark">마이 페이지</span>
+                                    </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li class="text-dark">
+                                    <a href="index.html">
+                                        <i class="ti-power-off pdd-right-10"></i>
+                                        <span class="text-dark">로그아웃</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>-->
+                </div>
+            </header>
+        </div>
+    </body>
+</html>
