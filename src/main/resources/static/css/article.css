@@ -5,9 +5,10 @@
     align-items: center;
 }
 
-.tui-editor-contents p {
+.tui-editor-contents p{
     font-size: 14px;
 }
+
 
 .profile-container {
     top: 200px;

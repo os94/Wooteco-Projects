@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <th:block th:include="layout/head :: common_head"></th:block>
+    <!-- include fragments/head -->
+    <th:block th:replace="fragments/head"></th:block>
+
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="/css/article-edit.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">
@@ -11,32 +13,16 @@
 </head>
 <body>
 <div>
-    <div th:include="layout/header :: common_header"></div>
-
-    <form th:action="${article} ? '/articles/' + ${article.id} : '/articles'" name="article" method="post"
-          accept-charset="utf-8">
-        <input th:if="${article}" type="hidden" name="_method" value="PUT">
+    <header th:replace="fragments/header :: header"> </header>
+    <form th:action="${article} == null ? '/articles' : '/articles/' + ${article.id}" name="article" method="post" accept-charset="utf-8" >
+        <input type="hidden" name="_method" th:value="${article} == null ? 'post' : 'put'"/>
         <div class="about-cover card no-border">
-            <div class="cover-img overlay-dark bg"
-                 style="background-image: url('/images/pages/index/study.jpg')">
+            <div class="cover-img overlay-dark bg" style="background-image: url('images/pages/index/study.jpg')">
                 <div class="height-300px vertical-center pdd-horizon-50">
                     <div class="width-80">
-                        <div th:if="${article}">
-                            <input th:value="${article.title}" type="text" name="title"
-                                   class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"
-                                   placeholder="제목을 입력해주세요" autocomplete="off" required autofocus>
-                            <input th:value="${article.coverUrl}" type="text" name="coverUrl"
-                                   class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"
-                                   placeholder="배경 url을 입력해주세요" autocomplete="off" required>
-                        </div>
-                        <div th:unless="${article}">
-                            <input type="text" name="title"
-                                   class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom"
-                                   placeholder="제목을 입력해주세요" autocomplete="off" required autofocus>
-                            <input type="text" name="coverUrl"
-                                   class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"
-                                   placeholder="배경 url을 입력해주세요" autocomplete="off" required>
-                        </div>
+                        <input type="hidden" name="id" th:if="${article} != null" th:value="${article.id}"/>
+                        <input type="text" name="title" th:value="${article} == null ? '' : ${article.title}" class="text-center bg-transparent no-border font-size-30 width-60 mx-auto d-block text-white border bottom" autocomplete="off" placeholder="제목을 입력해주세요">
+                        <input type="text" name="coverUrl" th:value="${article} == null ? '' : ${article.coverUrl}" class="text-center bg-transparent no-border font-size-16 width-30 mx-auto d-block text-light text-white border bottom pdd-top-20"  placeholder="배경 url을 입력해주세요" autocomplete="off">
                     </div>
                 </div>
             </div>
@@ -46,7 +32,7 @@
             <div class="row">
                 <div class="col-lg-1 col-md-1"></div>
                 <div class="col-lg-10 col-md-10 col-sm-10">
-                    <input id="article-contents" name="contents" type="hidden">
+                    <input id="article-contents" name="contents" type="hidden" th:value="${article} == null ? '' : ${article.contents}">
                     <div id="editSection"></div>
                 </div>
                 <div class="col-lg-1 col-md-1">
@@ -64,21 +50,12 @@
     </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
+<!-- include fragments/footer -->
+<th:block th:replace="fragments/common_script"></th:block>
+
 <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-<script src="/js/index.js"></script>
-<script type="text/javascript" th:inline="javascript">
-    var initValue = "";
-    /* <![CDATA[ */
-    [# th:if = "${article}"]
-    initValue = /*[[${article.contents}]]*/
-    [/]
-    /*]]>*/
+<script type="text/javascript">
+    const initValue = document.getElementById("article-contents").value;
     const editor = new tui.Editor({
         el: document.querySelector('#editSection'),
         initialEditType: 'markdown',

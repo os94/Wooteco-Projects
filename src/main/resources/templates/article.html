@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <th:block th:include="layout/head :: common_head"></th:block>
+    <!-- include fragments/head -->
+    <th:block th:replace="fragments/head"></th:block>
+
     <link rel="stylesheet" href="/css/article.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.33.0/codemirror.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
@@ -10,12 +12,13 @@
 </head>
 <body>
 <div>
-    <div th:include="layout/header :: common_header"></div>
+    <header th:replace="fragments/header :: header"> </header>
 
     <div class="about-cover card no-border ">
-        <div class="cover-img overlay-dark bg" th:style="'background-image: url('+${article.coverUrl}+');'">
+        <div class="cover-img overlay-dark bg" th:style="'background-image: url(\'' + ${article.coverUrl} + '\')'">
+
             <div class="padding-30">
-                <h1 class="text-center cover-title" th:text="${article.title}"></h1>
+                <h1 th:text="${article.title} == null ? '목적의식 있는 연습을 통한 효과적인 학습' : ${article.title}" class="text-center cover-title"></h1>
             </div>
         </div>
     </div>
@@ -23,24 +26,21 @@
     <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <div class="btn-group btn-group-vertical float-right">
-                    <a th:href="@{/articles/{id}/edit(id=${article.id})}" class="float-right pointer btn btn-default">
-                        <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
-                    </a>
-                    <form th:action="'/articles/' + ${article.id}" name="article" method="post" accept-charset="utf-8">
-                        <input th:if="${article}" type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="float-right pointer btn btn-default">
-                            <i class="ti-trash text-dark font-size-16 pdd-horizontal-5"></i>
-                        </button>
-                    </form>
-                </div>
-                <div id="viewerSection"></div>
+                <a th:href="'/articles/' + ${article.id}+ '/edit'" class="float-right pointer btn btn-icon">
+                    <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
+                </a>
+                <form method="post" th:action="'/articles/' + ${article.id}">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="float-right pointer btn btn-icon">
+                        <i class="ti-na text-dark font-size-16 pdd-horizontal-5"></i>
+                    </button>
+                </form>
+                <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">No Contents</div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 mx-auto">
                 <div class="profile-container row mrg-top-30 mrg-btm-30">
                     <div class="col-md-2 col-sm-4">
-                        <img class="width-80px border-radius-round"
-                             src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/1514627_858869820895635_1119508450771753991_n.jpg?_nc_cat=110&_nc_ht=scontent-icn1-1.xx&oh=a32aa56b750b212aee221da7e9711bb1&oe=5D8781A4">
+                        <img class="width-80px border-radius-round" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/1514627_858869820895635_1119508450771753991_n.jpg?_nc_cat=110&_nc_ht=scontent-icn1-1.xx&oh=a32aa56b750b212aee221da7e9711bb1&oe=5D8781A4">
                     </div>
                     <div class="col-md-10 col-sm-7">
                         <span class="font-size-16 text-bold pdd-btm-5">Brown</span><span class="font-size-12 text-gray"> / gracefulBrown@woowahan.com</span>
@@ -71,33 +71,16 @@
                 <div class="comment">
                     <ul class="list-unstyled list-info">
                         <li class="comment-item border bottom mrg-btm-30">
-                            <img class="thumb-img img-circle"
-                                 src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
+                            <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
                             <div class="info">
                                 <span href="" class="text-bold inline-block">Jun</span>
                                 <span class="sub-title inline-block pull-right">
                                     <i class="ti-timer pdd-right-5"></i>
                                     <span>6 min ago</span>
                             </span>
-                                <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다
-                                    보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄
-                                    수 있는 계기가 되었다.</p>
+                            <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다 보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄 수 있는 계기가 되었다.</p>
                             </div>
                         </li>
-
-                        <li class="comment-item border bottom mrg-btm-30">
-                            <img class="thumb-img img-circle" src="https://avatars2.githubusercontent.com/u/3433096?v=4"
-                                 alt="">
-                            <div class="info">
-                                <span href="" class="text-bold inline-block">Jun</span>
-                                <span class="sub-title inline-block pull-right">
-                                    <i class="ti-timer pdd-right-5"></i>
-                                    <span>6 min ago</span>
-                                </span>
-                                <p class="width-80">브라운 멋져</p>
-                            </div>
-                        </li>
-
                     </ul>
                     <div class="add-comment">
                         <div id="editSection"></div>
@@ -108,22 +91,12 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"
-        integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
-<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
-<script src="/js/index.js"></script>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[*/
-    const initValue = /*[[ ${article.contents} ]]*/;
+<!-- include fragments/footer -->
+<th:block th:replace="fragments/common_script"></th:block>
 
+<script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
+<script>
+    const initValue = "";
     const viewer = tui.Editor.factory({
         el: document.querySelector('#viewerSection'),
         viewer: true,
@@ -141,7 +114,6 @@
         },
         height: '200px'
     });
-    /*]]>*/
 </script>
 </body>
 </html>
