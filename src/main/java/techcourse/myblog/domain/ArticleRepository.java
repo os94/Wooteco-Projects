@@ -1,54 +1,6 @@
 package techcourse.myblog.domain;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.Collections.unmodifiableList;
-
-@Repository
-public class ArticleRepository {
-    private static final int INITIAL_VALUE = 0;
-    private static final int INCREMENT_VALUE = 1;
-
-    private List<Article> articles = new ArrayList<>();
-
-    public List<Article> findAll() {
-        return unmodifiableList(articles);
-    }
-
-    public boolean add(Article article) {
-        articles.add(article);
-        return true;
-    }
-
-    public Article findById(int id) {
-        return articles.stream()
-                .filter(article -> article.matchId(id))
-                .findAny()
-                .orElseThrow(ArticleNotFoundException::new);
-    }
-
-    public int newArticleId() {
-        return articles.stream()
-                .mapToInt(Article::getId)
-                .max()
-                .orElse(INITIAL_VALUE) + INCREMENT_VALUE;
-    }
-
-    public void update(Article article) {
-        Article oldArticle = findById(article.getId());
-        int index = articles.indexOf(oldArticle);
-        articles.set(index, article);
-    }
-
-    public void remove(int id) {
-        int indexToRemove = articles.stream()
-                .filter(article -> article.matchId(id))
-                .map(article -> articles.indexOf(article))
-                .findAny()
-                .orElseThrow(ArticleNotFoundException::new);
-        articles.remove(indexToRemove);
-    }
+public interface ArticleRepository extends CrudRepository<Article, Long> {
 }
