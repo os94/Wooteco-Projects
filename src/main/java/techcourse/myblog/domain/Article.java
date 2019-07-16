@@ -1,26 +1,16 @@
 package techcourse.myblog.domain;
 
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Entity
 public class Article {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+    private int id;
     private String title;
     private String coverUrl;
     private String contents;
 
-    public boolean matchId(long id) {
+    public boolean matchId(int id) {
         return this.id == id;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -36,7 +26,7 @@ public class Article {
         return contents;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
