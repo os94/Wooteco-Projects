@@ -8,6 +8,7 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleRepository;
 
 @Controller
+//@RequestMapping("/articles")
 public class ArticleController {
     private final ArticleRepository articleRepository;
 
@@ -27,37 +28,41 @@ public class ArticleController {
         return "article-edit";
     }
 
+    // Todo : remove model
     @PostMapping("/articles")
     public String createArticle(Article article, Model model) {
-        article.setId(articleRepository.newArticleId());
-        articleRepository.add(article);
+        //article.setId(articleRepository.newArticleId());
+        //articleRepository.add(article);
+        article = articleRepository.save(article);
         model.addAttribute("article", article);
         return "redirect:/articles/" + article.getId();
     }
 
     @GetMapping("/articles/{articleId}")
     public String selectArticle(@PathVariable int articleId, Model model) {
-        model.addAttribute("article", articleRepository.findById(articleId));
+        model.addAttribute("article", articleRepository.findById((long) articleId));
         return "article";
     }
 
     @GetMapping("/articles/{articleId}/edit")
     public String updateArticleForm(@PathVariable int articleId, Model model) {
-        model.addAttribute("article", articleRepository.findById(articleId));
+        model.addAttribute("article", articleRepository.findById((long) articleId));
         return "article-edit";
     }
 
     @PutMapping("/articles/{articleId}")
     public String updateArticle(@PathVariable int articleId, Article article, Model model) {
         article.setId(articleId);
-        articleRepository.update(article);
+        //articleRepository.update(article);
+        article = articleRepository.save(article);
         model.addAttribute("article", article);
         return "redirect:/articles/" + article.getId();
     }
 
     @DeleteMapping("/articles/{articleId}")
     public String deleteArticle(@PathVariable int articleId) {
-        articleRepository.remove(articleId);
+        //articleRepository.remove(articleId);
+        articleRepository.deleteById((long) articleId);
         return "redirect:/";
     }
 }
