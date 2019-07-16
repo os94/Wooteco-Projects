@@ -7,6 +7,10 @@ import javax.persistence.Id;
 
 @Entity
 public class Article {
+
+    private static final String DEFAULT_COVER_URL = "/images/pages/index/study.jpg";
+    private static final int NO_COVER_URL = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -15,14 +19,7 @@ public class Article {
     private String coverUrl;
     private String contents;
 
-    public Article(String title, String coverUrl, String contents) {
-        this.title = title;
-        this.coverUrl = coverUrl;
-        this.contents = contents;
-    }
-
-    public boolean matchId(long id) {
-        return this.id == id;
+    public Article() {
     }
 
     public long getId() {
@@ -50,7 +47,7 @@ public class Article {
     }
 
     public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
+        this.coverUrl = (coverUrl.length() != NO_COVER_URL) ? coverUrl : DEFAULT_COVER_URL;
     }
 
     public void setContents(String contents) {
