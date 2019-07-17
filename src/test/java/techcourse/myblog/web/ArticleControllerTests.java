@@ -43,16 +43,6 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void index_페이지_조회() {
-        statusIsOk(HttpMethod.GET, "/");
-    }
-
-    @Test
-    void 게시글_작성_페이지_확인() {
-        statusIsOk(HttpMethod.GET, "/writing");
-    }
-
-    @Test
     void 게시글_조회() {
         statusIsOk(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID);
     }

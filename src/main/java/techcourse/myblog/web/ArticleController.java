@@ -9,6 +9,7 @@ import techcourse.myblog.domain.*;
 import javax.transaction.Transactional;
 
 @Controller
+@RequestMapping("/articles")
 public class ArticleController {
     private final ArticleRepository articleRepository;
 
@@ -17,25 +18,14 @@ public class ArticleController {
         this.articleRepository = articleRepository;
     }
 
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("articles", articleRepository.findAll());
-        return "index";
-    }
-
-    @GetMapping("/writing")
-    public String createArticleForm() {
-        return "article-edit";
-    }
-
     @Transactional
-    @PostMapping("/articles")
+    @PostMapping("")
     public String createArticle(Article newArticle) {
         newArticle = articleRepository.save(newArticle);
         return "redirect:/articles/" + newArticle.getId();
     }
 
-    @GetMapping("/articles/{id}")
+    @GetMapping("/{id}")
     public String selectArticle(@PathVariable long id, Model model) {
         model.addAttribute(
                 "article",
@@ -43,7 +33,7 @@ public class ArticleController {
         return "article";
     }
 
-    @GetMapping("/articles/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String updateArticleForm(@PathVariable long id, Model model) {
         model.addAttribute(
                 "article",
@@ -52,7 +42,7 @@ public class ArticleController {
     }
 
     @Transactional
-    @PutMapping("/articles/{id}")
+    @PutMapping("/{id}")
     public String updateArticle(Article updatedArticle, Model model) {
         updatedArticle = articleRepository.save(updatedArticle);
         model.addAttribute("article", updatedArticle);
@@ -60,7 +50,7 @@ public class ArticleController {
     }
 
     @Transactional
-    @DeleteMapping("/articles/{id}")
+    @DeleteMapping("/{id}")
     public String deleteArticle(@PathVariable long id) {
         articleRepository.deleteById(id);
         return "redirect:/";
