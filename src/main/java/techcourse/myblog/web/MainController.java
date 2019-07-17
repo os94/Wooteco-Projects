@@ -22,7 +22,12 @@ public class MainController {
     }
 
     @GetMapping("/writing")
-    public String createArticleForm() {
+    public String moveWritePage() {
         return "article-edit";
+    }
+
+    @GetMapping("/login")
+    public String moveLoginPage() {
+        return "login";
     }
 }

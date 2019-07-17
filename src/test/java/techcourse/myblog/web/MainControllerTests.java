@@ -22,8 +22,13 @@ public class MainControllerTests {
     }
 
     @Test
-    void 게시글_작성_페이지_확인() {
+    void 게시글_작성_페이지_이동_확인() {
         statusIsOk(HttpMethod.GET, "/writing");
+    }
+
+    @Test
+    void 로그인_페이지_이동_확인() {
+        statusIsOk(HttpMethod.GET, "/login");
     }
 
     private void statusIsOk(HttpMethod httpMethod, String uri) {
