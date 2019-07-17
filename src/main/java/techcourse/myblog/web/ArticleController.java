@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.*;
 
+import javax.transaction.Transactional;
+
 @Controller
 public class ArticleController {
     private final ArticleRepository articleRepository;
@@ -26,6 +28,7 @@ public class ArticleController {
         return "article-edit";
     }
 
+    @Transactional
     @PostMapping("/articles")
     public String createArticle(Article newArticle) {
         newArticle = articleRepository.save(newArticle);
@@ -48,6 +51,7 @@ public class ArticleController {
         return "article-edit";
     }
 
+    @Transactional
     @PutMapping("/articles/{id}")
     public String updateArticle(Article updatedArticle, Model model) {
         updatedArticle = articleRepository.save(updatedArticle);
@@ -55,6 +59,7 @@ public class ArticleController {
         return "redirect:/articles/" + updatedArticle.getId();
     }
 
+    @Transactional
     @DeleteMapping("/articles/{id}")
     public String deleteArticle(@PathVariable long id) {
         articleRepository.deleteById(id);
