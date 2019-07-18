@@ -61,20 +61,22 @@
                                                     <div class="mrg-btm-30">
                                                         <h2 class="text-center text-dark no-mrg-vertical mrg-btm-15">회원가입</h2>
                                                     </div>
-                                                    <form method="post" th:action="@{/users}"  th:object="${userRequestDto}" action="#">
+                                                    <form method="post" th:action="@{/users}" th:object="${userRequestDto}">
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Username</label>
-                                                            <input type="text" name="name" class="form-control" th:field="*{name}">
+                                                            <input type="text" name="name" class="form-control" th:field="*{name}" autofocus
+                                                                   required pattern="[a-zA-Z가-힣]{1,}" minlength="2" maxlength="10">
                                                             <small class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Email Address</label>
-                                                            <input type="email" name="email" class="form-control" th:field="*{email}">
+                                                            <input type="email" name="email" class="form-control" th:field="*{email}" required>
                                                             <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Password</label>
-                                                            <input type="password" name="password" class="form-control" th:field="*{password}" placeholder="Password">
+                                                            <input type="password" name="password" class="form-control" th:field="*{password}" placeholder="Password"
+                                                                   required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}" minlength="8">
                                                             <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
                                                         </div>
                                                         <div class="form-group">
