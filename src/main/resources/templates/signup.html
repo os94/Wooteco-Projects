@@ -118,12 +118,11 @@
                 "email" : email
             },
             dataType: "text",
-            success: (result) => {
-                if (result === "duplicated") {
-                    document.getElementById("email-error-message").innerText = "중복된 이메일입니다.";
-                } else {
-                    checkPassword();
-                }
+            success: () => {
+                checkPassword();
+            },
+            error: () => {
+                document.getElementById("email-error-message").innerText = "중복된 이메일입니다.";
             }
         });
     }

@@ -1,8 +1,11 @@
 package techcourse.myblog.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,12 +41,13 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/check-email")
-    public String checkEmail(String email) {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> checkEmail(String email) {
         int duplicate = userRepository.findByEmail(email).size();
 
         if (duplicate > 0) {
-            return "duplicated";
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return "available";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
