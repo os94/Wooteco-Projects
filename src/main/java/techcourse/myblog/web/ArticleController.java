@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.domain.*;
+import techcourse.myblog.domain.Article;
+import techcourse.myblog.domain.ArticleNotFoundException;
+import techcourse.myblog.domain.ArticleRepository;
 
 import javax.transaction.Transactional;
 
