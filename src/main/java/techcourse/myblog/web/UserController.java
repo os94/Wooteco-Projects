@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.domain.UserRequestDto;
 
@@ -33,5 +34,16 @@ public class UserController {
         }
         userRepository.save(userRequestDto.toEntity());
         return "redirect:/login";
+    }
+
+    @ResponseBody
+    @PostMapping("/check-email")
+    public String checkEmail(String email) {
+        int duplicate = userRepository.findByEmail(email).size();
+
+        if (duplicate > 0) {
+            return "duplicated";
+        }
+        return "available";
     }
 }

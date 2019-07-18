@@ -70,8 +70,9 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Email Address</label>
-                                                            <input type="email" name="email" class="form-control" th:field="*{email}" required>
+                                                            <input type="email" id="email" name="email" class="form-control" th:field="*{email}" required>
                                                             <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+                                                            <small class="text-danger" id="email-error-message"></small>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Password</label>
@@ -85,7 +86,7 @@
                                                             <small class="text-danger" id="password-error-message"></small>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button type="button" class="btn btn-info btn-block border-radius-6 font-size-16 text-white" onclick="checkPassword()">가입하기</button>
+                                                            <button type="button" class="btn btn-info btn-block border-radius-6 font-size-16 text-white" onclick="validate()">가입하기</button>
                                                         </div>
                                                     </form>
                                                     <div class="text-dark">
@@ -107,6 +108,26 @@
 </div>
 
 <script>
+    function validate() {
+        var email = document.getElementById("email").value;
+
+        $.ajax({
+            type: 'POST',
+            url: '/check-email',
+            data: {
+                "email" : email
+            },
+            dataType: "text",
+            success: (result) => {
+                if (result === "duplicated") {
+                    document.getElementById("email-error-message").innerText = "중복된 이메일입니다.";
+                } else {
+                    checkPassword();
+                }
+            }
+        });
+    }
+
     function checkPassword() {
         var password = document.getElementById("password").value;
         var passwordConfirm = document.getElementById("password-confirm").value;
@@ -124,5 +145,9 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
 <script src="/js/index.js"></script>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
 </body>
 </html>
