@@ -61,12 +61,13 @@
                                                     <div class="mrg-btm-30">
                                                         <h2 class="text-center no-mrg-vertical mrg-btm-15 text-dark">로그인</h2>
                                                     </div>
-                                                    <form>
+                                                    <div th:if="${error}" th:text="${message}" class="alert alert-danger" role="alert"></div>
+                                                    <form method="post" action="/login" id="login-form">
                                                         <div class="form-group">
-                                                            <input type="email" class="form-control" placeholder="Id">
+                                                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="password" class="form-control" placeholder="Password">
+                                                            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
                                                         </div>
                                                         <div class="checkbox font-size-13 text-dark inline-block no-mrg-vertical no-pdd-vertical">
                                                             <input id="agreement" name="agreement" type="checkbox">
@@ -76,7 +77,7 @@
                                                             <a href="">Forgot Password?</a>
                                                         </div>
                                                         <div class="mrg-top-20 text-right">
-                                                            <a href="user-list.html" class="btn btn-tumblr">로그인</a>
+                                                            <a href="javascript: login()" class="btn btn-tumblr">로그인</a>
                                                         </div>
                                                     </form>
                                                     <div class="text-dark">
@@ -96,6 +97,12 @@
         </div>
     </div>
 </div>
+<script>
+    function login() {
+        var loginForm = document.getElementById("login-form");
+        loginForm.submit();
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

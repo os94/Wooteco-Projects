@@ -24,7 +24,6 @@ public class UserRequestDto {
     @Pattern(regexp = NAME_REGEXP, message = NAME_FORMAT_ERROR)
     private String name;
 
-    //ToDo : 중복 이메일 확인 해야함
     @NotBlank(message = EMAIL_BLANK_ERROR)
     @Email(message = EMAIL_FORMAT_ERROR)
     private String email;

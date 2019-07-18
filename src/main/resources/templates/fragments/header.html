@@ -14,10 +14,10 @@
                 </a>
             </li>
         </ul>
-        <ul th:if="${session.id}" class="nav-right">
+        <ul th:if="${session.user}" class="nav-right">
             <li th:replace="fragments/logged-in :: logged-in"></li>
         </ul>
-        <ul th:unless="${session.id}" class="nav-right">
+        <ul th:unless="${session.user}" class="nav-right">
             <li th:replace="fragments/logged-out :: logged-out"></li>
         </ul>
     </div>
