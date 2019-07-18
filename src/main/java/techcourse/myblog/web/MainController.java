@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import techcourse.myblog.domain.ArticleRepository;
+import techcourse.myblog.domain.UserRequestDto;
 
 import javax.servlet.http.HttpSession;
 
@@ -34,5 +35,21 @@ public class MainController {
             return "redirect:/";
         }
         return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute("user");
+        return "redirect:/";
+    }
+
+    @GetMapping("/signup")
+    public String index(UserRequestDto userRequestDto) {
+        return "signup";
+    }
+
+    @GetMapping("/mypage")
+    public String moveMyPage() {
+        return "mypage";
     }
 }

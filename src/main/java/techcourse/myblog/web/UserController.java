@@ -6,16 +6,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.LoginRequestDto;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.domain.UserRequestDto;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -27,11 +23,6 @@ public class UserController {
     @Autowired
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    @GetMapping("/signup")
-    public String index(UserRequestDto userRequestDto) {
-        return "signup";
     }
 
     @Transactional
@@ -79,9 +70,14 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession httpSession) {
+    @DeleteMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable long id, HttpSession httpSession) {
+        User user = userRepository.findUserById(id);
+        if (user.getId() != id) {
+            return "redirect:/www.woowahan.com";
+        }
         httpSession.removeAttribute("user");
+        userRepository.deleteById(id);
         return "redirect:/";
     }
 }
