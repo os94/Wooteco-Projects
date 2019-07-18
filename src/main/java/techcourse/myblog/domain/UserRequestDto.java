@@ -6,21 +6,32 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRequestDto {
+
+    public static final String NAME_LENGTH_ERROR = "2자이상 10자미만으로 작성해야 합니다.";
+    public static final String NAME_FORMAT_ERROR = "숫자나 특수문자가 포함되었습니다.";
+    public static final String NAME_BLANK_ERROR = "이름을 작성해주세요.";
+    public static final String EMAIL_FORMAT_ERROR = "메일의 양식을 지켜주세요.";
+    public static final String EMAIL_BLANK_ERROR = "메일을 작성해주세요.";
+    public static final String PASSWORD_FORMAT_ERROR = "비밀번호는 8자 이상의 소문자, 대문자, 숫자, 특수문자로 이루어져야 합니다.";
+    public static final String PASSWORD_BLANK_ERROR = "비밀번호를 작성해주세요.";
+    private static final String PASSWORD_REGEXP = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}";
+    private static final String NAME_REGEXP = "[a-zA-Z가-힣]{2,10}";
+
     private long id;
 
-    @NotBlank(message = "이름을 작성해주세요.")
-    @Size(min = 2, max = 10, message = "2자이상 10자미만으로 작성해야 합니다.")
-    @Pattern(regexp = "[a-zA-Z가-힣]{2,10}", message = "숫자나 특수문자가 포함되었습니다.")
+    @NotBlank(message = NAME_BLANK_ERROR)
+    @Size(min = 2, max = 10, message = NAME_LENGTH_ERROR)
+    @Pattern(regexp = NAME_REGEXP, message = NAME_FORMAT_ERROR)
     private String name;
 
     //ToDo : 중복 이메일 확인 해야함
-    @NotBlank(message = "메일을 작성해주세요.")
-    @Email(message = "메일의 양식을 지켜주세요.")
+    @NotBlank(message = EMAIL_BLANK_ERROR)
+    @Email(message = EMAIL_FORMAT_ERROR)
     private String email;
 
-    @NotBlank(message = "비밀번호를 작성해주세요.")
-    @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}",
-            message = "비밀번호는 8자 이상의 소문자, 대문자, 숫자, 특수문자로 이루어져야 합니다.")
+    @NotBlank(message = PASSWORD_BLANK_ERROR)
+    @Pattern(regexp = PASSWORD_REGEXP,
+            message = PASSWORD_FORMAT_ERROR)
     private String password;
 
     public UserRequestDto() {
