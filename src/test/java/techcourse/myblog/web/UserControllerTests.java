@@ -2,6 +2,8 @@ package techcourse.myblog.web;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.reactive.server.WebTestClient.*;
 import static techcourse.myblog.domain.UserRequestDto.*;
 
 @AutoConfigureWebTestClient
@@ -28,15 +31,16 @@ public class UserControllerTests {
         statusIsOk(HttpMethod.GET, "/signup");
     }
 
-    @Test
-    void 회원가입_확인() {
+    @ParameterizedTest
+    @CsvSource({"sean, sean@gmail.com, Woowahan123!"})
+    void 회원가입_성공(String name, String email, String password) {
         webTestClient.post()
                 .uri("/users")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters
-                        .fromFormData("name", "sean")
-                        .with("email", "sean@gmail.com")
-                        .with("password", "Woowahan123!"))
+                        .fromFormData("name", name)
+                        .with("email", email)
+                        .with("password", password))
                 .exchange()
                 .expectStatus().isFound()
                 .expectHeader().valueMatches(HttpHeaders.LOCATION, ".*login.*");
@@ -103,8 +107,20 @@ public class UserControllerTests {
         checkValidationWith(PASSWORD_BLANK_ERROR, "sean!", "sean@gmail.com", " ");
     }
 
-    private void statusIsOk(HttpMethod httpMethod, String uri) {
-        webTestClient.method(httpMethod)
+    @Test
+    void userList_페이지_이동_확인() {
+        회원가입_성공("sloth", "sloth@gmail.com", "Woowahan321!");
+
+        statusIsOk(HttpMethod.GET, "users")
+        .expectBody().consumeWith(response -> {
+            String body = new String(response.getResponseBody());
+            assertThat(body.contains("sloth")).isTrue();
+            assertThat(body.contains("sloth@gmail.com")).isTrue();
+        });
+    }
+
+    private ResponseSpec statusIsOk(HttpMethod httpMethod, String uri) {
+        return webTestClient.method(httpMethod)
                 .uri(uri)
                 .exchange()
                 .expectStatus()

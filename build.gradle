@@ -26,4 +26,6 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java'
+
+	testImplementation "org.junit.jupiter:junit-jupiter-params:5.4.2"
 }

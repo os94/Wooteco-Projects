@@ -45,7 +45,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="nav-right">
+            <ul class="nav-right" >
                 <li id="header-user-dropdown-btn" class="user-profile dropdown no-border pointer">
                     <a class="user-info-link user-dropdown-menu dropdown-toggle" data-toggle="dropdown">
                         <img class="profile-img img-fluid" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="Brown">
@@ -88,15 +88,15 @@
                     <div class="card-heading border bottom">
                         <h4 class="card-title">User List</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" th:each="user : ${users}">
                         <ul class="list-unstyled list-info">
                             <li>
                                 <div class="pdd-vertical-10">
                                     <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="">
                                     <div class="info">
-                                        <a href="" class="title no-pdd-vertical text-semibold inline-block lh-1">Brown</a>
+                                        <a href="" class="title no-pdd-vertical text-semibold inline-block lh-1" th:text="${user.name}"></a>
                                         <span class="sub-title">
-                                            <span>gracefulBrown@woowahan.com</span>
+                                            <span th:text="${user.email}"></span>
                                         </span>
                                     </div>
                                 </div>
