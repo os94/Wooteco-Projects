@@ -75,9 +75,6 @@ public class UserController {
             model.addAttribute("message", "비밀번호가 일치하지않습니다.");
             return "login";
         }
-        if (httpSession.getAttribute("user") != null) {
-            return "redirect:/";
-        }
         httpSession.setAttribute("user", user);
         return "redirect:/";
     }

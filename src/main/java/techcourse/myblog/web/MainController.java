@@ -6,6 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import techcourse.myblog.domain.ArticleRepository;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 public class MainController {
     private final ArticleRepository articleRepository;
@@ -27,7 +29,10 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String moveLoginPage() {
+    public String moveLoginPage(HttpSession httpSession) {
+        if (httpSession.getAttribute("user") != null) {
+            return "redirect:/";
+        }
         return "login";
     }
 }
