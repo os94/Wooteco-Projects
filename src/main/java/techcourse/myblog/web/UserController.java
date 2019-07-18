@@ -2,9 +2,10 @@ package techcourse.myblog.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import techcourse.myblog.domain.UserRepository;
 import techcourse.myblog.domain.UserRequestDto;
 
@@ -21,13 +22,16 @@ public class UserController {
     }
 
     @GetMapping("/signup")
-    public String index() {
+    public String index(UserRequestDto userRequestDto) {
         return "signup";
     }
 
     @Transactional
     @PostMapping("/users")
-    public String createUser(@Valid UserRequestDto userRequestDto) {
+    public String createUser(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        }
         userRepository.save(userRequestDto.toEntity());
         return "redirect:/login";
     }
