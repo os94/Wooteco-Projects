@@ -28,4 +28,7 @@ dependencies {
 	implementation 'mysql:mysql-connector-java'
 
 	testImplementation "org.junit.jupiter:junit-jupiter-params:5.4.2"
+
+	runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
+
 }
