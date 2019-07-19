@@ -30,9 +30,9 @@
                     <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                 </a>
                 <form method="post" th:action="'/articles/' + ${article.id}">
-                    <input type="hidden" name="_method" value="delete" />
-                    <button type="submit" class="float-right pointer btn btn-icon">
-                        <i class="ti-na text-dark font-size-16 pdd-horizontal-5"></i>
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="float-right btn btn-default no-border-line" style="border:transparent; background:transparent;">
+                        <i class="ti-trash font-size-16"></i>
                     </button>
                 </form>
                 <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">No Contents</div>

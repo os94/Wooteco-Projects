@@ -97,7 +97,9 @@
                         </div>
                         <form th:if="${session.user.id} == ${pageUser.id}" th:action="'/user/delete/' + ${pageUser.id}" id="deleteForm" method="post">
                             <input type="hidden" name="_method" value="delete">
-                            <button type="button" id="deleteButton" class="btn btn-light" onclick="deleteUser()">Leave</button>
+                            <button type="button" id="deleteButton" class="btn btn-default no-border-line" onclick="deleteUser()">
+                                <i class="ti-trash font-size-16"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
