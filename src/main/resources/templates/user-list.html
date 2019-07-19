@@ -30,7 +30,7 @@
                                 <div class="pdd-vertical-10">
                                     <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" alt="">
                                     <div class="info">
-                                        <a href="" class="title no-pdd-vertical text-semibold inline-block lh-1" th:text="${user.name}"></a>
+                                        <a th:href="'/mypage/' + ${user.id}" class="title no-pdd-vertical text-semibold inline-block lh-1" th:text="${user.name}"></a>
                                         <span class="sub-title">
                                             <span th:text="${user.email}"></span>
                                         </span>

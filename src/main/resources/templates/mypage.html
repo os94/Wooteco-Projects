@@ -25,7 +25,8 @@
                 <div class="card">
                     <div class="card-heading pdd-btm-5 border bottom">
                         <h4 class="card-title d-inline-block">profile</h4>
-                        <a href="mypage-edit.html" class="float-right pointer btn btn-default btn-icon btn-rounded no-border-line no-mrg relative bottom-5">
+                        <a th:if="${session.user.id} == ${pageUser.id}" th:href="'/user/update/' + ${pageUser.id}"
+                           class="float-right pointer btn btn-default btn-icon btn-rounded no-border-line no-mrg relative bottom-5">
                             <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                         </a>
                     </div>
@@ -35,7 +36,7 @@
                                 <p class="mrg-top-10 text-dark"> <b>Name</b></p>
                             </div>
                             <div class="col-md-6">
-                                <p class="mrg-top-10" th:text="${session.user.name}"></p>
+                                <p class="mrg-top-10" th:text="${pageUser.name}"></p>
                             </div>
                         </div>
                         <hr>
@@ -44,7 +45,7 @@
                                 <p class="mrg-top-10 text-dark"> <b>Email</b></p>
                             </div>
                             <div class="col-md-6">
-                                <p class="mrg-top-10" th:text="${session.user.email}"></p>
+                                <p class="mrg-top-10" th:text="${pageUser.email}"></p>
                             </div>
                         </div>
                         <hr>
@@ -94,8 +95,8 @@
                                 <hr>
                             </div>
                         </div>
-                        <form th:action="'/user/delete/' + ${session.user.id}" id="deleteForm" method="post">
-                            <input th:if="${session.user}" type="hidden" name="_method" value="delete">
+                        <form th:if="${session.user.id} == ${pageUser.id}" th:action="'/user/delete/' + ${pageUser.id}" id="deleteForm" method="post">
+                            <input type="hidden" name="_method" value="delete">
                             <button type="button" id="deleteButton" class="btn btn-light" onclick="deleteUser()">Leave</button>
                         </form>
                     </div>
@@ -106,13 +107,9 @@
 </div>
 
 <script >
-    var deleteForm = document.getElementById("deleteForm");
-    var result;
-
     function deleteUser() {
-        result = confirm("정말로 탈퇴하시겠습니까");
-        if (result === true) {
-            deleteForm.submit();
+        if (confirm("정말로 탈퇴하시겠습니까") === true) {
+            document.getElementById("deleteForm").submit();
         }
     }
 </script>
