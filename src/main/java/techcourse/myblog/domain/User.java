@@ -17,6 +17,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @OneToOne
+    @JoinColumn(name="userDetail_id")
+    private UserDetail userDetail;
+
     public User() {
     }
 
