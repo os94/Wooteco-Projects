@@ -8,7 +8,7 @@
 </head>
 <body>
 <div>
-    <header th:replace="fragments/header :: header"> </header>
+    <header th:replace="fragments/header :: header"></header>
 
     <div class="about-cover card no-border">
         <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/bg.jpg')">
@@ -22,79 +22,88 @@
         <div class="row">
             <div class="col-md-7 mx-auto">
                 <div class="card">
-                    <div class="card-heading pdd-btm-5 border bottom">
-                        <h4 class="card-title d-inline-block">profile</h4>
-                        <button type="submit" class="btn btn-info float-right mrg-btm-0 relative bottom-5">수정</button>
-                    </div>
-                    <div class="card-block">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <p class="mrg-top-10 text-dark"> <b>Name</b></p>
-                            </div>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" th:value="${pageUser.name}">
-                            </div>
+                    <form method="post" action="/user/update/">
+                        <input type="hidden" name="_method" value="put">
+                        <input type="hidden" name="id" th:value="${pageUser.id}">
+                        <div class="card-heading pdd-btm-5 border bottom">
+                            <h4 class="card-title d-inline-block">profile</h4>
+                            <button type="submit" class="btn btn-info float-right mrg-btm-0 relative bottom-5">수정
+                            </button>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <p class="mrg-top-10 text-dark"> <b>Email</b></p>
-                            </div>
-                            <div class="col-md-6">
-                                <p class="mrg-top-10" th:text="${pageUser.email}"></p>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <p class="mrg-top-10 text-dark"> <b>Avatar</b></p>
-                            </div>
-                            <div class="col-md-6">
-                                <div>
-                                    <label for="img-upload" class="pointer">
-                                        <img src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4" width="117" alt="">
-                                        <span class="btn btn-default display-block no-mrg-btm">Choose file</span>
-                                        <input class="d-none" type="file" name="uploadedimages0" multiple id="img-upload">
-                                    </label>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="mrg-top-10 text-dark"><b>Name</b></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" name="name" class="form-control" th:value="${pageUser.name}">
                                 </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <p class="mrg-top-10 text-dark"> <b>SNS</b></p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="mrg-top-10 text-dark"><b>Email</b></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="mrg-top-10" th:text="${pageUser.email}"></p>
+                                </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-4">
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="mrg-top-10 text-dark"><b>Avatar</b></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <div>
+                                        <label for="img-upload" class="pointer">
+                                            <img src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4"
+                                                 width="117" alt="">
+                                            <span class="btn btn-default display-block no-mrg-btm">Choose file</span>
+                                            <input class="d-none" type="file" name="uploadedimages0" multiple
+                                                   id="img-upload">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <p class="mrg-top-10 text-dark"><b>SNS</b></p>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-4">
                                         <span class="btn-dark border-radius-4 inline-block">
                                             <span class="pdd-horizon-10 lh-2-5 display-block">
                                                 <i class="fa fa-github"></i>
                                             </span>
                                         </span>
-                                        <span class="font-size-14 mrg-left-10 text-dark text-bold">Github</span>
+                                            <span class="font-size-14 mrg-left-10 text-dark text-bold">Github</span>
+                                        </div>
+                                        <div class="col-md-8 text-right">
+                                            <input type="text" name="snsGithub" class="form-control"
+                                                   value="https://www.github.com/profile">
+                                        </div>
                                     </div>
-                                    <div class="col-md-8 text-right">
-                                        <input type="text" class="form-control" value="https://www.github.com/profile">
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row">
-                                    <div class="col-md-4">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-4">
                                     <span class="btn-facebook border-radius-4 inline-block">
                                         <span class="pdd-horizon-10 lh-2-5 display-block">
                                             <i class="ti-facebook"></i>
                                         </span>
                                     </span>
-                                        <span class="mrg-left-10 font-size-14 text-dark text-bold">Facebook</span>
-                                    </div>
-                                    <div class="col-md-8 text-right">
-                                        <input type="text" class="form-control" value="https://www.facebook.com/profile">
+                                            <span class="mrg-left-10 font-size-14 text-dark text-bold">Facebook</span>
+                                        </div>
+                                        <div class="col-md-8 text-right">
+                                            <input type="text" name="snsFacebook" class="form-control"
+                                                   value="https://www.facebook.com/profile">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

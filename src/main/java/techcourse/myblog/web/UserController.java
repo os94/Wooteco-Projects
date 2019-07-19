@@ -7,10 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.domain.LoginRequestDto;
-import techcourse.myblog.domain.User;
-import techcourse.myblog.domain.UserRepository;
-import techcourse.myblog.domain.UserRequestDto;
+import techcourse.myblog.domain.*;
 
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
@@ -70,6 +67,7 @@ public class UserController {
         return "redirect:/";
     }
 
+    @Transactional
     @DeleteMapping("/user/delete/{pageId}")
     public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
         User pageUser = userRepository.findUserById(pageId);
@@ -91,5 +89,18 @@ public class UserController {
         }
         model.addAttribute("pageUser", pageUser);
         return "mypage-edit";
+    }
+
+    @Transactional
+    @PutMapping("/user/update")
+    public String updateMyPage(MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+        User pageUser = userRepository.findUserById(myPageRequestDto.getId());
+        User loggedInUser = (User) httpSession.getAttribute("user");
+        if (pageUser.getId() != loggedInUser.getId()) {
+            return "redirect:/mypage/" + myPageRequestDto.getId();
+        }
+        pageUser.setName(myPageRequestDto.getName());
+        httpSession.setAttribute("user", pageUser);
+        return "redirect:/mypage/" + pageUser.getId();
     }
 }
