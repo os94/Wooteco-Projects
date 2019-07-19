@@ -70,14 +70,26 @@ public class UserController {
         return "redirect:/";
     }
 
-    @DeleteMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable long id, HttpSession httpSession) {
-        User user = userRepository.findUserById(id);
-        if (user.getId() != id) {
-            return "redirect:/www.woowahan.com";
+    @DeleteMapping("/user/delete/{pageId}")
+    public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
+        User pageUser = userRepository.findUserById(pageId);
+        User loggedInUser = (User) httpSession.getAttribute("user");
+        if (pageUser.getId() != loggedInUser.getId()) {
+            return "redirect:/mypage/" + pageId;
         }
         httpSession.removeAttribute("user");
-        userRepository.deleteById(id);
+        userRepository.deleteById(pageId);
         return "redirect:/";
+    }
+
+    @GetMapping("/user/update/{pageId}")
+    public String moveMyPageEdit(@PathVariable long pageId, HttpSession httpSession, Model model) {
+        User pageUser = userRepository.findUserById(pageId);
+        User loggedInUser = (User) httpSession.getAttribute("user");
+        if (pageUser.getId() != loggedInUser.getId()) {
+            return "redirect:/mypage/" + pageId;
+        }
+        model.addAttribute("pageUser", pageUser);
+        return "mypage-edit";
     }
 }
