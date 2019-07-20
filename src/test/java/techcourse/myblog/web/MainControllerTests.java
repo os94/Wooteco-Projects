@@ -19,7 +19,7 @@ public class MainControllerTests {
     private WebTestClient webTestClient;
 
     private static final Logger log = LoggerFactory.getLogger(MainControllerTests.class);
-    
+
     @Test
     void index_페이지_조회() {
         log.trace("A TRACE Message");
@@ -32,13 +32,18 @@ public class MainControllerTests {
     }
 
     @Test
-    void 게시글_작성_페이지_이동_확인() {
+    void 게시글_작성_페이지_이동() {
         statusIsOk(HttpMethod.GET, "/writing");
     }
 
     @Test
-    void 로그인_페이지_이동_확인() {
+    void 로그인_페이지_이동() {
         statusIsOk(HttpMethod.GET, "/login");
+    }
+
+    @Test
+    void 회원가입_페이지_이동() {
+        statusIsOk(HttpMethod.GET, "/signup");
     }
 
     private void statusIsOk(HttpMethod httpMethod, String uri) {

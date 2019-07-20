@@ -15,21 +15,15 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.reactive.server.WebTestClient.*;
+import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import static techcourse.myblog.domain.dto.UserRequestDto.*;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserControllerTests {
-    
     @Autowired
     private WebTestClient webTestClient;
-
-    @Test
-    void 회원가입_페이지_이동_확인() {
-        statusIsOk(HttpMethod.GET, "/signup");
-    }
 
     @ParameterizedTest
     @CsvSource({"sean, sean@gmail.com, Woowahan123!"})
@@ -65,8 +59,7 @@ public class UserControllerTests {
     void name에_특수문자가_포함된_경우() {
         checkValidationWith(NAME_FORMAT_ERROR, "sean!", "sean@gmail.com", "Woowahan123!");
     }
-    
-    
+
     @Test
     void name에_공백이_입력된_경우() {
         checkValidationWith(NAME_BLANK_ERROR, " ", "sean@gmail.com", "Woowahan123!");
@@ -112,7 +105,7 @@ public class UserControllerTests {
         회원가입_성공("sloth", "sloth@gmail.com", "Woowahan321!");
 
         statusIsOk(HttpMethod.GET, "users")
-        .expectBody().consumeWith(response -> {
+                .expectBody().consumeWith(response -> {
             String body = new String(response.getResponseBody());
             assertThat(body.contains("sloth")).isTrue();
             assertThat(body.contains("sloth@gmail.com")).isTrue();

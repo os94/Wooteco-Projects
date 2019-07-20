@@ -18,7 +18,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ArticleControllerTests {
-
     @Autowired
     private WebTestClient webTestClient;
 
@@ -48,7 +47,7 @@ public class ArticleControllerTests {
     }
 
     @Test
-    void 게시글_수정_페이지_확인() {
+    void 게시글_수정_페이지_이동() {
         statusIsOk(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID + "/edit");
     }
 
