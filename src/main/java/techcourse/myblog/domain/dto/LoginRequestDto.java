@@ -1,7 +1,6 @@
 package techcourse.myblog.domain.dto;
 
 public class LoginRequestDto {
-
     private String email;
     private String password;
 

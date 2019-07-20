@@ -8,7 +8,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class UserRequestDto {
-
     public static final String NAME_LENGTH_ERROR = "2자이상 10자미만으로 작성해야 합니다.";
     public static final String NAME_FORMAT_ERROR = "숫자나 특수문자가 포함되었습니다.";
     public static final String NAME_BLANK_ERROR = "이름을 작성해주세요.";
@@ -18,8 +17,6 @@ public class UserRequestDto {
     public static final String PASSWORD_BLANK_ERROR = "비밀번호를 작성해주세요.";
     private static final String PASSWORD_REGEXP = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}";
     private static final String NAME_REGEXP = "[a-zA-Z가-힣]{2,10}";
-
-    private long id;
 
     @NotBlank(message = NAME_BLANK_ERROR)
     @Size(min = 2, max = 10, message = NAME_LENGTH_ERROR)
@@ -31,8 +28,7 @@ public class UserRequestDto {
     private String email;
 
     @NotBlank(message = PASSWORD_BLANK_ERROR)
-    @Pattern(regexp = PASSWORD_REGEXP,
-            message = PASSWORD_FORMAT_ERROR)
+    @Pattern(regexp = PASSWORD_REGEXP, message = PASSWORD_FORMAT_ERROR)
     private String password;
 
     public UserRequestDto() {
@@ -40,10 +36,6 @@ public class UserRequestDto {
 
     public User toEntity() {
         return new User(name, email, password);
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getName() {
@@ -56,10 +48,6 @@ public class UserRequestDto {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public void setName(String name) {

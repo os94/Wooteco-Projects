@@ -7,7 +7,6 @@ import javax.persistence.Id;
 
 @Entity
 public class Article {
-
     private static final String DEFAULT_COVER_URL = "/images/pages/index/study.jpg";
     private static final int NO_COVER_URL = 0;
 
