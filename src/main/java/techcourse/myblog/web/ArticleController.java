@@ -36,7 +36,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}/edit")
-    public String updateArticleForm(@PathVariable long id, Model model) {
+    public String moveArticleEditPage(@PathVariable long id, Model model) {
         model.addAttribute(
                 "article",
                 articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new));

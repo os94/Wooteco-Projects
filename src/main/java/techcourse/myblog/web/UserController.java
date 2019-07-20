@@ -80,6 +80,13 @@ public class UserController {
         return "redirect:/";
     }
 
+    @GetMapping("/mypage/{id}")
+    public String moveMyPage(@PathVariable long id, Model model) {
+        User pageUser = userRepository.findUserById(id);
+        model.addAttribute("pageUser", pageUser);
+        return "mypage";
+    }
+
     @GetMapping("/user/update/{pageId}")
     public String moveMyPageEdit(@PathVariable long pageId, HttpSession httpSession, Model model) {
         User pageUser = userRepository.findUserById(pageId);
