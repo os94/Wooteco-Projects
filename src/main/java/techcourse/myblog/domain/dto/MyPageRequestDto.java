@@ -1,4 +1,4 @@
-package techcourse.myblog.domain;
+package techcourse.myblog.domain.dto;
 
 public class MyPageRequestDto {
     private long id;

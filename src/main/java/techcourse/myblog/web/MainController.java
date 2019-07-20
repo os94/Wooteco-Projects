@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import techcourse.myblog.domain.ArticleRepository;
-import techcourse.myblog.domain.UserRequestDto;
+import techcourse.myblog.domain.dto.UserRequestDto;
 
 import javax.servlet.http.HttpSession;
 
