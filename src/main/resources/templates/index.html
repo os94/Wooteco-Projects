@@ -5,7 +5,6 @@
     <th:block th:replace="fragments/head"> </th:block>
 
     <link rel="stylesheet" href="/css/index.css">
-
 </head>
 <body>
 <div>
@@ -15,7 +14,7 @@
         <div class="cover-img overlay-dark bg" style="background-image: url('/images/pages/index/bg.jpg')"></div>
         <div class="welcome-text-container">
             <div class="welcome-txt">
-                <h1 class="text-white border bottom font-size-35 padding-5">这是我的朋友</h1>
+                <h1 th:text="${session.user} == null ? 'Welcome' : 'Welcome, ' + ${session.user.name}" class="text-white border bottom font-size-35 padding-5"></h1>
             </div>
         </div>
     </div>
@@ -88,7 +87,6 @@
         <a href="/writing" class="btn btn-primary btn-rounded btn-icon fixed lh-2-4 right-50 bottom-50 width-50px height-50px">
             <i class="ti-plus"></i>
         </a>
-
     </div>
 </div>
 

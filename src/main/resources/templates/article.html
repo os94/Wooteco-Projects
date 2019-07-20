@@ -16,9 +16,8 @@
 
     <div class="about-cover card no-border ">
         <div class="cover-img overlay-dark bg" th:style="'background-image: url(\'' + ${article.coverUrl} + '\')'">
-
             <div class="padding-30">
-                <h1 th:text="${article.title} == null ? '목적의식 있는 연습을 통한 효과적인 학습' : ${article.title}" class="text-center cover-title"></h1>
+                <h1 th:if="${article.title} != null" th:text="${article.title}" class="text-center cover-title"></h1>
             </div>
         </div>
     </div>
@@ -35,7 +34,7 @@
                         <i class="ti-trash font-size-16"></i>
                     </button>
                 </form>
-                <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">No Contents</div>
+                <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">Contents</div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 mx-auto">
                 <div class="profile-container row mrg-top-30 mrg-btm-30">
