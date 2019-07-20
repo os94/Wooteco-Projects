@@ -4,23 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import techcourse.myblog.domain.ArticleRepository;
 import techcourse.myblog.domain.dto.UserRequestDto;
+import techcourse.myblog.domain.service.ArticleService;
 
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
-    private final ArticleRepository articleRepository;
+    private final ArticleService articleService;
 
     @Autowired
-    public MainController(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
+    public MainController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @GetMapping("/")
     public String moveMainPage(Model model) {
-        model.addAttribute("articles", articleRepository.findAll());
+        model.addAttribute("articles", articleService.findAll());
         return "index";
     }
 
