@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import techcourse.myblog.domain.service.LoginService;
@@ -28,6 +29,20 @@ public class LoginController {
     public LoginController(LoginService loginService, UserService userService) {
         this.loginService = loginService;
         this.userService = userService;
+    }
+
+    @GetMapping("/login")
+    public String moveLoginPage(HttpSession httpSession) {
+        if (httpSession.getAttribute(USER) != null) {
+            return "redirect:/";
+        }
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute(USER);
+        return "redirect:/";
     }
 
     @ResponseBody
