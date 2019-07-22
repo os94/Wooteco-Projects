@@ -14,8 +14,13 @@ import techcourse.myblog.domain.service.UserService;
 
 import javax.servlet.http.HttpSession;
 
+import static techcourse.myblog.web.SessionManager.USER;
+
 @Controller
 public class LoginController {
+    private static final String ERROR_NOT_EXIST_EMAIL = "존재하지않는 email입니다.";
+    private static final String ERROR_MISMATCH_PASSWORD = "비밀번호가 일치하지않습니다.";
+
     private final LoginService loginService;
     private final UserService userService;
 
@@ -40,15 +45,15 @@ public class LoginController {
         String requestEmail = loginRequestDto.getEmail();
         if (loginService.notExistUserEmail(requestEmail)) {
             model.addAttribute("error", true);
-            model.addAttribute("message", "존재하지않는 email입니다.");
+            model.addAttribute("message", ERROR_NOT_EXIST_EMAIL);
             return "login";
         }
         if (!loginService.matchEmailAndPassword(requestEmail, loginRequestDto.getPassword())) {
             model.addAttribute("error", true);
-            model.addAttribute("message", "비밀번호가 일치하지않습니다.");
+            model.addAttribute("message", ERROR_MISMATCH_PASSWORD);
             return "login";
         }
-        httpSession.setAttribute("user", userService.findUserByEmail(requestEmail));
+        httpSession.setAttribute(USER, userService.findUserByEmail(requestEmail));
         return "redirect:/";
     }
 }

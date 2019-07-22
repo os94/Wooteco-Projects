@@ -9,6 +9,8 @@ import techcourse.myblog.domain.service.ArticleService;
 
 import javax.servlet.http.HttpSession;
 
+import static techcourse.myblog.web.SessionManager.USER;
+
 @Controller
 public class MainController {
     private final ArticleService articleService;
@@ -31,7 +33,7 @@ public class MainController {
 
     @GetMapping("/login")
     public String moveLoginPage(HttpSession httpSession) {
-        if (httpSession.getAttribute("user") != null) {
+        if (httpSession.getAttribute(USER) != null) {
             return "redirect:/";
         }
         return "login";
@@ -39,7 +41,7 @@ public class MainController {
 
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
-        httpSession.removeAttribute("user");
+        httpSession.removeAttribute(USER);
         return "redirect:/";
     }
 

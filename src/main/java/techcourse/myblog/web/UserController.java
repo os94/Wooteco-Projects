@@ -1,14 +1,11 @@
 package techcourse.myblog.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.User;
-import techcourse.myblog.domain.dto.LoginRequestDto;
 import techcourse.myblog.domain.dto.MyPageRequestDto;
 import techcourse.myblog.domain.dto.UserRequestDto;
 import techcourse.myblog.domain.service.UserService;
@@ -16,6 +13,8 @@ import techcourse.myblog.domain.service.UserService;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+
+import static techcourse.myblog.web.SessionManager.USER;
 
 @Controller
 public class UserController {
@@ -46,12 +45,12 @@ public class UserController {
     @DeleteMapping("/user/delete/{pageId}")
     public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
         User pageUser = userService.findUserById(pageId);
-        User loggedInUser = (User) httpSession.getAttribute("user");
+        User loggedInUser = (User) httpSession.getAttribute(USER);
         if (pageUser.getId() != loggedInUser.getId()) {
             return "redirect:/mypage/" + pageId;
         }
 
-        httpSession.removeAttribute("user");
+        httpSession.removeAttribute(USER);
         userService.deleteById(pageId);
         return "redirect:/";
     }
@@ -65,7 +64,7 @@ public class UserController {
     @GetMapping("/user/update/{pageId}")
     public String moveMyPageEdit(@PathVariable long pageId, HttpSession httpSession, Model model) {
         User pageUser = userService.findUserById(pageId);
-        User loggedInUser = (User) httpSession.getAttribute("user");
+        User loggedInUser = (User) httpSession.getAttribute(USER);
         if (pageUser.getId() != loggedInUser.getId()) {
             return "redirect:/mypage/" + pageId;
         }
@@ -77,13 +76,13 @@ public class UserController {
     @Transactional
     @PutMapping("/user/update")
     public String updateMyPage(MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User loggedInUser = (User) httpSession.getAttribute("user");
+        User loggedInUser = (User) httpSession.getAttribute(USER);
         if (myPageRequestDto.getId() != loggedInUser.getId()) {
             return "redirect:/mypage/" + myPageRequestDto.getId();
         }
 
         User user = userService.updateName(myPageRequestDto.getId(), myPageRequestDto.getName());
-        httpSession.setAttribute("user", user);
+        httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();
     }
 }

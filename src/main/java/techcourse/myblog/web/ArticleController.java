@@ -12,6 +12,8 @@ import javax.transaction.Transactional;
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
+    private static final String ARTICLE = "article";
+
     private final ArticleService articleService;
 
     @Autowired
@@ -28,13 +30,13 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public String selectArticle(@PathVariable long id, Model model) {
-        model.addAttribute("article", articleService.findById(id));
+        model.addAttribute(ARTICLE, articleService.findById(id));
         return "article";
     }
 
     @GetMapping("/{id}/edit")
     public String moveArticleEditPage(@PathVariable long id, Model model) {
-        model.addAttribute("article", articleService.findById(id));
+        model.addAttribute(ARTICLE, articleService.findById(id));
         return "article-edit";
     }
 
@@ -42,7 +44,7 @@ public class ArticleController {
     @PutMapping("/{id}")
     public String updateArticle(Article updatedArticle, Model model) {
         updatedArticle = articleService.save(updatedArticle);
-        model.addAttribute("article", updatedArticle);
+        model.addAttribute(ARTICLE, updatedArticle);
         return "redirect:/articles/" + updatedArticle.getId();
     }
 
