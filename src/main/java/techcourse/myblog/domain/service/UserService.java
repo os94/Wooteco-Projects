@@ -16,18 +16,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean isDuplicateEmail(String email) {
-        return userRepository.findUsersByEmail(email).size() != 0;
-    }
-
-    public boolean notExistUserEmail(String email) {
-        return userRepository.findUserByEmail(email) == null;
-    }
-
-    public boolean matchEmailAndPassword(String email, String password) {
-        return userRepository.findUserByEmail(email).matchPassword(password);
-    }
-
     public User updateName(long id, String name) {
         User user = userRepository.findUserById(id);
         user.setName(name);

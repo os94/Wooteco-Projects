@@ -36,37 +36,10 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @ResponseBody
-    @PostMapping("/check-email")
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> checkEmailDuplicate(String email) {
-        if (userService.isDuplicateEmail(email)) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @GetMapping("/users")
     public String selectAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user-list";
-    }
-
-    @PostMapping("/login")
-    public String login(LoginRequestDto loginRequestDto, Model model, HttpSession httpSession) {
-        String requestEmail = loginRequestDto.getEmail();
-        if (userService.notExistUserEmail(requestEmail)) {
-            model.addAttribute("error", true);
-            model.addAttribute("message", "존재하지않는 email입니다.");
-            return "login";
-        }
-        if (!userService.matchEmailAndPassword(requestEmail, loginRequestDto.getPassword())) {
-            model.addAttribute("error", true);
-            model.addAttribute("message", "비밀번호가 일치하지않습니다.");
-            return "login";
-        }
-        httpSession.setAttribute("user", userService.findUserByEmail(requestEmail));
-        return "redirect:/";
     }
 
     @Transactional
