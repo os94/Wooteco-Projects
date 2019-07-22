@@ -8,9 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import techcourse.myblog.domain.dto.LoginRequestDto;
 import techcourse.myblog.domain.service.LoginService;
 import techcourse.myblog.domain.service.UserService;
+import techcourse.myblog.dto.LoginRequestDto;
 
 import javax.servlet.http.HttpSession;
 
