@@ -48,14 +48,14 @@ public class UserController {
 
     @GetMapping("/mypage/{id}")
     public String moveMyPage(@PathVariable long id, Model model) {
-        model.addAttribute("pageUser", userService.findUserById(id));
+        model.addAttribute("user", userService.findUserById(id));
         return "mypage";
     }
 
     @GetMapping("/user/update/{pageId}")
     public String moveMyPageEdit(@PathVariable long pageId, Model model) {
-        User pageUser = userService.findUserById(pageId);
-        model.addAttribute("pageUser", pageUser);
+        User user = userService.findUserById(pageId);
+        model.addAttribute("user", user);
         return "mypage-edit";
     }
 

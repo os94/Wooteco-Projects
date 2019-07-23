@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-md-7 mx-auto">
                 <div class="card">
-                    <form method="post" th:action="'/user/update/' + ${pageUser.id}">
+                    <form method="post" th:action="'/user/update/' + ${user.id}">
                         <input type="hidden" name="_method" value="put">
                         <div class="card-heading pdd-btm-5 border bottom">
                             <h4 class="card-title d-inline-block">profile</h4>
@@ -35,7 +35,7 @@
                                     <p class="mrg-top-10 text-dark"><b>Name</b></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="text" name="name" class="form-control" th:value="${pageUser.name}">
+                                    <input type="text" name="name" class="form-control" th:value="${user.name}">
                                 </div>
                             </div>
                             <hr>
@@ -44,7 +44,7 @@
                                     <p class="mrg-top-10 text-dark"><b>Email</b></p>
                                 </div>
                                 <div class="col-md-6">
-                                    <p class="mrg-top-10" th:text="${pageUser.email}"></p>
+                                    <p class="mrg-top-10" th:text="${user.email}"></p>
                                 </div>
                             </div>
                             <hr>

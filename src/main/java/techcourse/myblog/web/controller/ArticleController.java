@@ -9,6 +9,7 @@ import techcourse.myblog.domain.service.ArticleService;
 import techcourse.myblog.dto.ArticleRequestDto;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/articles")
@@ -24,35 +25,35 @@ public class ArticleController {
 
     @Transactional
     @PostMapping("")
-    public String createArticle(ArticleRequestDto newArticleDto) {
+    public String createArticle(@Valid ArticleRequestDto newArticleDto) {
         Article article = articleService.save(newArticleDto.toEntity());
         return "redirect:/articles/" + article.getId();
     }
 
-    @GetMapping("/{id}")
-    public String selectArticle(@PathVariable long id, Model model) {
-        model.addAttribute(ARTICLE, articleService.findById(id));
+    @GetMapping("/{articleId}")
+    public String selectArticle(@PathVariable long articleId, Model model) {
+        model.addAttribute(ARTICLE, articleService.findById(articleId));
         return "article";
     }
 
-    @GetMapping("/{id}/edit")
-    public String moveArticleEditPage(@PathVariable long id, Model model) {
-        model.addAttribute(ARTICLE, articleService.findById(id));
+    @GetMapping("/{articleId}/edit")
+    public String moveArticleEditPage(@PathVariable long articleId, Model model) {
+        model.addAttribute(ARTICLE, articleService.findById(articleId));
         return "article-edit";
     }
 
     @Transactional
-    @PutMapping("/{id}")
-    public String updateArticle(@PathVariable long id, ArticleRequestDto updateArticleDto, Model model) {
-        Article updateArticle = articleService.update(id, updateArticleDto.toEntity());
+    @PutMapping("/{articleId}")
+    public String updateArticle(@PathVariable long articleId, @Valid ArticleRequestDto updateArticleDto, Model model) {
+        Article updateArticle = articleService.update(articleId, updateArticleDto.toEntity());
         model.addAttribute(ARTICLE, updateArticle);
         return "redirect:/articles/" + updateArticle.getId();
     }
 
     @Transactional
-    @DeleteMapping("/{id}")
-    public String deleteArticle(@PathVariable long id) {
-        articleService.deleteById(id);
+    @DeleteMapping("/{articleId}")
+    public String deleteArticle(@PathVariable long articleId) {
+        articleService.deleteById(articleId);
         return "redirect:/";
     }
 }
