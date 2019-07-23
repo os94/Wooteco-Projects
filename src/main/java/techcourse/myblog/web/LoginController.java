@@ -68,7 +68,9 @@ public class LoginController {
             model.addAttribute("message", ERROR_MISMATCH_PASSWORD);
             return "login";
         }
-        httpSession.setAttribute(USER, userService.findUserByEmail(requestEmail));
+        //User user = loginService.login(requestEmail, loginRequestDto.getPassword());
+        //httpSession.setAttribute(USER, userService.findUserByEmail(requestEmail));
+        //httpSession.setAttribute(USER, user);
         return "redirect:/";
     }
 }

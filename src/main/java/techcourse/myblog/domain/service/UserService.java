@@ -3,9 +3,13 @@ package techcourse.myblog.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.User;
-import techcourse.myblog.domain.UserRepository;
+import techcourse.myblog.domain.exception.DuplicateEmailException;
+import techcourse.myblog.domain.repository.UserRepository;
+import techcourse.myblog.dto.MyPageRequestDto;
 
 import java.util.List;
+
+import static java.util.Collections.unmodifiableList;
 
 @Service
 public class UserService {
@@ -16,18 +20,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User updateUserInfo(long id, String name) {
-        User user = userRepository.findUserById(id);
-        user.updateUserInfo(name);
+    public User updateUserInfo(MyPageRequestDto userInfo) {
+        User user = userRepository.findUserById(userInfo.getId());
+        user.updateUserInfo(userInfo.getName());
         return user;
     }
 
     public User save(User user) {
+        if (userRepository.findUserByEmail(user.getEmail()) != null) {
+            throw new DuplicateEmailException("중복된 Email입니다.");
+        }
         return userRepository.save(user);
     }
 
     public List<User> findAll() {
-        return userRepository.findAll();
+        return unmodifiableList(userRepository.findAll());
     }
 
     public void deleteById(long id) {

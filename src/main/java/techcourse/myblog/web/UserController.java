@@ -81,7 +81,7 @@ public class UserController {
             return "redirect:/mypage/" + myPageRequestDto.getId();
         }
 
-        User user = userService.updateUserInfo(myPageRequestDto.getId(), myPageRequestDto.getName());
+        User user = userService.updateUserInfo(myPageRequestDto);
         httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();
     }
