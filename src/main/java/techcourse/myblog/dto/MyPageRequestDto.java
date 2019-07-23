@@ -5,30 +5,21 @@ public class MyPageRequestDto {
     private String snsGithub;
     private String snsFacebook;
 
-    public MyPageRequestDto() {
+    public MyPageRequestDto(String name, String snsGithub, String snsFacebook) {
+        this.name = name;
+        this.snsGithub = snsGithub;
+        this.snsFacebook = snsFacebook;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSnsGithub() {
         return snsGithub;
     }
 
-    public void setSnsGithub(String snsGithub) {
-        this.snsGithub = snsGithub;
-    }
-
     public String getSnsFacebook() {
         return snsFacebook;
-    }
-
-    public void setSnsFacebook(String snsFacebook) {
-        this.snsFacebook = snsFacebook;
     }
 }

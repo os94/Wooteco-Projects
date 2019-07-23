@@ -22,9 +22,8 @@
         <div class="row">
             <div class="col-md-7 mx-auto">
                 <div class="card">
-                    <form method="post" action="/user/update/">
+                    <form method="post" th:action="'/user/update/' + ${pageUser.id}">
                         <input type="hidden" name="_method" value="put">
-                        <input type="hidden" name="id" th:value="${pageUser.id}">
                         <div class="card-heading pdd-btm-5 border bottom">
                             <h4 class="card-title d-inline-block">profile</h4>
                             <button type="submit" class="btn btn-info float-right mrg-btm-0 relative bottom-5">수정
