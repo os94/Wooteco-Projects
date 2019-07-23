@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.ArticleNotFoundException;
-import techcourse.myblog.domain.ArticleRepository;
+import techcourse.myblog.domain.repository.ArticleRepository;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class ArticleService {
     }
 
     public Article findById(long id) {
-        return articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+        return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException("해당하는 게시글을 찾지 못했습니다."));
     }
 
     public Article update(long id, Article articleToUpdate) {
