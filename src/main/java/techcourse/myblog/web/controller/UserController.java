@@ -52,26 +52,26 @@ public class UserController {
         return "mypage";
     }
 
-    @GetMapping("/user/update/{pageId}")
-    public String moveMyPageEdit(@PathVariable long pageId, Model model) {
-        User user = userService.findUserById(pageId);
+    @GetMapping("/user/update/{id}")
+    public String moveMyPageEdit(@PathVariable long id, Model model) {
+        User user = userService.findUserById(id);
         model.addAttribute("user", user);
         return "mypage-edit";
     }
 
     @Transactional
-    @PutMapping("/user/update/{pageId}")
-    public String updateMyPage(@PathVariable long pageId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User user = userService.updateUserInfo(pageId, myPageRequestDto);
+    @PutMapping("/user/update/{id}")
+    public String updateMyPage(@PathVariable long id, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+        User user = userService.updateUserInfo(id, myPageRequestDto);
         httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();
     }
 
     @Transactional
-    @DeleteMapping("/user/delete/{pageId}")
-    public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
+    @DeleteMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable long id, HttpSession httpSession) {
         httpSession.removeAttribute(USER);
-        userService.deleteById(pageId);
+        userService.deleteById(id);
         return "redirect:/";
     }
 }

@@ -26,15 +26,11 @@ public class LoginService {
         return userRepository.findUserByEmail(email);
     }
 
-    public boolean isDuplicateEmail(String email) {
-        return userRepository.findUserByEmail(email) != null;
-    }
-
-    public boolean notExistUserEmail(String email) {
+    private boolean notExistUserEmail(String email) {
         return userRepository.findUserByEmail(email) == null;
     }
 
-    public boolean matchEmailAndPassword(String email, String password) {
+    private boolean matchEmailAndPassword(String email, String password) {
         return userRepository.findUserByEmail(email).matchPassword(password);
     }
 }
