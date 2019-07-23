@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.service.ArticleService;
+import techcourse.myblog.dto.ArticleRequestDto;
 
 import javax.transaction.Transactional;
 
@@ -23,9 +24,9 @@ public class ArticleController {
 
     @Transactional
     @PostMapping("")
-    public String createArticle(Article newArticle) {
-        newArticle = articleService.save(newArticle);
-        return "redirect:/articles/" + newArticle.getId();
+    public String createArticle(ArticleRequestDto newArticleDto) {
+        Article article = articleService.save(newArticleDto.toEntity());
+        return "redirect:/articles/" + article.getId();
     }
 
     @GetMapping("/{id}")
@@ -42,10 +43,10 @@ public class ArticleController {
 
     @Transactional
     @PutMapping("/{id}")
-    public String updateArticle(@PathVariable long id, Article updatedArticle, Model model) {
-        updatedArticle = articleService.update(id, updatedArticle);
-        model.addAttribute(ARTICLE, updatedArticle);
-        return "redirect:/articles/" + updatedArticle.getId();
+    public String updateArticle(@PathVariable long id, ArticleRequestDto updateArticleDto, Model model) {
+        Article updateArticle = articleService.update(id, updateArticleDto.toEntity());
+        model.addAttribute(ARTICLE, updateArticle);
+        return "redirect:/articles/" + updateArticle.getId();
     }
 
     @Transactional

@@ -16,9 +16,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User updateName(long id, String name) {
+    public User updateUserInfo(long id, String name) {
         User user = userRepository.findUserById(id);
-        user.setName(name);
+        user.updateUserInfo(name);
         return user;
     }
 

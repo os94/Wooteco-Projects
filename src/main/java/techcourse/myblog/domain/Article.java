@@ -1,25 +1,31 @@
 package techcourse.myblog.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "article")
 public class Article {
-    private static final String DEFAULT_COVER_URL = "/images/pages/index/study.jpg";
-    private static final int NO_COVER_URL = 0;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "coverUrl", nullable = false)
     private String coverUrl;
+
+    @Column(name = "contents", nullable = false)
     private String contents;
 
     public Article() {
+    }
+
+    public Article(String title, String coverUrl, String contents) {
+        this.title = title;
+        this.coverUrl = coverUrl;
+        this.contents = contents;
     }
 
     public void update(Article articleToUpdate) {
@@ -42,33 +48,5 @@ public class Article {
 
     public String getContents() {
         return contents;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = (coverUrl.length() != NO_COVER_URL) ? coverUrl : DEFAULT_COVER_URL;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Article article = (Article) o;
-        return id == article.id &&
-                Objects.equals(title, article.title) &&
-                Objects.equals(coverUrl, article.coverUrl) &&
-                Objects.equals(contents, article.contents);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, coverUrl, contents);
     }
 }
