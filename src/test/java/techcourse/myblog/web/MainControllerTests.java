@@ -37,11 +37,6 @@ public class MainControllerTests {
     }
 
     @Test
-    void 로그인_페이지_이동() {
-        statusIsOk(HttpMethod.GET, "/login");
-    }
-
-    @Test
     void 회원가입_페이지_이동() {
         statusIsOk(HttpMethod.GET, "/signup");
     }
