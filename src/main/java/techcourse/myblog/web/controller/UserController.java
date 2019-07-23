@@ -25,6 +25,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/signup")
+    public String moveSignUpPage(UserRequestDto userRequestDto) {
+        return "signup";
+    }
+
     @Transactional
     @PostMapping("/users")
     public String createUser(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
@@ -39,14 +44,6 @@ public class UserController {
     public String selectAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user-list";
-    }
-
-    @Transactional
-    @DeleteMapping("/user/delete/{pageId}")
-    public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
-        httpSession.removeAttribute(USER);
-        userService.deleteById(pageId);
-        return "redirect:/";
     }
 
     @GetMapping("/mypage/{id}")
@@ -68,5 +65,13 @@ public class UserController {
         User user = userService.updateUserInfo(pageId, myPageRequestDto);
         httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();
+    }
+
+    @Transactional
+    @DeleteMapping("/user/delete/{pageId}")
+    public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
+        httpSession.removeAttribute(USER);
+        userService.deleteById(pageId);
+        return "redirect:/";
     }
 }

@@ -26,16 +26,16 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/logout")
-    public String logout(HttpSession httpSession) {
-        httpSession.removeAttribute(USER);
-        return "redirect:/";
-    }
-
     @PostMapping("/login")
     public String login(LoginRequestDto loginRequestDto, HttpSession httpSession) {
         User user = loginService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         httpSession.setAttribute(USER, user);
+        return "redirect:/";
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession httpSession) {
+        httpSession.removeAttribute(USER);
         return "redirect:/";
     }
 }

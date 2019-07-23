@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import techcourse.myblog.domain.exception.ArticleNotFoundException;
 import techcourse.myblog.domain.exception.DuplicateEmailException;
 import techcourse.myblog.domain.exception.MisMatchPasswordException;
 import techcourse.myblog.domain.exception.UserNotFoundException;
@@ -39,13 +40,18 @@ public class ControllerExceptionHandler {
     public String userNotFoundException(UserNotFoundException e, Model model) {
         model.addAttribute("error", true);
         model.addAttribute("message", e.getMessage());
-        return "login";
+        return "/login";
     }
 
     @ExceptionHandler(MisMatchPasswordException.class)
     public String misMatchPasswordException(MisMatchPasswordException e, Model model) {
         model.addAttribute("error", true);
         model.addAttribute("message", e.getMessage());
-        return "login";
+        return "/login";
+    }
+
+    @ExceptionHandler(ArticleNotFoundException.class)
+    public String articleNotFoundException(ArticleNotFoundException e, Model model) {
+        return "redirect:/";
     }
 }
