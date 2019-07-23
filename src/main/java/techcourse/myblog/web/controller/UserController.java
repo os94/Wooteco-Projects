@@ -44,12 +44,6 @@ public class UserController {
     @Transactional
     @DeleteMapping("/user/delete/{pageId}")
     public String deleteUser(@PathVariable long pageId, HttpSession httpSession) {
-        User pageUser = userService.findUserById(pageId);
-        User loggedInUser = (User) httpSession.getAttribute(USER);
-        if (pageUser.getId() != loggedInUser.getId()) {
-            return "redirect:/mypage/" + pageId;
-        }
-
         httpSession.removeAttribute(USER);
         userService.deleteById(pageId);
         return "redirect:/";
@@ -62,13 +56,8 @@ public class UserController {
     }
 
     @GetMapping("/user/update/{pageId}")
-    public String moveMyPageEdit(@PathVariable long pageId, HttpSession httpSession, Model model) {
+    public String moveMyPageEdit(@PathVariable long pageId, Model model) {
         User pageUser = userService.findUserById(pageId);
-        User loggedInUser = (User) httpSession.getAttribute(USER);
-        if (pageUser.getId() != loggedInUser.getId()) {
-            return "redirect:/mypage/" + pageId;
-        }
-
         model.addAttribute("pageUser", pageUser);
         return "mypage-edit";
     }
@@ -76,12 +65,6 @@ public class UserController {
     @Transactional
     @PutMapping("/user/update/{pageId}")
     public String updateMyPage(@PathVariable long pageId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User pageUser = userService.findUserById(pageId);
-        User loggedInUser = (User) httpSession.getAttribute(USER);
-        if (pageUser.getId() != loggedInUser.getId()) {
-            return "redirect:/mypage/" + pageId;
-        }
-
         User user = userService.updateUserInfo(pageId, myPageRequestDto);
         httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();

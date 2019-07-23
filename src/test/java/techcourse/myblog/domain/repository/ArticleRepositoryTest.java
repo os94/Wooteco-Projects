@@ -14,10 +14,7 @@ public class ArticleRepositoryTest {
 
     @Test
     void id로_Article_조회() {
-        Article article = new Article();
-        article.setTitle("title");
-        article.setCoverUrl("coverUrl");
-        article.setContents("contents");
+        Article article = new Article("title", "coverUrl", "contents");
 
         articleRepository.save(article);
         assertThat(articleRepository.findArticleById(1)).isEqualTo(article);
