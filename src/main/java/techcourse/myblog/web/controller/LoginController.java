@@ -1,4 +1,4 @@
-package techcourse.myblog.web;
+package techcourse.myblog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.service.LoginService;
 import techcourse.myblog.domain.service.UserService;
 import techcourse.myblog.dto.LoginRequestDto;
@@ -58,7 +59,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(LoginRequestDto loginRequestDto, Model model, HttpSession httpSession) {
         String requestEmail = loginRequestDto.getEmail();
-        if (loginService.notExistUserEmail(requestEmail)) {
+        /*if (loginService.notExistUserEmail(requestEmail)) {
             model.addAttribute("error", true);
             model.addAttribute("message", ERROR_NOT_EXIST_EMAIL);
             return "login";
@@ -67,10 +68,9 @@ public class LoginController {
             model.addAttribute("error", true);
             model.addAttribute("message", ERROR_MISMATCH_PASSWORD);
             return "login";
-        }
-        //User user = loginService.login(requestEmail, loginRequestDto.getPassword());
-        //httpSession.setAttribute(USER, userService.findUserByEmail(requestEmail));
-        //httpSession.setAttribute(USER, user);
+        }*/
+        User user = loginService.login(requestEmail, loginRequestDto.getPassword());
+        httpSession.setAttribute(USER, user);
         return "redirect:/";
     }
 }
