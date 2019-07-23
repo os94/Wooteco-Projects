@@ -33,6 +33,7 @@
                                                     <div class="mrg-btm-30">
                                                         <h2 class="text-center text-dark no-mrg-vertical mrg-btm-15">회원가입</h2>
                                                     </div>
+                                                    <div th:if="${error}" th:text="${message}" class="alert alert-danger" role="alert"></div>
                                                     <form method="post" th:action="@{/users}" th:object="${userRequestDto}" id="signup-form">
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Username</label>
@@ -58,12 +59,12 @@
                                                             <small class="text-danger" id="password-error-message"></small>
                                                         </div>
                                                         <div class="form-group">
-                                                            <button type="button" class="btn btn-info btn-block border-radius-6 font-size-16 text-white" onclick="validate()">가입하기</button>
+                                                            <button type="button" class="btn btn-info btn-block border-radius-6 font-size-16 text-white" onclick="checkPasswordConfirm()">가입하기</button>
                                                         </div>
                                                     </form>
                                                     <div class="text-dark">
                                                         <span>이미 회원이신가요?</span>
-                                                        <a href="login.html" class="text-info pointer mrg-left-5">로그인</a>
+                                                        <a href="/login" class="text-info pointer mrg-left-5">로그인</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,26 +81,7 @@
 </div>
 
 <script>
-    function validate() {
-        var email = document.getElementById("email").value;
-
-        $.ajax({
-            type: 'POST',
-            url: '/check-email',
-            data: {
-                "email" : email
-            },
-            dataType: "text",
-            success: () => {
-                checkPassword();
-            },
-            error: () => {
-                document.getElementById("email-error-message").innerText = "중복된 이메일입니다.";
-            }
-        });
-    }
-
-    function checkPassword() {
+    function checkPasswordConfirm() {
         var password = document.getElementById("password").value;
         var passwordConfirm = document.getElementById("password-confirm").value;
         var errorMessage = document.getElementById("password-error-message");
@@ -113,9 +95,5 @@
 </script>
 <!-- include fragments/footer -->
 <th:block th:replace="fragments/common_script"></th:block>
-<script
-        src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-        crossorigin="anonymous"></script>
 </body>
 </html>

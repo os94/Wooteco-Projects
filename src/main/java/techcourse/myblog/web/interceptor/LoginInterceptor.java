@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-import static techcourse.myblog.web.SessionManager.*;
+import static techcourse.myblog.web.SessionManager.USER;
 
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {

@@ -21,8 +21,8 @@ public class UserAuthInterceptor extends HandlerInterceptorAdapter {
         }
 
         /* 사용자가 자신의 데이터만 수정/삭제 가능하도록 확인
-        *  Todo : 추후 사용자 식별방식 변경
-        * */
+         *  Todo : 추후 사용자 식별방식 변경
+         * */
         int index = request.getRequestURI().lastIndexOf("/");
         long uriId = Long.parseLong((request.getRequestURI().substring(index + 1)));
         long sessionId = userSession.get().getId();
