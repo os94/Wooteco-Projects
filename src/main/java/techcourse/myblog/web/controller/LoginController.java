@@ -33,10 +33,7 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String moveLoginPage(HttpSession httpSession) {
-        if (httpSession.getAttribute(USER) != null) {
-            return "redirect:/";
-        }
+    public String moveLoginPage() {
         return "login";
     }
 
