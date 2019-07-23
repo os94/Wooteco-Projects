@@ -1,20 +1,11 @@
 package techcourse.myblog.dto;
 
 public class MyPageRequestDto {
-    private long id;
     private String name;
     private String snsGithub;
     private String snsFacebook;
 
     public MyPageRequestDto() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

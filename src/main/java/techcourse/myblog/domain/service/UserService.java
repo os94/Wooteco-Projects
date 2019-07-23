@@ -20,8 +20,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User updateUserInfo(MyPageRequestDto userInfo) {
-        User user = userRepository.findUserById(userInfo.getId());
+    public User updateUserInfo(long id, MyPageRequestDto userInfo) {
+        User user = userRepository.findUserById(id);
         user.updateUserInfo(userInfo.getName());
         return user;
     }

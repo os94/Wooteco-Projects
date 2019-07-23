@@ -74,14 +74,15 @@ public class UserController {
     }
 
     @Transactional
-    @PutMapping("/user/update")
-    public String updateMyPage(MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+    @PutMapping("/user/update/{pageId}")
+    public String updateMyPage(@PathVariable long pageId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+        User pageUser = userService.findUserById(pageId);
         User loggedInUser = (User) httpSession.getAttribute(USER);
-        if (myPageRequestDto.getId() != loggedInUser.getId()) {
-            return "redirect:/mypage/" + myPageRequestDto.getId();
+        if (pageUser.getId() != loggedInUser.getId()) {
+            return "redirect:/mypage/" + pageId;
         }
 
-        User user = userService.updateUserInfo(myPageRequestDto);
+        User user = userService.updateUserInfo(pageId, myPageRequestDto);
         httpSession.setAttribute(USER, user);
         return "redirect:/mypage/" + user.getId();
     }
