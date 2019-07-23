@@ -14,7 +14,7 @@ public class LoginService {
     }
 
     public boolean isDuplicateEmail(String email) {
-        return userRepository.findUsersByEmail(email).size() != 0;
+        return userRepository.findUserByEmail(email) != null;
     }
 
     public boolean notExistUserEmail(String email) {
