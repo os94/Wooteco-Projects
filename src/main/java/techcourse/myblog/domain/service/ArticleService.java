@@ -29,6 +29,12 @@ public class ArticleService {
         return articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
     }
 
+    public Article update(long id, Article articleToUpdate) {
+        Article originArticle = articleRepository.findArticleById(id);
+        originArticle.update(articleToUpdate);
+        return originArticle;
+    }
+
     public void deleteById(long id) {
         articleRepository.deleteById(id);
     }

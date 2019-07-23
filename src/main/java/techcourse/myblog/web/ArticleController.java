@@ -42,8 +42,8 @@ public class ArticleController {
 
     @Transactional
     @PutMapping("/{id}")
-    public String updateArticle(Article updatedArticle, Model model) {
-        updatedArticle = articleService.save(updatedArticle);
+    public String updateArticle(@PathVariable long id, Article updatedArticle, Model model) {
+        updatedArticle = articleService.update(id, updatedArticle);
         model.addAttribute(ARTICLE, updatedArticle);
         return "redirect:/articles/" + updatedArticle.getId();
     }

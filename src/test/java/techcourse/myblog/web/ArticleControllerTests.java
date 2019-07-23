@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.StatusAssertions;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
@@ -36,23 +37,24 @@ public class ArticleControllerTests {
                 .exchange()
                 .expectStatus().isFound()
                 .expectBody().consumeWith(response -> {
-            int index = response.getResponseHeaders().getLocation().getPath().lastIndexOf("/");
-            ARTICLE_ID = Integer.parseInt(response.getResponseHeaders().getLocation().getPath().substring(index + 1));
+            String path = response.getResponseHeaders().getLocation().getPath();
+            int index = path.lastIndexOf("/");
+            ARTICLE_ID = Integer.parseInt(path.substring(index + 1));
         });
     }
 
     @Test
     void 게시글_조회() {
-        statusIsOk(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID);
+        statusWith(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID).isOk();
     }
 
     @Test
     void 게시글_수정_페이지_이동() {
-        statusIsOk(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID + "/edit");
+        statusWith(HttpMethod.GET, URI_ARTICLES + "/" + ARTICLE_ID + "/edit").isOk();
     }
 
     @Test
-    void 게시글_수정_확인() {
+    void 게시글_수정() {
         webTestClient.put()
                 .uri(URI_ARTICLES + "/" + ARTICLE_ID)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -68,19 +70,15 @@ public class ArticleControllerTests {
 
     @AfterEach
     void 게시글_삭제() {
-        webTestClient.delete()
-                .uri(URI_ARTICLES + "/" + ARTICLE_ID)
-                .exchange()
-                .expectStatus()
+        statusWith(HttpMethod.DELETE, URI_ARTICLES + "/" + ARTICLE_ID)
                 .isFound()
                 .expectHeader().valueMatches(HttpHeaders.LOCATION, ".*/");
     }
 
-    private void statusIsOk(HttpMethod httpMethod, String uri) {
-        webTestClient.method(httpMethod)
+    private StatusAssertions statusWith(HttpMethod httpMethod, String uri) {
+        return webTestClient.method(httpMethod)
                 .uri(uri)
                 .exchange()
-                .expectStatus()
-                .isOk();
+                .expectStatus();
     }
 }
