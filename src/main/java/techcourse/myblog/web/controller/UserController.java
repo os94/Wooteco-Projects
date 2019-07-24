@@ -11,7 +11,6 @@ import techcourse.myblog.dto.MyPageRequestDto;
 import techcourse.myblog.dto.UserRequestDto;
 
 import javax.servlet.http.HttpSession;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import static techcourse.myblog.web.SessionManager.USER;
@@ -30,7 +29,6 @@ public class UserController {
         return "signup";
     }
 
-    @Transactional
     @PostMapping("/users")
     public String createUser(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -59,7 +57,6 @@ public class UserController {
         return "mypage-edit";
     }
 
-    @Transactional
     @PutMapping("/user/update/{id}")
     public String updateMyPage(@PathVariable long id, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
         User user = userService.updateUserInfo(id, myPageRequestDto);
@@ -67,7 +64,6 @@ public class UserController {
         return "redirect:/mypage/" + user.getId();
     }
 
-    @Transactional
     @DeleteMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable long id, HttpSession httpSession) {
         httpSession.removeAttribute(USER);

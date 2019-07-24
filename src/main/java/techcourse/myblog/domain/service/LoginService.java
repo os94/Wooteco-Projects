@@ -2,6 +2,7 @@ package techcourse.myblog.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.exception.MisMatchPasswordException;
 import techcourse.myblog.domain.exception.UserNotFoundException;
@@ -16,6 +17,7 @@ public class LoginService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public User login(String email, String password) {
         if (notExistUserEmail(email)) {
             throw new UserNotFoundException("해당 Email의 사용자를 찾을 수 없습니다.");

@@ -8,7 +8,6 @@ import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.service.ArticleService;
 import techcourse.myblog.dto.ArticleRequestDto;
 
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @Controller
@@ -23,7 +22,6 @@ public class ArticleController {
         this.articleService = articleService;
     }
 
-    @Transactional
     @PostMapping("")
     public String createArticle(@Valid ArticleRequestDto newArticleDto) {
         Article article = articleService.save(newArticleDto.toEntity());
@@ -42,7 +40,6 @@ public class ArticleController {
         return "article-edit";
     }
 
-    @Transactional
     @PutMapping("/{articleId}")
     public String updateArticle(@PathVariable long articleId, @Valid ArticleRequestDto updateArticleDto, Model model) {
         Article updateArticle = articleService.update(articleId, updateArticleDto.toEntity());
@@ -50,7 +47,6 @@ public class ArticleController {
         return "redirect:/articles/" + updateArticle.getId();
     }
 
-    @Transactional
     @DeleteMapping("/{articleId}")
     public String deleteArticle(@PathVariable long articleId) {
         articleService.deleteById(articleId);
