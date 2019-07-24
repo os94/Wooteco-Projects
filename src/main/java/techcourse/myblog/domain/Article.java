@@ -1,16 +1,41 @@
 package techcourse.myblog.domain;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "article")
 public class Article {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+
+    @Column(name = "title", nullable = false)
     private String title;
+
+    @Column(name = "coverUrl", nullable = false)
     private String coverUrl;
+
+    @Column(name = "contents", nullable = false)
     private String contents;
 
-    public boolean matchId(int id) {
-        return this.id == id;
+    public Article() {
     }
 
-    public int getId() {
+    public Article(String title, String coverUrl, String contents) {
+        this.title = title;
+        this.coverUrl = coverUrl;
+        this.contents = contents;
+    }
+
+    public void update(Article articleToUpdate) {
+        this.title = articleToUpdate.title;
+        this.coverUrl = articleToUpdate.coverUrl;
+        this.contents = articleToUpdate.contents;
+    }
+
+    public long getId() {
         return id;
     }
 
@@ -26,19 +51,20 @@ public class Article {
         return contents;
     }
 
-    public void setId(int id) {
-        this.id = id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Article article = (Article) o;
+        return id == article.id &&
+                Objects.equals(title, article.title) &&
+                Objects.equals(coverUrl, article.coverUrl) &&
+                Objects.equals(contents, article.contents);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setCoverUrl(String coverUrl) {
-        this.coverUrl = coverUrl;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, coverUrl, contents);
     }
 }
