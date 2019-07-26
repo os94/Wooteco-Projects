@@ -1,6 +1,9 @@
 package techcourse.myblog.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +23,9 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "author")
+    private List<Article> articles = new ArrayList<>();
+
     public User() {
     }
 
@@ -37,6 +43,10 @@ public class User {
         return this.password.equals(password);
     }
 
+    public void addArticle(Article persistArticle) {
+        this.articles.add(persistArticle);
+    }
+
     public long getId() {
         return id;
     }
@@ -51,6 +61,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
     }
 
     @Override

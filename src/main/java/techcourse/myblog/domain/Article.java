@@ -20,6 +20,10 @@ public class Article {
     @Column(name = "contents", nullable = false)
     private String contents;
 
+    @ManyToOne
+    @JoinColumn(name = "author", foreignKey = @ForeignKey(name = "fk_article_to_user"))
+    private User author;
+
     public Article() {
     }
 
@@ -33,6 +37,10 @@ public class Article {
         this.title = articleToUpdate.title;
         this.coverUrl = articleToUpdate.coverUrl;
         this.contents = articleToUpdate.contents;
+    }
+
+    public void setAuthor(User persistUser) {
+        this.author = persistUser;
     }
 
     public long getId() {
@@ -50,7 +58,6 @@ public class Article {
     public String getContents() {
         return contents;
     }
-
 
     @Override
     public boolean equals(Object o) {
