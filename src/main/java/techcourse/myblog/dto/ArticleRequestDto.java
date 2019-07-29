@@ -2,6 +2,7 @@ package techcourse.myblog.dto;
 
 import org.apache.commons.lang3.StringUtils;
 import techcourse.myblog.domain.Article;
+import techcourse.myblog.domain.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -29,8 +30,10 @@ public class ArticleRequestDto {
         this.contents = contents;
     }
 
-    public Article toEntity() {
-        return new Article(title, coverUrl, contents);
+    public Article toEntity(User author) {
+        Article article = new Article(title, coverUrl, contents);
+        article.setAuthor(author);
+        return article;
     }
 
     public String getTitle() {

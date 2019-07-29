@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.exception.ArticleNotFoundException;
+import techcourse.myblog.domain.exception.InvalidAccessException;
 import techcourse.myblog.domain.repository.ArticleRepository;
 
 import java.util.List;
@@ -38,8 +39,18 @@ public class ArticleService {
     @Transactional
     public Article update(long id, Article articleToUpdate) {
         Article originArticle = articleRepository.findArticleById(id);
+        long authorId = originArticle.getAuthor().getId();
+        long loginUserId = articleToUpdate.getAuthor().getId();
+        validate(authorId, loginUserId);
         originArticle.update(articleToUpdate);
         return originArticle;
+    }
+
+    public void validate(long authorId, long loginUserId) {
+        if (authorId == loginUserId) {
+            return;
+        }
+        throw new InvalidAccessException("잘못된 접근입니다.");
     }
 
     @Transactional

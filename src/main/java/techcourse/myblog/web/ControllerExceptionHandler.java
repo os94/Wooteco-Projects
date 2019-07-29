@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import techcourse.myblog.domain.exception.ArticleNotFoundException;
-import techcourse.myblog.domain.exception.DuplicateEmailException;
-import techcourse.myblog.domain.exception.MisMatchPasswordException;
-import techcourse.myblog.domain.exception.UserNotFoundException;
+import techcourse.myblog.domain.exception.*;
 import techcourse.myblog.dto.UserRequestDto;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -53,5 +52,12 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(ArticleNotFoundException.class)
     public String articleNotFoundException(ArticleNotFoundException e, Model model) {
         return "redirect:/";
+    }
+
+    @ExceptionHandler(InvalidAccessException.class)
+    public RedirectView invalidAccessException(InvalidAccessException e, HttpServletRequest request) {
+        int index = request.getRequestURI().lastIndexOf("/");
+        String destination = request.getRequestURI().substring(0, index);
+        return new RedirectView(destination);
     }
 }

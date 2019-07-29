@@ -59,6 +59,10 @@ public class Article {
         return contents;
     }
 
+    public User getAuthor() {
+        return author;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,11 +71,12 @@ public class Article {
         return id == article.id &&
                 Objects.equals(title, article.title) &&
                 Objects.equals(coverUrl, article.coverUrl) &&
-                Objects.equals(contents, article.contents);
+                Objects.equals(contents, article.contents) &&
+                Objects.equals(author, article.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, coverUrl, contents);
+        return Objects.hash(id, title, coverUrl, contents, author);
     }
 }
