@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.User;
 import techcourse.myblog.domain.service.ArticleService;
+import techcourse.myblog.domain.service.CommentService;
 import techcourse.myblog.dto.ArticleRequestDto;
 
 import javax.servlet.http.HttpSession;
@@ -18,10 +19,12 @@ public class ArticleController {
     private static final String ARTICLE = "article";
 
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @Autowired
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     @PostMapping("")
@@ -33,7 +36,9 @@ public class ArticleController {
 
     @GetMapping("/{articleId}")
     public String selectArticle(@PathVariable long articleId, Model model) {
-        model.addAttribute(ARTICLE, articleService.findById(articleId));
+        Article article = articleService.findById(articleId);
+        model.addAttribute(ARTICLE, article);
+        model.addAttribute("comments", commentService.findByArticle(article));
         return "article";
     }
 

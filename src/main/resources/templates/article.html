@@ -69,20 +69,31 @@
                 </div>
                 <div class="comment">
                     <ul class="list-unstyled list-info">
+                        <div th:each="comment : ${comments}" >
                         <li class="comment-item border bottom mrg-btm-30">
                             <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
                             <div class="info">
-                                <span href="" class="text-bold inline-block">Jun</span>
+                                <span href="" th:text="${comment.author.name}" class="text-bold inline-block">name</span>
                                 <span class="sub-title inline-block pull-right">
                                     <i class="ti-timer pdd-right-5"></i>
-                                    <span>6 min ago</span>
+                                    <span th:text="${comment.time}">6 min ago</span>
                             </span>
-                            <p class="width-80">3주라는 짧은 기간에 효과적으로 연습하도록 하기 위해 의식적인 연습을 기반으로 미션을 진행하도록 설계했다. 교육자로 살다 보니 효과적인 학습 방법에 대한 관심이 높아졌다. 효과적인 학습 방법을 찾던 중 “1만 시간의 재발견”이라는 책을 통해 의식적인 연습의 중요성을 느낄 수 있는 계기가 되었다.</p>
+                            <p th:text="${comment.contents}" class="width-80">contents</p>
                             </div>
                         </li>
+                        </div>
                     </ul>
                     <div class="add-comment">
-                        <div id="editSection"></div>
+                        <form action="/comments" name="comment" method="post" accept-charset="UTF-8">
+                            <input type="hidden" name="articleId" th:value="${article.id}">
+                            <!--<div id="editSection" ></div>-->
+                            <div class="form-group">
+                                <textarea class="form-control" name="contents" rows="3"></textarea>
+                            </div>
+                            <button id="save-btn" type="submit" class="btn btn-default btn-group">
+                                <i class="ti-save"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
