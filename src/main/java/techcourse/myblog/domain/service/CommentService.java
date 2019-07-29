@@ -27,4 +27,9 @@ public class CommentService {
     public List<Comment> findByArticle(Article article) {
         return commentRepository.findCommentsByArticle(article);
     }
+
+    @Transactional
+    public void deleteById(long id) {
+        commentRepository.deleteById(id);
+    }
 }

@@ -12,7 +12,7 @@
 </head>
 <body>
 <div>
-    <header th:replace="fragments/header :: header"> </header>
+    <header th:replace="fragments/header :: header"></header>
 
     <div class="about-cover card no-border ">
         <div class="cover-img overlay-dark bg" th:style="'background-image: url(\'' + ${article.coverUrl} + '\')'">
@@ -30,16 +30,20 @@
                 </a>
                 <form method="post" th:action="'/articles/' + ${article.id}">
                     <input type="hidden" name="_method" value="delete">
-                    <button type="submit" class="float-right btn btn-default no-border-line" style="border:transparent; background:transparent;">
+                    <button type="submit" class="float-right btn btn-default no-border-line"
+                            style="border:transparent; background:transparent;">
                         <i class="ti-trash font-size-16"></i>
                     </button>
                 </form>
-                <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">Contents</div>
+                <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">
+                    Contents
+                </div>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10 mx-auto">
                 <div class="profile-container row mrg-top-30 mrg-btm-30">
                     <div class="col-md-2 col-sm-4">
-                        <img class="width-80px border-radius-round" src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/1514627_858869820895635_1119508450771753991_n.jpg?_nc_cat=110&_nc_ht=scontent-icn1-1.xx&oh=a32aa56b750b212aee221da7e9711bb1&oe=5D8781A4">
+                        <img class="width-80px border-radius-round"
+                             src="https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/1514627_858869820895635_1119508450771753991_n.jpg?_nc_cat=110&_nc_ht=scontent-icn1-1.xx&oh=a32aa56b750b212aee221da7e9711bb1&oe=5D8781A4">
                     </div>
                     <div class="col-md-10 col-sm-7">
                         <span class="font-size-16 text-bold pdd-btm-5">Brown</span><span class="font-size-12 text-gray"> / gracefulBrown@woowahan.com</span>
@@ -69,18 +73,38 @@
                 </div>
                 <div class="comment">
                     <ul class="list-unstyled list-info">
-                        <div th:each="comment : ${comments}" >
-                        <li class="comment-item border bottom mrg-btm-30">
-                            <img class="thumb-img img-circle" src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
-                            <div class="info">
-                                <span href="" th:text="${comment.author.name}" class="text-bold inline-block">name</span>
-                                <span class="sub-title inline-block pull-right">
-                                    <i class="ti-timer pdd-right-5"></i>
-                                    <span th:text="${comment.time}">6 min ago</span>
-                            </span>
-                            <p th:text="${comment.contents}" class="width-80">contents</p>
-                            </div>
-                        </li>
+                        <div th:each="comment : ${comments}">
+                            <li class="comment-item border bottom mrg-btm-30">
+                                <span>
+                                <img class="thumb-img img-circle"
+                                     src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
+                                <div class="info">
+                                    <span href="" th:text="${comment.author.name}"
+                                          class="text-bold inline-block">name</span>
+                                    <span class="sub-title inline-block pull-right">
+                                        <i class="ti-timer pdd-right-5"></i>
+                                        <span th:text="${comment.time}">6 min ago</span>
+                                    </span>
+                                    <p th:text="${comment.contents}" class="width-80">contents</p>
+                                </div>
+                                </span>
+
+                                <div class="btn-group btn-group-horizontal">
+                                    <a class="float-right pointer btn btn-icon">
+                                        <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
+                                    </a>
+                                    <form method="post" th:action="'/comments/' + ${comment.id}">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input type="hidden" name="articleId" th:value="${article.id}">
+                                        <button type="submit"
+                                                class="float-right btn btn-default no-border-line"
+                                                style="border:transparent; background:transparent;">
+                                            <i class="ti-trash font-size-16"></i>
+                                        </button>
+                                    </form>
+                                </div>
+
+                            </li>
                         </div>
                     </ul>
                     <div class="add-comment">

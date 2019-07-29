@@ -2,6 +2,8 @@ package techcourse.myblog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 import techcourse.myblog.domain.Article;
@@ -11,7 +13,6 @@ import techcourse.myblog.domain.service.ArticleService;
 import techcourse.myblog.domain.service.CommentService;
 import techcourse.myblog.dto.CommentRequestDto;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
@@ -27,10 +28,16 @@ public class CommentController {
     }
 
     @PostMapping("/comments")
-    public RedirectView createComment(CommentRequestDto commentRequestDto, HttpServletRequest request, HttpSession httpSession) {
+    public RedirectView createComment(CommentRequestDto commentRequestDto, HttpSession httpSession) {
         Comment comment = convert(commentRequestDto, httpSession);
         commentService.save(comment);
         return new RedirectView("/articles/" + commentRequestDto.getArticleId());
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    public RedirectView deleteComment(@PathVariable long commentId, long articleId) {
+        commentService.deleteById(commentId);
+        return new RedirectView("/articles/" + articleId);
     }
 
     private Comment convert(CommentRequestDto commentRequestDto, HttpSession httpSession) {
