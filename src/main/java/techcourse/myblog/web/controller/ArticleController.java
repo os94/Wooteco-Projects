@@ -44,9 +44,9 @@ public class ArticleController {
 
     @GetMapping("/{articleId}/edit")
     public String moveArticleEditPage(@PathVariable long articleId, Model model, HttpSession httpSession) {
-        User author = (User) httpSession.getAttribute("user");
+        User loginUser = (User) httpSession.getAttribute("user");
         Article article = articleService.findById(articleId);
-        articleService.validate(article.getAuthor().getId(), author.getId());
+        articleService.validate(article.getAuthor().getId(), loginUser.getId());
         model.addAttribute(ARTICLE, article);
         return "article-edit";
     }
@@ -60,7 +60,10 @@ public class ArticleController {
     }
 
     @DeleteMapping("/{articleId}")
-    public String deleteArticle(@PathVariable long articleId) {
+    public String deleteArticle(@PathVariable long articleId, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute("user");
+        Article article = articleService.findById(articleId);
+        articleService.validate(article.getAuthor().getId(), loginUser.getId());
         articleService.deleteById(articleId);
         return "redirect:/";
     }

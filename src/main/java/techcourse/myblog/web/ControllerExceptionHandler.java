@@ -56,8 +56,8 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(InvalidAccessException.class)
     public RedirectView invalidAccessException(InvalidAccessException e, HttpServletRequest request) {
-        int index = request.getRequestURI().lastIndexOf("/");
-        String destination = request.getRequestURI().substring(0, index);
-        return new RedirectView(destination);
+        String url = request.getRequestURL().toString();
+        url = url.replace("/edit", "");
+        return new RedirectView(url);
     }
 }
