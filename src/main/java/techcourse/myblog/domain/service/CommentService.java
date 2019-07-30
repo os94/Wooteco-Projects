@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.Article;
 import techcourse.myblog.domain.Comment;
+import techcourse.myblog.domain.exception.InvalidAccessException;
 import techcourse.myblog.domain.repository.CommentRepository;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Comment> findByArticle(Article article) {
         return commentRepository.findCommentsByArticle(article);
     }
@@ -31,5 +32,12 @@ public class CommentService {
     @Transactional
     public void deleteById(long id) {
         commentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Comment update(long commentId, String contents) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new InvalidAccessException("error"));
+        comment.setContents(contents);
+        return comment;
     }
 }

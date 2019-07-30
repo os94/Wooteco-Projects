@@ -73,7 +73,7 @@
                 </div>
                 <div class="comment">
                     <ul class="list-unstyled list-info">
-                        <div th:each="comment : ${comments}">
+                        <div th:each="comment, index : ${comments}">
                             <li class="comment-item border bottom mrg-btm-30">
                                 <span>
                                 <img class="thumb-img img-circle"
@@ -85,14 +85,16 @@
                                         <i class="ti-timer pdd-right-5"></i>
                                         <span th:text="${comment.time}">6 min ago</span>
                                     </span>
-                                    <p th:text="${comment.contents}" class="width-80">contents</p>
+                                    <form th:action="${#strings.concat('/articles/', article.id, '/comments/', comment.id)}" th:method="put">
+                                        <p class="width-80" th:id="'contents-' + ${index.index}" th:text="${comment.contents}"></p>
+                                    </form>
                                 </div>
                                 </span>
 
                                 <div class="btn-group btn-group-horizontal">
-                                    <a class="float-right pointer btn btn-icon">
+                                    <button class="float-right pointer btn btn-icon" type="submit" th:onclick="|editBtnClickHandler('${index.index}')|">
                                         <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
-                                    </a>
+                                    </button>
                                     <form method="post" th:action="'/comments/' + ${comment.id}">
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="hidden" name="articleId" th:value="${article.id}">
@@ -102,6 +104,10 @@
                                             <i class="ti-trash font-size-16"></i>
                                         </button>
                                     </form>
+                                </div>
+
+                                <div>
+
                                 </div>
 
                             </li>
@@ -147,6 +153,11 @@
         },
         height: '200px'
     });
+
+    function editBtnClickHandler(index) {
+        const content = document.getElementById("contents-"+index);
+        content.innerHTML = "<textarea name='contents'>" + content.innerText + "</textarea>  <button value='수정' type='submit'>수정</button>"
+    }
 </script>
 </body>
 </html>
