@@ -95,7 +95,7 @@
                                     <button class="float-right pointer btn btn-icon" type="submit" th:onclick="|editBtnClickHandler('${index.index}')|">
                                         <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                                     </button>
-                                    <form method="post" th:action="'/comments/' + ${comment.id}">
+                                    <form method="post" th:action="${#strings.concat('/articles/', article.id, '/comments/', comment.id)}">
                                         <input type="hidden" name="_method" value="delete">
                                         <input type="hidden" name="articleId" th:value="${article.id}">
                                         <button type="submit"
@@ -114,7 +114,8 @@
                         </div>
                     </ul>
                     <div class="add-comment">
-                        <form action="/comments" name="comment" method="post" accept-charset="UTF-8">
+                        <form th:action="${#strings.concat('/articles/', article.id, '/comments/')}"
+                              name="comment" method="post" accept-charset="UTF-8">
                             <input type="hidden" name="articleId" th:value="${article.id}">
                             <input id="comment-contents" name="contents" type="hidden">
                             <div id="editSection" ></div>
