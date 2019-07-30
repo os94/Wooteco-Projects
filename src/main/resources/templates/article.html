@@ -25,10 +25,10 @@
     <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <a th:href="'/articles/' + ${article.id}+ '/edit'" class="float-right pointer btn btn-icon">
+                <a th:if="${session.user.id} == ${article.author.id}" th:href="'/articles/' + ${article.id}+ '/edit'" class="float-right pointer btn btn-icon">
                     <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                 </a>
-                <form method="post" th:action="'/articles/' + ${article.id}">
+                <form th:if="${session.user.id} == ${article.author.id}" method="post" th:action="'/articles/' + ${article.id}">
                     <input type="hidden" name="_method" value="delete">
                     <button type="submit" class="float-right btn btn-default no-border-line"
                             style="border:transparent; background:transparent;">
@@ -91,7 +91,7 @@
                                 </div>
                                 </span>
 
-                                <div class="btn-group btn-group-horizontal">
+                                <div th:if="${session.user.id} == ${comment.author.id}" class="btn-group btn-group-horizontal">
                                     <button class="float-right pointer btn btn-icon" type="submit" th:onclick="|editBtnClickHandler('${index.index}')|">
                                         <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
                                     </button>

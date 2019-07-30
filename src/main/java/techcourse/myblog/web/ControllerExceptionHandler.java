@@ -58,6 +58,10 @@ public class ControllerExceptionHandler {
     public RedirectView invalidAccessException(InvalidAccessException e, HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         url = url.replace("/edit", "");
+        if (url.contains("comments")) {
+            int index = url.lastIndexOf("/comment");
+            url = url.substring(0, index);
+        }
         return new RedirectView(url);
     }
 }

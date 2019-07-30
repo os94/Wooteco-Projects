@@ -34,13 +34,19 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public RedirectView updateComment(@PathVariable long articleId, @PathVariable long commentId, String contents) {
+    public RedirectView updateComment(@PathVariable long articleId, @PathVariable long commentId, String contents, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute("user");
+        User commentAuthor = commentService.findAuthorById(commentId);
+        commentService.validate(commentAuthor.getId(), loginUser.getId());
         commentService.update(commentId, contents);
         return new RedirectView("/articles/" + articleId);
     }
 
     @DeleteMapping("/{commentId}")
-    public RedirectView deleteComment(@PathVariable long commentId, long articleId) {
+    public RedirectView deleteComment(@PathVariable long commentId, long articleId, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute("user");
+        User commentAuthor = commentService.findAuthorById(commentId);
+        commentService.validate(commentAuthor.getId(), loginUser.getId());
         commentService.deleteById(commentId);
         return new RedirectView("/articles/" + articleId);
     }
