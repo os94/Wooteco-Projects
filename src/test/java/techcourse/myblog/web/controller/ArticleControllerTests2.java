@@ -65,14 +65,14 @@ public class ArticleControllerTests2 {
     @Test
     void 게시글_조회() {
         statusWith(HttpMethod.GET, URI_ARTICLES + "/" + SEAN_ARTICLE_ID
-        ,"sean@gmail.com", "Woowahan123!").isOk();
+                , "sean@gmail.com", "Woowahan123!").isOk();
     }
 
     @Test
     void 게시글_수정_페이지_이동() {
         statusWith(HttpMethod.GET, URI_ARTICLES + "/" + SEAN_ARTICLE_ID + "/edit"
-        ,"pobi@gmail.com", "Woowahan123!")
-        .is3xxRedirection();
+                , "pobi@gmail.com", "Woowahan123!")
+                .is3xxRedirection();
     }
 
     @Test
