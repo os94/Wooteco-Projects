@@ -110,10 +110,8 @@
                     <div class="add-comment">
                         <form action="/comments" name="comment" method="post" accept-charset="UTF-8">
                             <input type="hidden" name="articleId" th:value="${article.id}">
-                            <!--<div id="editSection" ></div>-->
-                            <div class="form-group">
-                                <textarea class="form-control" name="contents" rows="3"></textarea>
-                            </div>
+                            <input id="comment-contents" name="contents" type="hidden">
+                            <div id="editSection" ></div>
                             <button id="save-btn" type="submit" class="btn btn-default btn-group">
                                 <i class="ti-save"></i>
                             </button>
@@ -144,6 +142,7 @@
         previewStyle: 'horizontal',
         events: {
             change: function () {
+                document.getElementById('comment-contents').setAttribute('value', editor.getMarkdown())
             }
         },
         height: '200px'
