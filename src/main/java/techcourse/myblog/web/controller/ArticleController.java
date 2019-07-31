@@ -14,7 +14,7 @@ import techcourse.myblog.dto.ArticleRequestDto;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static techcourse.myblog.web.SessionManager.*;
+import static techcourse.myblog.web.SessionManager.USER;
 
 @Controller
 @RequestMapping("/articles")

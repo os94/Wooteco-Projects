@@ -30,8 +30,13 @@ public class Comment extends Auditable {
         this.article = article;
     }
 
-    public void setContents(String contents) {
+    public boolean isAuthor(User user) {
+        return this.author.equals(user);
+    }
+
+    public Comment update(String contents) {
         this.contents = contents;
+        return this;
     }
 
     public long getId() {
