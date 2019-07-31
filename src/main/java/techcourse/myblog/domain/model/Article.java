@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

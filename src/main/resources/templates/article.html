@@ -25,16 +25,24 @@
     <div class="container-fluid max-width-lg mx-auto mrg-vertical-30 padding-30">
         <div class="row">
             <div class="col-lg-10 mx-auto">
-                <a th:if="${session.user.id} == ${article.author.id}" th:href="'/articles/' + ${article.id}+ '/edit'" class="float-right pointer btn btn-icon">
-                    <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
-                </a>
-                <form th:if="${session.user.id} == ${article.author.id}" method="post" th:action="'/articles/' + ${article.id}">
-                    <input type="hidden" name="_method" value="delete">
-                    <button type="submit" class="float-right btn btn-default no-border-line"
-                            style="border:transparent; background:transparent;">
-                        <i class="ti-trash font-size-16"></i>
-                    </button>
-                </form>
+                <span class="sub-title inline-block pull-right">
+                    <i class="ti-timer pdd-right-5"></i>
+                    <span th:text="${article.lastModifiedDate}"></span>
+                </span>
+                <div>
+                    <a th:if="${session.user.id} == ${article.author.id}"
+                       th:href="'/articles/' + ${article.id}+ '/edit'" class="float-right pointer btn btn-icon">
+                        <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
+                    </a>
+                    <form th:if="${session.user.id} == ${article.author.id}" method="post"
+                          th:action="'/articles/' + ${article.id}">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" class="float-right btn btn-default no-border-line"
+                                style="border:transparent; background:transparent;">
+                            <i class="ti-trash font-size-16"></i>
+                        </button>
+                    </form>
+                </div>
                 <div id="viewerSection" th:if="${#strings.length(article.contents)} != 0" th:text="${article.contents}">
                     Contents
                 </div>
@@ -83,7 +91,7 @@
                                           class="text-bold inline-block">name</span>
                                     <span class="sub-title inline-block pull-right">
                                         <i class="ti-timer pdd-right-5"></i>
-                                        <span th:text="${comment.time}">6 min ago</span>
+                                        <span th:text="${comment.lastModifiedDate}"></span>
                                     </span>
                                     <form th:action="${#strings.concat('/articles/', article.id, '/comments/', comment.id)}" th:method="put">
                                         <p class="width-80" th:id="'contents-' + ${index.index}" th:text="${comment.contents}"></p>

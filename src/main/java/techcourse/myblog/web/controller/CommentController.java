@@ -12,7 +12,6 @@ import techcourse.myblog.domain.service.CommentService;
 import techcourse.myblog.dto.CommentRequestDto;
 
 import javax.servlet.http.HttpSession;
-import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/articles/{articleId}/comments")
@@ -54,6 +53,6 @@ public class CommentController {
     private Comment convert(CommentRequestDto commentRequestDto, HttpSession httpSession) {
         User author = (User) httpSession.getAttribute("user");
         Article article = articleService.findById(commentRequestDto.getArticleId());
-        return new Comment(commentRequestDto.getContents(), LocalDateTime.now(), author, article);
+        return new Comment(commentRequestDto.getContents(), author, article);
     }
 }

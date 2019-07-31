@@ -1,11 +1,10 @@
 package techcourse.myblog.domain.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-public class Comment {
+public class Comment extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -13,9 +12,6 @@ public class Comment {
 
     @Column(name = "contents", nullable = false)
     private String contents;
-
-    @Column(name = "time", nullable = false)
-    private LocalDateTime time;
 
     @ManyToOne
     @JoinColumn(name = "author", foreignKey = @ForeignKey(name = "fk_comment_to_user"), nullable = false)
@@ -28,9 +24,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String contents, LocalDateTime time, User author, Article article) {
+    public Comment(String contents, User author, Article article) {
         this.contents = contents;
-        this.time = time;
         this.author = author;
         this.article = article;
     }
@@ -45,10 +40,6 @@ public class Comment {
 
     public String getContents() {
         return contents;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
     }
 
     public User getAuthor() {
@@ -66,13 +57,12 @@ public class Comment {
         Comment comment = (Comment) o;
         return id == comment.id &&
                 Objects.equals(contents, comment.contents) &&
-                Objects.equals(time, comment.time) &&
                 Objects.equals(author, comment.author) &&
                 Objects.equals(article, comment.article);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, contents, time, author, article);
+        return Objects.hash(id, contents, author, article);
     }
 }
