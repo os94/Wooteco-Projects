@@ -35,10 +35,15 @@ public class Article extends Auditable {
         this.contents = contents;
     }
 
-    public void update(Article articleToUpdate) {
+    public Article update(Article articleToUpdate) {
         this.title = articleToUpdate.title;
         this.coverUrl = articleToUpdate.coverUrl;
         this.contents = articleToUpdate.contents;
+        return this;
+    }
+
+    public boolean isAuthor(User user) {
+        return this.author.equals(user);
     }
 
     public void setAuthor(User persistUser) {

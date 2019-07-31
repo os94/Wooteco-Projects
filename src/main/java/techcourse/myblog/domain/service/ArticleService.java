@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.exception.ArticleNotFoundException;
 import techcourse.myblog.domain.exception.InvalidAccessException;
+import techcourse.myblog.domain.exception.MisMatchAuthorException;
 import techcourse.myblog.domain.model.Article;
+import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.repository.ArticleRepository;
 
 import java.util.List;
@@ -26,35 +28,40 @@ public class ArticleService {
         return unmodifiableList(articleRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
+    public Article findById(long id) {
+        return articleRepository.findById(id)
+                .orElseThrow(() -> new ArticleNotFoundException("해당하는 게시글을 찾지 못했습니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public Article findByIdAsAuthor(long id, User user) {
+        Article article = findById(id);
+        if (!article.isAuthor(user)) {
+            throw new MisMatchAuthorException("작성자만 접근가능합니다.");
+        }
+        return article;
+    }
+
     @Transactional
     public Article save(Article article) {
         return articleRepository.save(article);
     }
 
     @Transactional
-    public Article findById(long id) {
-        return articleRepository.findById(id).orElseThrow(() -> new ArticleNotFoundException("해당하는 게시글을 찾지 못했습니다."));
-    }
-
-    @Transactional
-    public Article update(long id, Article articleToUpdate) {
-        Article originArticle = articleRepository.findArticleById(id);
-        long authorId = originArticle.getAuthor().getId();
-        long loginUserId = articleToUpdate.getAuthor().getId();
-        validate(authorId, loginUserId);
-        originArticle.update(articleToUpdate);
-        return originArticle;
-    }
-
-    public void validate(long authorId, long loginUserId) {
-        if (authorId == loginUserId) {
-            return;
+    public Article updateByIdAsAuthor(long id, Article articleToUpdate) {
+        Article article = findById(id);
+        if (!article.isAuthor(articleToUpdate.getAuthor())) {
+            throw new MisMatchAuthorException("작성자만 접근가능합니다.");
         }
-        throw new InvalidAccessException("잘못된 접근입니다.");
+        return article.update(articleToUpdate);
     }
 
     @Transactional
-    public void deleteById(long id) {
+    public void deleteByIdAsAuthor(long id, User user) {
+        if (!findById(id).isAuthor(user)) {
+            throw new MisMatchAuthorException("작성자만 접근가능합니다.");
+        }
         articleRepository.deleteById(id);
     }
 }
