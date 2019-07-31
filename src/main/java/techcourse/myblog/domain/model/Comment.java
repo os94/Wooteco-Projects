@@ -1,4 +1,4 @@
-package techcourse.myblog.domain;
+package techcourse.myblog.domain.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

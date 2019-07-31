@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.domain.User;
+import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.UserService;
 import techcourse.myblog.dto.MyPageRequestDto;
 import techcourse.myblog.dto.UserRequestDto;

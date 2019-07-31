@@ -1,8 +1,8 @@
 package techcourse.myblog.dto;
 
 import org.apache.commons.lang3.StringUtils;
-import techcourse.myblog.domain.Article;
-import techcourse.myblog.domain.User;
+import techcourse.myblog.domain.model.Article;
+import techcourse.myblog.domain.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -3,7 +3,7 @@ package techcourse.myblog.domain.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import techcourse.myblog.domain.User;
+import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.exception.MisMatchPasswordException;
 import techcourse.myblog.domain.exception.UserNotFoundException;
 import techcourse.myblog.domain.repository.UserRepository;

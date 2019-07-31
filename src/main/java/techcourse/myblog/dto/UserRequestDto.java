@@ -1,6 +1,6 @@
 package techcourse.myblog.dto;
 
-import techcourse.myblog.domain.User;
+import techcourse.myblog.domain.model.User;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
