@@ -18,6 +18,8 @@ public class Article extends Auditable {
     private String coverUrl;
 
     @Column(name = "contents", nullable = false)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String contents;
 
     @ManyToOne
