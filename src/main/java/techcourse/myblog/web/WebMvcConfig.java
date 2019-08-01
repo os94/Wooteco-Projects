@@ -5,17 +5,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import techcourse.myblog.web.interceptor.LoginInterceptor;
-import techcourse.myblog.web.interceptor.UserAuthInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
-    private final UserAuthInterceptor userAuthInterceptor;
 
     @Autowired
-    public WebMvcConfig(LoginInterceptor loginInterceptor, UserAuthInterceptor userAuthInterceptor) {
+    public WebMvcConfig(LoginInterceptor loginInterceptor) {
         this.loginInterceptor = loginInterceptor;
-        this.userAuthInterceptor = userAuthInterceptor;
     }
 
     @Override
@@ -29,9 +26,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/css/**")
                 .excludePathPatterns("/js/**")
                 .excludePathPatterns("/images/**");
-
-        registry.addInterceptor(userAuthInterceptor)
-                .addPathPatterns("/user/update/{pageId}")
-                .addPathPatterns("/user/delete/{pageId}");
     }
 }
