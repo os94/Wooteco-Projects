@@ -36,10 +36,14 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public String userNotFoundException(UserNotFoundException e, Model model) {
-        model.addAttribute("error", true);
-        model.addAttribute("message", e.getMessage());
-        return "/login";
+    public String userNotFoundException(UserNotFoundException e, HttpServletRequest request, Model model) {
+        String url = request.getRequestURL().toString();
+        if (url.contains("/login")) {
+            model.addAttribute("error", true);
+            model.addAttribute("message", e.getMessage());
+            return "/login";
+        }
+        return "redirect:/";
     }
 
     @ExceptionHandler(MisMatchPasswordException.class)
@@ -50,8 +54,13 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ArticleNotFoundException.class)
-    public String articleNotFoundException(ArticleNotFoundException e, Model model) {
-        return "redirect:/";
+    public RedirectView articleNotFoundException(ArticleNotFoundException e) {
+        return new RedirectView("/");
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public RedirectView commentNotFoundException(CommentNotFoundException e) {
+        return new RedirectView("/");
     }
 
     @ExceptionHandler(MisMatchUserException.class)
