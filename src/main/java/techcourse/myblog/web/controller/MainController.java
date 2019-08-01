@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import techcourse.myblog.domain.service.ArticleService;
+import techcourse.myblog.dto.UserRequestDto;
 
 @Controller
 public class MainController {
@@ -24,5 +25,10 @@ public class MainController {
     @GetMapping("/writing")
     public String moveArticleWritePage() {
         return "article-edit";
+    }
+
+    @GetMapping("/signup")
+    public String moveSignUpPage(UserRequestDto userRequestDto) {
+        return "signup";
     }
 }

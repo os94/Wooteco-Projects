@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import static techcourse.myblog.web.SessionManager.USER;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -24,12 +25,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/signup")
-    public String moveSignUpPage(UserRequestDto userRequestDto) {
-        return "signup";
-    }
-
-    @PostMapping("/users")
+    @PostMapping("")
     public String createUser(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
@@ -38,36 +34,36 @@ public class UserController {
         return "redirect:/login";
     }
 
-    @GetMapping("/users")
+    @GetMapping("")
     public String selectAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
         return "user-list";
     }
 
-    @GetMapping("/mypage/{id}")
-    public String moveMyPage(@PathVariable long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
+    @GetMapping("/{userId}")
+    public String moveMyPage(@PathVariable long userId, Model model) {
+        model.addAttribute("user", userService.findUserById(userId));
         return "mypage";
     }
 
-    @GetMapping("/user/update/{id}")
-    public String moveMyPageEdit(@PathVariable long id, Model model) {
-        User user = userService.findUserById(id);
+    @GetMapping("/{userId}/edit")
+    public String moveMyPageEdit(@PathVariable long userId, Model model) {
+        User user = userService.findUserById(userId);
         model.addAttribute("user", user);
         return "mypage-edit";
     }
 
-    @PutMapping("/user/update/{id}")
-    public String updateMyPage(@PathVariable long id, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User user = userService.updateUserInfo(id, myPageRequestDto);
+    @PutMapping("/{userId}")
+    public String updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+        User user = userService.updateUserInfo(userId, myPageRequestDto);
         httpSession.setAttribute(USER, user);
-        return "redirect:/mypage/" + user.getId();
+        return "redirect:/users/" + user.getId();
     }
 
-    @DeleteMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable long id, HttpSession httpSession) {
+    @DeleteMapping("/{userId}")
+    public String deleteUser(@PathVariable long userId, HttpSession httpSession) {
         httpSession.removeAttribute(USER);
-        userService.deleteById(id);
+        userService.deleteById(userId);
         return "redirect:/";
     }
 }
