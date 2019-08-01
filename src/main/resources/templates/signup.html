@@ -34,7 +34,7 @@
                                                         <h2 class="text-center text-dark no-mrg-vertical mrg-btm-15">회원가입</h2>
                                                     </div>
                                                     <div th:if="${error}" th:text="${message}" class="alert alert-danger" role="alert"></div>
-                                                    <form method="post" th:action="@{/users}" th:object="${userRequestDto}" id="signup-form">
+                                                    <form method="post" th:action="@{/users}" th:object="${userDto}" id="signup-form">
                                                         <div class="form-group">
                                                             <label class="text-normal text-dark">Username</label>
                                                             <input type="text" name="name" class="form-control" th:field="*{name}" autofocus

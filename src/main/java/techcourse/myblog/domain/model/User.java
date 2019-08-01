@@ -1,4 +1,4 @@
-package techcourse.myblog.domain;
+package techcourse.myblog.domain.model;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -29,12 +29,17 @@ public class User {
         this.password = password;
     }
 
-    public void updateUserInfo(String name) {
+    public User update(String name) {
         this.name = name;
+        return this;
     }
 
     public boolean matchPassword(String password) {
         return this.password.equals(password);
+    }
+
+    public boolean isSamePerson(User other) {
+        return this.id == other.id;
     }
 
     public long getId() {

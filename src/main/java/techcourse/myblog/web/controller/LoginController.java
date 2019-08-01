@@ -4,21 +4,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import techcourse.myblog.domain.User;
-import techcourse.myblog.domain.service.LoginService;
-import techcourse.myblog.dto.LoginRequestDto;
+import org.springframework.web.servlet.view.RedirectView;
+import techcourse.myblog.domain.model.User;
+import techcourse.myblog.domain.service.UserService;
+import techcourse.myblog.dto.LoginDto;
 
 import javax.servlet.http.HttpSession;
 
-import static techcourse.myblog.web.SessionManager.USER;
+import static techcourse.myblog.web.SessionManager.SESSION_USER;
 
 @Controller
 public class LoginController {
-    private final LoginService loginService;
+    private final UserService userService;
 
     @Autowired
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
+    public LoginController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/login")
@@ -27,15 +28,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(LoginRequestDto loginRequestDto, HttpSession httpSession) {
-        User user = loginService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
-        httpSession.setAttribute(USER, user);
-        return "redirect:/";
+    public RedirectView login(LoginDto loginDto, HttpSession httpSession) {
+        User user = userService.login(loginDto.getEmail(), loginDto.getPassword());
+        httpSession.setAttribute(SESSION_USER, user);
+        return new RedirectView("/");
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession httpSession) {
-        httpSession.removeAttribute(USER);
-        return "redirect:/";
+    public RedirectView logout(HttpSession httpSession) {
+        httpSession.removeAttribute(SESSION_USER);
+        return new RedirectView("/");
     }
 }

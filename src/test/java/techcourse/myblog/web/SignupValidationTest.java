@@ -11,7 +11,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static techcourse.myblog.dto.UserRequestDto.*;
+import static techcourse.myblog.dto.UserDto.*;
 
 @AutoConfigureWebTestClient
 @ExtendWith(SpringExtension.class)

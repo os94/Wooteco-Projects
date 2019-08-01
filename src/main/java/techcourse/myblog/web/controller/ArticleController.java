@@ -4,52 +4,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import techcourse.myblog.domain.Article;
+import org.springframework.web.servlet.view.RedirectView;
+import techcourse.myblog.domain.model.Article;
+import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.ArticleService;
-import techcourse.myblog.dto.ArticleRequestDto;
+import techcourse.myblog.domain.service.CommentService;
+import techcourse.myblog.dto.ArticleDto;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+
+import static techcourse.myblog.web.SessionManager.SESSION_USER;
 
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
     private static final String ARTICLE = "article";
+    private static final String COMMENTS = "comments";
 
     private final ArticleService articleService;
+    private final CommentService commentService;
 
     @Autowired
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, CommentService commentService) {
         this.articleService = articleService;
+        this.commentService = commentService;
     }
 
     @PostMapping("")
-    public String createArticle(@Valid ArticleRequestDto newArticleDto) {
-        Article article = articleService.save(newArticleDto.toEntity());
-        return "redirect:/articles/" + article.getId();
+    public RedirectView createArticle(@Valid ArticleDto newArticleDto, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
+        Article article = articleService.save(newArticleDto.toEntity(loginUser));
+        return new RedirectView("/articles/" + article.getId());
     }
 
     @GetMapping("/{articleId}")
     public String selectArticle(@PathVariable long articleId, Model model) {
-        model.addAttribute(ARTICLE, articleService.findById(articleId));
+        Article article = articleService.findById(articleId);
+        model.addAttribute(ARTICLE, article);
+        model.addAttribute(COMMENTS, commentService.findByArticle(article));
         return "article";
     }
 
     @GetMapping("/{articleId}/edit")
-    public String moveArticleEditPage(@PathVariable long articleId, Model model) {
-        model.addAttribute(ARTICLE, articleService.findById(articleId));
+    public String moveArticleEditPage(@PathVariable long articleId, Model model, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
+        Article article = articleService.findByIdAsAuthor(articleId, loginUser);
+        model.addAttribute(ARTICLE, article);
         return "article-edit";
     }
 
     @PutMapping("/{articleId}")
-    public String updateArticle(@PathVariable long articleId, @Valid ArticleRequestDto updateArticleDto, Model model) {
-        Article updateArticle = articleService.update(articleId, updateArticleDto.toEntity());
-        model.addAttribute(ARTICLE, updateArticle);
-        return "redirect:/articles/" + updateArticle.getId();
+    public RedirectView updateArticle(@PathVariable long articleId, @Valid ArticleDto updateArticleDto, Model model, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
+        Article updatedArticle = articleService.updateByIdAsAuthor(articleId, updateArticleDto.toEntity(loginUser));
+        model.addAttribute(ARTICLE, updatedArticle);
+        return new RedirectView("/articles/" + updatedArticle.getId());
     }
 
     @DeleteMapping("/{articleId}")
-    public String deleteArticle(@PathVariable long articleId) {
-        articleService.deleteById(articleId);
-        return "redirect:/";
+    public RedirectView deleteArticle(@PathVariable long articleId, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
+        articleService.deleteByIdAsAuthor(articleId, loginUser);
+        return new RedirectView("/");
     }
 }

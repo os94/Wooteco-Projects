@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import techcourse.myblog.domain.exception.ArticleNotFoundException;
-import techcourse.myblog.domain.exception.DuplicateEmailException;
-import techcourse.myblog.domain.exception.MisMatchPasswordException;
-import techcourse.myblog.domain.exception.UserNotFoundException;
-import techcourse.myblog.dto.UserRequestDto;
+import techcourse.myblog.domain.exception.*;
+import techcourse.myblog.dto.UserDto;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
@@ -21,8 +20,8 @@ public class ControllerExceptionHandler {
     // Todo : signup.html-redirect 도전
     @ExceptionHandler(BindException.class)
     public RedirectView bindException(BindException e, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("userRequestDto", new UserRequestDto("", "", ""));
-        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userRequestDto", e.getBindingResult());
+        redirectAttributes.addFlashAttribute("userDto", new UserDto("", "", ""));
+        redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.userDto", e.getBindingResult());
         log.debug("e.getBindingResult : {}", e.getBindingResult());
         log.debug("e.getObjectName: {}", e.getObjectName());
         //return new RedirectView(e.getObjectName())
@@ -37,10 +36,14 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    public String userNotFoundException(UserNotFoundException e, Model model) {
-        model.addAttribute("error", true);
-        model.addAttribute("message", e.getMessage());
-        return "/login";
+    public String userNotFoundException(UserNotFoundException e, HttpServletRequest request, Model model) {
+        String url = request.getRequestURL().toString();
+        if (url.contains("/login")) {
+            model.addAttribute("error", true);
+            model.addAttribute("message", e.getMessage());
+            return "/login";
+        }
+        return "redirect:/";
     }
 
     @ExceptionHandler(MisMatchPasswordException.class)
@@ -51,7 +54,23 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(ArticleNotFoundException.class)
-    public String articleNotFoundException(ArticleNotFoundException e, Model model) {
-        return "redirect:/";
+    public RedirectView articleNotFoundException(ArticleNotFoundException e) {
+        return new RedirectView("/");
+    }
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public RedirectView commentNotFoundException(CommentNotFoundException e) {
+        return new RedirectView("/");
+    }
+
+    @ExceptionHandler(MisMatchUserException.class)
+    public RedirectView misMatchAuthorException(MisMatchUserException e, HttpServletRequest request) {
+        String url = request.getRequestURL().toString();
+        url = url.replace("/edit", "");
+        if (url.contains("comments")) {
+            int index = url.lastIndexOf("/comment");
+            url = url.substring(0, index);
+        }
+        return new RedirectView(url);
     }
 }

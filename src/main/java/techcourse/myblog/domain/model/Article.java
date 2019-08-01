@@ -1,11 +1,11 @@
-package techcourse.myblog.domain;
+package techcourse.myblog.domain.model;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 @Table(name = "article")
-public class Article {
+public class Article extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -18,7 +18,13 @@ public class Article {
     private String coverUrl;
 
     @Column(name = "contents", nullable = false)
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     private String contents;
+
+    @ManyToOne
+    @JoinColumn(name = "author", foreignKey = @ForeignKey(name = "fk_article_to_user"), nullable = false)
+    private User author;
 
     public Article() {
     }
@@ -29,10 +35,19 @@ public class Article {
         this.contents = contents;
     }
 
-    public void update(Article articleToUpdate) {
+    public Article update(Article articleToUpdate) {
         this.title = articleToUpdate.title;
         this.coverUrl = articleToUpdate.coverUrl;
         this.contents = articleToUpdate.contents;
+        return this;
+    }
+
+    public boolean isAuthor(User user) {
+        return this.author.equals(user);
+    }
+
+    public void setAuthor(User persistUser) {
+        this.author = persistUser;
     }
 
     public long getId() {
@@ -51,6 +66,9 @@ public class Article {
         return contents;
     }
 
+    public User getAuthor() {
+        return author;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -60,11 +78,12 @@ public class Article {
         return id == article.id &&
                 Objects.equals(title, article.title) &&
                 Objects.equals(coverUrl, article.coverUrl) &&
-                Objects.equals(contents, article.contents);
+                Objects.equals(contents, article.contents) &&
+                Objects.equals(author, article.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, coverUrl, contents);
+        return Objects.hash(id, title, coverUrl, contents, author);
     }
 }

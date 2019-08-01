@@ -39,7 +39,7 @@ public class UserControllerTests {
                 .exchange()
                 .expectStatus().isFound()
                 .expectHeader().valueMatches(HttpHeaders.LOCATION, ".*/login.*");
-        userId = userRepository.findUserByEmail("sean@gmail.com").getId();
+        userId = userRepository.findByEmail("sean@gmail.com").get().getId();
     }
 
     @Test
