@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.UserService;
 import techcourse.myblog.dto.MyPageRequestDto;
@@ -18,6 +19,9 @@ import static techcourse.myblog.web.SessionManager.USER;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+    private static final String USERS = "users";
+    private static final String USER = "user";
+
     private final UserService userService;
 
     @Autowired
@@ -36,34 +40,34 @@ public class UserController {
 
     @GetMapping("")
     public String selectAllUsers(Model model) {
-        model.addAttribute("users", userService.findAll());
+        model.addAttribute(USERS, userService.findAll());
         return "user-list";
     }
 
     @GetMapping("/{userId}")
     public String moveMyPage(@PathVariable long userId, Model model) {
-        model.addAttribute("user", userService.findUserById(userId));
+        model.addAttribute(USER, userService.findUserById(userId));
         return "mypage";
     }
 
     @GetMapping("/{userId}/edit")
     public String moveMyPageEdit(@PathVariable long userId, Model model) {
         User user = userService.findUserById(userId);
-        model.addAttribute("user", user);
+        model.addAttribute(USER, user);
         return "mypage-edit";
     }
 
     @PutMapping("/{userId}")
-    public String updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+    public RedirectView updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
         User user = userService.updateUserInfo(userId, myPageRequestDto);
         httpSession.setAttribute(USER, user);
-        return "redirect:/users/" + user.getId();
+        return new RedirectView("/users/" + user.getId());
     }
 
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable long userId, HttpSession httpSession) {
+    public RedirectView deleteUser(@PathVariable long userId, HttpSession httpSession) {
         httpSession.removeAttribute(USER);
         userService.deleteById(userId);
-        return "redirect:/";
+        return new RedirectView("/");
     }
 }

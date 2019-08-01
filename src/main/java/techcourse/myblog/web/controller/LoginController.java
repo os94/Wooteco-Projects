@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.LoginService;
 import techcourse.myblog.dto.LoginRequestDto;
@@ -27,15 +28,15 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(LoginRequestDto loginRequestDto, HttpSession httpSession) {
+    public RedirectView login(LoginRequestDto loginRequestDto, HttpSession httpSession) {
         User user = loginService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
         httpSession.setAttribute(USER, user);
-        return "redirect:/";
+        return new RedirectView("/");
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession httpSession) {
+    public RedirectView logout(HttpSession httpSession) {
         httpSession.removeAttribute(USER);
-        return "redirect:/";
+        return new RedirectView("/");
     }
 }
