@@ -54,8 +54,8 @@ public class ControllerExceptionHandler {
         return "redirect:/";
     }
 
-    @ExceptionHandler(InvalidAccessException.class)
-    public RedirectView invalidAccessException(InvalidAccessException e, HttpServletRequest request) {
+    @ExceptionHandler(MisMatchUserException.class)
+    public RedirectView misMatchAuthorException(MisMatchUserException e, HttpServletRequest request) {
         String url = request.getRequestURL().toString();
         url = url.replace("/edit", "");
         if (url.contains("comments")) {

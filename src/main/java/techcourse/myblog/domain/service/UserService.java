@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.exception.DuplicateEmailException;
+import techcourse.myblog.domain.exception.MisMatchUserException;
+import techcourse.myblog.domain.exception.UserNotFoundException;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.repository.UserRepository;
 import techcourse.myblog.dto.MyPageRequestDto;
@@ -21,10 +23,23 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
-    public User updateUserInfo(long id, MyPageRequestDto userInfo) {
-        User user = userRepository.findUserById(id);
-        user.updateUserInfo(userInfo.getName());
+    @Transactional(readOnly = true)
+    public List<User> findAll() {
+        return unmodifiableList(userRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public User findById(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("사용자를 찾지 못했습니다."));
+    }
+
+    @Transactional(readOnly = true)
+    public User findByIdAsOwner(long id, User loginUser) {
+        User user = findById(id);
+        if (!user.isSamePerson(loginUser)) {
+            throw new MisMatchUserException("본인만 접근가능합니다.");
+        }
         return user;
     }
 
@@ -36,18 +51,20 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @Transactional(readOnly = true)
-    public List<User> findAll() {
-        return unmodifiableList(userRepository.findAll());
+    @Transactional
+    public User updateByIdAsOwner(long id, MyPageRequestDto userInfo, User loginUser) {
+        User user = findById(id);
+        if (!user.isSamePerson(loginUser)) {
+            throw new MisMatchUserException("본인만 접근가능합니다.");
+        }
+        return user.update(userInfo.getName());
     }
 
     @Transactional
-    public void deleteById(long id) {
+    public void deleteByIdAsOwner(long id, User loginUser) {
+        if (!findById(id).isSamePerson(loginUser)) {
+            throw new MisMatchUserException("본인만 접근가능합니다.");
+        }
         userRepository.deleteById(id);
-    }
-
-    @Transactional
-    public User findUserById(long id) {
-        return userRepository.findUserById(id);
     }
 }

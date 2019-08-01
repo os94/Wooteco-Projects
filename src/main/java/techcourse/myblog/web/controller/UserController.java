@@ -46,28 +46,31 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public String moveMyPage(@PathVariable long userId, Model model) {
-        model.addAttribute(USER, userService.findUserById(userId));
+        model.addAttribute(USER, userService.findById(userId));
         return "mypage";
     }
 
     @GetMapping("/{userId}/edit")
-    public String moveMyPageEdit(@PathVariable long userId, Model model) {
-        User user = userService.findUserById(userId);
+    public String moveMyPageEdit(@PathVariable long userId, Model model, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(USER);
+        User user = userService.findByIdAsOwner(userId, loginUser);
         model.addAttribute(USER, user);
         return "mypage-edit";
     }
 
     @PutMapping("/{userId}")
     public RedirectView updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User user = userService.updateUserInfo(userId, myPageRequestDto);
+        User loginUser = (User) httpSession.getAttribute(USER);
+        User user = userService.updateByIdAsOwner(userId, myPageRequestDto, loginUser);
         httpSession.setAttribute(USER, user);
         return new RedirectView("/users/" + user.getId());
     }
 
     @DeleteMapping("/{userId}")
     public RedirectView deleteUser(@PathVariable long userId, HttpSession httpSession) {
+        User loginUser = (User) httpSession.getAttribute(USER);
+        userService.deleteByIdAsOwner(userId, loginUser);
         httpSession.removeAttribute(USER);
-        userService.deleteById(userId);
         return new RedirectView("/");
     }
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.exception.CommentNotFoundException;
-import techcourse.myblog.domain.exception.MisMatchAuthorException;
+import techcourse.myblog.domain.exception.MisMatchUserException;
 import techcourse.myblog.domain.model.Article;
 import techcourse.myblog.domain.model.Comment;
 import techcourse.myblog.domain.model.User;
@@ -43,7 +43,7 @@ public class CommentService {
     public Comment updateByIdAsAuthor(long id, String contents, User user) {
         Comment comment = findById(id);
         if (!comment.isAuthor(user)) {
-            throw new MisMatchAuthorException("작성자만 접근가능합니다.");
+            throw new MisMatchUserException("작성자만 접근가능합니다.");
         }
         return comment.update(contents);
     }
@@ -51,7 +51,7 @@ public class CommentService {
     @Transactional
     public void deleteByIdAsAuthor(long id, User user) {
         if (!findById(id).isAuthor(user)) {
-            throw new MisMatchAuthorException("작성자만 접근가능합니다.");
+            throw new MisMatchUserException("작성자만 접근가능합니다.");
         }
         commentRepository.deleteById(id);
     }
