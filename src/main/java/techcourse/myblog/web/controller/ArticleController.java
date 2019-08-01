@@ -14,7 +14,7 @@ import techcourse.myblog.dto.ArticleRequestDto;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static techcourse.myblog.web.SessionManager.USER;
+import static techcourse.myblog.web.SessionManager.SESSION_USER;
 
 @Controller
 @RequestMapping("/articles")
@@ -33,7 +33,7 @@ public class ArticleController {
 
     @PostMapping("")
     public RedirectView createArticle(@Valid ArticleRequestDto newArticleDto, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article article = articleService.save(newArticleDto.toEntity(loginUser));
         return new RedirectView("/articles/" + article.getId());
     }
@@ -48,7 +48,7 @@ public class ArticleController {
 
     @GetMapping("/{articleId}/edit")
     public String moveArticleEditPage(@PathVariable long articleId, Model model, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article article = articleService.findByIdAsAuthor(articleId, loginUser);
         model.addAttribute(ARTICLE, article);
         return "article-edit";
@@ -56,7 +56,7 @@ public class ArticleController {
 
     @PutMapping("/{articleId}")
     public RedirectView updateArticle(@PathVariable long articleId, @Valid ArticleRequestDto updateArticleDto, Model model, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article updatedArticle = articleService.updateByIdAsAuthor(articleId, updateArticleDto.toEntity(loginUser));
         model.addAttribute(ARTICLE, updatedArticle);
         return new RedirectView("/articles/" + updatedArticle.getId());
@@ -64,7 +64,7 @@ public class ArticleController {
 
     @DeleteMapping("/{articleId}")
     public RedirectView deleteArticle(@PathVariable long articleId, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         articleService.deleteByIdAsAuthor(articleId, loginUser);
         return new RedirectView("/");
     }

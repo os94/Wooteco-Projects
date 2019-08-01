@@ -14,7 +14,7 @@ import techcourse.myblog.dto.UserRequestDto;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import static techcourse.myblog.web.SessionManager.USER;
+import static techcourse.myblog.web.SessionManager.SESSION_USER;
 
 @Controller
 @RequestMapping("/users")
@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/{userId}/edit")
     public String moveMyPageEdit(@PathVariable long userId, Model model, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         User user = userService.findByIdAsOwner(userId, loginUser);
         model.addAttribute(USER, user);
         return "mypage-edit";
@@ -60,17 +60,17 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public RedirectView updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         User user = userService.updateByIdAsOwner(userId, myPageRequestDto, loginUser);
-        httpSession.setAttribute(USER, user);
+        httpSession.setAttribute(SESSION_USER, user);
         return new RedirectView("/users/" + user.getId());
     }
 
     @DeleteMapping("/{userId}")
     public RedirectView deleteUser(@PathVariable long userId, HttpSession httpSession) {
-        User loginUser = (User) httpSession.getAttribute(USER);
+        User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         userService.deleteByIdAsOwner(userId, loginUser);
-        httpSession.removeAttribute(USER);
+        httpSession.removeAttribute(SESSION_USER);
         return new RedirectView("/");
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import techcourse.myblog.domain.exception.DuplicateEmailException;
+import techcourse.myblog.domain.exception.MisMatchPasswordException;
 import techcourse.myblog.domain.exception.MisMatchUserException;
 import techcourse.myblog.domain.exception.UserNotFoundException;
 import techcourse.myblog.domain.model.User;
@@ -45,9 +46,10 @@ public class UserService {
 
     @Transactional
     public User save(User user) {
-        if (userRepository.findUserByEmail(user.getEmail()) != null) {
-            throw new DuplicateEmailException("중복된 Email입니다.");
-        }
+        userRepository.findByEmail(user.getEmail()).ifPresent(
+                other -> {
+                    throw new DuplicateEmailException("중복된 Email입니다.");
+                });
         return userRepository.save(user);
     }
 
@@ -66,5 +68,15 @@ public class UserService {
             throw new MisMatchUserException("본인만 접근가능합니다.");
         }
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public User login(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("해당 Email의 사용자를 찾을 수 없습니다."));
+        if (!user.matchPassword(password)) {
+            throw new MisMatchPasswordException("비밀번호가 일치하지 않습니다.");
+        }
+        return user;
     }
 }
