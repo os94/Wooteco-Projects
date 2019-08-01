@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.UserService;
-import techcourse.myblog.dto.MyPageRequestDto;
-import techcourse.myblog.dto.UserRequestDto;
+import techcourse.myblog.dto.MyPageDto;
+import techcourse.myblog.dto.UserDto;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -30,11 +30,11 @@ public class UserController {
     }
 
     @PostMapping("")
-    public String createUser(@Valid UserRequestDto userRequestDto, BindingResult bindingResult) {
+    public String createUser(@Valid UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
-        userService.save(userRequestDto.toEntity());
+        userService.save(userDto.toEntity());
         return "redirect:/login";
     }
 
@@ -59,9 +59,9 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public RedirectView updateMyPage(@PathVariable long userId, MyPageRequestDto myPageRequestDto, HttpSession httpSession) {
+    public RedirectView updateMyPage(@PathVariable long userId, MyPageDto myPageDto, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
-        User user = userService.updateByIdAsOwner(userId, myPageRequestDto, loginUser);
+        User user = userService.updateByIdAsOwner(userId, myPageDto, loginUser);
         httpSession.setAttribute(SESSION_USER, user);
         return new RedirectView("/users/" + user.getId());
     }

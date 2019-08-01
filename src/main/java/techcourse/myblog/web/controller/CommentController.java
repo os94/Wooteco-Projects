@@ -9,7 +9,7 @@ import techcourse.myblog.domain.model.Comment;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.ArticleService;
 import techcourse.myblog.domain.service.CommentService;
-import techcourse.myblog.dto.CommentRequestDto;
+import techcourse.myblog.dto.CommentDto;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,10 +28,10 @@ public class CommentController {
     }
 
     @PostMapping("")
-    public RedirectView createComment(CommentRequestDto commentRequestDto, HttpSession httpSession) {
-        Comment comment = convert(commentRequestDto, httpSession);
+    public RedirectView createComment(CommentDto commentDto, HttpSession httpSession) {
+        Comment comment = convert(commentDto, httpSession);
         commentService.save(comment);
-        return new RedirectView("/articles/" + commentRequestDto.getArticleId());
+        return new RedirectView("/articles/" + commentDto.getArticleId());
     }
 
     @PutMapping("/{commentId}")
@@ -48,9 +48,9 @@ public class CommentController {
         return new RedirectView("/articles/" + articleId);
     }
 
-    private Comment convert(CommentRequestDto commentRequestDto, HttpSession httpSession) {
+    private Comment convert(CommentDto commentDto, HttpSession httpSession) {
         User author = (User) httpSession.getAttribute(SESSION_USER);
-        Article article = articleService.findById(commentRequestDto.getArticleId());
-        return new Comment(commentRequestDto.getContents(), author, article);
+        Article article = articleService.findById(commentDto.getArticleId());
+        return new Comment(commentDto.getContents(), author, article);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.UserService;
-import techcourse.myblog.dto.LoginRequestDto;
+import techcourse.myblog.dto.LoginDto;
 
 import javax.servlet.http.HttpSession;
 
@@ -28,8 +28,8 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public RedirectView login(LoginRequestDto loginRequestDto, HttpSession httpSession) {
-        User user = userService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+    public RedirectView login(LoginDto loginDto, HttpSession httpSession) {
+        User user = userService.login(loginDto.getEmail(), loginDto.getPassword());
         httpSession.setAttribute(SESSION_USER, user);
         return new RedirectView("/");
     }

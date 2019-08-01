@@ -9,7 +9,7 @@ import techcourse.myblog.domain.exception.MisMatchUserException;
 import techcourse.myblog.domain.exception.UserNotFoundException;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.repository.UserRepository;
-import techcourse.myblog.dto.MyPageRequestDto;
+import techcourse.myblog.dto.MyPageDto;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class UserService {
     }
 
     @Transactional
-    public User updateByIdAsOwner(long id, MyPageRequestDto userInfo, User loginUser) {
+    public User updateByIdAsOwner(long id, MyPageDto userInfo, User loginUser) {
         User user = findById(id);
         if (!user.isSamePerson(loginUser)) {
             throw new MisMatchUserException("본인만 접근가능합니다.");

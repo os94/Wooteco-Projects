@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-public class UserRequestDto {
+public class UserDto {
     public static final String NAME_LENGTH_ERROR = "2자이상 10자미만으로 작성해야 합니다.";
     public static final String NAME_FORMAT_ERROR = "숫자나 특수문자가 포함되었습니다.";
     public static final String NAME_BLANK_ERROR = "이름을 작성해주세요.";
@@ -31,7 +31,7 @@ public class UserRequestDto {
     @Pattern(regexp = PASSWORD_REGEXP, message = PASSWORD_FORMAT_ERROR)
     private String password;
 
-    public UserRequestDto(String name, String email, String password) {
+    public UserDto(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;

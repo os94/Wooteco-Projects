@@ -9,7 +9,7 @@ import techcourse.myblog.domain.model.Article;
 import techcourse.myblog.domain.model.User;
 import techcourse.myblog.domain.service.ArticleService;
 import techcourse.myblog.domain.service.CommentService;
-import techcourse.myblog.dto.ArticleRequestDto;
+import techcourse.myblog.dto.ArticleDto;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -32,7 +32,7 @@ public class ArticleController {
     }
 
     @PostMapping("")
-    public RedirectView createArticle(@Valid ArticleRequestDto newArticleDto, HttpSession httpSession) {
+    public RedirectView createArticle(@Valid ArticleDto newArticleDto, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article article = articleService.save(newArticleDto.toEntity(loginUser));
         return new RedirectView("/articles/" + article.getId());
@@ -55,7 +55,7 @@ public class ArticleController {
     }
 
     @PutMapping("/{articleId}")
-    public RedirectView updateArticle(@PathVariable long articleId, @Valid ArticleRequestDto updateArticleDto, Model model, HttpSession httpSession) {
+    public RedirectView updateArticle(@PathVariable long articleId, @Valid ArticleDto updateArticleDto, Model model, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article updatedArticle = articleService.updateByIdAsAuthor(articleId, updateArticleDto.toEntity(loginUser));
         model.addAttribute(ARTICLE, updatedArticle);

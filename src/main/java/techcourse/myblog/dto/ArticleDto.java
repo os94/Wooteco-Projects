@@ -7,7 +7,7 @@ import techcourse.myblog.domain.model.User;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class ArticleRequestDto {
+public class ArticleDto {
     private static final String CONTENTS_BLANK_ERROR = "내용을 입력해주세요.";
     private static final String TITLE_BLANK_ERROR = "제목을 입력해주세요.";
     private static final String DEFAULT_COVER_URL = "/images/pages/index/study.jpg";
@@ -21,7 +21,7 @@ public class ArticleRequestDto {
     @NotBlank(message = CONTENTS_BLANK_ERROR)
     private String contents;
 
-    public ArticleRequestDto(String title, String coverUrl, String contents) {
+    public ArticleDto(String title, String coverUrl, String contents) {
         this.title = title;
         this.coverUrl = coverUrl;
         if (StringUtils.isBlank(coverUrl)) {

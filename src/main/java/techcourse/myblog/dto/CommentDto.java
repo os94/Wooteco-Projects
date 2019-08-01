@@ -3,14 +3,14 @@ package techcourse.myblog.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-public class CommentRequestDto {
+public class CommentDto {
     @NotBlank
     private String contents;
 
     @NotNull
     private long articleId;
 
-    public CommentRequestDto(@NotBlank String contents, @NotNull long articleId) {
+    public CommentDto(@NotBlank String contents, @NotNull long articleId) {
         this.contents = contents;
         this.articleId = articleId;
     }
