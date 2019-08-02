@@ -16,7 +16,7 @@ public class PingPongController {
     @PostMapping("/ping")
     public Pong ping(@RequestBody Ping ping) {
         Pong pong = new Pong();
-        pong.setPong(ping.getPing() + "good");
+        pong.setPong(ping.getPing() + " good");
         return pong;
     }
 }
