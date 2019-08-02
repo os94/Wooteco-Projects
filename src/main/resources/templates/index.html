@@ -101,5 +101,25 @@
 </footer>
 <!-- include fragments/footer -->
 <th:block th:replace="fragments/common_script"></th:block>
+
+<script>
+    const xhr = new XMLHttpRequest();
+    const message = {"ping": 'brown'};
+
+    xhr.open('POST', 'http://localhost:8080/ping');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(JSON.stringify(message));
+
+    xhr.onreadystatechange = function () {
+        console.log(xhr.readyState === xhr.DONE)
+        if (xhr.readyState === xhr.DONE && xhr.status === 200) {
+            console.log(xhr.responseText)
+            const data = xhr.responseText
+            console.log(typeof data)
+            console.log(JSON.parse(data))
+        }
+    }
+</script>
+
 </body>
 </html>
