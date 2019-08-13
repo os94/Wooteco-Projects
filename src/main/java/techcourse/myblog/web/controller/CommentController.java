@@ -1,6 +1,7 @@
 package techcourse.myblog.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -27,8 +28,8 @@ public class CommentController {
         this.articleService = articleService;
     }
 
-    @PostMapping("")
-    public RedirectView createComment(CommentDto commentDto, HttpSession httpSession) {
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public RedirectView createComment(@RequestBody CommentDto commentDto, HttpSession httpSession) {
         Comment comment = convert(commentDto, httpSession);
         commentService.save(comment);
         return new RedirectView("/articles/" + commentDto.getArticleId());

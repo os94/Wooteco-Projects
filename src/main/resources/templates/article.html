@@ -127,7 +127,7 @@
                             <input type="hidden" name="articleId" th:value="${article.id}">
                             <input id="comment-contents" name="contents" type="hidden">
                             <div id="editSection" ></div>
-                            <button id="save-btn" type="submit" class="btn btn-default btn-group">
+                            <button id="save-btn" type="button" class="btn btn-default btn-group">
                                 <i class="ti-save"></i>
                             </button>
                         </form>
@@ -142,6 +142,36 @@
 <th:block th:replace="fragments/common_script"></th:block>
 
 <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var articleId = [[${article.id}]];
+    /*]]>*/
+    document.getElementById("save-btn").addEventListener('click', function () {
+        const newCommentContents = document.getElementById('comment-contents').value;
+        const body = {
+            "contents": newCommentContents,
+            "articleId": articleId
+        };
+        const init = {
+            method: 'post',
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            body: JSON.stringify(body)
+        };
+
+        fetch('http://localhost:8080/articles/'+articleId+'/comments', init).then(function (response) {
+            if (response.status === 200 || response.status === 201) {
+                console.log('Request succeeded with JSON response: ', response);
+            } else {
+                console.log("Response status: ", response.statusText);
+            }
+        }).catch(function (error) {
+            console.log('Request failed: ', error);
+        });
+    });
+
+</script>
 <script>
     const initValue = "";
     const viewer = tui.Editor.factory({

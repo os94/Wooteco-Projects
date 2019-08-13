@@ -10,6 +10,9 @@ public class CommentDto {
     @NotNull
     private long articleId;
 
+    public CommentDto() {
+    }
+
     public CommentDto(@NotBlank String contents, @NotNull long articleId) {
         this.contents = contents;
         this.articleId = articleId;
@@ -21,5 +24,13 @@ public class CommentDto {
 
     public long getArticleId() {
         return articleId;
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDto{" +
+                "contents='" + contents + '\'' +
+                ", articleId=" + articleId +
+                '}';
     }
 }

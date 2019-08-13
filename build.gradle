@@ -32,4 +32,6 @@ dependencies {
 	runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
 	testImplementation 'com.h2database:h2:1.4.194'
 	implementation 'org.apache.commons:commons-lang3:3.0'
+	
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
