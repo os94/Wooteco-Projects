@@ -77,49 +77,11 @@
             <div class="col-lg-10 col-md-10 col-sm-10 mx-auto mrg-top-30">
                 <div class="width-100 border bottom mrg-btm-20 pdd-btm-10">
                     <span class="font-size-16">댓글</span>
-                    <span class="font-size-16 text-info">2</span>
+                    <span class="font-size-16 text-info" id="commentSize">0</span>
                 </div>
                 <div class="comment">
-                    <ul class="list-unstyled list-info">
-                        <div th:each="comment, index : ${comments}">
-                            <li class="comment-item border bottom mrg-btm-30">
-                                <span>
-                                <img class="thumb-img img-circle"
-                                     src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
-                                <div class="info">
-                                    <span href="" th:text="${comment.author.name}"
-                                          class="text-bold inline-block">name</span>
-                                    <span class="sub-title inline-block pull-right">
-                                        <i class="ti-timer pdd-right-5"></i>
-                                        <span th:text="${comment.lastModifiedDate}"></span>
-                                    </span>
-                                    <form th:action="${#strings.concat('/articles/', article.id, '/comments/', comment.id)}" th:method="put">
-                                        <p class="width-80" th:id="'contents-' + ${index.index}" th:text="${comment.contents}"></p>
-                                    </form>
-                                </div>
-                                </span>
+                    <ul class="list-unstyled list-info" id="comments">
 
-                                <div th:if="${session.user.id} == ${comment.author.id}" class="btn-group btn-group-horizontal">
-                                    <button class="float-right pointer btn btn-icon" type="submit" th:onclick="|editBtnClickHandler('${index.index}')|">
-                                        <i class="ti-pencil text-dark font-size-16 pdd-horizontal-5"></i>
-                                    </button>
-                                    <form method="post" th:action="${#strings.concat('/articles/', article.id, '/comments/', comment.id)}">
-                                        <input type="hidden" name="_method" value="delete">
-                                        <input type="hidden" name="articleId" th:value="${article.id}">
-                                        <button type="submit"
-                                                class="float-right btn btn-default no-border-line"
-                                                style="border:transparent; background:transparent;">
-                                            <i class="ti-trash font-size-16"></i>
-                                        </button>
-                                    </form>
-                                </div>
-
-                                <div>
-
-                                </div>
-
-                            </li>
-                        </div>
                     </ul>
                     <div class="add-comment">
                         <form th:action="${#strings.concat('/articles/', article.id, '/comments/')}"
@@ -138,15 +100,49 @@
     </div>
 </div>
 
-<!-- include fragments/footer -->
 <th:block th:replace="fragments/common_script"></th:block>
-
 <script src="https://uicdn.toast.com/tui-editor/latest/tui-editor-Editor-full.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     var articleId = [[${article.id}]];
     /*]]>*/
-    document.getElementById("save-btn").addEventListener('click', function () {
+
+    // 댓글 불러오기
+    const loadComments = function() {
+        const init = {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8'
+            }
+        };
+
+        fetch('/articles/' + articleId + '/comments', init)
+            .then(response => response.json())
+            .then(data => {
+                let template = document.getElementById('template');
+                let commentSize = 0;
+                let commentList = document.getElementById('comments');
+
+                commentList.innerHTML = '';
+                data.comments.forEach(comment => {
+                    commentSize++;
+                    let resultHtml = template.innerHTML
+                        .replace(/{comment.id}/g, comment.id)
+                        .replace(/{comment.commenter}/g, comment.commenter)
+                        .replace(/{comment.contents}/g, comment.contents)
+                        .replace(/{comment.lastModifiedDate}/g, comment.lastModifiedDate);
+                    commentList.innerHTML += resultHtml;
+                });
+                updateCommentSize(commentSize);
+                clearCommentWriting();
+            }).catch(error => {
+                console.log('error: ', error);
+                alert('댓글 조회에 실패했습니다.');
+        });
+    };
+
+    // 댓글 생성
+    const createComments = function() {
         const newCommentContents = document.getElementById('comment-contents').value;
         const body = {
             "contents": newCommentContents,
@@ -160,17 +156,29 @@
             body: JSON.stringify(body)
         };
 
-        fetch('http://localhost:8080/articles/'+articleId+'/comments', init).then(function (response) {
-            if (response.status === 200 || response.status === 201) {
-                console.log('Request succeeded with JSON response: ', response);
-            } else {
-                console.log("Response status: ", response.statusText);
-            }
-        }).catch(function (error) {
-            console.log('Request failed: ', error);
+        fetch('http://localhost:8080/articles/' + articleId + '/comments', init)
+            .then(response => {
+                if (response.ok) {
+                    loadComments();
+                } else {
+                    throw response.statusText;
+                }
+            }).catch(error => {
+                console.log('error: ', error);
+                alert('댓글 작성에 실패했습니다.');
         });
-    });
+    };
 
+    const updateCommentSize = function (commentSize) {
+        document.getElementById('commentSize').innerText = commentSize;
+    };
+
+    const clearCommentWriting = function() {
+        editor.setValue('');
+    };
+
+    window.addEventListener('DOMContentLoaded', loadComments);
+    document.getElementById("save-btn").addEventListener('click', createComments);
 </script>
 <script>
     const initValue = "";
@@ -197,6 +205,22 @@
         const content = document.getElementById("contents-"+index);
         content.innerHTML = "<textarea name='contents'>" + content.innerText + "</textarea>  <button value='수정' type='submit'>수정</button>"
     }
+</script>
+<script id='template' type="text/template">
+    <li class="comment-item border bottom mrg-btm-30">
+        <span id="comment-{comment.id}">
+            <img class="thumb-img img-circle"
+                 src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
+            <div class="info">
+                <span class="text-bold inline-block">{comment.commenter}</span>
+                <span class="sub-title inline-block pull-right">
+                    <i class="ti-timer pdd-right-5"></i>
+                    <span>{comment.lastModifiedDate}</span>
+                </span>
+                <p class="width-80">{comment.contents}</p>
+            </div>
+        </span>
+    </li>
 </script>
 </body>
 </html>
