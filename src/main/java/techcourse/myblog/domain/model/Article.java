@@ -86,4 +86,15 @@ public class Article extends Auditable {
     public int hashCode() {
         return Objects.hash(id, title, coverUrl, contents, author);
     }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", coverUrl='" + coverUrl + '\'' +
+                ", contents='" + contents + '\'' +
+                ", author=" + author +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package techcourse.myblog.web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +21,7 @@ import static techcourse.myblog.web.SessionManager.SESSION_USER;
 @Controller
 @RequestMapping("/articles")
 public class ArticleController {
+    private static final Logger log = LoggerFactory.getLogger(ArticleController.class);
     private static final String ARTICLE = "article";
     private static final String COMMENTS = "comments";
 
@@ -35,6 +38,7 @@ public class ArticleController {
     public RedirectView createArticle(@Valid ArticleDto newArticleDto, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         Article article = articleService.save(newArticleDto.toEntity(loginUser));
+        log.info("Create Article: {}", article);
         return new RedirectView("/articles/" + article.getId());
     }
 

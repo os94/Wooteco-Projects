@@ -70,4 +70,14 @@ public class Comment extends Auditable {
     public int hashCode() {
         return Objects.hash(id, contents, author, article);
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", contents='" + contents + '\'' +
+                ", author=" + author +
+                ", article=" + article +
+                '}';
+    }
 }

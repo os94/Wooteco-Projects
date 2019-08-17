@@ -30,3 +30,5 @@ out/
 
 ### VS Code ###
 .vscode/
+target/slf4j/roll-by-time-and-size/app.log
+LOG_PATH_IS_UNDEFINED/log.txt
