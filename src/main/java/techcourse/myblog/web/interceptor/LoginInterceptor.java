@@ -23,7 +23,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         log.debug("METHOD : {}", request.getMethod());
         log.debug("LOGIN : {}", userSession.isPresent());
 
-        if (userSession.isPresent()) {
+        if (userSession.isPresent() || request.getRequestedSessionId() != null) {
             return true;
         }
         response.sendRedirect("/login");

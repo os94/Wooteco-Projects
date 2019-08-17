@@ -66,10 +66,10 @@ public class CommentController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private Comment convert(CommentDto commentDto, HttpSession httpSession) {
+    private Comment convert(long articleId, CommentRequest commentRequest, HttpSession httpSession) {
         User author = (User) httpSession.getAttribute(SESSION_USER);
-        Article article = articleService.findById(commentDto.getArticleId());
-        return new Comment(commentDto.getContents(), author, article);
+        Article article = articleService.findById(articleId);
+        return new Comment(commentRequest.getContents(), author, article);
     }
 
     private CommentsResponse convert(List<Comment> comments) {
