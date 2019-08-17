@@ -50,10 +50,10 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public RedirectView updateComment(@PathVariable long articleId, @PathVariable long commentId, String contents, HttpSession httpSession) {
+    public ResponseEntity updateComment(@PathVariable long commentId,@RequestBody String contents, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         commentService.updateByIdAsAuthor(commentId, contents, loginUser);
-        return new RedirectView("/articles/" + articleId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{commentId}")

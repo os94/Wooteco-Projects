@@ -87,7 +87,7 @@
                         <form th:action="${#strings.concat('/articles/', article.id, '/comments/')}"
                               name="comment" method="post" accept-charset="UTF-8">
                             <input type="hidden" name="articleId" th:value="${article.id}">
-                            <input id="comment-contents" name="contents" type="hidden">
+                            <input id="new-comment-contents" name="contents" type="hidden">
                             <div id="editSection" ></div>
                             <button id="save-btn" type="button" class="btn btn-default btn-group">
                                 <i class="ti-save"></i>
@@ -148,9 +148,9 @@
 
     // 댓글 생성
     const createComment = function() {
-        const newCommentContents = document.getElementById('comment-contents').value;
+        const newContents = document.getElementById('new-comment-contents').value;
         const body = {
-            "contents": newCommentContents,
+            "contents": newContents,
             "articleId": articleId
         };
         const init = {
@@ -175,7 +175,31 @@
     };
 
     // 댓글 수정
-    const updateComment = function (event) {
+    const updateComment = function (commentId) {
+        const updatedContents = document.getElementById('comment-update-' + commentId).children[0].value;
+        const init = {
+            method: 'put',
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+            body: updatedContents
+        };
+
+        fetch('http://localhost:8080/articles/' + articleId + '/comments/' + commentId, init)
+            .then(response => {
+                if (response.ok) {
+                    loadComments();
+                } else {
+                    throw response.statusText;
+                }
+            }).catch(error => {
+            console.log('error: ', error);
+            alert('댓글 수정에 실패했습니다.');
+        });
+    };
+
+    // 댓글 수정 화면
+    const editComment = function (event) {
         let target = event.target;
         if (target.parentElement.classList.contains('update-button')) {
             target = target.parentElement;
@@ -183,8 +207,16 @@
         if (!target.classList.contains('update-button')) {
             return;
         }
-        console.log('update!');
-    }
+
+        const commentId = target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        const contentsElement = target.parentElement.parentElement.children[2];
+        contentsElement.innerHTML = "<form class='form-inline'>\n" +
+            "           <div class='form-group comment-contents' id='comment-update-" + commentId + "'>\n" +
+            "               <input type='text' class='form-control' value='" + contentsElement.innerText + "'>\n" +
+            "               <button type='button' class='btn btn-light' onclick='updateComment(" + commentId + ")' >수정</button>\n" +
+            "           </div>\n" +
+            "        </form>";
+    };
 
     // 댓글 삭제
     const deleteComment = function (event) {
@@ -231,7 +263,7 @@
     window.addEventListener('DOMContentLoaded', loadComments);
     document.getElementById("save-btn").addEventListener('click', createComment);
     document.getElementById("comments").addEventListener('click', event => {
-        updateComment(event);
+        editComment(event);
         deleteComment(event);
     });
 </script>
@@ -250,16 +282,11 @@
         previewStyle: 'horizontal',
         events: {
             change: function () {
-                document.getElementById('comment-contents').setAttribute('value', editor.getMarkdown())
+                document.getElementById('new-comment-contents').setAttribute('value', editor.getMarkdown())
             }
         },
         height: '200px'
     });
-
-    function editBtnClickHandler(index) {
-        const content = document.getElementById("contents-"+index);
-        content.innerHTML = "<textarea name='contents'>" + content.innerText + "</textarea>  <button value='수정' type='submit'>수정</button>"
-    }
 </script>
 <script id='template' type="text/template">
     <li class="comment-item border bottom mrg-btm-30">
