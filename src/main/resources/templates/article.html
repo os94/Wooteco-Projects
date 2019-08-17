@@ -117,8 +117,13 @@
         };
 
         fetch('/articles/' + articleId + '/comments', init)
-            .then(response => response.json())
-            .then(data => {
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw response.statusText;
+                }
+            }).then(data => {
                 let template = document.getElementById('template');
                 let commentSize = 0;
                 let commentList = document.getElementById('comments');
@@ -142,7 +147,7 @@
     };
 
     // 댓글 생성
-    const createComments = function() {
+    const createComment = function() {
         const newCommentContents = document.getElementById('comment-contents').value;
         const body = {
             "contents": newCommentContents,
@@ -169,6 +174,52 @@
         });
     };
 
+    // 댓글 수정
+    const updateComment = function (event) {
+        let target = event.target;
+        if (target.parentElement.classList.contains('update-button')) {
+            target = target.parentElement;
+        }
+        if (!target.classList.contains('update-button')) {
+            return;
+        }
+        console.log('update!');
+    }
+
+    // 댓글 삭제
+    const deleteComment = function (event) {
+        let target = event.target;
+        if (target.parentElement.classList.contains('delete-button')) {
+            target = target.parentElement;
+        }
+        if (!target.classList.contains('delete-button')) {
+            return;
+        }
+        if (confirm("댓글을 삭제하시겠습니까?") === false) {
+            return;
+        }
+
+        const commentId = target.parentElement.parentElement.parentElement.getAttribute('data-id');
+        const init = {
+            method: 'delete',
+            headers: {
+                "Content-Type": "application/json;charset=UTF-8"
+            },
+        };
+
+        fetch('http://localhost:8080/articles/' + articleId + '/comments/' + commentId, init)
+            .then(response => {
+                if (response.ok) {
+                    loadComments();
+                } else {
+                    throw response.statusText;
+                }
+            }).catch(error => {
+            console.log('error: ', error);
+            alert('댓글 삭제에 실패했습니다.');
+        });
+    };
+
     const updateCommentSize = function (commentSize) {
         document.getElementById('commentSize').innerText = commentSize;
     };
@@ -178,7 +229,11 @@
     };
 
     window.addEventListener('DOMContentLoaded', loadComments);
-    document.getElementById("save-btn").addEventListener('click', createComments);
+    document.getElementById("save-btn").addEventListener('click', createComment);
+    document.getElementById("comments").addEventListener('click', event => {
+        updateComment(event);
+        deleteComment(event);
+    });
 </script>
 <script>
     const initValue = "";
@@ -208,7 +263,7 @@
 </script>
 <script id='template' type="text/template">
     <li class="comment-item border bottom mrg-btm-30">
-        <span id="comment-{comment.id}">
+        <span data-id="{comment.id}">
             <img class="thumb-img img-circle"
                  src="https://avatars3.githubusercontent.com/u/50367798?v=4" alt="">
             <div class="info">
@@ -216,6 +271,14 @@
                 <span class="sub-title inline-block pull-right">
                     <i class="ti-timer pdd-right-5"></i>
                     <span>{comment.lastModifiedDate}</span>
+                    <button type="submit" class="float-right delete-button"
+                            style="border: transparent; background: transparent;">
+                        <i class="ti-trash font-size-16 text-gray"></i>
+                    </button>
+                    <button type="submit" class="float-right update-button"
+                            style="border: transparent; background: transparent;">
+                        <i class="ti-pencil font-size-16 text-gray"></i>
+                    </button>
                 </span>
                 <p class="width-80">{comment.contents}</p>
             </div>

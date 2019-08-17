@@ -57,10 +57,10 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public RedirectView deleteComment(@PathVariable long commentId, long articleId, HttpSession httpSession) {
+    public ResponseEntity deleteComment(@PathVariable long commentId, HttpSession httpSession) {
         User loginUser = (User) httpSession.getAttribute(SESSION_USER);
         commentService.deleteByIdAsAuthor(commentId, loginUser);
-        return new RedirectView("/articles/" + articleId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     private Comment convert(CommentDto commentDto, HttpSession httpSession) {
