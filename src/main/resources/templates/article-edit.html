@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/default"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="head">
+    <title>woostagram</title>
+</th:block>
+
+<th:block layout:fragment="content">
+    <div class="page-container mrg-top-120">
+        <div class="main-content">
+            <div class="container-fluid max-width-lg mx-auto">
+                <div class="row">
+                    <div class="col-lg-7 mx-auto">
+                        <div class="card widget-feed no-pdd mrg-btm-70">
+                            <form id="saveForm" name="saveForm"
+                                  enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="hashtag">해시태그</label>
+                                    <input type="text" name="hashtag" size="50" id="hashtag">
+                                    <br>
+                                    <label for="contents">내용</label>
+                                    <input type="text" name="contents" id="contents"/>
+                                    <br>
+                                    <label for="file">파일 업로드</label>
+                                    <input type="file" name="file" id="file">
+                                    <br>
+                                </div>
+                                <button id="save-button" type="button">저장</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="/js/article-edit.js"></script>
+</th:block>
+</html>

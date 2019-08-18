@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/default"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="head">
+    <title>woostagram</title>
+</th:block>
+
+<th:block layout:fragment="content">
+
+    <div class="page-container mrg-top-80">
+        <form>
+            <input name="_method" type="hidden" value="put"/>
+            <div class="container-fluid max-width-lg mx-auto mrg-btm-30 padding-30">
+                <div class="row">
+                    <div class="col-md-9 mx-auto">
+                        <div class="card">
+                            <div class="card-block">
+                                <div class="row">
+                                    <div class="col-md-3 mrg-left-15">
+                                        <label class="pointer" for="img-upload">
+                                            <img alt=""
+                                                 src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4"
+                                                 width="70" style="border-radius: 50px">
+                                        </label>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="font-size-20"><b th:text="${user.nickName}">Nick Name</b></div>
+                                        <label class="mrg-top-5 pointer text-bold" for="img-upload"
+                                               style="color:dodgerblue;">프로필 사진 바꾸기</label>
+                                        <input class="d-none" id="img-upload" multiple name="uploadedimages0"
+                                               type="file">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="mrg-top-10 text-dark"><b>이름</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input id="userName" class="form-control text-bold" name="name"
+                                               th:value="${user.userName}">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="mrg-top-10 text-dark"><b>사용자 이름</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input id="nickName" class="form-control text-bold" name="nickname" type="text"
+                                               th:value="${user.nickName}">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="mrg-top-10 text-dark"><b>웹 사이트</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input id="webSite" class="form-control text-bold" name="usersite" type="text"
+                                               th:value="${user.webSite}">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="mrg-top-10 text-dark"><b>소개</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <textarea id="intro" class="form-control text-bold" name="intro" type="text"
+                                                  th:text="${user.intro}"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label class="mrg-top-10 text-dark"><b>비밀번호</b></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input id="password" class="form-control text-bold" name="password"
+                                               type="password"
+                                               th:value="${user.password}">
+                                    </div>
+                                </div>
+                                <hr>
+                                <input type="hidden" id="userId" th:value="${user.id}">
+                                <button id="editButton" class="btn btn-info mrg-top-20 relative bottom-5">수정</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/user.js"></script>
+</th:block>
+</html>

@@ -1,0 +1,125 @@
+@media only screen and (min-width: 480px) {
+    .mobile-view {
+        display: none;
+    }
+
+    .desktop-view {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .mobile-view {
+        display: block;
+    }
+
+    .desktop-view {
+        display: none;
+    }
+}
+
+header ul.nav-right li, header ul.nav-left li {
+    height: 76px;
+}
+
+.header {
+    background-color: white;
+    padding: 0 16px;
+    height: 76px;
+    top: 0px;
+}
+
+.logo {
+    width: 170px;
+    height: auto;
+    line-height: 76px;
+    position: relative;
+}
+
+.user-profile {
+    height: 43px;
+}
+
+.profile-img {
+    width: 24px;
+    height: 24px;
+}
+
+.add-comment textarea::placeholder {
+    color: #666;
+}
+
+.mini-profile-img {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.activated-heart {
+    color:#ed4956;
+}
+
+.hashtag {
+    color: #003569;
+}
+
+.search-input .advanced-search .search-wrapper .search-result-item {
+    height: 40px;
+}
+
+.user-image {
+    width: 30%;
+    margin-outside: 50px;
+}
+
+.user-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    display: inline-block;
+}
+
+.user-info input {
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: transparent;
+    color: black;
+    border: 1px solid #e7e7e7;
+}
+
+.user-info .user-id {
+    font-size: 2rem;
+}
+
+.user-info .edit-button {
+    width: 60px;
+    height: auto;
+}
+
+.user-info span {
+    font-size: 1.1rem;
+    display: inline-block;
+}
+
+.user-info .user-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.user-info.items {
+    padding-left: 30px;
+}
+
+
+.items {
+    float:left;
+    display: inline-block;
+}
