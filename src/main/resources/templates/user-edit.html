@@ -20,6 +20,7 @@
                                     <div class="col-md-3 mrg-left-15">
                                         <label class="pointer" for="img-upload">
                                             <img alt=""
+                                                 id="profile-image"
                                                  src="https://avatars3.githubusercontent.com/u/46308949?s=460&v=4"
                                                  width="70" style="border-radius: 50px">
                                         </label>
@@ -28,7 +29,8 @@
                                         <div class="font-size-20"><b th:text="${user.nickName}">Nick Name</b></div>
                                         <label class="mrg-top-5 pointer text-bold" for="img-upload"
                                                style="color:dodgerblue;">프로필 사진 바꾸기</label>
-                                        <input class="d-none" id="img-upload" multiple name="uploadedimages0"
+                                        <input class="d-none" id="img-upload" name="uploadedimages0"
+                                               accept="image/*"
                                                type="file">
                                     </div>
                                 </div>
@@ -38,18 +40,18 @@
                                         <label class="mrg-top-10 text-dark"><b>이름</b></label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input id="userName" class="form-control text-bold" name="name"
-                                               th:value="${user.userName}">
+                                        <input id="user-name" class="form-control text-bold" name="name"
+                                               th:value="${user.userName}" minlength="2" maxlength="10" required>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label class="mrg-top-10 text-dark"><b>사용자 이름</b></label>
+                                        <label class="mrg-top-10 text-dark"><b>닉네임</b></label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input id="nickName" class="form-control text-bold" name="nickname" type="text"
-                                               th:value="${user.nickName}">
+                                        <input id="nick-name" class="form-control text-bold" name="nickName" type="text"
+                                               th:value="${user.nickName}" minlength="2" maxlength="10" required>
                                     </div>
                                 </div>
                                 <hr>
@@ -80,12 +82,17 @@
                                     <div class="col-md-8">
                                         <input id="password" class="form-control text-bold" name="password"
                                                type="password"
-                                               th:value="${user.password}">
+                                               th:value="${user.password}" minlength="4" maxlength="16" required>
                                     </div>
                                 </div>
                                 <hr>
                                 <input type="hidden" id="userId" th:value="${user.id}">
-                                <button id="editButton" class="btn btn-info mrg-top-20 relative bottom-5">수정</button>
+                                <div class="text-center">
+                                    <button id="editButton" class="btn btn-info mrg-top-20 bottom-5">수정</button>
+                                    <button class="btn btn-danger mrg-top-20 bottom-5" data-toggle="modal"
+                                            data-target="#exampleModal" onclick="return false;">삭제
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -94,6 +101,29 @@
         </form>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">회원 탈퇴</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    정말 삭제하시겠습니까?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+                    <button id="deleteButton" type="button" class="btn btn-danger">삭제</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/fetchApi.js"></script>
+    <script src="/js/fileLoadApi.js"></script>
     <script src="/js/user.js"></script>
 </th:block>
 </html>

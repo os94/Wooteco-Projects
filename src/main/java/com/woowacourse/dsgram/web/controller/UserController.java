@@ -1,7 +1,7 @@
 package com.woowacourse.dsgram.web.controller;
 
 import com.woowacourse.dsgram.service.UserService;
-import com.woowacourse.dsgram.service.dto.user.LoginUserRequest;
+import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,20 +33,28 @@ public class UserController {
     @GetMapping("/users/{userId}/edit")
     public String showUserEdit(@PathVariable long userId,
                                Model model,
-                               @UserSession LoginUserRequest loginUserRequest) {
-        model.addAttribute("user", userService.findUserInfoById(userId, loginUserRequest));
-        return "account-edit";
+                               @UserSession LoggedInUser loggedInUser) {
+        model.addAttribute("user", userService.findUserInfoById(userId, loggedInUser));
+
+        return "user-edit";
     }
 
     @GetMapping("/logout")
     public String logout(HttpSession httpSession) {
-        httpSession.removeAttribute("sessionUser");
+        httpSession.removeAttribute(LoggedInUser.SESSION_USER);
         return "redirect:/login";
     }
 
     @GetMapping("/oauth")
     public String test(@RequestParam String code, HttpSession httpSession) {
-        httpSession.setAttribute("sessionUser", userService.oauth(code));
+        httpSession.setAttribute(LoggedInUser.SESSION_USER, userService.oauth(code));
         return "redirect:/login";
+    }
+
+    // TODO: 2019-08-20 my feed뿐만 아니라, 다른 user feed도 사용할 수 있도록 이름 바꾸기
+    // TODO: 2019-08-20 real instagram은 뒤에 email을 붙임.... 우린 users/1/edit, myfeed/1 이렇게 될거같은데 바꿔야될듯ㅎㅎ^^;;;;;;;;
+    @GetMapping("/myfeed/{userId}")
+    public String showMyFeed(@PathVariable long userId) {
+        return "my-feed";
     }
 }

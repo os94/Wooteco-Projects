@@ -1,19 +1,18 @@
 package com.woowacourse.dsgram.web.controller;
 
-import com.woowacourse.dsgram.service.dto.user.AuthUserRequest;
 import com.woowacourse.dsgram.service.dto.user.SignUpUserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ArticleControllerTests extends AbstractControllerTest {
+public class ArticleControllerTest extends AbstractControllerTest {
 
     private String cookie;
+    private SignUpUserRequest signUpUserRequest;
 
     @BeforeEach
     void setUp() {
-        SignUpUserRequest signUpUserRequest = new SignUpUserRequest(AUTO_INCREMENT + "test", "test", "1234", AUTO_INCREMENT + "test2@test.com");
-        defaultSignUp(signUpUserRequest, true);
-        cookie = getCookie(new AuthUserRequest(signUpUserRequest.getEmail(), signUpUserRequest.getPassword()));
+        signUpUserRequest = createSignUpUser();
+        cookie = getCookieAfterSignUpAndLogin(signUpUserRequest);
     }
 
     @Test

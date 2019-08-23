@@ -1,28 +1,25 @@
 package com.woowacourse.dsgram.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
+import com.woowacourse.dsgram.domain.Article;
+import com.woowacourse.dsgram.service.ArticleService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.IOException;
+import java.util.List;
 
 @Controller
 public class HomeController {
-    private static final Logger log = LoggerFactory.getLogger(HomeController.class);
-    @Autowired
-    ApplicationContext applicationContext;
+    private final ArticleService articleService;
+
+    public HomeController(ArticleService articleService) {
+        this.articleService = articleService;
+    }
 
     @GetMapping("/")
-    public String showMainPage() throws IOException {
-
-        Resource resource = new FileSystemResource("/");
-        log.info("{}  ,{},{}", resource.getFilename(), resource.getURL(), resource.getFile().getPath());
-        log.info("exists? {}", resource.exists());
+    public String showMainPage(Model model) {
+        List<Article> articles = articleService.findAll();
+        model.addAttribute("articles", articles);
         return "index";
     }
 }

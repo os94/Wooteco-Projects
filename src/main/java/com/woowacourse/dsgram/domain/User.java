@@ -22,15 +22,15 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Size(min = 2, max = 10)
-    @Column(unique = true)
+    @Size(min = 2, max = 30)
+    @Column(nullable = false, unique = true)
     private String nickName;
 
-    @Size(min = 2, max = 10)
+    @Size(min = 2, max = 30)
     @Column(nullable = false)
     private String userName;
 
-    @Size(min = 4, max = 16)
+    @Size(min = 4, max = 30)
     @Column(nullable = false)
     private String password;
 
@@ -40,23 +40,39 @@ public class User {
     @Lob
     private String intro;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "FILEINFO_ID")
+    private FileInfo fileInfo;
+
+    @Column(columnDefinition = "boolean default false")
+    private boolean isOauthUser;
+
     @Builder
-    public User(String email, String nickName, String userName, String password, String webSite, String intro) {
+    public User(String email, String nickName, String userName, String password, String webSite, String intro, FileInfo fileInfo, boolean isOauthUser) {
         this.email = email;
         this.nickName = nickName;
         this.userName = userName;
         this.password = password;
         this.webSite = webSite;
         this.intro = intro;
+        this.fileInfo = fileInfo;
+        this.isOauthUser = isOauthUser;
     }
 
-    public void update(User updatedUser, String email) {
-        checkEmail(email);
-        this.intro = updatedUser.intro;
-        this.userName = updatedUser.userName;
+    public void update(User updatedUser, String sessionEmail) {
+        checkEmail(sessionEmail);
         this.nickName = updatedUser.nickName;
+        this.userName = updatedUser.userName;
         this.password = updatedUser.password;
         this.webSite = updatedUser.webSite;
+        this.intro = updatedUser.intro;
+        this.fileInfo = updatedUser.fileInfo;
+    }
+
+    public void changeToOAuthUser() {
+        if (!this.isOauthUser) {
+            this.isOauthUser = true;
+        }
     }
 
     public void checkPassword(String password) {
@@ -75,6 +91,14 @@ public class User {
         return this.nickName.equals(nickName);
     }
 
+    public boolean notEqualId(long id) {
+        return this.id != id;
+    }
+
+    public boolean isNotSameId(long id) {
+        return this.id != id;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -85,8 +109,8 @@ public class User {
                 ", password='" + password + '\'' +
                 ", webSite='" + webSite + '\'' +
                 ", intro='" + intro + '\'' +
+                ", fileInfo=" + fileInfo +
+                ", isOauthUser=" + isOauthUser +
                 '}';
     }
 }
-
-

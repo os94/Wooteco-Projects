@@ -1,10 +1,10 @@
 package com.woowacourse.dsgram.service;
 
-import com.woowacourse.dsgram.domain.Article;
+import com.woowacourse.dsgram.domain.FileInfo;
+import com.woowacourse.dsgram.domain.repository.FileInfoRepository;
 import com.woowacourse.dsgram.service.exception.FileUploadException;
 import com.woowacourse.dsgram.service.exception.NotFoundFileException;
-import com.woowacourse.dsgram.service.vo.FileInfo;
-import org.springframework.beans.factory.annotation.Value;
+import com.woowacourse.dsgram.service.strategy.FileNamingStrategy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,29 +12,26 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
-import java.util.UUID;
 
 @Service
 public class FileService {
 
-    @Value("${article.upload.path}")
-    private String articleUploadPath;
+    private final FileInfoRepository fileInfoRepository;
 
-    @Value("${tomcat.path}")
-    private String tomcatPath;
+    public FileService(FileInfoRepository fileInfoRepository) {
+        this.fileInfoRepository = fileInfoRepository;
+    }
 
-    @Value("${BASE_DIR}")
-    private String baseDir;
-
-    public FileInfo save(MultipartFile multiFile) {
-        String fileName = UUID.randomUUID().toString() + multiFile.getOriginalFilename();
-        String filePath = baseDir + tomcatPath + articleUploadPath;
+    public FileInfo save(MultipartFile multiFile, FileNamingStrategy strategy) {
+        String fileName = strategy.makeUniquePrefix(multiFile.getOriginalFilename());
+        String filePath = strategy.makePath();
 
         makeDirectory(filePath);
         saveFile(multiFile, fileName, filePath);
 
-        return new FileInfo(fileName, filePath);
+        return fileInfoRepository.save(new FileInfo(fileName, filePath));
     }
+
 
     private void makeDirectory(String filePath) {
         File directory = new File(filePath);
@@ -52,15 +49,13 @@ public class FileService {
         }
     }
 
-    public byte[] readFile(Article article) {
-        File file = new File(article.getFilePath() + "/" + article.getFileName());
-
+    public byte[] readFileByFileInfo(FileInfo fileInfo) {
+        File file = new File(fileInfo.getFilePath() + "/" + fileInfo.getFileName());
         try {
             byte[] bytes = Files.readAllBytes(file.toPath());
             return Base64.getEncoder().encode(bytes);
         } catch (IOException e) {
             throw new NotFoundFileException("파일을 찾지 못했습니다.", e);
         }
-
     }
 }
