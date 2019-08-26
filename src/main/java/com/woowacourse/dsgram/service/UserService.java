@@ -43,6 +43,7 @@ public class UserService {
         }
     }
 
+    // TODO: 2019-08-25 이거 EditUserRequest로 될 것 같은..?
     public UserDto findUserInfoById(long userId, LoggedInUser loggedInUser) {
         User user = findUserById(userId);
         user.checkEmail(loggedInUser.getEmail());
@@ -116,5 +117,9 @@ public class UserService {
         User user = findUserById(userId);
         FileInfo fileInfo = user.getFileInfo();
         return fileService.readFileByFileInfo(fileInfo);
+    }
+
+    public User findByNickName(String nickName) {
+        return userRepository.findByNickName(nickName).orElseThrow(NotFoundUserException::new);
     }
 }
