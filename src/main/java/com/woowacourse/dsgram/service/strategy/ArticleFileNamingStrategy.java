@@ -7,8 +7,8 @@ public class ArticleFileNamingStrategy extends CommonFileNamingStrategy {
     @Override
     public String makePath() {
         return getBasePath().concat(SEPARATOR)
-                .concat(getDate())
+                .concat(ARTICLES_FILES_PATH)
                 .concat(SEPARATOR)
-                .concat(ARTICLES_FILES_PATH);
+                .concat(getDate());
     }
 }
