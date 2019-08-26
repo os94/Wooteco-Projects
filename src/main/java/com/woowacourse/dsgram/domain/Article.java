@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 @Getter
 @EqualsAndHashCode(of = {"id"})
 public class Article {
-    public static final String REGEX = "#([0-9a-zA-Z가-힣_]{2,30})";
+    private static final String REGEX = "#([0-9a-zA-Z가-힣_]{2,30})";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,13 +3,13 @@ const CARD_APP = (() => {
     const CardController = function () {
         const cardService = new CardService();
 
+        const cards = document.getElementById('cards');
+
         const deleteCard = () => {
-            const cards = document.getElementById('cards');
             cards ? cards.addEventListener('click', cardService.deleteCard) : undefined;
         };
 
         const changeEditForm = () => {
-            const cards = document.getElementById('cards');
             cards ? cards.addEventListener('click', cardService.changeEditForm) : undefined;
         };
 

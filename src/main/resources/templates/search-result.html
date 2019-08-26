@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/default"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="head">
+    <title>woostagram</title>
+</th:block>
+<th:block layout:fragment="content">
+    <div>
+        <div class="page-container mrg-top-120">
+            <div class="main-content">
+                <div class="container-fluid max-width-lg mx-auto">
+                    <div class="row">
+                        <div class="col-lg-7 mx-auto">
+                            <button type="button" id="write-article-button" class="btn btn-outline-primary"
+                                    accesskey="w">피드 작성
+                            </button>
+                            <div class="justify-content-center card shadow-sm display-block pdd-top-10 pdd-horizon-20">
+                                <div class="row padding-20">
+                                    <div class="col-3 mrg-right-10">
+                                        <img th:src="'https://via.placeholder.com/100x100.png?text=' + ${query}" class="rounded-circle mx-auto d-block" alt="...">
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="row">
+                                            <p class="inline-block lead text-gray font-size-25"># </p>
+                                            <p id="query" class="inline-block lead font-size-25" th:text="${query}"></p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="inline-block lead font-size-15">게시물 <span id="count"></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="cards">
+
+                            </div>
+                            <div id="end"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>
