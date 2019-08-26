@@ -150,7 +150,15 @@ const USER_APP = (() => {
             const connector = FETCH_APP.FetchApi();
 
             const getImage = response => {
+                function checkEmptyImage(buffer) {
+                    return buffer.byteLength === 0;
+                }
+
                 response.arrayBuffer().then(buffer => {
+                    if (checkEmptyImage(buffer)) {
+                        return;
+                    }
+
                     const bytes = new Uint8Array(buffer);
                     let binary = '';
                     bytes.forEach(b => binary += String.fromCharCode(b));
