@@ -30,23 +30,24 @@ HEADER_APP = (() => {
         const connector = FETCH_APP.FetchApi();
         const template = TEMPLATE_APP.TemplateService();
 
+        const cachingResult = new Map();
+
         const searchHashTag = event => {
             const searchResult = document.getElementById('search-result');
 
-            const getSearchResult = response => {
-                response.json()
-                    .then(data => {
-                        removeChildElements();
-                        data['hashTags'].forEach(hashTag => {
-                            // const a = searchResultTemplate;
-                            searchResult.insertAdjacentHTML('beforeend', template.searchResult(hashTag));
-                        });
+            const query = event.target.value
+                .replace(new RegExp('#', 'gi'), ''); // user 검색과 분기 처리
 
-                        toggleSearchList();
-                    });
-
+            const showSuggestions = data => {
                 const removeChildElements = () => {
                     searchResult.innerHTML = '';
+                };
+
+                const insertResultElements = data => {
+                    data['hashTags'].forEach(hashTag => {
+                        // const a = searchResultTemplate;
+                        searchResult.insertAdjacentHTML('beforeend', template.searchResult(hashTag));
+                    });
                 };
 
                 const toggleSearchList = () => {
@@ -57,12 +58,25 @@ HEADER_APP = (() => {
                     }
                     advancedSearch.classList.remove('active');
                 };
+
+                removeChildElements();
+                insertResultElements(data);
+                toggleSearchList();
             };
 
-            const query = event.target.value
-                .replace(new RegExp('#', 'gi'), ''); // TODO 사람 검색과 분기 처리!!
+            const getSearchResult = response => {
+                response.json()
+                    .then(data => {
+                        showSuggestions(data);
+                        cachingResult.set(query, data);
+                    });
+            };
 
-            connector.fetchTemplateWithoutBody(`/api/hashTag?query=${query}`, connector.GET, getSearchResult)
+            if (cachingResult.has(query)) {
+                showSuggestions(cachingResult.get(query));
+                return;
+            }
+            connector.fetchTemplateWithoutBody(`/api/hashTag?query=${query}`, connector.GET, getSearchResult);
         };
 
         const toggleSearchInput = event => {
@@ -77,14 +91,7 @@ HEADER_APP = (() => {
             const regex = new RegExp('#([0-9a-zA-Z가-힣_]{2,30})', 'g');
 
             contents.forEach(content => {
-                const contentsHtml = content.innerHTML;
-
-                const tag = contentsHtml.match(regex);
-                tag.forEach(tag => {
-                    // TODO 오상씨.. 이거 외않되?
-                    const tagRegex = new RegExp(/[가-힣]/).test(tag.substr(-1)) ? new RegExp(`\\${tag}\\B`, 'g') : new RegExp(`\\${tag}\\b`, 'g');
-                    content.innerHTML = content.innerHTML.replace(tagRegex, `<a href="/tags/${tag.substr(1)}">${tag}</a>`);
-                });
+                content.innerHTML = content.innerHTML.replace(regex, '<a href="/tags/$1">#$1</a>')
             });
         };
 
