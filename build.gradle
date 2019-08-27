@@ -19,6 +19,10 @@ configurations {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 repositories {
     mavenCentral()
 }
@@ -44,4 +48,5 @@ dependencies {
     testImplementation ('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit'
     }
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
