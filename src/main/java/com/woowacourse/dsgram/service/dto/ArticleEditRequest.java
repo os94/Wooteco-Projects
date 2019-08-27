@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 public class ArticleEditRequest {
     private String contents;
-    // TODO: hashtag 필드 추가 예정
 
     public ArticleEditRequest(String contents) {
         this.contents = contents;

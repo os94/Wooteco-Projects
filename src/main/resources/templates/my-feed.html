@@ -21,31 +21,49 @@
                                 </div>
                                 <div class="user-info items">
                                     <div>
-                                        <span class="user-id">insta_bug_</span>&nbsp;&nbsp;
-                                        <input type="button" value="프로필 편집">
-                                        <div class="dropdown">
-                                            <a class="pointer active dropdown-toggle" data-toggle="dropdown"
-                                               aria-haspopup="true" aria-expanded="false">
-                                                <i class="ti-settings font-size-25"></i>
-                                            </a>
-                                            <!--Drop-down-->
-                                            <div class="dropdown-menu">
-                                                <!--                                                // TODO link 넣기!!-->
-                                                <a class="dropdown-item" href="#">회원정보 수정</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="/logout">로그아웃</a>
+                                        <input id="guest" type="hidden" th:value="${session.sessionUser.nickName}">
+                                        <span id="feedOwner" class="user-id mrg-right-10" th:text="${feedInfo.user.nickName}"></span>
+                                        <!--                                                // TODO 프로필 편집 두군데..? 일단 아래로 설정? -->
+                                        <form th:if="${feedInfo.followRelation.name() == 'FOLLOW'}">
+                                            <button id="unfollow" class="btn btn-default">언팔로우</button>
+                                        </form>
+                                        <form th:if="${feedInfo.followRelation.name() == 'UNFOLLOW'}">
+                                            <button id="follow" class="btn btn-primary">팔로우</button>
+                                        </form>
+                                            <span th:if="${feedInfo.followRelation.name() == 'MINE'}">
+                                            <button class="btn btn-default text-bold mrg-right-10">프로필 편집</button>
+                                            <span>
+                                            <div class="dropdown">
+                                                <a class="pointer active dropdown-toggle" data-toggle="dropdown"
+                                                   aria-haspopup="true" aria-expanded="false">
+                                                    <i class="ti-settings font-size-25"></i>
+                                                </a>
+                                                <!--Drop-down-->
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item"
+                                                       th:href="@{/users/{userId}/edit(userId=${session.sessionUser.id})}">회원정보 수정</a>
+                                                    <div class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="/logout">로그아웃</a>
+                                                </div>
                                             </div>
-                                        </div>
+                                            </span>
+                                        </span>
                                     </div>
+
                                     <br/>
                                     <div>
-                                        <span>게시물283</span>
-                                        <span>팔로워2</span>
-                                        <span>팔로우501</span>
+                                        <span>게시물</span>
+                                        <span class="text-bold mrg-right-20"
+                                              th:text="${feedInfo.articles.size()}"></span>
+                                        <span>팔로워</span>
+                                        <span id="followers" class="text-bold mrg-right-20" th:text="${feedInfo.followers}" data-toggle="modal" data-target="#exampleModal"></span>
+
+                                        <span>팔로우</span>
+                                        <span id="followings" class="text-bold mrg-right-20" th:text="${feedInfo.followings}"></span>
                                     </div>
                                     <br/><br/>
                                     <div>
-                                        <span class="user-name">kim_gorae</span>
+                                        <span class="user-name" th:text="${feedInfo.user.userName}"></span>
                                     </div>
                                 </div>
                             </div>
@@ -63,183 +81,57 @@
                 <a class="nav-link" href="#">Link</a>
             </li>
         </ul>
-        <div class="main-content">
+        <div class="main-content mrg-top-20">
             <div class="container-fluid max-width-lg mx-auto">
                 <div class="row">
                     <div class="col-lg-7 mx-auto">
-                        <div class="card widget-feed no-pdd mrg-btm-70">
-                            <div class="feed-header padding-15">
-                                <ul class="list-unstyled list-info">
-                                    <li>
-                                        <img class="thumb-img img-circle" src="/images/default/eastjun_profile.jpg"
-                                             alt="">
-                                        <div class="info">
-                                            <a href=""
-                                               class="title no-pdd-vertical text-bold inline-block font-size-15">준의게시물</a>
-                                        </div>
-                                    </li>
-                                    <a class="pointer absolute top-10 right-0" data-toggle="dropdown"
-                                       aria-expanded="false">
-                                        <span class="btn-icon text-dark">
-                                            <i class="ti-more font-size-16"></i>
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="pointer">
-                                                <i class="ti-trash pdd-right-10 text-dark"></i>
-                                                <span class="">게시글 삭제</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </ul>
-                            </div>
-                            <div class="feed-body no-pdd">
-                                <img class="img-fluid" src="/images/default/sample_img_02.jpg" alt="">
-                            </div>
-                            <ul class="feed-action pdd-horizon-15 pdd-top-5">
-                                <li>
-                                    <a href="">
-                                        <i class="fa fa-heart-o font-size-25"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-comment font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-export font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li class="float-right">
-                                    <a href="" class="pdd-right-0">
-                                        <i class="fa fa-bookmark-o font-size-25"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="feedback-status-container pdd-horizon-15">
-                                <img class="mini-profile-img" src="/images/default/eastjun_profile.jpg">
-                                <p class="no-mrg pdd-left-5 d-inline-block">
-                                    <span class="text-bold">준의게시물</span>님 외 <span class="text-bold">37</span>명이 좋아합니다.
-                                </p>
-                            </div>
-                            <div class="feed-footer">
-                                <div class="comment">
-                                    <ul class="list-unstyled list-info pdd-horizon-5">
-                                        <li class="comment-item no-pdd">
-                                            <div class="info pdd-left-15 pdd-vertical-5">
-                                                <a href=""
-                                                   class="title no-pdd-vertical text-bold inline-block font-size-15">brown2</a>
-                                                <span class="font-size-14">안돌 어디갔다 온거였지?</span>
-                                                <p>
-                                                    우테코 1기 단체 사진 드디어 촬영!!!
-                                                    래밸 1 방학식
-                                                </p>
-                                                <p>
-                                                    <a href="" class="hashtag">#우테코1기</a>
-                                                    <a href="" class="hashtag">#베스트커플상</a>
-                                                </p>
-                                                <time class="font-size-8 text-gray d-block">12시간 전</time>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="add-comment relative">
-                                        <textarea rows="1" class="form-control text-dark padding-15"
-                                                  placeholder="댓글 달기..."></textarea>
-                                        <div class="absolute top-5 right-0">
-                                            <button class="btn btn-default no-border text-gray">게시</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card widget-feed no-pdd mrg-btm-70">
-                            <div class="feed-header padding-15">
-                                <ul class="list-unstyled list-info">
-                                    <li>
-                                        <img class="thumb-img img-circle" src="/images/default/eastjun_profile.jpg"
-                                             alt="">
-                                        <div class="info">
-                                            <a href=""
-                                               class="title no-pdd-vertical text-bold inline-block font-size-15">준의게시물</a>
-                                        </div>
-                                    </li>
-                                    <a class="pointer absolute top-10 right-0" data-toggle="dropdown"
-                                       aria-expanded="false">
-                                        <span class="btn-icon text-dark">
-                                            <i class="ti-more font-size-16"></i>
-                                        </span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a class="pointer">
-                                                <i class="ti-trash pdd-right-10 text-dark"></i>
-                                                <span class="">게시글 삭제</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </ul>
-                            </div>
-                            <div class="feed-body no-pdd">
-                                <img class="img-fluid" src="/images/default/sample_img_01.jpg" alt="">
-                            </div>
-                            <ul class="feed-action pdd-horizon-15 pdd-top-5">
-                                <li>
-                                    <a href="">
-                                        <i class="fa fa-heart activated-heart font-size-25"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-comment font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="">
-                                        <i class="ti-export font-size-22"></i>
-                                    </a>
-                                </li>
-                                <li class="float-right">
-                                    <a href="" class="pdd-right-0">
-                                        <i class="fa fa-bookmark font-size-25"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="feedback-status-container pdd-horizon-15">
-                                <img class="mini-profile-img" src="/images/default/eastjun_profile.jpg">
-                                <p class="no-mrg pdd-left-5 d-inline-block">
-                                    <span class="text-bold">eastjun</span>님 외 <span class="text-bold">37</span>명이 좋아합니다.
-                                </p>
-                            </div>
-                            <div class="feed-footer">
-                                <div class="comment">
-                                    <ul class="list-unstyled list-info pdd-horizon-5">
-                                        <li class="comment-item no-pdd">
-                                            <div class="info pdd-left-15 pdd-vertical-5">
-                                                <a href=""
-                                                   class="title no-pdd-vertical text-bold inline-block font-size-15">brown2</a>
-                                                <span class="font-size-14">안돌 어디갔다 온거였지?</span>
-                                                <time class="font-size-8 text-gray d-block">12시간 전</time>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="add-comment relative">
-                                        <textarea rows="1" class="form-control text-dark padding-15"
-                                                  placeholder="댓글 달기..."></textarea>
-                                        <div class="absolute top-5 right-0">
-                                            <button class="btn btn-default no-border text-gray">게시</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <button type="button" id="write-article-button" class="btn btn-outline-primary"
+                                accesskey="w">피드 작성
+                        </button>
+                        <div id="cards" th:each="article : ${feedInfo.articles}" class="card widget-feed no-pdd mrg-btm-70">
+                            <th:block th:include="fragments/card"></th:block>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modal-head" class="modal-header">
+                    <h5 class="modal-title text-center text-bold" id="exampleModalLabel">팔로워</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="follower-info" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    // TODO 이부분 index랑 겹칩니다.-->
+    <script src="/js/article.js"></script>
+    <script src="/js/fetchApi.js"></script>
+    <script src="/js/fileLoadApi.js"></script>
+    <script src="/js/card.js"></script>
+    <script src="/js/follow.js"></script>
+    <script th:inline="javascript">
+        // TODO 무한 스크롤로 변경 시 이동
+        const articles = [[${feedInfo.articles}]];
+
+        for (let i = 0; i < articles.length; i++) {
+            const articleId = articles[i].id;
+            const articleFileName = articles[i].fileInfo.fileName;
+
+            const fileLoader = FILE_LOAD_APP.FileLoadService();
+
+            fileLoader.loadMediaFile(fileLoader, articleFileName, articleId);
+        }
+    </script>
 </th:block>
 </html>

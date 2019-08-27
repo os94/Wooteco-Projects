@@ -15,8 +15,11 @@
                             <button type="button" id="write-article-button" class="btn btn-outline-primary"
                                     accesskey="w">피드 작성
                             </button>
-                            <div id="cards" th:each="article : ${articles}" class="card widget-feed no-pdd mrg-btm-70">
-                                <th:block th:include="fragments/card"></th:block>
+                            <div id="cards">
+                                <div th:each="article : ${articles}"
+                                     class="card widget-feed no-pdd mrg-btm-70 shadow-sm">
+                                    <th:block th:include="fragments/card"></th:block>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -82,12 +85,10 @@
             </div>
         </div>
     </div>
-    <script src="/js/article.js"></script>
     <script src="/js/fetchApi.js"></script>
     <script src="/js/fileLoadApi.js"></script>
-    <script src="/js/card.js"></script>
     <script th:inline="javascript">
-        // TODO 무한 스크롤로 변경 시 이동
+        // TODO 무한 스크롤로 변경 시 이동 및 위 fetchApi, fileLoadApi 제거
         const articles = [[${articles}]];
 
         for (let i = 0; i < articles.length; i++) {
