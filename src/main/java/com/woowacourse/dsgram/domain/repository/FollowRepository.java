@@ -10,4 +10,12 @@ public interface FollowRepository extends JpaRepository<Follow,Long> {
     List<Follow> findAllByTo(User user);
 
     List<Follow> findAllByFrom(User user);
+
+    Follow findByFromAndTo(User guest, User feedOwner);
+
+    long countByTo(User user);
+
+    long countByFrom(User user);
+
+    boolean existsByFromAndTo(User guest, User feedOwner);
 }

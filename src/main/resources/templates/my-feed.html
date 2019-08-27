@@ -21,9 +21,16 @@
                                 </div>
                                 <div class="user-info items">
                                     <div>
-                                        <span class="user-id mrg-right-10" th:text="${feedInfo.user.nickName}"></span>
+                                        <input id="guest" type="hidden" th:value="${session.sessionUser.nickName}">
+                                        <span id="feedOwner" class="user-id mrg-right-10" th:text="${feedInfo.user.nickName}"></span>
                                         <!--                                                // TODO 프로필 편집 두군데..? 일단 아래로 설정? -->
-                                        <span th:if="${feedInfo.user.id == session.sessionUser.id}">
+                                        <form th:if="${feedInfo.followRelation.name() == 'FOLLOW'}">
+                                            <button id="unfollow" class="btn btn-default">언팔로우</button>
+                                        </form>
+                                        <form th:if="${feedInfo.followRelation.name() == 'UNFOLLOW'}">
+                                            <button id="follow" class="btn btn-primary">팔로우</button>
+                                        </form>
+                                            <span th:if="${feedInfo.followRelation.name() == 'MINE'}">
                                             <button class="btn btn-default text-bold mrg-right-10">프로필 편집</button>
                                             <span>
                                             <div class="dropdown">
@@ -41,9 +48,6 @@
                                             </div>
                                             </span>
                                         </span>
-                                        <span th:if="${feedInfo.user.id != session.sessionUser.id}">
-                                            <button class="btn btn-primary" type="button">팔로우</button>
-                                        </span>
                                     </div>
 
                                     <br/>
@@ -52,9 +56,10 @@
                                         <span class="text-bold mrg-right-20"
                                               th:text="${feedInfo.articles.size()}"></span>
                                         <span>팔로워</span>
-                                        <span class="text-bold mrg-right-20" th:text="${feedInfo.followers.size()}"></span>
+                                        <span id="followers" class="text-bold mrg-right-20" th:text="${feedInfo.followers}" data-toggle="modal" data-target="#exampleModal"></span>
+
                                         <span>팔로우</span>
-                                        <span class="text-bold mrg-right-20" th:text="${feedInfo.followings.size()}"></span>
+                                        <span id="followings" class="text-bold mrg-right-20" th:text="${feedInfo.followings}"></span>
                                     </div>
                                     <br/><br/>
                                     <div>
@@ -83,7 +88,7 @@
                         <button type="button" id="write-article-button" class="btn btn-outline-primary"
                                 accesskey="w">피드 작성
                         </button>
-                        <div id="cards" th:each="article : ${articles}" class="card widget-feed no-pdd mrg-btm-70">
+                        <div id="cards" th:each="article : ${feedInfo.articles}" class="card widget-feed no-pdd mrg-btm-70">
                             <th:block th:include="fragments/card"></th:block>
                         </div>
                     </div>
@@ -91,14 +96,33 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div id="modal-head" class="modal-header">
+                    <h5 class="modal-title text-center text-bold" id="exampleModalLabel">팔로워</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="follower-info" class="modal-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--    // TODO 이부분 index랑 겹칩니다.-->
     <script src="/js/article.js"></script>
     <script src="/js/fetchApi.js"></script>
     <script src="/js/fileLoadApi.js"></script>
     <script src="/js/card.js"></script>
+    <script src="/js/follow.js"></script>
     <script th:inline="javascript">
         // TODO 무한 스크롤로 변경 시 이동
-        const articles = [[${articles}]];
+        const articles = [[${feedInfo.articles}]];
 
         for (let i = 0; i < articles.length; i++) {
             const articleId = articles[i].id;

@@ -11,7 +11,8 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = {"id"})
-public class FileInfo {
+public class
+FileInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
