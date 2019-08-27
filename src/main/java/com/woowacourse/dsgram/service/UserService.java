@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,10 @@ public class UserService {
         if (userRepository.existsByEmail(email)) {
             throw new DuplicatedAttributeException("이미 사용중인 이메일입니다.");
         }
+    }
+
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 
     // TODO: 2019-08-25 이거 EditUserRequest로 될 것 같은..?
