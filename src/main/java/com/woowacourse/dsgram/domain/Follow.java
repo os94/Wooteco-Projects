@@ -12,7 +12,7 @@ public class Follow {
 
     @Id
     @GeneratedValue // TODO: 2019-08-25 generateType 통일성 없음
-    long id;
+            long id;
 
     @ManyToOne
     @JoinColumn(name = "follower")

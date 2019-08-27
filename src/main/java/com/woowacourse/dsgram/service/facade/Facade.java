@@ -27,10 +27,10 @@ public class Facade {
     public FeedInfo getFeedInfo(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
-        long followers =  followService.getCountOfFollowers(feedOwner);
-        long followings =  followService.getCountOfFollowings(feedOwner);
+        long followers = followService.getCountOfFollowers(feedOwner);
+        long followings = followService.getCountOfFollowings(feedOwner);
         List<Article> articles = articleService.findArticlesByAuthorNickName(toNickName);
-        FollowRelation followRelation = followService.isFollowed(guest,feedOwner);
+        FollowRelation followRelation = followService.isFollowed(guest, feedOwner);
 
         return FeedInfo.builder()
                 .user(feedOwner)
@@ -44,14 +44,14 @@ public class Facade {
     public void follow(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
-        followService.save(guest,feedOwner);
+        followService.save(guest, feedOwner);
     }
 
 
     public void unfollow(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
-        followService.delete(guest,feedOwner);
+        followService.delete(guest, feedOwner);
     }
 
     public List<FollowInfo>

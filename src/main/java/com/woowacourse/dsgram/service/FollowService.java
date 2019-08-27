@@ -22,7 +22,7 @@ public class FollowService {
     }
 
     public FollowRelation isFollowed(User guest, User feedOwner) {
-        Follow follow = getFollow(guest,feedOwner);
+        Follow follow = getFollow(guest, feedOwner);
         return FollowRelation.getRelation(follow, guest, feedOwner);
     }
 
@@ -54,20 +54,20 @@ public class FollowService {
 
 
     private Follow getFollow(User guest, User feedOwner) {
-        return followRepository.findByFromAndTo(guest,feedOwner);
+        return followRepository.findByFromAndTo(guest, feedOwner);
     }
 
     @Transactional
     public Follow save(User guest, User feedOwner) {
-        if(followRepository.existsByFromAndTo(guest,feedOwner)) {
+        if (followRepository.existsByFromAndTo(guest, feedOwner)) {
             throw new InvalidFollowException("이미 팔로우한 상태입니다.");
         }
-        return followRepository.save(new Follow(guest,feedOwner));
+        return followRepository.save(new Follow(guest, feedOwner));
     }
 
     @Transactional
     public void delete(User guest, User feedOwner) {
-        if(!followRepository.existsByFromAndTo(guest,feedOwner)) {
+        if (!followRepository.existsByFromAndTo(guest, feedOwner)) {
             throw new InvalidFollowException("현재 팔로우 상태가 아닙니다.");
         }
 
