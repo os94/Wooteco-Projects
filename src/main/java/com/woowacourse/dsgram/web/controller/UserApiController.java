@@ -1,5 +1,6 @@
 package com.woowacourse.dsgram.web.controller;
 
+import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.service.UserService;
 import com.woowacourse.dsgram.service.dto.user.AuthUserRequest;
 import com.woowacourse.dsgram.service.dto.user.EditUserRequest;
@@ -70,6 +71,11 @@ public class UserApiController {
 
     @GetMapping("/{userId}/image")
     public ResponseEntity<byte[]> showProfileImage(@PathVariable long userId) {
+        User user = userService.findUserById(userId);
+        if (user.getFileInfo() == null) {
+            return new ResponseEntity(null, HttpStatus.OK);
+        }
+
         return new ResponseEntity<>(userService.findProfileImageById(userId), HttpStatus.OK);
     }
 }
