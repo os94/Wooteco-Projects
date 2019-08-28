@@ -1,19 +1,30 @@
 package com.woowacourse.dsgram.domain;
 
-import com.sun.tools.javac.util.List;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
-public class ChatRoom {
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ChatRoom extends DateTimeBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private long hashCode;
+    @Column(unique = true, length = 50, nullable = false)
+    private long code;
 
     @OneToMany(mappedBy = "chatRoom")
-    private List<Message> messages;
+    private List<ChatMessage> chatMessages;
 
-    @OneToOne
-    private ChatUsers chatUsers;
+    @OneToMany(mappedBy = "chatRoom")
+    private List<ChatUser> chatUsers;
+
+    public ChatRoom(long code) {
+        this.code = code;
+    }
 }

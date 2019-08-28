@@ -9,20 +9,19 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Message {
+public class ChatUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Lob
-    @Column(nullable = false)
-    private String content;
-
     @ManyToOne
-    @Column(nullable = false)
-    private User from;
-
-    @ManyToOne
-    @Column(nullable = false)
     private ChatRoom chatRoom;
+
+    @ManyToOne
+    private User users;
+
+    public ChatUser(ChatRoom chatRoom, User users) {
+        this.chatRoom = chatRoom;
+        this.users = users;
+    }
 }

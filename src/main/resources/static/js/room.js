@@ -1,106 +1,104 @@
-let stompClient = null;
+CHAT_APP = (() => {
 
-const roomId = document.getElementById('roomId').innerText;
-const sessionUserId = document.getElementById('sessionUserId').value;
+    let stompClient = null;
 
-connect();
+    const ChatController = function () {
+        const chatService = new ChatService();
 
-function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-    } else {
-        $("#conversation").hide();
-    }
-    $("#greetings").html("");
-}
+        const sendMessage = () => {
+            const sendButton = document.getElementById('send');
+            sendButton ? sendButton.addEventListener('click', chatService.sendMessage) : undefined;
+        };
 
-function connect() {
-    const socket = new SockJS('/dm');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        setConnected(true);
-        console.log('Connected: ' + frame);
+        const connect = () => {
+            chatService.connect();
+        };
 
-        stompClient.subscribe(`/topic/open/${roomId}`, function (greeting) {
-            showGreeting(JSON.parse(greeting.body));
-        });
+        const showPrevMessage = () => {
+            chatService.showPrevMessages();
+        };
 
-        // stompClient.subscribe(`/user/queue/chat`, function (greeting) {
-        //     showGreeting(JSON.parse(greeting.body).content);
-        // });
-    });
-}
-
-function disconnect() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
-    setConnected(false);
-    console.log("Disconnected");
-}
-
-function sendName() {
-    const content = document.getElementById('content');
-
-    const message = {
-        from: sessionUserId,
-        content: content.value,
-        to: "dom"
-    };+
-
-    stompClient.send(`/app/dm/${roomId}`, {}, JSON.stringify(message));
-    // stompClient.send(`/app/message`, {}, JSON.stringify(message));
-
-    content.value = '';
-}
-
-function showGreeting(message) {
-    let template;
-    if (message.from === sessionUserId) {
-        template =
-            `<div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>${message.content}</p>
-              </div>
-            </div>`
-    }
-    if (message.to === sessionUserId) {
-        template =
-            `<div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>${message.content}</p>
-            </div>`
-    }
-    const messageBody = document.getElementById('message-body');
-
-    messageBody.insertAdjacentHTML('beforeend', template);
-
-    const scrollDown = () => {
-        const body = document.getElementsByTagName('body')[0];
-        window.scroll({
-            behavior: 'smooth',
-            top: body.offsetHeight,
-        })
+        const init = () => {
+            connect();
+            showPrevMessage();
+            sendMessage();
+        };
+        return {
+            init: init,
+        }
     };
 
-    scrollDown();
-}
+    const ChatService = function () {
+        const connector = FETCH_APP.FetchApi();
+        const template = TEMPLATE_APP.TemplateService();
 
-$(function () {
-    $("form").on('submit', function (e) {
-        e.preventDefault();
-    });
-    $("#connect").click(function () {
-        connect();
-    });
-    $("#disconnect").click(function () {
-        disconnect();
-    });
-    $("#send").click(function () {
-        sendName();
-    });
-});
+        const content = document.getElementById('content');
+        const roomCode = document.getElementById('room-code').value;
+        const sessionUserId = parseInt(document.getElementById('session-user-id').value);
+        const messageBody = document.getElementById('message-body');
+
+        const showPrevMessages = () => {
+            const insertMessages = response => {
+                response.json()
+                    .then(data => {
+                        data.prevMessages.forEach(message => {
+                            insertMessage(message, sessionUserId);
+                        });
+                    });
+            };
+            connector.fetchTemplateWithoutBody(`/api/chat/messages/${roomCode}`, connector.GET, insertMessages);
+        };
+
+        const insertMessage = message => {
+            messageBody.insertAdjacentHTML('beforeend', template.chatMessage(message, sessionUserId));
+            scrollDown();
+        };
+
+        const sendMessage = event => {
+            event.preventDefault();
+            const message = {
+                from: sessionUserId,
+                content: content.value,
+            };
+
+            stompClient.send(`/app/chat/${roomCode}`, {}, JSON.stringify(message));
+            content.value = '';
+        };
+
+        const scrollDown = () => {
+            const a = document.getElementsByTagName('html')[0];
+            a.scroll({
+                behavior: 'smooth',
+                top: a.offsetHeight * 2,
+            })
+        };
+
+        const connect = () => {
+            const socket = new SockJS('/dm');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                stompClient.subscribe(`/topic/open/${roomCode}`, message => {
+                    insertMessage(JSON.parse(message.body));
+                });
+            });
+        };
+
+        return {
+            connect: connect,
+            showPrevMessages: showPrevMessages,
+            sendMessage: sendMessage,
+        }
+
+    };
+
+    const init = () => {
+        const chatController = new ChatController();
+        chatController.init();
+    };
+
+    return {
+        init: init,
+    }
+})();
+
+CHAT_APP.init();
