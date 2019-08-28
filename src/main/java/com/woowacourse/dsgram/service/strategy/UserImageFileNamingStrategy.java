@@ -6,9 +6,9 @@ public class UserImageFileNamingStrategy extends CommonFileNamingStrategy {
     @Override
     public String makePath() {
         return getBasePath().concat(SEPARATOR)
-                .concat(getDate())
+                .concat(USER_IMAGE_FILES_PATH)
                 .concat(SEPARATOR)
-                .concat(USER_IMAGE_FILES_PATH);
+                .concat(getDate());
     }
 
 }

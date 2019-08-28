@@ -11,7 +11,7 @@ import java.util.UUID;
 public abstract class CommonFileNamingStrategy implements FileNamingStrategy {
 
     // TODO : NULL CHECK 어떻게?
-    private static final String basePath = System.getProperty("user.dir");
+    private static final String basePath = System.getProperty("user.home");
     private static final String FOLDER_DATE_FORMAT = "yyyyMMdd";
     private static final String TIME_ZONE = "Asia/Seoul";
     static final String SEPARATOR = "/";
@@ -29,7 +29,7 @@ public abstract class CommonFileNamingStrategy implements FileNamingStrategy {
 
     public String getBasePath() {
         if (basePath == null) {
-            throw new UserDirNullException("user.dir 이 설정되어 있지 않습니다.");
+            throw new UserDirNullException("user.home 이 설정되어 있지 않습니다.");
         }
         return basePath;
     }
