@@ -6,12 +6,11 @@ const FOLLOW_APP = (() => {
         const follow = () => {
             const followButton = document.getElementById('follow');
             followButton ? followButton.addEventListener('click', followService.follow) : undefined;
-
         };
 
         const unfollow = () => {
             const followButton = document.getElementById('unfollow');
-            followButton ? followButton.addEventListener('click', followService.unfollow) : undefined;
+            followButton ? followButton.addEventListener('click', followService.follow) : undefined;
         };
 
         const followers = () => {
@@ -19,11 +18,16 @@ const FOLLOW_APP = (() => {
             followButton ? followButton.addEventListener('click', followService.followers) : undefined;
         };
 
+        const followings = () => {
+            const followButton = document.getElementById('followings');
+            followButton ? followButton.addEventListener('click', followService.followings) : undefined;
+        };
+
         const init = () => {
             follow();
             unfollow();
             followers();
-
+            followings();
         };
 
         return {
@@ -38,8 +42,6 @@ const FOLLOW_APP = (() => {
             'Accept': 'application/json'
         };
 
-        //todo 아직 프론트에서 바꾸는거 안
-        // const followRelation = document.getElementById('follow').innerText;
         const formData = {
             fromNickName: document.getElementById('guest').value,
             toNickName: document.getElementById('feedOwner').innerText,
@@ -52,23 +54,39 @@ const FOLLOW_APP = (() => {
             connector.fetchTemplate('/follow', connector.POST, header, JSON.stringify(formData), ifSucceed)
         };
 
-        const unfollow = event => {
-            event.preventDefault();
-            const ifSucceed = () => window.location.href = '/user/' + document.getElementById('feedOwner').innerText;
-
-            connector.fetchTemplate('/unfollow', connector.DELETE, header, JSON.stringify(formData), ifSucceed)
-        };
-
         const followers = event => {
             event.preventDefault();
             const ifSucceed = response => {
                 response.json().then((res) => {
-                    const modalBody = document.getElementById('follower-info');
-                    modalBody.innerHTML = "";
+                    printModal(res);
+                    document.getElementById('follow-relation').innerText = '팔로우';
+                })
+            };
 
-                    let followerList = '';
-                    for (let i = 0; i < res.length; i++) {
-                        followerList = followerList + `<div class="content">  
+            const nickName = document.querySelector('#feedOwner').innerHTML;
+            connector.fetchTemplateWithoutBody('/followers/' + nickName, connector.GET, ifSucceed);
+        };
+
+        const followings = event => {
+            event.preventDefault();
+            const ifSucceed = response => {
+                response.json().then((res) => {
+                    printModal(res);
+                    document.getElementById('follow-relation').innerText = '팔로잉';
+                })
+            };
+
+            const nickName = document.querySelector('#feedOwner').innerHTML;
+            connector.fetchTemplateWithoutBody('/followings/' + nickName, connector.GET, ifSucceed);
+        };
+
+         const printModal = res => {
+             const modalBody = document.getElementById('follower-info');
+             modalBody.innerHTML = "";
+
+             let followerList = '';
+             for (let i = 0; i < res.length; i++) {
+                 followerList = followerList + `<div class="content">  
                                                         <div style="float: left; width: 13%;">
                                                           <img class="img-circle height-40px width-40px" src="/images/default/default_profile.png">
                                                         </div>
@@ -77,19 +95,14 @@ const FOLLOW_APP = (() => {
                                                           <div id="userName-${i}" style="font-size: small"> ${res[i].userName}</div>
                                                         </div>
                                                    </div>`
-                    }
-                    modalBody.insertAdjacentHTML('beforeend', followerList);
-                })
-            };
-            document.getElementById('followers');
-            const nickName = document.querySelector('#feedOwner').innerHTML;
-            connector.fetchTemplateWithoutBody('/followers/' + nickName, connector.GET, ifSucceed);
-        };
+             }
+             modalBody.insertAdjacentHTML('beforeend', followerList);
+         };
 
         return {
             follow: follow,
-            unfollow: unfollow,
             followers: followers,
+            followings: followings,
         }
     };
 

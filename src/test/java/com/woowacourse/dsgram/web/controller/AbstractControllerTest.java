@@ -77,6 +77,13 @@ public class AbstractControllerTest {
         return bodyBuilder;
     }
 
+    ResponseSpec requestUserFeed(String nickName, String cookie) {
+        return webTestClient.get().uri("/user/{nickName}", nickName)
+                .header("cookie", cookie)
+                .exchange()
+                .expectStatus().isOk();
+    }
+
 
     String getCookieAfterSignUpAndLogin(SignUpUserRequest userInfo) {
         getResponseAfterSignUp(userInfo);

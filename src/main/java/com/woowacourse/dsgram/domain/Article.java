@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = {"id"})
-public class Article {
+public class Article extends BaseEntity implements Comparable<Article>{
     private static final String REGEX = "#([0-9a-zA-Z가-힣_]{2,30})";
 
     @Id
@@ -67,6 +67,11 @@ public class Article {
             keywords.add(matcher.group());
         }
         return keywords;
+    }
+
+    @Override
+    public int compareTo(Article o) {
+        return o.renewTime.compareTo(this.renewTime);
     }
 
     @Override

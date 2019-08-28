@@ -6,7 +6,6 @@ import com.woowacourse.dsgram.domain.repository.FollowRepository;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;
 import com.woowacourse.dsgram.service.dto.FollowInfo;
 import com.woowacourse.dsgram.service.dto.FollowRelation;
-import com.woowacourse.dsgram.service.exception.InvalidFollowException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,19 +58,16 @@ public class FollowService {
 
     @Transactional
     public Follow save(User guest, User feedOwner) {
-        if(followRepository.existsByFromAndTo(guest,feedOwner)) {
-            throw new InvalidFollowException("이미 팔로우한 상태입니다.");
-        }
         return followRepository.save(new Follow(guest,feedOwner));
     }
 
     @Transactional
     public void delete(User guest, User feedOwner) {
-        if(!followRepository.existsByFromAndTo(guest,feedOwner)) {
-            throw new InvalidFollowException("현재 팔로우 상태가 아닙니다.");
-        }
-
         Follow follow = followRepository.findByFromAndTo(guest, feedOwner);
         followRepository.delete(follow);
+    }
+
+    public boolean existRelation(User guest, User feedOwner) {
+        return followRepository.existsByFromAndTo(guest, feedOwner);
     }
 }

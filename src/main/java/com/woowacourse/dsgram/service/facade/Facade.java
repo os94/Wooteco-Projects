@@ -11,6 +11,7 @@ import com.woowacourse.dsgram.service.dto.FollowRelation;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class Facade {
@@ -29,7 +30,9 @@ public class Facade {
         User feedOwner = userService.findByNickName(toNickName);
         long followers =  followService.getCountOfFollowers(feedOwner);
         long followings =  followService.getCountOfFollowings(feedOwner);
-        List<Article> articles = articleService.findArticlesByAuthorNickName(toNickName);
+        List<Article> articles = articleService.findArticlesByAuthorNickName(toNickName)
+                .stream().sorted()
+                .collect(Collectors.toList());
         FollowRelation followRelation = followService.isFollowed(guest,feedOwner);
 
         return FeedInfo.builder()
@@ -44,13 +47,11 @@ public class Facade {
     public void follow(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
-        followService.save(guest,feedOwner);
-    }
 
-
-    public void unfollow(String fromNickName, String toNickName) {
-        User guest = userService.findByNickName(fromNickName);
-        User feedOwner = userService.findByNickName(toNickName);
+        if(!followService.existRelation(guest,feedOwner)) {
+            followService.save(guest,feedOwner);
+            return;
+        }
         followService.delete(guest,feedOwner);
     }
 
@@ -64,6 +65,18 @@ public class Facade {
     public List<FollowInfo> getFollowings(String nickName) {
         User user = userService.findByNickName(nickName);
 
-        return followService.findFollowers(user);
+        return followService.findFollowings(user);
+    }
+
+    public List<Article> getArticlesByFollowings(String nickName) {
+        User user = userService.findByNickName(nickName);
+        List<User> followings = followService.findFollowings(user)
+                .stream().map(followInfo -> userService.findByNickName(followInfo.getNickName()))
+                .collect(Collectors.toList());
+
+        return articleService.findAll()
+                .stream().filter(article -> followings.contains(article.getAuthor()))
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

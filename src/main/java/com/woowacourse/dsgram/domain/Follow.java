@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of = {"id"})
-public class Follow {
+public class Follow extends BaseEntity{
 
     @Id
-    @GeneratedValue // TODO: 2019-08-25 generateType 통일성 없음
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
 
     @ManyToOne
