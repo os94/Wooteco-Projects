@@ -3,14 +3,13 @@ package com.woowacourse.dsgram.service;
 import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.FileInfo;
 import com.woowacourse.dsgram.domain.repository.ArticleRepository;
+import com.woowacourse.dsgram.domain.repository.CommentRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.dto.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.ArticleRequest;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +20,14 @@ import java.util.List;
 public class ArticleService {
 
     private final ArticleRepository articleRepository;
+    private final CommentRepository commentRepository;
     private final HashTagService hashTagService;
     private final FileService fileService;
     private final UserService userService; // TODO: 빼고싶음
 
-    public ArticleService(ArticleRepository articleRepository, HashTagService hashTagService, FileService fileService, UserService userService) {
+    public ArticleService(ArticleRepository articleRepository, CommentRepository commentRepository, HashTagService hashTagService, FileService fileService, UserService userService) {
         this.articleRepository = articleRepository;
+        this.commentRepository = commentRepository;
         this.hashTagService = hashTagService;
         this.fileService = fileService;
         this.userService = userService;
@@ -87,11 +88,8 @@ public class ArticleService {
         return articleRepository.findAllByAuthorNickName(nickName);
     }
 
-    public Page<Article> findAllByPage(int page) {
-        return articleRepository.findAll(PageRequest.of(page, 10));
-    }
-
     public ArticleInfo findArticleInfo(long articleId) {
-        return ArticleAssembler.toArticleInfo(findById(articleId));
+        long countOfComments = commentRepository.countByArticleId(articleId);
+        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments);
     }
 }

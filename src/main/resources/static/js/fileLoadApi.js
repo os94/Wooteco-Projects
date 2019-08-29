@@ -102,7 +102,6 @@ const FILE_LOAD_APP = (() => {
             loadProfileImageFile: loadProfileImageFile
         }
     };
-
     return {
         FileLoadService: FileLoadService
     }

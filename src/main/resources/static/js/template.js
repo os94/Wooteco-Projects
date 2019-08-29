@@ -100,14 +100,13 @@ TEMPLATE_APP = (() => {
                                     </div>
                                     <div class="feed-footer">
                                         <div class="comment">
-                                            <ul class="list-unstyled list-info pdd-horizon-5">
-                  
-                                            </ul>
-                                            <div class="add-comment relative">
-                                        <textarea rows="1" class="form-control text-dark padding-15"
+                                           <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}">댓글 모두 보기</span>
+                                            <ul class="list-unstyled list-info pdd-horizon-5"></ul>
+                                            <div class="add-comment relative" data-article-id="${articleInfo.articleId}">
+                                                <textarea rows="1" class="form-control text-dark padding-15"
                                                   placeholder="댓글 달기..."></textarea>
                                                 <div class="absolute top-5 right-0">
-                                                    <button class="btn btn-default no-border text-gray">게시</button>
+                                                    <button class="btn btn-default no-border text-gray comment-save-button">게시</button>
                                                 </div>
                                             </div>
                                         </div>

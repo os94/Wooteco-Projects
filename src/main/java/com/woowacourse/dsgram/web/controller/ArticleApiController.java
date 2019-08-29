@@ -1,6 +1,5 @@
 package com.woowacourse.dsgram.web.controller;
 
-import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.dto.ArticleEditRequest;
