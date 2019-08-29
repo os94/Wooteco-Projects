@@ -5,6 +5,7 @@ import com.woowacourse.dsgram.web.interceptor.AuthenticatedUserInterceptor;
 import com.woowacourse.dsgram.web.interceptor.UnauthenticatedUserInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
+@EnableJpaAuditing
 public class WebConfig implements WebMvcConfigurer {
 
     private static final String ALL_PATTERN = "/**";

@@ -28,12 +28,12 @@ public class Facade {
     public FeedInfo getFeedInfo(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
-        long followers =  followService.getCountOfFollowers(feedOwner);
-        long followings =  followService.getCountOfFollowings(feedOwner);
+        long followers = followService.getCountOfFollowers(feedOwner);
+        long followings = followService.getCountOfFollowings(feedOwner);
         List<Article> articles = articleService.findArticlesByAuthorNickName(toNickName)
                 .stream().sorted()
                 .collect(Collectors.toList());
-        FollowRelation followRelation = followService.isFollowed(guest,feedOwner);
+        FollowRelation followRelation = followService.isFollowed(guest, feedOwner);
 
         return FeedInfo.builder()
                 .user(feedOwner)
@@ -48,11 +48,11 @@ public class Facade {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
 
-        if(!followService.existRelation(guest,feedOwner)) {
-            followService.save(guest,feedOwner);
+        if (!followService.existRelation(guest, feedOwner)) {
+            followService.save(guest, feedOwner);
             return;
         }
-        followService.delete(guest,feedOwner);
+        followService.delete(guest, feedOwner);
     }
 
     public List<FollowInfo>

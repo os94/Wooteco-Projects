@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html layout:decorator="layout/default"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block layout:fragment="head">
+    <title>woostagram</title>
+    <link rel="stylesheet" href="/css/room.css" type="text/css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/index.css">
+</th:block>
+
+<th:block layout:fragment="content">
+    <div>
+
+        <div class="page-container mrg-vertical-50">
+            <div class="main-content">
+                <div class="container-fluid max-width-lg mx-auto">
+                    <div class="row">
+                        <div class="col-lg-7 mx-auto">
+                            <div id="main-content" class="container">
+                                <div class="row">
+                                    <input type="hidden" id="room-code" th:value="${roomCode}">
+                                    <input type="hidden" id="session-user-id" th:value="${session.sessionUser.id}">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="mesgs">
+                                            <div id="message-body" class="msg_history">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="fixed-bottom container">
+                                    <form class="bg-light rounded-lg">
+                                        <div class="row pdd-top-10">
+                                            <div class="form-group col-md-10">
+                                                <label for="content" class="sr-only">content</label>
+                                                <input type="text" id="content" class="form-control">
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button id="send" class="btn btn-primary" type="submit">Send</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+    <script src="/js/fileLoadApi.js"></script>
+    <script src="/js/fetchApi.js"></script>
+    <script src="/js/template.js"></script>
+    <script src="/js/room.js"></script>
+</th:block>
+</html>
