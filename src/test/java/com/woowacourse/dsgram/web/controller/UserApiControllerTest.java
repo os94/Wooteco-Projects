@@ -181,7 +181,6 @@ class UserApiControllerTest extends AbstractControllerTest {
                 createMultipartBodyBuilder("김포비", "반란군", "1234", "slipp.net",
                         "intro");
 
-        System.out.println("지금 몇번인데: " + LAST_USER_ID);
         ResponseSpec response = webTestClient.put().uri("/api/users/{userId}", LAST_USER_ID - 1)
                 .header("Cookie", anotherCookie)
                 .body(BodyInserters.fromObject(multipartBodyBuilder.build()))

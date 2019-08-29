@@ -55,8 +55,7 @@ public class Facade {
         followService.delete(guest, feedOwner);
     }
 
-    public List<FollowInfo>
-    getFollowers(String nickName) {
+    public List<FollowInfo> getFollowers(String nickName) {
         User user = userService.findByNickName(nickName);
 
         return followService.findFollowers(user);
