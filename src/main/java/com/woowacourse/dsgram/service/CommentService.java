@@ -12,6 +12,9 @@ import com.woowacourse.dsgram.service.exception.EmptyCommentRequestException;
 import com.woowacourse.dsgram.service.exception.NotFoundArticleException;
 import com.woowacourse.dsgram.service.exception.NotFoundCommentException;
 import com.woowacourse.dsgram.service.exception.NotFoundUserException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,8 +73,7 @@ public class CommentService {
         return new CommentResponse(commentRequest.getArticleId(), commentId, commentRequest.getContents());
     }
 
-    public List<Comment> get(Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(NotFoundArticleException::new);
-        return commentRepository.findAllByArticle(article);
+    public Page<Comment> get(Long articleId, Pageable pageable) {
+        return commentRepository.findByArticle_Id(articleId, pageable);
     }
 }

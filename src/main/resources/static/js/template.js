@@ -100,7 +100,7 @@ TEMPLATE_APP = (() => {
                                     </div>
                                     <div class="feed-footer">
                                         <div class="comment">
-                                           <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}">댓글 모두 보기</span>
+                                            <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"> ${articleInfo.countOfComments}개 댓글 모두 보기</span>
                                             <ul class="list-unstyled list-info pdd-horizon-5"></ul>
                                             <div class="add-comment relative" data-article-id="${articleInfo.articleId}">
                                                 <textarea rows="1" class="form-control text-dark padding-15"
