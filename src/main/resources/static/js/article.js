@@ -3,6 +3,9 @@ const ARTICLE_APP = (() => {
 
     const ArticleController = function () {
         const articleService = new ArticleService();
+        const loadArticles = articleService.loadArticles;
+        //todo 팔로우한 사람 글만 보이게 하는 jpa paging 쿼리문을 몰라서 일단 무한 스크롤은 적용 안 함
+        //const observer = OBSERVER_APP.observeService();
 
         const saveArticle = () => {
             const articleSaveButton = document.getElementById('save-button');
@@ -17,6 +20,7 @@ const ARTICLE_APP = (() => {
         const init = () => {
             saveArticle();
             showThumbnail();
+            loadArticles();
         };
 
         return {
@@ -25,6 +29,12 @@ const ARTICLE_APP = (() => {
     };
 
     const ArticleService = function () {
+        const connector = FETCH_APP.FetchApi();
+        const fileLoader = FILE_LOAD_APP.FileLoadService();
+        const template = TEMPLATE_APP.TemplateService();
+        const headerService = HEADER_APP.HeaderService();
+        const cards = document.getElementById('cards');
+
         const save = () => {
             const file = document.getElementById('file').value;
 
@@ -36,9 +46,8 @@ const ARTICLE_APP = (() => {
             const postForm = document.getElementById('save-form');
             const formData = new FormData(postForm);
 
-            const connector = FETCH_APP.FetchApi();
             const redirectToArticlePage = response => {
-                response.json().then(article => window.location.href = `/articles/${article.id}`);
+                response.json().then(articleId => window.location.href = `/articles/${articleId}`);
             };
             connector.fetchTemplate('/api/articles', connector.POST, {}, formData, redirectToArticlePage);
         };
@@ -68,9 +77,27 @@ const ARTICLE_APP = (() => {
             alert(`링크가 복사되었습니다. ${copiedUrl}`);
         };
 
+        // TODO search-result.js와 중복!!
+        const loadArticles = () => {
+            const addArticle = response => {
+                response.json()
+                    .then(articleInfos => {
+                        articleInfos.forEach(articleInfo => {
+                            fileLoader.loadMediaFile(fileLoader, `${articleInfo.articleFileName}`, `${articleInfo.articleId}`);
+                            fileLoader.loadProfileImageFile(fileLoader, `${articleInfo.userId}`, "thumb-img-user-");
+                            cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
+                        });
+                        headerService.applyHashTag();
+                    });
+            };
+
+            connector.fetchTemplateWithoutBody(`/api/articles`, connector.GET, addArticle);
+        };
+
         return {
             save: save,
-            changeImageJustOnFront: changeImageJustOnFront
+            changeImageJustOnFront: changeImageJustOnFront,
+            loadArticles: loadArticles
         }
     };
 

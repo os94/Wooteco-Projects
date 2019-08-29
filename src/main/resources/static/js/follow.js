@@ -80,13 +80,13 @@ const FOLLOW_APP = (() => {
             connector.fetchTemplateWithoutBody('/followings/' + nickName, connector.GET, ifSucceed);
         };
 
-         const printModal = res => {
-             const modalBody = document.getElementById('follower-info');
-             modalBody.innerHTML = "";
+        const printModal = res => {
+            const modalBody = document.getElementById('follower-info');
+            modalBody.innerHTML = "";
 
-             let followerList = '';
-             for (let i = 0; i < res.length; i++) {
-                 followerList = followerList + `<div class="content">  
+            let followerList = '';
+            for (let i = 0; i < res.length; i++) {
+                followerList = followerList + `<div class="content">  
                                                         <div style="float: left; width: 13%;">
                                                           <img class="img-circle height-40px width-40px" src="/images/default/default_profile.png">
                                                         </div>
@@ -95,9 +95,9 @@ const FOLLOW_APP = (() => {
                                                           <div id="userName-${i}" style="font-size: small"> ${res[i].userName}</div>
                                                         </div>
                                                    </div>`
-             }
-             modalBody.insertAdjacentHTML('beforeend', followerList);
-         };
+            }
+            modalBody.insertAdjacentHTML('beforeend', followerList);
+        };
 
         return {
             follow: follow,

@@ -2,27 +2,11 @@ const SEARCH_APP = (() => {
 
     const SearchController = function () {
         const searchService = new SearchService();
-
-        const loadArticleByObserve = () => {
-            const end = document.getElementById('end');
-            if (!end) {
-                return;
-            }
-            let page = 0;
-            const io = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    }
-                    searchService.loadArticles(page++);
-                });
-            });
-
-            io.observe(end);
-        };
+        const loadArticles = searchService.loadArticles;
+        const observer = OBSERVER_APP.observeService();
 
         const init = () => {
-            loadArticleByObserve();
+            observer.loadByObserve(loadArticles);
         };
 
         return {
@@ -44,13 +28,13 @@ const SEARCH_APP = (() => {
             const query = queryInput.innerText;
             const addArticle = response => {
                 response.json()
-                    .then(data => {
-                        count.innerText = data.totalElements;
+                    .then(articleInfos => {
+                        count.innerText = articleInfos.length;
 
-                        data.content.forEach(hashTag => {
-                            const article = hashTag.article;
-                            fileLoader.loadMediaFile(fileLoader, `${article.fileInfo.fileName}`, `${article.id}`);
-                            cards.insertAdjacentHTML('beforeend', template.card(article));
+                        articleInfos.forEach(articleInfo => {
+                            fileLoader.loadMediaFile(fileLoader, `${articleInfo.articleFileName}`, `${articleInfo.articleId}`);
+                            fileLoader.loadProfileImageFile(fileLoader, `${articleInfo.userId}`, "thumb-img-user-");
+                            cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
                         });
                         headerService.applyHashTag();
                     });

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html layout:decorator="layout/default"
+<html layout:decorator="layout/default-without-script"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org">
 <th:block layout:fragment="head">
@@ -13,11 +13,8 @@
                     <div class="row">
                         <div class="col-lg-7 mx-auto">
                             <div id="cards">
-                                <div th:each="article : ${articles}"
-                                     class="card widget-feed no-pdd mrg-btm-70 shadow-sm">
-                                    <th:block th:include="fragments/card"></th:block>
-                                </div>
                             </div>
+                            <div id="end"></div>
                         </div>
                     </div>
                 </div>
@@ -89,20 +86,23 @@
             </div>
         </div>
     </div>
-    <script src="/js/fetchApi.js"></script>
-    <script src="/js/fileLoadApi.js"></script>
-    <script th:inline="javascript">
-        // TODO 무한 스크롤로 변경 시 이동 및 위 fetchApi, fileLoadApi 제거
-        const articles = [[${articles}]];
+    <th:block layout:fragment="script">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+        <script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+        <script crossorigin="anonymous"
+                integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl"
+                src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 
-        for (let i = 0; i < articles.length; i++) {
-            const articleId = articles[i].id;
-            const articleFileName = articles[i].fileInfo.fileName;
+        <script src="/js/template.js"></script>
+        <script src="/js/fetchApi.js"></script>
+        <script src="/js/fileLoadApi.js"></script>
 
-            const fileLoader = FILE_LOAD_APP.FileLoadService();
+        <script src="/js/header.js"></script>
+        <script src="/js/card.js"></script>
+        <script src="/js/article.js"></script>
+    </th:block>
 
-            fileLoader.loadMediaFile(fileLoader, articleFileName, articleId);
-        }
-    </script>
+
 </th:block>
 </html>

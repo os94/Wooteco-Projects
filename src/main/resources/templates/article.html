@@ -6,6 +6,7 @@
     <title>woostagram</title>
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/index.css">
+    <link href="/css/card.css" rel="stylesheet">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -16,7 +17,7 @@
                     <div class="row">
                         <div class="col-lg-7 mx-auto">
                             <div id="cards" class="card widget-feed no-pdd mrg-btm-70">
-                                <th:block th:include="fragments/card"></th:block>
+                                <!-- insert card-->
                             </div>
                         </div>
                     </div>
@@ -24,13 +25,33 @@
             </div>
         </div>
     </div>
-    <script src="/js/fileLoadApi.js"></script>
+
     <script th:inline="javascript">
-        const fileLoad = function () {
-            const fileLoader = FILE_LOAD_APP.FileLoadService();
-            fileLoader.loadMediaFile(fileLoader, [[${article.fileInfo.fileName}]], [[${article.id}]]);
+        window.onload = function () {
+            const connector = FETCH_APP.FetchApi();
+            const cards = document.getElementById('cards');
+            const articleId = [[${articleId}]];
+
+            connector.fetchTemplateWithoutBody(`/api/articles/${articleId}`, connector.GET,
+                (response) => {
+                    response.json().then(res => {
+                        const template = TEMPLATE_APP.TemplateService().card(res);
+                        cards.insertAdjacentHTML('afterbegin', template);
+                        articleFileLoad(res.articleFileName, res.articleId);
+                        userFileLoad(res.userFileName, res.userId);
+                    });
+                });
         };
-        window.addEventListener('DOMContentLoaded', fileLoad);
+
+        const articleFileLoad = function (articleFileName, articleId) {
+            const fileLoader = FILE_LOAD_APP.FileLoadService();
+            fileLoader.loadMediaFile(fileLoader, articleFileName, articleId);
+        };
+
+        const userFileLoad = function (userFileName, userId) {
+            const fileLoader = FILE_LOAD_APP.FileLoadService();
+            fileLoader.loadProfileImageFile(fileLoader, userId, "thumb-img-user-");
+        };
     </script>
 </th:block>
 </html>

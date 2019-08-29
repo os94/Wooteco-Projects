@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ChatMessage extends DateTimeBaseEntity {
+public class ChatMessage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

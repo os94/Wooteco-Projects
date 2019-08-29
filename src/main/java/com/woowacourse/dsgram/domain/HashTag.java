@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @EqualsAndHashCode(of = "id")
-public class HashTag extends BaseEntity{
+public class HashTag extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

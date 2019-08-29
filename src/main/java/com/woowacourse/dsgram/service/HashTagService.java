@@ -3,6 +3,8 @@ package com.woowacourse.dsgram.service;
 import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.HashTag;
 import com.woowacourse.dsgram.domain.repository.HashTagRepository;
+import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
+import com.woowacourse.dsgram.service.dto.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.HashTagResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -48,9 +51,14 @@ public class HashTagService {
     }
 
     @Transactional(readOnly = true)
-    public Page<HashTag> findAllByKeyword(String keyword, int page) {
-        // TODO: 2019-08-24 날짜 순으로 정렬 -> 날짜 base entity 만들기
-        return hashTagRepository.findAllByKeywordContaining(
+    public List<ArticleInfo> findAllByKeyword(String keyword, int page) {
+        Page<HashTag> hashTags = hashTagRepository.findAllByKeywordContaining(
                 PageRequest.of(page, 10), keyword);
+
+        // TODO: 2019-08-24 날짜 순으로 정렬 -> 날짜 base entity 만들기
+        return hashTags.stream()
+                .map(HashTag::getArticle).sorted()
+                .map(ArticleAssembler::toArticleInfo)
+                .collect(Collectors.toList());
     }
 }

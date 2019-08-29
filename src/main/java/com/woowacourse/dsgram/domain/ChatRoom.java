@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class ChatRoom extends DateTimeBaseEntity {
+public class ChatRoom extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

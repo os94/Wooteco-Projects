@@ -2,8 +2,9 @@
 <div class="feed-header padding-15">
     <ul class="list-unstyled list-info">
         <li>
-            <img class="thumb-img img-circle" src="/images/default/default_profile.png"
-                 alt="">
+            <img src="/images/default/default_profile.png"
+                 th:class="'img-circle thumb-img thumb-img-user-' + ${article.author.id}"
+                 alt="" th:id="'thumb-img-' + ${article.id}">
             <div class="info">
                 <a href="" th:text="${article.author.nickName}"
                    class="title no-pdd-vertical text-bold inline-block font-size-15"></a>
@@ -11,9 +12,9 @@
         </li>
         <a class="pointer absolute top-10 right-0" data-toggle="dropdown"
            aria-expanded="false">
-                                        <span class="btn-icon text-dark">
-                                            <i class="ti-more font-size-16"></i>
-                                        </span>
+                                       <span class="btn-icon text-dark">
+                                           <i class="ti-more font-size-16"></i>
+                                       </span>
         </a>
         <ul class="dropdown-menu">
             <li>
@@ -49,7 +50,7 @@
     </li>
     <li>
         <i class="ti-export font-size-22"
-           th:onclick="|copyUrl('${article.id}')|"></i>
+           th:onclick="'copyUrl(' + ${article.id} +')'"></i>
     </li>
 
     <li class="float-right">
@@ -74,23 +75,19 @@
 </div>
 <div class="feed-footer">
     <div class="comment">
+       <span class="show-comment">
+           댓글 모두 보기
+       </span>
         <ul class="list-unstyled list-info pdd-horizon-5">
-            <li class="comment-item no-pdd">
-                <div class="info pdd-left-15 pdd-vertical-5">
-                    <a href=""
-                       class="title no-pdd-vertical text-bold inline-block font-size-15">brown2</a>
-                    <span class="font-size-14">안돌 어디갔다 온거였지?</span>
-                    <time class="font-size-8 text-gray d-block">12시간 전</time>
-                </div>
-            </li>
+
         </ul>
-        <div class="add-comment relative">
-                                        <textarea rows="1" class="form-control text-dark padding-15"
-                                                  placeholder="댓글 달기..."></textarea>
+        <div class="add-comment relative" th:data-article-id='${article.id}'>
+            <textarea class="form-control text-dark padding-15" placeholder="댓글 달기..." rows="1"></textarea>
             <div class="absolute top-5 right-0">
-                <button class="btn btn-default no-border text-gray">게시</button>
+                <button class="btn btn-default no-border text-gray comment-save-button">게시</button>
             </div>
         </div>
+
     </div>
 </div>
 </html>
