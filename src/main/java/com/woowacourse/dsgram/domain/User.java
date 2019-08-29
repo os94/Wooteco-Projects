@@ -91,10 +91,6 @@ public class User extends BaseEntity {
         return this.nickName.equals(nickName);
     }
 
-    public boolean notEqualId(long id) {
-        return this.id != id;
-    }
-
     public boolean isNotSameId(long id) {
         return this.id != id;
     }

@@ -1,11 +1,12 @@
-package com.woowacourse.dsgram.service.dto;
+package com.woowacourse.dsgram.service.dto.follow;
 
 import com.woowacourse.dsgram.domain.FileInfo;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Setter
+@ToString
 public class FollowInfo {
     private String nickName;
     private String userName;
@@ -16,5 +17,4 @@ public class FollowInfo {
         this.userName = userName;
         this.fileInfo = fileInfo;
     }
-
 }

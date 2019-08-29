@@ -56,7 +56,7 @@ public class Article extends BaseEntity implements Comparable<Article> {
     }
 
     private boolean notEqualAuthorId(long id) {
-        return this.author.notEqualId(id);
+        return this.author.isNotSameId(id);
     }
 
     public Set<String> getKeyword() {

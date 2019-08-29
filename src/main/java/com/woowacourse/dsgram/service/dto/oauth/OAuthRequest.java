@@ -2,12 +2,11 @@ package com.woowacourse.dsgram.service.dto.oauth;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-/**
- * Because of object mapping, use snake case.
- */
-@Getter
 @NoArgsConstructor
+@Getter
+@ToString
 public class OAuthRequest {
     private String code;
     private String client_id;

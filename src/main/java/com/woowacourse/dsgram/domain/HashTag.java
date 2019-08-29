@@ -1,15 +1,17 @@
 package com.woowacourse.dsgram.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
+@Getter
 @EqualsAndHashCode(of = "id")
 public class HashTag extends BaseEntity {
     @Id
@@ -27,5 +29,14 @@ public class HashTag extends BaseEntity {
     public HashTag(String keyword, Article article) {
         this.keyword = keyword;
         this.article = article;
+    }
+
+    @Override
+    public String toString() {
+        return "HashTag{" +
+                "id=" + id +
+                ", keyword='" + keyword + '\'' +
+                ", article=" + article +
+                '}';
     }
 }

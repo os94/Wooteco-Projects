@@ -3,9 +3,11 @@ package com.woowacourse.dsgram.service.dto.user;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@ToString
 public class AuthUserRequest {
     private String email;
     private String password;

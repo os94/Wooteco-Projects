@@ -8,9 +8,9 @@ import com.woowacourse.dsgram.domain.repository.ChatMessageRepository;
 import com.woowacourse.dsgram.domain.repository.ChatRoomRepository;
 import com.woowacourse.dsgram.domain.repository.ChatUserRepository;
 import com.woowacourse.dsgram.service.assembler.ChatAssembler;
-import com.woowacourse.dsgram.service.dto.ChatMessageRequest;
-import com.woowacourse.dsgram.service.dto.ChatMessageResponse;
-import com.woowacourse.dsgram.service.dto.ChatMessagesRequest;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessageRequest;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessageResponse;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessagesRequest;
 import com.woowacourse.dsgram.service.exception.NotFoundChatRoomException;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,6 @@ import java.util.Optional;
 
 @Service
 public class DirectMessageService {
-
     private final ChatMessageRepository chatMessageRepository;
     private final ChatUserRepository chatUserRepository;
     private final ChatRoomRepository chatRoomRepository;

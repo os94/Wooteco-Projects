@@ -2,3 +2,8 @@
     cursor: pointer;
     color: darkgray;
 }
+
+.cards {
+    background-color: transparent;
+    border: none
+}

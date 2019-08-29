@@ -2,7 +2,7 @@ package com.woowacourse.dsgram.service.assembler;
 
 import com.woowacourse.dsgram.domain.FileInfo;
 import com.woowacourse.dsgram.domain.User;
-import com.woowacourse.dsgram.service.dto.FollowInfo;
+import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
 import com.woowacourse.dsgram.service.dto.oauth.OAuthUserInfoResponse;
 import com.woowacourse.dsgram.service.dto.user.EditUserRequest;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;

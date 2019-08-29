@@ -1,14 +1,16 @@
 package com.woowacourse.dsgram.domain;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
+@EqualsAndHashCode(of = {"id"})
 public class ChatUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +25,14 @@ public class ChatUser {
     public ChatUser(ChatRoom chatRoom, User users) {
         this.chatRoom = chatRoom;
         this.users = users;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatUser{" +
+                "id=" + id +
+                ", chatRoom=" + chatRoom +
+                ", users=" + users +
+                '}';
     }
 }

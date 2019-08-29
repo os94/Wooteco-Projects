@@ -15,7 +15,6 @@ import java.util.List;
 @Configuration
 @EnableJpaAuditing
 public class WebConfig implements WebMvcConfigurer {
-
     private static final String ALL_PATTERN = "/**";
 
     @Value("${interceptor.unauthenticated}")

@@ -2,7 +2,7 @@ package com.woowacourse.dsgram.service.assembler;
 
 import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.User;
-import com.woowacourse.dsgram.service.dto.ArticleInfo;
+import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 
 public class ArticleAssembler {
     public static ArticleInfo toArticleInfo(Article article, long countOfComments) {

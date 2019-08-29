@@ -1,9 +1,10 @@
 package com.woowacourse.dsgram.service.dto.user;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@ToString
 public class LoggedInUser {
     public static final String SESSION_USER = "sessionUser";
 

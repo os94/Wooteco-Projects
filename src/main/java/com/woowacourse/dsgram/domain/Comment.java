@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"id"})
 public class Comment {
 
     @Id
@@ -51,5 +51,15 @@ public class Comment {
 
     public void update(CommentRequest commentRequest) {
         this.contents = commentRequest.getContents();
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", article=" + article +
+                ", user=" + user +
+                ", contents='" + contents + '\'' +
+                '}';
     }
 }

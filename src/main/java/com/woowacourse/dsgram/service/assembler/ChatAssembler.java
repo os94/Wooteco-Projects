@@ -1,8 +1,8 @@
 package com.woowacourse.dsgram.service.assembler;
 
 import com.woowacourse.dsgram.domain.ChatMessage;
-import com.woowacourse.dsgram.service.dto.ChatMessageResponse;
-import com.woowacourse.dsgram.service.dto.ChatMessagesRequest;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessageResponse;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessagesRequest;
 
 import java.util.List;
 

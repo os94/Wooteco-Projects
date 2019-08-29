@@ -4,7 +4,7 @@ import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.FileInfo;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.domain.repository.ArticleRepository;
-import com.woowacourse.dsgram.service.dto.ArticleRequest;
+import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

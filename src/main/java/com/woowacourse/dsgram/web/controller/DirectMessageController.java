@@ -1,8 +1,8 @@
 package com.woowacourse.dsgram.web.controller;
 
 import com.woowacourse.dsgram.service.DirectMessageService;
-import com.woowacourse.dsgram.service.dto.ChatMessageRequest;
-import com.woowacourse.dsgram.service.dto.ChatMessageResponse;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessageRequest;
+import com.woowacourse.dsgram.service.dto.chat.ChatMessageResponse;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import org.springframework.http.ResponseEntity;

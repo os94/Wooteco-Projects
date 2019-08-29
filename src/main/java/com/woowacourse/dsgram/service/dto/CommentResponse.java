@@ -1,12 +1,14 @@
 package com.woowacourse.dsgram.service.dto;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@ToString
 public class CommentResponse {
-
     private Long articleId;
     private Long commentId;
     private String contents;

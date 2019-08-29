@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @NoArgsConstructor
-@ToString
 @Getter
+@ToString
 public class OAuthEmailResponse {
     private String email;
     private boolean primary;

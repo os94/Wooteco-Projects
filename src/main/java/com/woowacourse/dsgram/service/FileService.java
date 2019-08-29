@@ -15,7 +15,6 @@ import java.util.Base64;
 
 @Service
 public class FileService {
-
     private final FileInfoRepository fileInfoRepository;
 
     public FileService(FileInfoRepository fileInfoRepository) {
@@ -31,7 +30,6 @@ public class FileService {
 
         return fileInfoRepository.save(new FileInfo(fileName, filePath));
     }
-
 
     private void makeDirectory(String filePath) {
         File directory = new File(filePath);

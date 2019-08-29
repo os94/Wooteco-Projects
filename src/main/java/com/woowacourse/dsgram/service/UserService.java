@@ -48,7 +48,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    // TODO: 2019-08-25 이거 EditUserRequest로 될 것 같은..?
     public UserDto findUserInfoById(long userId, LoggedInUser loggedInUser) {
         User user = findUserById(userId);
         user.checkEmail(loggedInUser.getEmail());
@@ -62,7 +61,6 @@ public class UserService {
 
     @Transactional
     public LoggedInUser update(long userId, EditUserRequest editUserRequest, LoggedInUser loggedInUser) {
-        // TODO: 2019-08-22 정리해보기^^;
         User user = findUserById(userId);
         checkDuplicatedNickName(editUserRequest, user);
         Optional<MultipartFile> maybeFile = editUserRequest.getFile();
@@ -109,7 +107,6 @@ public class UserService {
     }
 
     public void deleteUserById(long id, LoggedInUser loggedInUser) {
-        // TODO: 2019-08-20 OAUTH revoke?
         User user = findByEmail(loggedInUser.getEmail())
                 .orElseThrow(NotFoundUserException::new);
         if (user.isNotSameId(id)) {

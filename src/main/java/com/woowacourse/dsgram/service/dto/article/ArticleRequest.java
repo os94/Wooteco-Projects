@@ -1,14 +1,12 @@
-package com.woowacourse.dsgram.service.dto;
+package com.woowacourse.dsgram.service.dto.article;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Setter
+@ToString
 public class ArticleRequest {
 
     private String contents;
@@ -17,13 +15,5 @@ public class ArticleRequest {
     public ArticleRequest(String contents, MultipartFile file) {
         this.contents = contents;
         this.file = file;
-    }
-
-    @Override
-    public String toString() {
-        return "ArticleRequest{" +
-                "contents='" + contents + '\'' +
-                ", file=" + file +
-                '}';
     }
 }

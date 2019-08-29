@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class UserSessionArgumentResolver implements HandlerMethodArgumentResolver {
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(UserSession.class);

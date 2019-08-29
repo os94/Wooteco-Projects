@@ -8,7 +8,6 @@ import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.dto.user.SignUpUserRequest;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import com.woowacourse.dsgram.web.controller.exception.InvalidPatternException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -35,7 +34,7 @@ public class UserApiController {
             throw new InvalidPatternException(fieldError.getDefaultMessage());
         }
         userService.save(signUpUserRequest);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{userId}")
@@ -51,13 +50,13 @@ public class UserApiController {
 
         loggedInUser = userService.update(userId, editUserRequest, loggedInUser);
         httpSession.setAttribute(SESSION_USER, loggedInUser);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthUserRequest authUserRequest, HttpSession httpSession) {
         httpSession.setAttribute(SESSION_USER, userService.login(authUserRequest));
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userId}")
@@ -66,16 +65,16 @@ public class UserApiController {
                                      HttpSession httpSession) {
         userService.deleteUserById(userId, loggedInUser);
         httpSession.removeAttribute(SESSION_USER);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{userId}/image")
     public ResponseEntity<byte[]> showProfileImage(@PathVariable long userId) {
         User user = userService.findUserById(userId);
         if (user.getFileInfo() == null) {
-            return new ResponseEntity(null, HttpStatus.OK);
+            return ResponseEntity.ok(null);
         }
 
-        return new ResponseEntity<>(userService.findProfileImageById(userId), HttpStatus.OK);
+        return ResponseEntity.ok(userService.findProfileImageById(userId));
     }
 }

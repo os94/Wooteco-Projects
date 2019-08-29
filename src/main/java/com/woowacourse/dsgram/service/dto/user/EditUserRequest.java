@@ -7,9 +7,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Optional;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
 public class EditUserRequest {
     @NotNull
     private long id;
@@ -35,16 +36,5 @@ public class EditUserRequest {
         this.webSite = webSite;
         this.intro = intro;
         this.file = file;
-    }
-
-    public UserDto toUserDto() {
-        return UserDto.builder().id(id)
-                .userName(userName)
-                .nickName(nickName)
-                .password(password)
-                .webSite(webSite)
-                .intro(intro)
-                .build();
-
     }
 }

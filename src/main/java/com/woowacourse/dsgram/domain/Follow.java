@@ -5,11 +5,10 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 @EqualsAndHashCode(of = {"id"})
 public class Follow extends BaseEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
@@ -28,4 +27,12 @@ public class Follow extends BaseEntity {
         this.to = to;
     }
 
+    @Override
+    public String toString() {
+        return "Follow{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                '}';
+    }
 }

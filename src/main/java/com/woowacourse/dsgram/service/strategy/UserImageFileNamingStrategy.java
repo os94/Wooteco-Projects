@@ -10,5 +10,4 @@ public class UserImageFileNamingStrategy extends CommonFileNamingStrategy {
                 .concat(SEPARATOR)
                 .concat(getDate());
     }
-
 }
