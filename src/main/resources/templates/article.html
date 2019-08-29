@@ -16,7 +16,7 @@
                 <div class="container-fluid max-width-lg mx-auto">
                     <div class="row">
                         <div class="col-lg-7 mx-auto">
-                            <div id="cards" class="card widget-feed no-pdd mrg-btm-70">
+                            <div id="cards">
                                 <!-- insert card-->
                             </div>
                         </div>
@@ -37,7 +37,8 @@
             const cards = document.getElementById('cards');
             const articleId = [[${articleId}]];
 
-            FETCH_APP.FetchApi().fetchTemplateWithoutBody(`/api/articles/${articleId}`, FETCH_APP.FetchApi().GET,
+            const connector = FETCH_APP.FetchApi();
+            connector.fetchTemplateWithoutBody(`/api/articles/${articleId}`, connector.GET,
                 (response) => {
                     response.json().then(res => {
                         const template = TEMPLATE_APP.TemplateService().card(res);
@@ -56,7 +57,7 @@
 
             const userFileLoad = function (userFileName, userId) {
                 const fileLoader = FILE_LOAD_APP.FileLoadService();
-                fileLoader.loadProfileImageFile(fileLoader, userFileName, userId);
+                fileLoader.loadProfileImageFile(fileLoader, userId, 'thumb-img-user-');
             };
         })();
 

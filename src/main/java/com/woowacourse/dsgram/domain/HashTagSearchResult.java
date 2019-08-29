@@ -1,4 +1,4 @@
-package com.woowacourse.dsgram.domain.vo;
+package com.woowacourse.dsgram.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;

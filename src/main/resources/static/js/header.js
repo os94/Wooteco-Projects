@@ -88,7 +88,7 @@ HEADER_APP = (() => {
 
         const applyHashTag = () => {
             const contents = Array.from(document.getElementsByClassName('contents'));
-            const regex = new RegExp('#([0-9a-zA-Z가-힣_]{2,30})', 'g');
+            const regex = new RegExp('#([0-9a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣_]+)', 'g');
 
             contents.forEach(content => {
                 content.innerHTML = content.innerHTML.replace(regex, '<a href="/tags/$1">#$1</a>')

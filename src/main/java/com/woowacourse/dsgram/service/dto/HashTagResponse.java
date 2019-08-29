@@ -1,6 +1,6 @@
 package com.woowacourse.dsgram.service.dto;
 
-import com.woowacourse.dsgram.domain.vo.HashTagSearchResult;
+import com.woowacourse.dsgram.domain.HashTagSearchResult;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

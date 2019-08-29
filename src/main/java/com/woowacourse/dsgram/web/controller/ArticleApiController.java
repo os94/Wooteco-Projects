@@ -25,7 +25,7 @@ public class ArticleApiController {
 
     @PostMapping
     public ResponseEntity create(ArticleRequest articleRequest, @UserSession LoggedInUser loggedInUser) {
-        Long articleId = articleService.createAndFindId(articleRequest, loggedInUser);
+        long articleId = articleService.createAndFindId(articleRequest, loggedInUser);
         return ResponseEntity.ok(articleId);
     }
 
@@ -59,12 +59,7 @@ public class ArticleApiController {
     }
 
     @GetMapping("/users/{userNickname}")
-    public ResponseEntity showUserArticles(@PathVariable String userNickname) {
-        List<Article> articles = articleService.findArticlesByAuthorNickName(userNickname)
-                .stream().sorted()
-                .collect(Collectors.toList());
-
-        List<ArticleInfo> articleInfos = articles.stream().map(article -> ArticleAssembler.toArticleInfo(article)).collect(Collectors.toList());
-        return ResponseEntity.ok(articleInfos);
+    public ResponseEntity showUserArticles(@PathVariable String userNickname, int page) {
+        return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname));
     }
 }

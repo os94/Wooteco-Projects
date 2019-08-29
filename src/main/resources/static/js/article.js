@@ -83,9 +83,9 @@ const ARTICLE_APP = (() => {
                 response.json()
                     .then(articleInfos => {
                         articleInfos.forEach(articleInfo => {
-                            fileLoader.loadMediaFile(fileLoader, `${articleInfo.articleFileName}`, `${articleInfo.articleId}`);
-                            fileLoader.loadProfileImageFile(fileLoader, `${articleInfo.userId}`, "thumb-img-user-");
                             cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
+                            fileLoader.loadMediaFile(fileLoader, articleInfo.articleFileName, articleInfo.articleId);
+                            fileLoader.loadProfileImageFile(fileLoader, articleInfo.userId, "thumb-img-user-");
                         });
                         headerService.applyHashTag();
                     });

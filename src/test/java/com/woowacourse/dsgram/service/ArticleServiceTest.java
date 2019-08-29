@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -67,7 +66,7 @@ class ArticleServiceTest {
     void 게시글_생성_성공() {
         given(articleRepository.save(article)).willReturn(article);
         given(userService.findUserById(anyLong())).willReturn(user);
-//        articleService.create(articleRequest, loggedInUser);
+        articleService.createAndFindId(articleRequest, loggedInUser);
 
         verify(articleRepository).save(article);
     }
@@ -83,12 +82,5 @@ class ArticleServiceTest {
     void 게시글_조회_실패() {
         given(articleRepository.findById(anyLong())).willReturn(Optional.empty());
         assertThrows(EntityNotFoundException.class, () -> articleService.findById(1L));
-    }
-
-    @Test
-    void 게시글_페이지_조회() {
-        given(articleRepository.findById(any())).willReturn(Optional.of(article));
-        articleService.findAllByPage(DEFAULT_PAGE_NUMBER);
-        verify(articleRepository).findAll(PageRequest.of(DEFAULT_PAGE_NUMBER, 10));
     }
 }

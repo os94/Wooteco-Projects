@@ -200,22 +200,19 @@ class UserApiControllerTest extends AbstractControllerTest {
 
     @Test
     void user_탈퇴() {
-        long[] userId = new long[1];
         long[] articleId = new long[1];
 
         requestWithBodyBuilder(createMultipartBodyBuilder(), HttpMethod.POST, "/api/articles", myCookie)
                 .expectBody()
-                .jsonPath("$.id")
-                .value(id -> articleId[0] = Long.parseLong(id.toString()))
-                .jsonPath("$.author.id")
-                .value(id -> userId[0] = Long.parseLong(id.toString()));
+                .jsonPath("$")
+                .value(id -> articleId[0] = Long.parseLong(id.toString()));
 
-        webTestClient.delete().uri("/api/users/{userId}", userId[0])
+        webTestClient.delete().uri("/api/users/{userId}", LAST_USER_ID - 1)
                 .header("Cookie", myCookie)
                 .exchange()
                 .expectStatus().isOk();
 
-        webTestClient.get().uri("/articles/{articleId}", articleId[0])
+        webTestClient.get().uri("/api/articles/{articleId}", articleId[0])
                 .header("Cookie", anotherCookie)
                 .exchange()
                 .expectStatus().isBadRequest();

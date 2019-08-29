@@ -9,10 +9,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 
 class ArticleApiControllerTest extends AbstractControllerTest {
     private static String COMMON_REQUEST_URL = "/api/articles/{articleId}";
@@ -68,12 +64,7 @@ class ArticleApiControllerTest extends AbstractControllerTest {
         webTestClient.get().uri("/articles/{articleId}", articleId)
                 .header("Cookie", cookie)
                 .exchange()
-                .expectStatus().isOk()
-                .expectBody()
-                .consumeWith(res -> {
-                    String body = new String(Objects.requireNonNull(res.getResponseBody()));
-                    assertThat(body.contains(articleEditRequest.getContents())).isTrue();
-                });
+                .expectStatus().isOk();
     }
 
     @Test
@@ -92,14 +83,14 @@ class ArticleApiControllerTest extends AbstractControllerTest {
 
     @Test
     @DisplayName("게시글 삭제 성공")
-    void delete_by_Not_Author() {
+    void delete() {
         webTestClient.delete().uri(COMMON_REQUEST_URL, articleId)
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus()
                 .isOk();
 
-        webTestClient.get().uri("/articles/{articleId}", articleId)
+        webTestClient.get().uri(COMMON_REQUEST_URL, articleId)
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isBadRequest();
@@ -107,7 +98,7 @@ class ArticleApiControllerTest extends AbstractControllerTest {
 
     @Test
     @DisplayName("다른 사용자에 의한 게시글 삭제 실패")
-    void delete() {
+    void delete_by_Not_Author() {
         webTestClient.delete().uri(COMMON_REQUEST_URL, articleId)
                 .header("Cookie", anotherCookie)
                 .exchange()

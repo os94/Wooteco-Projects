@@ -1,8 +1,8 @@
 const OBSERVER_APP = (() => {
-    'use strict'
+    'use strict';
 
     const observeService = function () {
-        const loadByObserve = (load) => {
+        const loadByObserve = callBack => {
             const end = document.getElementById('end');
             if (!end) {
                 return;
@@ -13,7 +13,7 @@ const OBSERVER_APP = (() => {
                     if (!entry.isIntersecting) {
                         return;
                     }
-                    load(page++);
+                    callBack(page++);
                 });
             });
 
@@ -24,7 +24,7 @@ const OBSERVER_APP = (() => {
             loadByObserve: loadByObserve
         }
 
-    }
+    };
 
     return {
         observeService: observeService

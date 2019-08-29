@@ -2,11 +2,10 @@ const SEARCH_APP = (() => {
 
     const SearchController = function () {
         const searchService = new SearchService();
-        const loadArticles = searchService.loadArticles;
         const observer = OBSERVER_APP.observeService();
 
         const init = () => {
-            observer.loadByObserve(loadArticles);
+            observer.loadByObserve(searchService.loadArticles);
         };
 
         return {
@@ -28,12 +27,11 @@ const SEARCH_APP = (() => {
             const query = queryInput.innerText;
             const addArticle = response => {
                 response.json()
-                    .then(articleInfos => {
-                        count.innerText = articleInfos.length;
-
-                        articleInfos.forEach(articleInfo => {
-                            fileLoader.loadMediaFile(fileLoader, `${articleInfo.articleFileName}`, `${articleInfo.articleId}`);
-                            fileLoader.loadProfileImageFile(fileLoader, `${articleInfo.userId}`, "thumb-img-user-");
+                    .then(data => {
+                        count.innerText = data.totalElements;
+                        data.content.forEach(articleInfo => {
+                            fileLoader.loadMediaFile(fileLoader, articleInfo.articleFileName, articleInfo.articleId);
+                            fileLoader.loadProfileImageFile(fileLoader, articleInfo.userId, 'thumb-img-user-');
                             cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
                         });
                         headerService.applyHashTag();

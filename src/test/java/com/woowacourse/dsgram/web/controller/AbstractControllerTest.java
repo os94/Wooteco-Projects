@@ -58,7 +58,7 @@ public class AbstractControllerTest {
         long[] articleId = new long[1];
         requestWithBodyBuilder(createMultipartBodyBuilder(), HttpMethod.POST, "/api/articles", cookie)
                 .expectBody()
-                .jsonPath("$.id")
+                .jsonPath("$")
                 .value(id -> articleId[0] = Long.parseLong(id.toString()));
 
         return articleId[0];
@@ -78,7 +78,7 @@ public class AbstractControllerTest {
     }
 
     ResponseSpec requestUserFeed(String nickName, String cookie) {
-        return webTestClient.get().uri("/user/{nickName}", nickName)
+        return webTestClient.get().uri("/users/{nickName}", nickName)
                 .header("cookie", cookie)
                 .exchange()
                 .expectStatus().isOk();

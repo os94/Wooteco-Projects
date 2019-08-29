@@ -49,7 +49,7 @@ const FOLLOW_APP = (() => {
 
         const follow = event => {
             event.preventDefault();
-            const ifSucceed = () => window.location.href = '/user/' + document.getElementById('feedOwner').innerText;
+            const ifSucceed = () => window.location.href = '/users/' + document.getElementById('feedOwner').innerText;
 
             connector.fetchTemplate('/follow', connector.POST, header, JSON.stringify(formData), ifSucceed)
         };

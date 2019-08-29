@@ -21,7 +21,7 @@ class UnauthenticatedUserInterceptorTest {
 
     @Test
     void 비로그인_상태에서_회원수정_시_login페이지로_redirect() {
-        webTestClient.get().uri("/user/1/edit/")
+        webTestClient.get().uri("/users/1/edit/")
                 .exchange()
                 .expectStatus().isFound()
                 .expectHeader().valueMatches("Location", ".*/login");

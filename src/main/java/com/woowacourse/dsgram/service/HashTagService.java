@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -48,13 +47,9 @@ public class HashTagService {
     }
 
     @Transactional(readOnly = true)
-    public List<ArticleInfo> findAllByKeyword(String keyword, int page) {
-        Page<HashTag> hashTags = hashTagRepository.findAllByKeywordContaining(
-                PageRequest.of(page, 10), keyword);
-
-        return hashTags.stream()
-                .map(HashTag::getArticle).sorted()
-                .map(ArticleAssembler::toArticleInfo)
-                .collect(Collectors.toList());
+    public Page<ArticleInfo> findAllByKeyword(String keyword, int page) {
+        return hashTagRepository.findAllByKeywordContainingOrderByCreatedDate(PageRequest.of(page, 10), keyword)
+                .map(HashTag::getArticle)
+                .map(ArticleAssembler::toArticleInfo);
     }
 }

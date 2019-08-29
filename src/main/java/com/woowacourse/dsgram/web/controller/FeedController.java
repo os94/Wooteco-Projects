@@ -17,7 +17,7 @@ public class FeedController {
         this.articleService = articleService;
     }
 
-    @GetMapping("/user/{nickName}")
+    @GetMapping("/users/{nickName}")
     public String showFeed(@PathVariable String nickName, @UserSession LoggedInUser loggedInUser, Model model) {
         FeedInfo feedInfo = articleService.getFeedInfo(loggedInUser.getNickName(), nickName);
         model.addAttribute("feedInfo", feedInfo);

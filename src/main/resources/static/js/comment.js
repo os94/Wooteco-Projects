@@ -55,7 +55,7 @@ const COMMENT_APP = (() => {
                 contents: commentContents,
             };
 
-            const drawComment = function(comment) {
+            const drawComment = function (comment) {
                 let commentTemplate =
                     `<li class="comment-item no-pdd">
                        <div class="info pdd-left-15 pdd-vertical-5">
@@ -68,13 +68,13 @@ const COMMENT_APP = (() => {
                        </div>
                    </li>`;
 
-               let commentUl = target.parentElement.parentElement.parentElement.querySelector('.list-info');
-               commentUl.insertAdjacentHTML('afterbegin', commentTemplate);
-               target.parentElement.parentElement.querySelector('textarea').value = '';
+                let commentUl = target.parentElement.parentElement.parentElement.querySelector('.list-info');
+                commentUl.insertAdjacentHTML('afterbegin', commentTemplate);
+                target.parentElement.parentElement.querySelector('textarea').value = '';
 
-               let updatedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
-               target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', updatedCountOfComment);
-               target.parentElement.parentElement.parentElement.querySelector('.show-comment').innerText = updatedCountOfComment + '개 댓글 모두 보기' ;
+                let updatedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
+                target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', updatedCountOfComment);
+                target.parentElement.parentElement.parentElement.querySelector('.show-comment').innerText = updatedCountOfComment + '개 댓글 모두 보기';
             };
 
             connectors.fetchTemplate(`/api/comments`,

@@ -5,7 +5,6 @@
 <th:block layout:fragment="head">
     <title>woostagram</title>
     <link rel="stylesheet" href="/css/myFeed.css">
-    <link rel="stylesheet" href="/css/card.css">
 </th:block>
 
 <th:block layout:fragment="content">
@@ -25,7 +24,8 @@
                                     <div>
                                         <input id="guest" th:value="${session.sessionUser.nickName}" type="hidden">
                                         <span class="user-id mrg-right-10" id="feedOwner"
-                                              th:text="${feedInfo.user.nickName}"></span>
+                                              th:text="${feedInfo.user.nickName}"
+                                              th:data-id="${feedInfo.user.id}"></span>
                                         <form th:if="${feedInfo.followRelation.name() == 'FOLLOW'}">
                                             <button class="btn btn-default" id="unfollow">언팔로우</button>
                                         </form>
@@ -54,15 +54,14 @@
                                     <br/>
                                     <div>
                                         <span>게시물</span>
-                                        <span class="text-bold mrg-right-20"
-                                              th:text="${feedInfo.articles.size()}"></span>
+                                        <span id="article-count" class="text-bold mrg-right-20"></span>
                                         <span>팔로워</span>
-                                        <span class="text-bold mrg-right-20" data-target="#follow-list"
+                                        <span class="pointer text-bold mrg-right-20" data-target="#follow-list"
                                               data-toggle="modal"
                                               id="followers" th:text="${feedInfo.followers}"></span>
 
                                         <span>팔로잉</span>
-                                        <span class="text-bold mrg-right-20" data-target="#follow-list"
+                                        <span class="pointer text-bold mrg-right-20" data-target="#follow-list"
                                               data-toggle="modal"
                                               id="followings" th:text="${feedInfo.followings}"></span>
                                     </div>
@@ -82,9 +81,11 @@
             <div class="container-fluid max-width-lg mx-auto">
                 <div class="row">
                     <div class="col-lg-7 mx-auto">
-                        <div id="cards" class="widget-feed no-pdd mrg-btm-70">
+                        <div id="cards">
 
                         </div>
+                        <div id="end"></div>
+                        <div class="height-50px"></div>
                     </div>
                 </div>
             </div>
@@ -122,22 +123,9 @@
         <script src="/js/follow.js"></script>
         <script src="/js/header.js"></script>
         <script src="/js/card.js"></script>
+        <script src="/js/observer.js"></script>
         <script src="/js/myFeed.js"></script>
     </th:block>
 
-    <!--    // todo 이거 두개 없으면 파일 안보임-->
-    <script src="/js/fetchApi.js"></script>
-    <script src="/js/fileLoadApi.js"></script>
-    <script th:inline="javascript">
-        // TODO 무한 스크롤로 변경 시 이동
-        // TODO feedInfo 객체가 user 객체를 가지고 있는게 맞을까? feedInfo 통해 user password 접근이 가능해짐
-        const userNickname = [[${feedInfo.user.nickName}]];
-        const userId = [[${feedInfo.user.id}]];
-        const myFeedLoader = MY_FEED_APP.myFeedService();
-        myFeedLoader.loadArticles(userNickname);
-
-        const fileLoader = FILE_LOAD_APP.FileLoadService();
-        fileLoader.loadProfileImageFile(fileLoader, userId, "big-thumb-img-user-")
-    </script>
 </th:block>
 </html>

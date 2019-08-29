@@ -1,6 +1,5 @@
 package com.woowacourse.dsgram.service;
 
-import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.Comment;
 import com.woowacourse.dsgram.domain.repository.ArticleRepository;
 import com.woowacourse.dsgram.domain.repository.CommentRepository;
@@ -13,12 +12,9 @@ import com.woowacourse.dsgram.service.exception.NotFoundArticleException;
 import com.woowacourse.dsgram.service.exception.NotFoundCommentException;
 import com.woowacourse.dsgram.service.exception.NotFoundUserException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class CommentService {

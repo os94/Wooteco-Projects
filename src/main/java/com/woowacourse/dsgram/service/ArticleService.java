@@ -13,12 +13,14 @@ import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -68,7 +70,7 @@ public class ArticleService {
 
     @Transactional(readOnly = true)
     public List<Article> findAll() {
-        return articleRepository.findAll();
+        return articleRepository.findAll(new Sort(Sort.Direction.DESC, "id"));
     }
 
     @Transactional
@@ -92,12 +94,23 @@ public class ArticleService {
 
     public List<Article> findArticlesByAuthorNickName(String nickName) {
         userService.findByNickName(nickName);
-        return articleRepository.findAllByAuthorNickName(nickName);
+        return articleRepository.findAllByAuthorNickNameOrderByCreatedDateDesc(nickName);
+    }
+
+    public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName) {
+        userService.findByNickName(nickName);
+        return articleRepository
+                .findAllByAuthorNickNameOrderByCreatedDateDesc(PageRequest.of(page, 10), nickName)
+                .map(article -> ArticleAssembler.toArticleInfo(article, getCountOfComments(article.getId())));
     }
 
     public ArticleInfo findArticleInfo(long articleId) {
-        long countOfComments = commentRepository.countByArticleId(articleId);
+        long countOfComments = getCountOfComments(articleId);
         return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments);
+    }
+
+    private long getCountOfComments(long articleId) {
+        return commentRepository.countByArticleId(articleId);
     }
 
     public List<Article> getArticlesByFollowings(String nickName) {
@@ -119,7 +132,7 @@ public class ArticleService {
         long followings = followService.getCountOfFollowings(feedOwner);
         List<Article> articles = findArticlesByAuthorNickName(toNickName)
                 .stream().sorted()
-                .collect(Collectors.toList());
+                .collect(toList());
         FollowRelation followRelation = followService.isFollowed(guest, feedOwner);
 
         return FeedInfo.builder()
