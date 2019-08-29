@@ -17,4 +17,16 @@ public class ArticleAssembler {
                 .countOfComments(countOfComments)
                 .build();
     }
+
+    public static ArticleInfo toArticleInfo(Article article) {
+        User author = article.getAuthor();
+        return ArticleInfo.builder()
+                .articleId(article.getId())
+                .articleFileName(article.getFileInfo().getFileName())
+                .contents(article.getContents())
+                .nickName(author.getNickName())
+                .userId(author.getId())
+                .countOfLikes(0L)
+                .build();
+    }
 }

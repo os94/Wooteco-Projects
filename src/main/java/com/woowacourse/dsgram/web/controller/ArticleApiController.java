@@ -1,5 +1,6 @@
 package com.woowacourse.dsgram.web.controller;
 
+import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.dto.ArticleEditRequest;
@@ -35,7 +36,7 @@ public class ArticleApiController {
 
     @GetMapping("{articleId}/file")
     public ResponseEntity<byte[]> showArticleFile(@PathVariable long articleId) {
-        return new ResponseEntity<>(articleService.findFileById(articleId), HttpStatus.OK);
+        return ResponseEntity.ok(articleService.findFileById(articleId));
     }
 
     @GetMapping("{articleId}")
@@ -46,22 +47,20 @@ public class ArticleApiController {
     @PutMapping("{articleId}")
     public ResponseEntity update(@PathVariable long articleId, @RequestBody ArticleEditRequest articleEditRequest, @UserSession LoggedInUser loggedInUser) {
         articleService.update(articleId, articleEditRequest, loggedInUser);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{articleId}")
     public ResponseEntity delete(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
         articleService.delete(articleId, loggedInUser);
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping
     public ResponseEntity showArticles(@UserSession LoggedInUser loggedInUser) {
         List<Article> articles = facade.getArticlesByFollowings(loggedInUser.getNickName());
-
         List<ArticleInfo> articleInfos = articles.stream().map(article -> ArticleAssembler.toArticleInfo(article)).collect(Collectors.toList());
-
-        return new ResponseEntity(articleInfos, HttpStatus.OK);
+        return ResponseEntity.ok(articleInfos);
     }
 
     @GetMapping("/users/{userNickname}")
@@ -71,7 +70,6 @@ public class ArticleApiController {
                 .collect(Collectors.toList());
 
         List<ArticleInfo> articleInfos = articles.stream().map(article -> ArticleAssembler.toArticleInfo(article)).collect(Collectors.toList());
-
-        return new ResponseEntity(articleInfos, HttpStatus.OK);
+        return ResponseEntity.ok(articleInfos);
     }
 }
