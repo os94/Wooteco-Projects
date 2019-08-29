@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="list-group" style="position: fixed; right: 10px; bottom: 10px;">
-                <a class="list-group-item list-group-item-action">유저 목록</a>
+                <a class="list-group-item list-group-item-secondary" style="font-weight: bold;">DM List</a>
                 <div th:each="user : ${users}">
                     <a th:if="${user.id != session.sessionUser.id}" th:href="'/chat/' + ${user.id}"
                        th:text="${user.nickName}" class="list-group-item list-group-item-action"></a>

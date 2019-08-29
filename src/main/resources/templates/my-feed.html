@@ -16,7 +16,7 @@
                         <div class="myFeed-header">
                             <div clas="myFeed-info">
                                 <div class="user-image items">
-                                    <img src="https://c6oxm85c.cloudimg.io/cdno/n/q85/https://az617363.vo.msecnd.net/imgmodels/models/MD50000639/akiimaa500699922cd4a1412ddaa432873f29c_thumb.jpg"
+                                    <img src="/images/default/default_profile.png"
                                          th:class="'big-thumb-img-user-' + ${feedInfo.user.id}"
                                          alt="">
                                 </div>
@@ -32,7 +32,6 @@
                                             <button class="btn btn-primary" id="follow">팔로우</button>
                                         </form>
                                         <span th:if="${feedInfo.followRelation.name() == 'MINE'}">
-                                            <button class="btn btn-default text-bold mrg-right-10">프로필 편집</button>
                                             <span>
                                             <div class="dropdown">
                                                 <a class="pointer active dropdown-toggle" data-toggle="dropdown"
@@ -78,22 +77,11 @@
             </div>
         </div>
         <hr/>
-        <ul class="nav nav-tabs" style="text-align: center;">
-            <li class="nav-item">
-                <a class="nav-link active" href="#">Active</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-        </ul>
         <div class="main-content mrg-top-20">
             <div class="container-fluid max-width-lg mx-auto">
                 <div class="row">
                     <div class="col-lg-7 mx-auto">
-                        <button type="button" id="write-article-button" class="btn btn-outline-primary"
-                                accesskey="w">피드 작성
-                        </button>
-                        <div class="card widget-feed no-pdd mrg-btm-70" id="cards"
+                        <div class="card widget-feed no-pdd mrg-btm-70" id="cards" style="background-color: transparent; border: none">
 
                         </div>
                     </div>
