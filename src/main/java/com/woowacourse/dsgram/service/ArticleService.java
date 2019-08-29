@@ -121,7 +121,6 @@ public class ArticleService {
 
         return findAll()
                 .stream().filter(article -> followings.contains(article.getAuthor()))
-                .sorted()
                 .collect(toList());
     }
 
@@ -130,9 +129,7 @@ public class ArticleService {
         User feedOwner = userService.findByNickName(toNickName);
         long followers = followService.getCountOfFollowers(feedOwner);
         long followings = followService.getCountOfFollowings(feedOwner);
-        List<Article> articles = findArticlesByAuthorNickName(toNickName)
-                .stream().sorted()
-                .collect(toList());
+        List<Article> articles = findArticlesByAuthorNickName(toNickName);
         FollowRelation followRelation = followService.isFollowed(guest, feedOwner);
 
         return FeedInfo.builder()
