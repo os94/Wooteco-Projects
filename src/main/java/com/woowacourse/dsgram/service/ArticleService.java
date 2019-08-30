@@ -2,14 +2,18 @@ package com.woowacourse.dsgram.service;
 
 import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.FileInfo;
+import com.woowacourse.dsgram.domain.LikeRelation;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.domain.repository.ArticleRepository;
 import com.woowacourse.dsgram.domain.repository.CommentRepository;
+import com.woowacourse.dsgram.domain.repository.LikeRelationRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
+import com.woowacourse.dsgram.service.assembler.UserAssembler;
 import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
+import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
@@ -28,14 +32,17 @@ import static java.util.stream.Collectors.toList;
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
+    private final LikeRelationRepository likeRelationRepository;
     private final HashTagService hashTagService;
     private final FileService fileService;
     private final UserService userService;
     private final FollowService followService;
 
-    public ArticleService(ArticleRepository articleRepository, CommentRepository commentRepository, HashTagService hashTagService, FileService fileService, UserService userService, FollowService followService) {
+    public ArticleService(ArticleRepository articleRepository, CommentRepository commentRepository, LikeRelationRepository likeRelationRepository, HashTagService hashTagService
+            , FileService fileService, UserService userService, FollowService followService) {
         this.articleRepository = articleRepository;
         this.commentRepository = commentRepository;
+        this.likeRelationRepository = likeRelationRepository;
         this.hashTagService = hashTagService;
         this.fileService = fileService;
         this.userService = userService;
@@ -101,12 +108,17 @@ public class ArticleService {
         userService.findByNickName(nickName);
         return articleRepository
                 .findAllByAuthorNickNameOrderByCreatedDateDesc(PageRequest.of(page, 10), nickName)
-                .map(article -> ArticleAssembler.toArticleInfo(article, getCountOfComments(article.getId())));
+                .map(article -> ArticleAssembler.toArticleInfo(article, getCountOfComments(article.getId()), getCountOfLikes(article.getId())));
     }
 
     public ArticleInfo findArticleInfo(long articleId) {
         long countOfComments = getCountOfComments(articleId);
-        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments);
+        long countOfLikes = getCountOfLikes(articleId);
+        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments, countOfLikes);
+    }
+
+    private long getCountOfLikes(long articleId) {
+        return likeRelationRepository.countByArticleId(articleId);
     }
 
     private long getCountOfComments(long articleId) {
@@ -139,5 +151,25 @@ public class ArticleService {
                 .articles(articles)
                 .followRelation(followRelation)
                 .build();
+    }
+
+    @Transactional
+    public long like(long articleId, long userId) {
+        if (likeRelationRepository.existsByArticleIdAndUserId(articleId, userId)) {
+            likeRelationRepository.deleteByArticleIdAndUserId(articleId, userId);
+            return likeRelationRepository.countByArticleId(articleId);
+        }
+
+        LikeRelation likeRelation = new LikeRelation(findById(articleId), userService.findUserById(userId));
+        likeRelationRepository.save(likeRelation);
+        return likeRelationRepository.countByArticleId(articleId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<FollowInfo> findLikerListById(long articleId) {
+        return likeRelationRepository.findAllByArticleId(articleId)
+                .stream().map(LikeRelation::getUser)
+                .map(UserAssembler::toFollowInfo)
+                .collect(toList());
     }
 }

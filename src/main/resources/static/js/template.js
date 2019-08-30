@@ -36,7 +36,7 @@ TEMPLATE_APP = (() => {
 
         const card = articleInfo => {
             const template =
-                `<div class="card widget-feed no-pdd mrg-btm-70 shadow-sm">
+                `<div id="${articleInfo.articleId}" class="article-card card widget-feed no-pdd mrg-btm-70 shadow-sm">
                                     <div class="feed-header padding-15">
                                         <ul class="list-unstyled list-info">
                                             <li>
@@ -76,12 +76,13 @@ TEMPLATE_APP = (() => {
                                     </div>
                                     <ul class="feed-action pdd-horizon-15 pdd-top-5">
                                         <li>
-                                            <a href="">
-                                                <i class="fa fa-heart activated-heart font-size-25"></i>
+                                            <a> 
+                                                <input id="like-state-${articleInfo.articleId}" type="hidden" value="${articleInfo.like}">
+                                                <i class="fa ${articleInfo.like ? 'fa-heart' : 'fa-heart-o'} activated-heart font-size-25" style="display: block"></i>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="">
+                                            <a href="#">
                                                 <i class="ti-comment font-size-22"></i>
                                             </a>
                                         </li>
@@ -98,7 +99,7 @@ TEMPLATE_APP = (() => {
                                     <div class="feedback-status-container pdd-horizon-15">
                                         <img class="mini-profile-img" src="/images/default/eastjun_profile.jpg">
                                         <p class="no-mrg pdd-left-5 d-inline-block">
-                                            <span class="text-bold">${articleInfo.countOfLikes}</span>명이
+                                            <span id="count-like-${articleInfo.articleId}" class="text-bold">${articleInfo.countOfLikes}</span>명이
                                             좋아합니다.
                                         </p>
                                     </div>
@@ -125,6 +126,13 @@ TEMPLATE_APP = (() => {
                                 </div>`;
             return template;
         };
+
+        const heartState = (toggle) => {
+            if(toggle) {
+                return '<i class="fa fa-heart activated-heart font-size-25"></i>'
+            }
+            return '<i class="far fa-heart activated-heart font-size-25"></i>'
+        }
 
         const chatMessage = (message, sessionUserId) => {
             let template;

@@ -24,8 +24,8 @@
                                     <div>
                                         <input id="guest" th:value="${session.sessionUser.nickName}" type="hidden">
                                         <span class="user-id mrg-right-10" id="feedOwner"
-                                              th:text="${feedInfo.user.nickName}"
-                                              th:data-id="${feedInfo.user.id}"></span>
+                                              th:data-id="${feedInfo.user.id}"
+                                              th:text="${feedInfo.user.nickName}"></span>
                                         <form th:if="${feedInfo.followRelation.name() == 'FOLLOW'}">
                                             <button class="btn btn-default" id="unfollow">언팔로우</button>
                                         </form>
@@ -54,7 +54,7 @@
                                     <br/>
                                     <div>
                                         <span>게시물</span>
-                                        <span id="article-count" class="text-bold mrg-right-20"></span>
+                                        <span class="text-bold mrg-right-20" id="article-count"></span>
                                         <span>팔로워</span>
                                         <span class="pointer text-bold mrg-right-20" data-target="#follow-list"
                                               data-toggle="modal"

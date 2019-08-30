@@ -6,6 +6,7 @@ import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
+import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import org.springframework.http.ResponseEntity;
@@ -62,4 +63,18 @@ public class ArticleApiController {
     public ResponseEntity showUserArticles(@PathVariable String userNickname, int page) {
         return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname));
     }
+
+    @PostMapping("/like/{articleId}")
+    public ResponseEntity like(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
+        return ResponseEntity.ok(articleService.like(articleId, loggedInUser.getId()));
+    }
+
+
+    @GetMapping("/{articleId}/liker")
+    public ResponseEntity liker(@PathVariable long articleId) {
+        List<FollowInfo> likerList = articleService.findLikerListById(articleId);
+        return ResponseEntity.ok(likerList);
+    }
+
+
 }

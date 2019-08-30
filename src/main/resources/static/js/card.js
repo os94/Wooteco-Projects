@@ -13,9 +13,14 @@ const CARD_APP = (() => {
             cards ? cards.addEventListener('click', cardService.changeEditForm) : undefined;
         };
 
+        const clickHeart = () => {
+            cards ? cards.addEventListener('click', cardService.clickHeart) : undefined;
+        }
+
         const init = () => {
             deleteCard();
             changeEditForm();
+            clickHeart();
         };
 
         return {
@@ -76,9 +81,38 @@ const CARD_APP = (() => {
             }
         };
 
+        const clickHeart = event => {
+            const header = {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json'
+            };
+            let target = event.target;
+            if (target.tagName === 'I' && target.classList.contains('fa') ) {
+                const articleId = target.closest('.article-card').getAttribute('id');
+                const connector = FETCH_APP.FetchApi();
+                let likeState = false;
+
+                if(target.classList.contains('fa-heart-o')) {
+                    likeState = true;
+                }
+
+                const ifSucceed = (response) => {
+                    response.json().then(data => {
+                        const present = document.getElementById(`count-like-${articleId}`);
+                        present.innerText = data;
+                        target.setAttribute('class', `${!likeState ? 'fa fa-heart-o' : 'fa fa-heart'} activated-heart font-size-25`)
+                    })
+                };
+
+                connector.fetchTemplate(`/api/articles/like/${articleId}`, connector.POST, header, {}, ifSucceed);
+
+            }
+        };
+
         return {
             deleteCard: deleteCard,
-            changeEditForm: changeEditForm
+            changeEditForm: changeEditForm,
+            clickHeart: clickHeart,
         }
     };
 

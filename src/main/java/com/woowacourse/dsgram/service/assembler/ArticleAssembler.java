@@ -5,7 +5,7 @@ import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 
 public class ArticleAssembler {
-    public static ArticleInfo toArticleInfo(Article article, long countOfComments) {
+    public static ArticleInfo toArticleInfo(Article article, long countOfComments, long countOfLikes) {
         User author = article.getAuthor();
         return ArticleInfo.builder()
                 .articleId(article.getId())
@@ -13,7 +13,7 @@ public class ArticleAssembler {
                 .contents(article.getContents())
                 .nickName(author.getNickName())
                 .userId(author.getId())
-                .countOfLikes(0L)
+                .countOfLikes(countOfLikes)
                 .countOfComments(countOfComments)
                 .build();
     }
@@ -26,7 +26,6 @@ public class ArticleAssembler {
                 .contents(article.getContents())
                 .nickName(author.getNickName())
                 .userId(author.getId())
-                .countOfLikes(0L)
                 .build();
     }
 }
