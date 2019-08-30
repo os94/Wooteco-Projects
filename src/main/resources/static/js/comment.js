@@ -16,7 +16,6 @@ const COMMENT_APP = (() => {
             cards ? cards.addEventListener('click', commentService.show) : undefined;
         };
 
-         //todo 데이터를 받아온다음에 이벤트 리스너를 하는게아니라 먼저 리스너를 하기때문에 리스너가 등록이 안됨
         const removeComment = () => {
             cards ? cards.addEventListener('click', commentService.remove) : undefined;
         };
@@ -60,7 +59,7 @@ const COMMENT_APP = (() => {
                 commentList.insertAdjacentHTML('afterbegin', commentTemplate);
             };
 
-            const updateDomAfterSaveComment = function(target) {
+            const updateDomAfterSaveComment = function(target, res) {
                 target.parentNode.parentNode.querySelector('textarea').value = '';
                 let addedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
                 target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', addedCountOfComment);
@@ -74,7 +73,7 @@ const COMMENT_APP = (() => {
                 (response) => response.json()
                     .then(res => {
                         drawComment(res);
-                        updateDomAfterSaveComment(target);
+                        updateDomAfterSaveComment(target, res);
                     }));
         };
 
@@ -155,4 +154,4 @@ const COMMENT_APP = (() => {
 
 })();
 
-
+COMMENT_APP.init();

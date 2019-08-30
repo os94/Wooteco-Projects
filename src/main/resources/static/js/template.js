@@ -26,9 +26,9 @@ TEMPLATE_APP = (() => {
             const template =
                 `<li class="comment-item no-pdd" data-comment-id="${commentId}" style="border-bottom:none;">
                        <div class="info pdd-left-15 pdd-vertical-5">
-                           <span class="title no-pdd-vertical inline-block font-size-15">${contents}</span>
-                           <span class="font-size-14 text-bold" style="float: left; width: 7%;">${nickName}</span>
-                            <i class="ti-trash pdd-right-10 comment-delete text-dark" style="float: right; width: 6%;cursor:pointer;" data-comment-id="${commentId}"></i>
+                           <span class="font-size-14 text-bold"">${nickName}</span>
+                           <span class="no-pdd-vertical inline-block font-size-15" style="margin-left:3%">${contents}</span>
+                            <i class="ti-trash pdd-right-10 comment-delete text-dark" style="float: right; width: 6%; cursor:pointer;" data-comment-id="${commentId}"></i>
                         </div>
                    </li>`;
             return template;
@@ -112,7 +112,7 @@ TEMPLATE_APP = (() => {
                                     </div>
                                     <div class="feed-footer">
                                         <div class="comment" data-article-id="${articleInfo.articleId}">
-                                            <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"> ${articleInfo.countOfComments}개 댓글 더보기</span>
+                                            <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"><span class="count-of-comments">${articleInfo.countOfComments}</span>개 댓글 더보기</span>
                                             <ul class="list-unstyled list-info pdd-horizon-5"></ul>
                                             <div class="add-comment relative">
                                                 <textarea rows="1" class="form-control text-dark padding-15"
