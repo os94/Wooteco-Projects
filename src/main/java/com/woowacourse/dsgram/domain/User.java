@@ -40,7 +40,7 @@ public class User extends BaseEntity {
     @Lob
     private String intro;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     @JoinColumn(name = "FILEINFO_ID")
     private FileInfo fileInfo;
 

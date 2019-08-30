@@ -1,9 +1,6 @@
 package com.woowacourse.dsgram.domain;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -26,6 +23,7 @@ public class HashTag extends BaseEntity {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_hashTag_article"))
     private Article article;
 
+    @Builder
     public HashTag(String keyword, Article article) {
         this.keyword = keyword;
         this.article = article;
