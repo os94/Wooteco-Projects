@@ -14,8 +14,8 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Getter
-@EqualsAndHashCode(of = {"id"})
-public class Comment {
+@EqualsAndHashCode(of = {"id"}, callSuper = false)
+public class Comment extends BaseEntity {
 
     @Id
     @Column(name = "comment_id")
