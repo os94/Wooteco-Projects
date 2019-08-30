@@ -63,20 +63,6 @@ const ARTICLE_APP = (() => {
             reader.readAsDataURL(file);
         };
 
-        // TODO 슬로스의 유작... 여기로 옮겨지다. (사용되지 않고 있음)
-        const copyUrl = articleId => {
-            const copiedUrl = window.location.host + `/articles/${articleId}`;
-            const copyTarget = document.createElement('textarea');
-
-            document.body.appendChild(copyTarget);
-            copyTarget.value = copiedUrl;
-            copyTarget.select();
-            document.execCommand('copy');
-            document.body.removeChild(copyTarget);
-
-            alert(`링크가 복사되었습니다. ${copiedUrl}`);
-        };
-
         // TODO search-result.js와 중복!!
         const loadArticles = () => {
             const addArticle = response => {

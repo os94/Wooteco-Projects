@@ -1,35 +1,30 @@
 const COMMENT_APP = (() => {
 
+    const connector = FETCH_APP.FetchApi();
+    const template = TEMPLATE_APP.TemplateService();
+
     const CommentController = function() {
         const commentService = new CommentService();
 
-        const saveComment = () => {
-            const commentSaveButtons = document.getElementsByClassName('comment-save-button');
+        const cards = document.getElementById('cards');
 
-            for (let i = 0; i < commentSaveButtons.length; i++) {
-                commentSaveButtons.item(i).addEventListener('click', commentService.save);
-            }
+        const saveComment = () => {
+            cards ? cards.addEventListener('click', commentService.save) : undefined;
         };
 
         const showComment = () => {
-            const showCommentButtons = document.getElementsByClassName('show-comment');
-            for (let i = 0; i < showCommentButtons.length; i++) {
-                showCommentButtons.item(i).addEventListener('click', commentService.show);
-            }
+            cards ? cards.addEventListener('click', commentService.show) : undefined;
         };
 
-    //todo 데이터를 받아온다음에 이벤트 리스너를 하는게아니라 먼저 리스너를 하기때문에 리스너가 등록이 안됨
-        const deleteComment = () => {
-            const deleteCommentButtons =  document.getElementsByClassName('comment-delete');
-            for (let i = 0; i < deleteCommentButtons.length; i++) {
-                deleteCommentButtons.item(i).addEventListener('click', commentService.deleteComment);
-            }
+         //todo 데이터를 받아온다음에 이벤트 리스너를 하는게아니라 먼저 리스너를 하기때문에 리스너가 등록이 안됨
+        const removeComment = () => {
+            cards ? cards.addEventListener('click', commentService.remove) : undefined;
         };
 
         const init = () => {
             saveComment();
             showComment();
-            deleteComment();
+            removeComment();
         };
 
         return {
@@ -40,9 +35,12 @@ const COMMENT_APP = (() => {
 
     const CommentService = function() {
         const save = event => {
-            const connectors = FETCH_APP.FetchApi();
             let target = event.target;
-            let targetArticleId = target.parentNode.parentNode.getAttribute("data-article-id");
+            if (!target.classList.contains('comment-save-button')) {
+                return;
+            }
+
+            let targetArticleId = target.getAttribute("data-article-id");
             let commentContents = target.parentNode.parentNode.querySelector("textarea").value;
 
             const header = {
@@ -56,95 +54,92 @@ const COMMENT_APP = (() => {
             };
 
             const drawComment = function (comment) {
-                let commentTemplate =
-                    `<li class="comment-item no-pdd">
-                       <div class="info pdd-left-15 pdd-vertical-5">
-                           <a href="" class="title no-pdd-vertical inline-block font-size-15">${comment.contents}</a>
-                           <span class="font-size-14" text-bold style="float: left; width: 7%;">${comment.user.nickName}</span>
-                           <a data-comment-id="{{id}}" class="comment-delete" style="float: right; width: 7%;">
-                            <i class="ti-trash pdd-right-10 text-dark comment-delete"></i>
-                            </a>
-                           <time class="font-size-8 text-gray d-block"></time>
-                       </div>
-                   </li>`;
+                let commentTemplate = template.comment(comment.contents, comment.user.nickName, comment.id);
 
-                let commentUl = target.parentElement.parentElement.parentElement.querySelector('.list-info');
-                commentUl.insertAdjacentHTML('afterbegin', commentTemplate);
-                target.parentElement.parentElement.querySelector('textarea').value = '';
-
-                let updatedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
-                target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', updatedCountOfComment);
-                target.parentElement.parentElement.parentElement.querySelector('.show-comment').innerText = updatedCountOfComment + '개 댓글 모두 보기';
+                let commentList = target.parentNode.parentNode.parentNode.querySelector('.list-info');
+                commentList.insertAdjacentHTML('afterbegin', commentTemplate);
             };
 
-            connectors.fetchTemplate(`/api/comments`,
-                connectors.POST,
+            const updateDomAfterSaveComment = function(target) {
+                target.parentNode.parentNode.querySelector('textarea').value = '';
+                let addedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
+                target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', addedCountOfComment);
+                target.parentElement.parentElement.parentElement.querySelector('.show-comment').innerText = addedCountOfComment + '개 댓글 더보기';
+            };
+
+            connector.fetchTemplate(`/api/comments`,
+                connector.POST,
                 header,
                 JSON.stringify(commentInfo),
                 (response) => response.json()
-                    .then(res => drawComment(res)));
+                    .then(res => {
+                        drawComment(res);
+                        updateDomAfterSaveComment(target);
+                    }));
         };
 
         const show = event => {
-            const connectors = FETCH_APP.FetchApi();
+            let target = event.target;
+
+            if (!target.classList.contains('show-comment')) {
+                return;
+            }
+
+            const comment = template.comment('{{contents}}', '{{user.nickName}}', '{{id}}');
             const commentTemplate =
-                `
-               {{#comments}}
-               <li class="comment-item no-pdd" data-comment-id="{{id}}">
-                   <div class="info pdd-left-15 pdd-vertical-5">
-                       <a href="" class="title no-pdd-vertical inline-block font-size-15">{{contents}}</a>
-                       <span class="font-size-14 text-bold" style="float: left; width: 7%;">{{user.nickName}}</span>
-                       <a data-comment-id="{{id}}" class="comment-delete" style="float: right; width: 7%;">
-                        <i class="ti-trash pdd-right-10 comment-delete text-dark"></i>
-                        </a>
-                       <time class="font-size-8 text-gray d-block">{{writeTime}}</time>
-                   </div>
-               </li>
-               {{/comments}}`;
+                `{{#comments}}
+                    ${comment}
+                 {{/comments}}`;
 
             let commentItemTemplate = Handlebars.compile(commentTemplate);
-            let target = event.target;
-            let targetArticleId = target.parentNode.querySelector('.add-comment').getAttribute('data-article-id');
-            let commentList = target.parentNode.querySelector('ul');
-            let countOfComments = target.getAttribute('data-count-comment');
-            let countOfWrittenComments = commentList.querySelectorAll('li').length;
 
-            if (countOfWrittenComments >= countOfComments) {
+            let targetArticleId = target.parentElement.getAttribute('data-article-id');
+            let countOfBrowserComments = target.parentNode.querySelector('ul').querySelectorAll('li').length;
+            let countOfServerComments = target.getAttribute('data-count-comment');
+
+            if (countOfBrowserComments >= countOfServerComments) {
                 alert('더이상 댓글이 없습니다.');
                 return;
             }
 
-            let pageCount = countOfWrittenComments / 5;
-            let page = parseInt(pageCount);
+            let page = parseInt((countOfBrowserComments / 5).toString());
 
-            connectors.fetchTemplateWithoutBody(`/api/comments/${targetArticleId}?page=${page}`,
-                connectors.GET,
+            connector.fetchTemplateWithoutBody(`/api/comments/${targetArticleId}?page=${page}`,
+                connector.GET,
                 (response) => {
                     response.json().then(res => {
-
                         let data = {comments: res.content};
-                        commentList.insertAdjacentHTML('beforeend', commentItemTemplate(data));
+                        target.parentNode.querySelector('ul').insertAdjacentHTML('beforeend', commentItemTemplate(data));
+                        target.innerText = (countOfServerComments - target.parentNode.querySelector('ul').querySelectorAll('li').length) + '개 댓글 더보기'
                     });
                 }
             )
         };
 
-        const deleteComment = event => {
-            const connector = FETCH_APP.FetchApi();
-            let commentId = event.target.getAttribute('data-comment-id');
-            const ifSucceed = () => {
-                event.target.parentElement.parentElement.innerHTML='';
+        const remove = event => {
+            let target = event.target;
+
+            if (!target.classList.contains('comment-delete')) {
+                return;
+            }
+
+            let commentId = target.getAttribute('data-comment-id');
+
+            const ifSucceed = (target) => {
                 alert('댓글이 삭제 되었습니다.');
+                let spanTag = target.parentNode.parentNode.parentNode.parentNode.querySelector('span');
+                let commentCount = Number(spanTag.getAttribute('data-count-comment'));
+                spanTag.setAttribute('data-count-comment', (commentCount - 1));
+                target.parentElement.parentElement.remove();
             };
 
-            connector.fetchTemplateWithoutBody('/api/comments/'+commentId,connector.DELETE,ifSucceed());
-
+            connector.fetchTemplateWithoutBody('/api/comments/'+commentId,connector.DELETE,ifSucceed(target));
         };
 
         return {
             save: save,
             show: show,
-            deleteComment:deleteComment,
+            remove: remove,
         }
 
     };

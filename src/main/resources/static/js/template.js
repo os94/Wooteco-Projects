@@ -22,6 +22,18 @@ TEMPLATE_APP = (() => {
             return template;
         };
 
+        const comment = (contents, nickName, commentId) => {
+            const template =
+                `<li class="comment-item no-pdd" data-comment-id="${commentId}" style="border-bottom:none;">
+                       <div class="info pdd-left-15 pdd-vertical-5">
+                           <span class="title no-pdd-vertical inline-block font-size-15">${contents}</span>
+                           <span class="font-size-14 text-bold" style="float: left; width: 7%;">${nickName}</span>
+                            <i class="ti-trash pdd-right-10 comment-delete text-dark" style="float: right; width: 6%;cursor:pointer;" data-comment-id="${commentId}"></i>
+                        </div>
+                   </li>`;
+            return template;
+        };
+
         const card = articleInfo => {
             const template =
                 `<div class="card widget-feed no-pdd mrg-btm-70 shadow-sm">
@@ -73,9 +85,8 @@ TEMPLATE_APP = (() => {
                                                 <i class="ti-comment font-size-22"></i>
                                             </a>
                                         </li>
-                                        <li>
-                                            <i class="ti-export font-size-22"
-                                               onclick="copyUrl(${articleInfo.articleId})"></i>
+                                        <li data-article=id="${articleInfo.articleId})" class="copyUrl" style="cursor:pointer;">
+                                            <i class="ti-export font-size-22"></i>
                                         </li>
 
                                         <li class="float-right">
@@ -99,14 +110,14 @@ TEMPLATE_APP = (() => {
                                         </form>
                                     </div>
                                     <div class="feed-footer">
-                                        <div class="comment">
-                                            <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"> ${articleInfo.countOfComments}개 댓글 모두 보기</span>
+                                        <div class="comment" data-article-id="${articleInfo.articleId}">
+                                            <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"> ${articleInfo.countOfComments}개 댓글 더보기</span>
                                             <ul class="list-unstyled list-info pdd-horizon-5"></ul>
-                                            <div class="add-comment relative" data-article-id="${articleInfo.articleId}">
+                                            <div class="add-comment relative">
                                                 <textarea rows="1" class="form-control text-dark padding-15"
                                                   placeholder="댓글 달기..."></textarea>
                                                 <div class="absolute top-5 right-0">
-                                                    <button class="btn btn-default no-border text-gray comment-save-button">게시</button>
+                                                    <button class="btn btn-default no-border text-gray comment-save-button" data-article-id="${articleInfo.articleId}">게시</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -145,6 +156,7 @@ TEMPLATE_APP = (() => {
             searchResult: searchResult,
             card: card,
             chatMessage: chatMessage,
+            comment: comment,
         }
     };
 
