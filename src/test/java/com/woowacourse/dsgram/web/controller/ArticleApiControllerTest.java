@@ -22,7 +22,7 @@ class ArticleApiControllerTest extends AbstractControllerTest {
         SignUpUserRequest signUpUserRequest = createSignUpUser();
 
         cookie = getCookieAfterSignUpAndLogin(signUpUserRequest);
-        articleId = saveArticle(cookie);
+        articleId = saveArticle(cookie, "contents");
 
         signUpUserRequest = createSignUpUser();
         anotherCookie = getCookieAfterSignUpAndLogin(signUpUserRequest);
@@ -32,7 +32,7 @@ class ArticleApiControllerTest extends AbstractControllerTest {
     @Test
     @DisplayName("게시글 생성 성공")
     void save() {
-        requestWithBodyBuilder(createMultipartBodyBuilder(), HttpMethod.POST, "/api/articles", cookie)
+        requestWithBodyBuilder(createMultipartBodyBuilder("contents"), HttpMethod.POST, "/api/articles", cookie)
                 .expectStatus()
                 .isOk();
     }

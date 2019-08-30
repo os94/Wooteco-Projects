@@ -18,7 +18,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
         cookie = getCookieAfterSignUpAndLogin(signUpUserRequest);
         SignUpUserRequest signUpUserRequest2 = createSignUpUser();
         cookie2 = getCookieAfterSignUpAndLogin(signUpUserRequest2);
-        articleId = saveArticle(cookie);
+        articleId = saveArticle(cookie, "contents");
         commentRequest = new CommentRequest("comment contents", articleId);
     }
     @Test

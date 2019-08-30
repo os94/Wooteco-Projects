@@ -202,7 +202,7 @@ class UserApiControllerTest extends AbstractControllerTest {
     void user_탈퇴() {
         long[] articleId = new long[1];
 
-        requestWithBodyBuilder(createMultipartBodyBuilder(), HttpMethod.POST, "/api/articles", myCookie)
+        requestWithBodyBuilder(createMultipartBodyBuilder("contents"), HttpMethod.POST, "/api/articles", myCookie)
                 .expectBody()
                 .jsonPath("$")
                 .value(id -> articleId[0] = Long.parseLong(id.toString()));
