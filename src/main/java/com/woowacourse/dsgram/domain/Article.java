@@ -56,7 +56,7 @@ public class Article extends BaseEntity {
     }
 
     private boolean notEqualAuthorId(long id) {
-        return this.author.isNotSameId(id);
+        return this.author.isNotSameUser(id);
     }
 
     public Set<String> getKeyword() {

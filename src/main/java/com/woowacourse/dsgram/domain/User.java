@@ -91,8 +91,12 @@ public class User extends BaseEntity {
         return this.nickName.equals(nickName);
     }
 
-    public boolean isNotSameId(long id) {
+    public boolean isNotSameUser(long id) {
         return this.id != id;
+    }
+
+    public boolean isSameUser(User other) {
+        return this.id == other.id;
     }
 
     @Override

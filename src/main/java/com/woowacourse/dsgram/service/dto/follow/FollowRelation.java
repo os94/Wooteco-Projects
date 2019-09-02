@@ -7,7 +7,7 @@ public enum FollowRelation {
     FOLLOW, UNFOLLOW, MINE;
 
     public static FollowRelation getRelation(Follow follow, User guest, User feedOwner) {
-        if (guest.equals(feedOwner)) {
+        if (guest.isSameUser(feedOwner)) {
             return MINE;
         }
         if (follow == null) {

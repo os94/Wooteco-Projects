@@ -109,7 +109,7 @@ public class UserService {
     public void deleteUserById(long id, LoggedInUser loggedInUser) {
         User user = findByEmail(loggedInUser.getEmail())
                 .orElseThrow(NotFoundUserException::new);
-        if (user.isNotSameId(id)) {
+        if (user.isNotSameUser(id)) {
             throw new InvalidUserException("회원정보가 일치하지 않습니다.");
         }
         userRepository.deleteById(id);

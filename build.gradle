@@ -37,7 +37,7 @@ dependencies {
 
     compileOnly group: 'org.apache.commons:commons-text:1.7'
     compileOnly 'org.projectlombok:lombok:1.18.8'
-    runtimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.h2database:h2'
     runtimeOnly 'mysql:mysql-connector-java'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'

@@ -44,7 +44,7 @@ public class Comment extends BaseEntity {
     }
 
     public void checkAccessibleAuthor(long editUserId) {
-        if (user.isNotSameId(editUserId)) {
+        if (user.isNotSameUser(editUserId)) {
             throw new InvalidUserException("글 작성자만 수정, 삭제가 가능합니다.");
         }
     }
