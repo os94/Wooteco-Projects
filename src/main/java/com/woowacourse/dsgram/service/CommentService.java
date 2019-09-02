@@ -7,6 +7,7 @@ import com.woowacourse.dsgram.service.dto.CommentResponse;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.exception.EmptyCommentRequestException;
 import com.woowacourse.dsgram.service.exception.NotFoundCommentException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,13 @@ public class CommentService {
     private static final int BLANK_CONTENTS = 0;
     private CommentRepository commentRepository;
     private UserService userService;
+
+    @Autowired
     private ArticleService articleService;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, ArticleService articleService) {
+    public CommentService(CommentRepository commentRepository, UserService userService) {
         this.commentRepository = commentRepository;
         this.userService = userService;
-        this.articleService = articleService;
     }
 
     public Comment create(CommentRequest commentRequest, Long userId) {
@@ -67,5 +69,9 @@ public class CommentService {
     @Transactional(readOnly = true)
     public Page<Comment> get(Long articleId, Pageable pageable) {
         return commentRepository.findByArticleId(articleId, pageable);
+    }
+
+    public long countByArticleId(long articleId) {
+        return commentRepository.countByArticleId(articleId);
     }
 }

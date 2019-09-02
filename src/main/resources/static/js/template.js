@@ -43,7 +43,7 @@ const TEMPLATE_APP = (() => {
                                                 <img class="thumb-img img-circle thumb-img-user-${articleInfo.userId}" src="/images/default/default_profile.png"
                                                       alt="">
                                                 <div class="info">
-                                                    <a href="" class="title no-pdd-vertical text-bold inline-block font-size-15">
+                                                    <a href="/users/${articleInfo.nickName}" class="title no-pdd-vertical text-bold inline-block font-size-15">
                                                         ${articleInfo.nickName}</a>
                                                 </div>
                                             </li>
@@ -82,18 +82,12 @@ const TEMPLATE_APP = (() => {
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#">
+                                            <a href="/articles/${articleInfo.articleId}">
                                                 <i class="ti-comment font-size-22"></i>
                                             </a>
                                         </li>
                                         <li data-article=id="${articleInfo.articleId})" class="copyUrl" style="cursor:pointer;">
                                             <i class="ti-export font-size-22"></i>
-                                        </li>
-
-                                        <li class="float-right">
-                                            <a href="" class="pdd-right-0">
-                                                <i class="fa fa-bookmark font-size-25"></i>
-                                            </a>
                                         </li>
                                     </ul>
                                     <div class="feedback-status-container pdd-horizon-15">
@@ -103,7 +97,7 @@ const TEMPLATE_APP = (() => {
                                             좋아합니다.
                                         </p>
                                     </div>
-                                    <div id="'article-contents-${articleInfo.articleId}" class="feed-contents pdd-left-15">
+                                    <div id="article-contents-${articleInfo.articleId}" class="feed-contents pdd-left-15">
                                         <p class="contents">${articleInfo.contents}</p>
                                         <form style="display: none;">
                                             <input type="text" value="${articleInfo.contents}">
