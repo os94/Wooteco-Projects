@@ -105,4 +105,63 @@ class ArticleApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
+    @Test
+    @DisplayName("좋아요 추가")
+    void like_success() {
+        long count = 0;
+        moveToArticle(count, cookie, false);
+        count = likeOrDisLike(++count, cookie);
+        moveToArticle(count, cookie, true);
+    }
+
+    @Test
+    @DisplayName("좋아요 삭제")
+    void dislike_success() {
+        long count = 0;
+        count = likeOrDisLike(++count, cookie);
+        count = likeOrDisLike(--count, cookie);
+        moveToArticle(count, cookie, false);
+    }
+
+    @Test
+    @DisplayName("내좋아요 현황 다른사람이 확인")
+    void like_success_by_other() {
+        long count = 0;
+        count = likeOrDisLike(++count, cookie);
+
+        moveToArticle(count, anotherCookie, false);
+    }
+
+    @Test
+    void like_by_other_user() {
+        long count = 0;
+        count = likeOrDisLike(++count, cookie);
+        count = likeOrDisLike(++count, anotherCookie);
+
+        moveToArticle(count, anotherCookie, true);
+    }
+
+    private void moveToArticle(long count, String cookie, boolean likeState) {
+        webTestClient.get().uri(COMMON_REQUEST_URL, articleId)
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.countOfLikes")
+                .isEqualTo(count)
+                .jsonPath("$.likeState")
+                .isEqualTo(likeState);
+    }
+
+    private long likeOrDisLike(long count, String cookie) {
+        webTestClient.post().uri(COMMON_REQUEST_URL + "/like", articleId)
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$")
+                .isEqualTo(count);
+        return count;
+    }
 }
