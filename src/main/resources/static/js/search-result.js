@@ -1,6 +1,6 @@
 const SEARCH_APP = (() => {
 
-    const SearchController = () => {
+    const SearchController = function() {
         const searchService = new SearchService();
         const observer = OBSERVER_APP.observeService();
         const articleService = ARTICLE_APP.ArticleService();

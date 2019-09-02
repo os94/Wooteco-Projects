@@ -3,7 +3,7 @@ const COMMENT_APP = (() => {
     const connector = FETCH_APP.FetchApi();
     const template = TEMPLATE_APP.TemplateService();
 
-    const CommentController = () => {
+    const CommentController = function() {
         const commentService = new CommentService();
 
         const cards = document.getElementById('cards');
@@ -32,7 +32,7 @@ const COMMENT_APP = (() => {
 
     };
 
-    const CommentService = () => {
+    const CommentService = function() {
         const save = event => {
             const target = event.target;
             if (!target.classList.contains('comment-save-button')) {

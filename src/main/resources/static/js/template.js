@@ -1,5 +1,5 @@
-TEMPLATE_APP = (() => {
-    const TemplateService = () => {
+const TEMPLATE_APP = (() => {
+    const TemplateService = function() {
         const searchResult = hashTag => {
             const template =
                 `<li class="search-result-item">

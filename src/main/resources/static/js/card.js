@@ -1,6 +1,6 @@
 const CARD_APP = (() => {
 
-    const CardController = () => {
+    const CardController = function() {
         const cardService = new CardService();
 
         const cards = document.getElementById('cards');

@@ -8,7 +8,6 @@ const FETCH_APP = (() => {
         const DELETE = 'DELETE';
 
         const fetchTemplate = (requestUrl, method, header, body, ifSucceed) => {
-            console.log(method,header,body)
             fetch(requestUrl, {
                 method: method,
                 headers: header,

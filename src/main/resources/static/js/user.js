@@ -1,7 +1,7 @@
 const USER_APP = (() => {
     'use strict';
 
-    const UserController = () => {
+    const UserController = function() {
         const userService = new UserService();
 
         const signUp = () => {
@@ -48,7 +48,7 @@ const USER_APP = (() => {
         }
     };
 
-    const UserService = () => {
+    const UserService = function() {
         const connector = FETCH_APP.FetchApi();
         const header = {
             'Content-Type': 'application/json; charset=UTF-8',

@@ -1,7 +1,7 @@
 const ARTICLE_APP = (() => {
     'use strict';
 
-    const ArticleController = () => {
+    const ArticleController = function() {
         const articleService = new ArticleService();
 
 
@@ -25,7 +25,7 @@ const ARTICLE_APP = (() => {
         }
     };
 
-    const ArticleService = () => {
+    const ArticleService = function() {
         const connector = FETCH_APP.FetchApi();
 
 
