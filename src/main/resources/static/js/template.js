@@ -3,22 +3,22 @@ TEMPLATE_APP = (() => {
         const searchResult = hashTag => {
             const template =
                 `<li class="search-result-item">
-                                    <div class="row align-items-center margin-10">
-                                        <div class="col-2 text-center">
-                                            <p class="text-gray font-size-25 mrg-btm-0">#</p>
-                                        </div>
-                                        <div class="col-8">
-                                            <a href="/tags/${hashTag.keyword.substr(1)}" class="text-dark">
-                                                <div class="row">
-                                                    ${hashTag.keyword}
-                                                </div>
-                                                <div class="row text-gray">
-                                                    게시물 ${Intl.NumberFormat.call().format(hashTag.count)}
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </li>`;
+                    <div class="row align-items-center margin-10">
+                        <div class="col-2 text-center">
+                            <p class="text-gray font-size-25 mrg-btm-0">#</p>
+                        </div>
+                        <div class="col-8">
+                            <a href="/tags/${hashTag.keyword.substr(1)}" class="text-dark">
+                                <div class="row">
+                                    ${hashTag.keyword}
+                                </div>
+                                <div class="row text-gray">
+                                    게시물 ${Intl.NumberFormat.call().format(hashTag.count)}
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </li>`;
             return template;
         };
 
@@ -132,16 +132,16 @@ TEMPLATE_APP = (() => {
             if (message.from.id !== sessionUserId) {
                 template =
                     `<div class="incoming_msg">
-                <div class="incoming_msg_img">
-                    <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
-                </div>
-                <div class="received_msg">
-                    <div>${message.from.nickName}</div>
-                    <div class="received_withd_msg">
-                      <p>${message.content}</p>
-                    </div>
-                </div>
-            </div>`;
+                        <div class="incoming_msg_img">
+                            <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                        </div>
+                        <div class="received_msg">
+                            <div>${message.from.nickName}</div>
+                            <div class="received_withd_msg">
+                              <p>${message.content}</p>
+                            </div>
+                        </div>
+                    </div>`;
                 return template;
             }
             template =

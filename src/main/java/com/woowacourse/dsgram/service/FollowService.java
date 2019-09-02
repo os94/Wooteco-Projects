@@ -4,8 +4,8 @@ import com.woowacourse.dsgram.domain.Follow;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.domain.repository.FollowRepository;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;
-import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

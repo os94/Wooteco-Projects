@@ -34,13 +34,13 @@ const COMMENT_APP = (() => {
 
     const CommentService = () => {
         const save = event => {
-            let target = event.target;
+            const target = event.target;
             if (!target.classList.contains('comment-save-button')) {
                 return;
             }
 
-            let targetArticleId = target.getAttribute("data-article-id");
-            let commentContents = target.parentNode.parentNode.querySelector("textarea").value;
+            const targetArticleId = target.getAttribute("data-article-id");
+            const commentContents = target.parentNode.parentNode.querySelector("textarea").value;
 
             const header = {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -52,18 +52,18 @@ const COMMENT_APP = (() => {
                 contents: commentContents,
             };
 
-            const drawComment = comment => {
-                let commentTemplate = template.comment(comment.contents, comment.user.nickName, comment.id);
+            const drawComment = (comment) => {
+                const commentTemplate = template.comment(comment.contents, comment.user.nickName, comment.id);
 
-                let commentList = target.parentNode.parentNode.parentNode.querySelector('.list-info');
+                const commentList = target.parentNode.parentNode.parentNode.querySelector('.list-info');
                 commentList.insertAdjacentHTML('afterbegin', commentTemplate);
             };
 
-            const updateDomAfterSaveComment = function(target, res) {
+            const updateDomAfterSaveComment = (target) => {
                 target.parentNode.parentNode.querySelector('textarea').value = '';
-                let addedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
+                const addedCountOfComment = Number(target.parentElement.parentElement.parentElement.querySelector('span').getAttribute('data-count-comment')) + 1;
+                target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', addedCountOfComment)
                 target.parentElement.parentElement.parentElement.querySelector('span').setAttribute('data-count-comment', addedCountOfComment);
-                target.parentElement.parentElement.parentElement.querySelector('.show-comment').innerText = addedCountOfComment + '개 댓글 더보기';
             };
 
             connector.fetchTemplate(`/api/comments`,
@@ -78,7 +78,7 @@ const COMMENT_APP = (() => {
         };
 
         const show = event => {
-            let target = event.target;
+            const target = event.target;
 
             if (!target.classList.contains('show-comment')) {
                 return;
@@ -90,24 +90,24 @@ const COMMENT_APP = (() => {
                     ${comment}
                  {{/comments}}`;
 
-            let commentItemTemplate = Handlebars.compile(commentTemplate);
+            const commentItemTemplate = Handlebars.compile(commentTemplate);
 
-            let targetArticleId = target.parentElement.getAttribute('data-article-id');
-            let countOfBrowserComments = target.parentNode.querySelector('ul').querySelectorAll('li').length;
-            let countOfServerComments = target.getAttribute('data-count-comment');
+            const targetArticleId = target.parentElement.getAttribute('data-article-id');
+            const countOfBrowserComments = target.parentNode.querySelector('ul').querySelectorAll('li').length;
+            const countOfServerComments = target.getAttribute('data-count-comment');
 
             if (countOfBrowserComments >= countOfServerComments) {
                 alert('더이상 댓글이 없습니다.');
                 return;
             }
 
-            let page = parseInt((countOfBrowserComments / 5).toString());
+            const page = parseInt((countOfBrowserComments / 5).toString());
 
             connector.fetchTemplateWithoutBody(`/api/comments/${targetArticleId}?page=${page}`,
                 connector.GET,
                 (response) => {
                     response.json().then(res => {
-                        let data = {comments: res.content};
+                        const data = {comments: res.content};
                         target.parentNode.querySelector('ul').insertAdjacentHTML('beforeend', commentItemTemplate(data));
                         target.innerText = (countOfServerComments - target.parentNode.querySelector('ul').querySelectorAll('li').length) + '개 댓글 더보기'
                     });
@@ -116,23 +116,23 @@ const COMMENT_APP = (() => {
         };
 
         const remove = event => {
-            let target = event.target;
+            const target = event.target;
 
             if (!target.classList.contains('comment-delete')) {
                 return;
             }
 
-            let commentId = target.getAttribute('data-comment-id');
+            const commentId = target.getAttribute('data-comment-id');
 
             const ifSucceed = (target) => {
                 alert('댓글이 삭제 되었습니다.');
-                let spanTag = target.parentNode.parentNode.parentNode.parentNode.querySelector('span');
-                let commentCount = Number(spanTag.getAttribute('data-count-comment'));
+                const spanTag = target.parentNode.parentNode.parentNode.parentNode.querySelector('span');
+                const commentCount = Number(spanTag.getAttribute('data-count-comment'));
                 spanTag.setAttribute('data-count-comment', (commentCount - 1));
                 target.parentElement.parentElement.remove();
             };
 
-            connector.fetchTemplateWithoutBody('/api/comments/'+commentId,connector.DELETE,ifSucceed(target));
+            connector.fetchTemplateWithoutBody(`/api/comments/${commentId}`,connector.DELETE,ifSucceed(target));
         };
 
         return {

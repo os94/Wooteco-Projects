@@ -3,8 +3,8 @@ package com.woowacourse.dsgram.web.controller;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
-import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,7 +62,7 @@ public class ArticleApiController {
     public ResponseEntity like(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
         return ResponseEntity.ok(articleService.like(articleId, loggedInUser.getId()));
     }
-    
+
     @GetMapping("/{articleId}/liker")
     public ResponseEntity liker(@PathVariable long articleId) {
         List<UserInfo> likerList = articleService.findLikerListById(articleId);

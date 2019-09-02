@@ -2,7 +2,6 @@ package com.woowacourse.dsgram.service;
 
 import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.HashTag;
-import com.woowacourse.dsgram.domain.HashTagSearchResult;
 import com.woowacourse.dsgram.domain.repository.HashTagRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.dto.HashTagResponse;
@@ -14,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.woowacourse.dsgram.domain.HashTagSearchResult.*;
+import static com.woowacourse.dsgram.domain.HashTagSearchResult.LIMIT;
+import static com.woowacourse.dsgram.domain.HashTagSearchResult.START_PAGE;
 import static java.util.stream.Collectors.toList;
 
 @Service

@@ -5,5 +5,6 @@ public interface HashTagSearchResult {
     int LIMIT = 5;
 
     String getKeyword();
+
     long getCount();
 }

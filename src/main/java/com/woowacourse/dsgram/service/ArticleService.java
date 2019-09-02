@@ -13,9 +13,9 @@ import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
-import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -108,7 +108,7 @@ public class ArticleService {
         userService.findByNickName(nickName);
         return articleRepository
                 .findAllByAuthorNickNameOrderByCreatedDateDesc(PageRequest.of(page, 10), nickName)
-                .map(article -> findArticleInfo(article.getId(),viewerId));
+                .map(article -> findArticleInfo(article.getId(), viewerId));
     }
 
     public ArticleInfo findArticleInfo(long articleId, long viewerId) {
@@ -116,7 +116,7 @@ public class ArticleService {
         long countOfLikes = getCountOfLikes(articleId);
 
         return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments,
-                countOfLikes,isLike(articleId,viewerId));
+                countOfLikes, isLike(articleId, viewerId));
     }
 
     private long getCountOfLikes(long articleId) {
@@ -124,7 +124,7 @@ public class ArticleService {
     }
 
     private boolean isLike(long articleId, long viewerId) {
-        return likeRelationRepository.existsByArticleIdAndUserId(articleId,viewerId);
+        return likeRelationRepository.existsByArticleIdAndUserId(articleId, viewerId);
     }
 
     private long getCountOfComments(long articleId) {
@@ -139,7 +139,7 @@ public class ArticleService {
         Page<Article> articles = articleRepository.findByAuthorInOrderByCreatedDateDesc(PageRequest.of(page, 10), followings);
 
         return articles.map(
-            article -> findArticleInfo(article.getId(), viewerId)
+                article -> findArticleInfo(article.getId(), viewerId)
         );
     }
 

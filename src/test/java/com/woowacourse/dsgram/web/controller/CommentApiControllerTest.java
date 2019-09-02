@@ -1,4 +1,5 @@
 package com.woowacourse.dsgram.web.controller;
+
 import com.woowacourse.dsgram.domain.Comment;
 import com.woowacourse.dsgram.service.dto.CommentRequest;
 import com.woowacourse.dsgram.service.dto.user.SignUpUserRequest;
@@ -7,11 +8,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
+
 public class CommentApiControllerTest extends AbstractControllerTest {
     private String cookie;
     private String cookie2;
     private Long articleId;
     private CommentRequest commentRequest;
+
     @BeforeEach
     void setUp() {
         SignUpUserRequest signUpUserRequest = createSignUpUser();
@@ -21,6 +24,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
         articleId = saveArticle(cookie, "contents");
         commentRequest = new CommentRequest("comment contents", articleId);
     }
+
     @Test
     @DisplayName("로그인하지 않은 유저 댓글 생성 실패")
     void notLoginUserCreateCommentFail() {
@@ -31,6 +35,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isFound();
     }
+
     @Test
     @DisplayName("내용 없는 댓글 생성 실패")
     void noContentsCreateCommentFail() {
@@ -43,6 +48,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
     @Test
     @DisplayName("댓글 생성 성공")
     void createCommentSuccess() {
@@ -54,6 +60,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isOk();
     }
+
     @Test
     @DisplayName("댓글 삭제 성공")
     void deleteSuccess() {
@@ -64,6 +71,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isOk();
     }
+
     @Test
     @DisplayName("다른 사람의 댓글 삭제 실패")
     void failDeleteOtherUsersComment() {
@@ -74,6 +82,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
     @Test
     @DisplayName("존재하지 않는 댓글 삭제 실패")
     void deleteNotExistComment() {
@@ -85,6 +94,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
     @Test
     @DisplayName("댓글 수정 성공")
     void updateCommentSuccess() {
@@ -98,6 +108,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isOk();
     }
+
     @Test
     @DisplayName("존재하지 않는 댓글 수정 실패")
     void failUpdateNotExistComment() {
@@ -111,6 +122,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
     @Test
     @DisplayName("다른 작성자의 댓글 수정 실패")
     void failUpdateOtherUsersComment() {
@@ -124,6 +136,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isBadRequest();
     }
+
     @Test
     @DisplayName("게시글 조회 성공")
     void getComment() {
@@ -134,6 +147,7 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .expectStatus()
                 .isOk();
     }
+
     private Long createCommentRequest(String cookie) {
         return webTestClient.post().uri("/api/comments")
                 .header("Cookie", cookie)
