@@ -1,6 +1,6 @@
 package com.woowacourse.dsgram.web.controller;
 
-import com.woowacourse.dsgram.service.ArticleService;
+import com.woowacourse.dsgram.service.FeedService;
 import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class FeedController {
-    private final ArticleService articleService;
+    private final FeedService feedService;
 
-    public FeedController(ArticleService articleService) {
-        this.articleService = articleService;
+    public FeedController(FeedService feedService) {
+        this.feedService = feedService;
     }
 
     @GetMapping("/users/{nickName}")
     public String showFeed(@PathVariable String nickName, @UserSession LoggedInUser loggedInUser, Model model) {
-        FeedInfo feedInfo = articleService.getFeedInfo(loggedInUser.getNickName(), nickName);
+        FeedInfo feedInfo = feedService.getFeedInfo(loggedInUser.getNickName(), nickName);
         model.addAttribute("feedInfo", feedInfo);
         return "my-feed";
     }

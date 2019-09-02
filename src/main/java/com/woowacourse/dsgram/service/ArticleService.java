@@ -9,18 +9,15 @@ import com.woowacourse.dsgram.domain.repository.CommentRepository;
 import com.woowacourse.dsgram.domain.repository.LikeRelationRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;
-import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
-import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,11 +94,6 @@ public class ArticleService {
         return fileService.readFileByFileInfo(findById(articleId).getFileInfo());
     }
 
-    public List<Article> findArticlesByAuthorNickName(String nickName) {
-        userService.findByNickName(nickName);
-        return articleRepository.findAllByAuthorNickNameOrderByCreatedDateDesc(nickName);
-    }
-
     public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName, long viewerId) {
         userService.findByNickName(nickName);
         return articleRepository
@@ -139,23 +131,6 @@ public class ArticleService {
         return articles.map(
                 article -> findArticleInfo(article.getId(), viewerId)
         );
-    }
-
-    public FeedInfo getFeedInfo(String fromNickName, String toNickName) {
-        User guest = userService.findByNickName(fromNickName);
-        User feedOwner = userService.findByNickName(toNickName);
-        long followers = followService.getCountOfFollowers(feedOwner);
-        long followings = followService.getCountOfFollowings(feedOwner);
-        List<Article> articles = findArticlesByAuthorNickName(toNickName);
-        FollowRelation followRelation = followService.isFollowed(guest, feedOwner);
-
-        return FeedInfo.builder()
-                .user(feedOwner)
-                .followers(followers)
-                .followings(followings)
-                .articles(articles)
-                .followRelation(followRelation)
-                .build();
     }
 
     @Transactional

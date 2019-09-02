@@ -45,8 +45,7 @@ const CARD_APP = (() => {
                 const cardContents = document.getElementById(`article-contents-${articleId}`);
                 cardContents.children[0].style.display = 'none';
                 cardContents.children[1].style.display = 'block';
-                cardContents.children[1].children[1]
-                    .addEventListener('click', () => editArticle(cardContents, articleId), false);
+                cardContents.children[1].children[1].addEventListener('click', () => editArticle(cardContents, articleId), false);
             }
 
             // TODO private method 를 어떻게 처리

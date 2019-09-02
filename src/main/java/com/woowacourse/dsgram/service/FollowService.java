@@ -22,12 +22,12 @@ public class FollowService {
         this.userService = userService;
     }
 
-    public FollowRelation isFollowed(User guest, User feedOwner) {
+    FollowRelation isFollowed(User guest, User feedOwner) {
         Follow follow = getFollow(guest, feedOwner);
         return FollowRelation.getRelation(follow, guest, feedOwner);
     }
 
-    public List<UserInfo> findFollowers(User user) {
+    List<UserInfo> findFollowers(User user) {
         List<UserInfo> followers = followRepository.findAllByTo(user)
                 .stream().map(Follow::getFrom)
                 .map(UserAssembler::toFollowInfo)
@@ -36,7 +36,7 @@ public class FollowService {
         return followers;
     }
 
-    public List<UserInfo> findFollowings(User user) {
+    List<UserInfo> findFollowings(User user) {
         List<UserInfo> followings = followRepository.findAllByFrom(user)
                 .stream().map(Follow::getTo)
                 .map(UserAssembler::toFollowInfo)
@@ -45,11 +45,11 @@ public class FollowService {
         return followings;
     }
 
-    public long getCountOfFollowers(User user) {
+    long getCountOfFollowers(User user) {
         return followRepository.countByTo(user);
     }
 
-    public long getCountOfFollowings(User user) {
+    long getCountOfFollowings(User user) {
         return followRepository.countByFrom(user);
     }
 
@@ -68,7 +68,7 @@ public class FollowService {
         followRepository.delete(follow);
     }
 
-    public boolean existRelation(User guest, User feedOwner) {
+    boolean existRelation(User guest, User feedOwner) {
         return followRepository.existsByFromAndTo(guest, feedOwner);
     }
 
