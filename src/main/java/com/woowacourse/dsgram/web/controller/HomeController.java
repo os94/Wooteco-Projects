@@ -1,6 +1,5 @@
 package com.woowacourse.dsgram.web.controller;
 
-import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.UserService;
@@ -25,9 +24,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String showMainPage(@UserSession LoggedInUser loggedInUser, Model model) {
-        List<Article> articles = articleService.getArticlesByFollowings(loggedInUser.getNickName());
         List<User> users = userService.findAll();
-        model.addAttribute("articles", articles);
         model.addAttribute("users", users);
         return "index";
     }

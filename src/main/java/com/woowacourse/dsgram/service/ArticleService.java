@@ -125,15 +125,18 @@ public class ArticleService {
         return commentRepository.countByArticleId(articleId);
     }
 
-    public List<Article> getArticlesByFollowings(String nickName) {
+    public Page<ArticleInfo> getArticlesByFollowings(String nickName, int page) {
         User user = userService.findByNickName(nickName);
         List<User> followings = followService.findFollowings(user)
                 .stream().map(followInfo -> userService.findByNickName(followInfo.getNickName()))
                 .collect(toList());
+        Page<Article> articles = articleRepository.findByAuthorInOrderByCreatedDateDesc(PageRequest.of(page, 10), followings);
 
-        return findAll()
-                .stream().filter(article -> followings.contains(article.getAuthor()))
-                .collect(toList());
+        return articles.map(article -> {
+            long countOfComments = getCountOfComments(article.getId());
+            long countOfLikes = getCountOfLikes(article.getId());
+            return ArticleAssembler.toArticleInfo(article, countOfComments, countOfLikes);
+        });
     }
 
     public FeedInfo getFeedInfo(String fromNickName, String toNickName) {

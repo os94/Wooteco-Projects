@@ -33,31 +33,21 @@
     <script src="/js/template.js"></script>
     <script src="/js/comment.js"></script>
     <script th:inline="javascript">
-        (function() {
+        (function () {
             const cards = document.getElementById('cards');
             const articleId = [[${articleId}]];
-
             const connector = FETCH_APP.FetchApi();
+            const fileLoader = FILE_LOAD_APP.FileLoadService();
+            const template = TEMPLATE_APP.TemplateService();
+
             connector.fetchTemplateWithoutBody(`/api/articles/${articleId}`, connector.GET,
                 (response) => {
-                    response.json().then(res => {
-                        const template = TEMPLATE_APP.TemplateService().card(res);
-                        cards.insertAdjacentHTML('afterbegin', template);
-                        articleFileLoad(res.articleFileName, res.articleId);
-                        userFileLoad(res.userFileName, res.userId);
-
+                    response.json().then(articleInfo => {
+                        cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
+                        fileLoader.loadMediaFile(fileLoader, articleInfo.articleFileName, articleInfo.articleId)
+                        fileLoader.loadProfileImageFile(fileLoader, articleInfo.userId, 'thumb-img-user-');
                     });
                 });
-
-            const articleFileLoad = function (articleFileName, articleId) {
-                const fileLoader = FILE_LOAD_APP.FileLoadService();
-                fileLoader.loadMediaFile(fileLoader, articleFileName, articleId);
-            };
-
-            const userFileLoad = function (userFileName, userId) {
-                const fileLoader = FILE_LOAD_APP.FileLoadService();
-                fileLoader.loadProfileImageFile(fileLoader, userId, 'thumb-img-user-');
-            };
         })();
 
     </script>

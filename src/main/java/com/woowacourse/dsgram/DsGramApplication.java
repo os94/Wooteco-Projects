@@ -22,7 +22,7 @@ public class DsGramApplication {
         return (args) -> {
 
             String homeDirectory = System.getProperty("user.dir");
-            String path = homeDirectory + "/" + "src/main/resources/static/images/default";
+            String path = "src/main/resources/static/images/default";
 
             FileInfo sampleImg1 = new FileInfo("sample_img_01.jpg", path);
             FileInfo sampleImg2 = new FileInfo("sample_img_02.jpg", path);
@@ -52,7 +52,8 @@ public class DsGramApplication {
             followRepository.save(follow);
 
             for (int i = 0; i < 18; i++) {
-                String contents = i + "#qwe";
+                String contentsWithoutNumber = "#qwe";
+                String contents = i + contentsWithoutNumber;
                 Article article = Article.builder()
                         .author(user)
                         .contents(contents)
@@ -62,13 +63,14 @@ public class DsGramApplication {
 
                 HashTag hashTag = HashTag.builder()
                         .article(article)
-                        .keyword(contents)
+                        .keyword(contentsWithoutNumber)
                         .build();
                 hashTagRepository.save(hashTag);
             }
 
             for (int i = 0; i < 5; i++) {
-                String contents = i + "#hello";
+                String contentsWithoutNumber = "#hello";
+                String contents = i + contentsWithoutNumber;
                 Article article = Article.builder()
                         .author(user2)
                         .contents(contents)
@@ -78,7 +80,7 @@ public class DsGramApplication {
 
                 HashTag hashTag = HashTag.builder()
                         .article(article)
-                        .keyword(contents)
+                        .keyword(contentsWithoutNumber)
                         .build();
                 hashTagRepository.save(hashTag);
             }
