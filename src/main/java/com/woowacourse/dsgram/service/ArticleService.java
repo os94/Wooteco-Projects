@@ -13,7 +13,7 @@ import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
-import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.strategy.ArticleFileNamingStrategy;
@@ -104,39 +104,43 @@ public class ArticleService {
         return articleRepository.findAllByAuthorNickNameOrderByCreatedDateDesc(nickName);
     }
 
-    public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName) {
+    public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName, long viewerId) {
         userService.findByNickName(nickName);
         return articleRepository
                 .findAllByAuthorNickNameOrderByCreatedDateDesc(PageRequest.of(page, 10), nickName)
-                .map(article -> ArticleAssembler.toArticleInfo(article, getCountOfComments(article.getId()), getCountOfLikes(article.getId())));
+                .map(article -> findArticleInfo(article.getId(),viewerId));
     }
 
-    public ArticleInfo findArticleInfo(long articleId) {
+    public ArticleInfo findArticleInfo(long articleId, long viewerId) {
         long countOfComments = getCountOfComments(articleId);
         long countOfLikes = getCountOfLikes(articleId);
-        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments, countOfLikes);
+
+        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments,
+                countOfLikes,isLike(articleId,viewerId));
     }
 
     private long getCountOfLikes(long articleId) {
         return likeRelationRepository.countByArticleId(articleId);
     }
 
+    private boolean isLike(long articleId, long viewerId) {
+        return likeRelationRepository.existsByArticleIdAndUserId(articleId,viewerId);
+    }
+
     private long getCountOfComments(long articleId) {
         return commentRepository.countByArticleId(articleId);
     }
 
-    public Page<ArticleInfo> getArticlesByFollowings(String nickName, int page) {
-        User user = userService.findByNickName(nickName);
+    public Page<ArticleInfo> getArticlesByFollowings(long viewerId, int page) {
+        User user = userService.findUserById(viewerId);
         List<User> followings = followService.findFollowings(user)
                 .stream().map(followInfo -> userService.findByNickName(followInfo.getNickName()))
                 .collect(toList());
         Page<Article> articles = articleRepository.findByAuthorInOrderByCreatedDateDesc(PageRequest.of(page, 10), followings);
 
-        return articles.map(article -> {
-            long countOfComments = getCountOfComments(article.getId());
-            long countOfLikes = getCountOfLikes(article.getId());
-            return ArticleAssembler.toArticleInfo(article, countOfComments, countOfLikes);
-        });
+        return articles.map(
+            article -> findArticleInfo(article.getId(), viewerId)
+        );
     }
 
     public FeedInfo getFeedInfo(String fromNickName, String toNickName) {
@@ -169,7 +173,7 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public List<FollowInfo> findLikerListById(long articleId) {
+    public List<UserInfo> findLikerListById(long articleId) {
         return likeRelationRepository.findAllByArticleId(articleId)
                 .stream().map(LikeRelation::getUser)
                 .map(UserAssembler::toFollowInfo)

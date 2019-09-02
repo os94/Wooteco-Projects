@@ -1,6 +1,7 @@
 const SEARCH_APP = (() => {
 
-    const SearchController = function () {
+    const SearchController = () => {
+        const searchService = new SearchService();
         const observer = OBSERVER_APP.observeService();
         const articleService = ARTICLE_APP.ArticleService();
         const query = document.getElementById('query').innerText;

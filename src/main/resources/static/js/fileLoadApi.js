@@ -1,6 +1,6 @@
 const FILE_LOAD_APP = (() => {
 
-    const FileLoadService = function () {
+    const FileLoadService = () => {
         const b64StringToBlob = b64Data => {
             const byteCharacters = atob(b64Data);
             const byteArrays = [];

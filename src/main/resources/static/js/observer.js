@@ -1,7 +1,7 @@
 const OBSERVER_APP = (() => {
     'use strict';
 
-    const observeService = function () {
+    const observeService = () => {
         const loadByObserve = (callBack, url) => {
             const end = document.getElementById('end');
             if (!end) {

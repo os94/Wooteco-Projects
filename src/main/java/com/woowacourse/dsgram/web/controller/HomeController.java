@@ -1,5 +1,6 @@
 package com.woowacourse.dsgram.web.controller;
 
+import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.UserService;
@@ -15,15 +16,13 @@ import java.util.List;
 @Controller
 public class HomeController {
     private final UserService userService;
-    private final ArticleService articleService;
 
-    public HomeController(UserService userService, ArticleService articleService) {
+    public HomeController(UserService userService) {
         this.userService = userService;
-        this.articleService = articleService;
     }
 
     @GetMapping("/")
-    public String showMainPage(@UserSession LoggedInUser loggedInUser, Model model) {
+    public String showMainPage(Model model) {
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         return "index";

@@ -1,7 +1,7 @@
 package com.woowacourse.dsgram.web.controller;
 
 import com.woowacourse.dsgram.service.FollowService;
-import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +23,14 @@ public class FeedApiController {
     }
 
     @GetMapping("/followers/{nickName}")
-    public ResponseEntity<List<FollowInfo>> getFollowers(@PathVariable String nickName) {
-        List<FollowInfo> followers = followService.getFollowers(nickName);
+    public ResponseEntity<List<UserInfo>> getFollowers(@PathVariable String nickName) {
+        List<UserInfo> followers = followService.getFollowers(nickName);
         return ResponseEntity.ok(followers);
     }
 
     @GetMapping("/followings/{nickName}")
-    public ResponseEntity<List<FollowInfo>> getFollowings(@PathVariable String nickName) {
-        List<FollowInfo> followers = followService.getFollowings(nickName);
+    public ResponseEntity<List<UserInfo>> getFollowings(@PathVariable String nickName) {
+        List<UserInfo> followers = followService.getFollowings(nickName);
         return ResponseEntity.ok(followers);
     }
 }

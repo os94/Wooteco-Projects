@@ -1,4 +1,4 @@
-package com.woowacourse.dsgram.service.dto.follow;
+package com.woowacourse.dsgram.service.dto.user;
 
 import com.woowacourse.dsgram.domain.FileInfo;
 import lombok.*;
@@ -7,12 +7,12 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class FollowInfo {
+public class UserInfo {
     private String nickName;
     private String userName;
     private FileInfo fileInfo;
 
-    public FollowInfo(String nickName, String userName, FileInfo fileInfo) {
+    public UserInfo(String nickName, String userName, FileInfo fileInfo) {
         this.nickName = nickName;
         this.userName = userName;
         this.fileInfo = fileInfo;

@@ -4,7 +4,7 @@ import com.woowacourse.dsgram.domain.Follow;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.domain.repository.FollowRepository;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;
-import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +27,8 @@ public class FollowService {
         return FollowRelation.getRelation(follow, guest, feedOwner);
     }
 
-    public List<FollowInfo> findFollowers(User user) {
-        List<FollowInfo> followers = followRepository.findAllByTo(user)
+    public List<UserInfo> findFollowers(User user) {
+        List<UserInfo> followers = followRepository.findAllByTo(user)
                 .stream().map(Follow::getFrom)
                 .map(UserAssembler::toFollowInfo)
                 .collect(Collectors.toList());
@@ -36,8 +36,8 @@ public class FollowService {
         return followers;
     }
 
-    public List<FollowInfo> findFollowings(User user) {
-        List<FollowInfo> followings = followRepository.findAllByFrom(user)
+    public List<UserInfo> findFollowings(User user) {
+        List<UserInfo> followings = followRepository.findAllByFrom(user)
                 .stream().map(Follow::getTo)
                 .map(UserAssembler::toFollowInfo)
                 .collect(Collectors.toList());
@@ -83,13 +83,13 @@ public class FollowService {
         delete(guest, feedOwner);
     }
 
-    public List<FollowInfo> getFollowers(String nickName) {
+    public List<UserInfo> getFollowers(String nickName) {
         User user = userService.findByNickName(nickName);
 
         return findFollowers(user);
     }
 
-    public List<FollowInfo> getFollowings(String nickName) {
+    public List<UserInfo> getFollowings(String nickName) {
         User user = userService.findByNickName(nickName);
 
         return findFollowings(user);

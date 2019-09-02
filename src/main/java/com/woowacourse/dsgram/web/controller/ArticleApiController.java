@@ -3,7 +3,7 @@ package com.woowacourse.dsgram.web.controller;
 import com.woowacourse.dsgram.service.ArticleService;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
-import com.woowacourse.dsgram.service.dto.follow.FollowInfo;
+import com.woowacourse.dsgram.service.dto.user.UserInfo;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.web.argumentresolver.UserSession;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +32,8 @@ public class ArticleApiController {
     }
 
     @GetMapping("{articleId}")
-    public ResponseEntity showArticleInfo(@PathVariable long articleId) {
-        return ResponseEntity.ok(articleService.findArticleInfo(articleId));
+    public ResponseEntity showArticleInfo(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
+        return ResponseEntity.ok(articleService.findArticleInfo(articleId, loggedInUser.getId()));
     }
 
     @PutMapping("{articleId}")
@@ -50,25 +50,22 @@ public class ArticleApiController {
 
     @GetMapping
     public ResponseEntity showArticles(@UserSession LoggedInUser loggedInUser, int page) {
-        return ResponseEntity.ok(articleService.getArticlesByFollowings(loggedInUser.getNickName(), page));
+        return ResponseEntity.ok(articleService.getArticlesByFollowings(loggedInUser.getId(), page));
     }
 
     @GetMapping("/users/{userNickname}")
-    public ResponseEntity showUserArticles(@PathVariable String userNickname, int page) {
-        return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname));
+    public ResponseEntity showUserArticles(@PathVariable String userNickname, int page, @UserSession LoggedInUser loggedInUser) {
+        return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname, loggedInUser.getId()));
     }
 
-    @PostMapping("/like/{articleId}")
+    @PostMapping("/{articleId}/like")
     public ResponseEntity like(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
         return ResponseEntity.ok(articleService.like(articleId, loggedInUser.getId()));
     }
-
-
+    
     @GetMapping("/{articleId}/liker")
     public ResponseEntity liker(@PathVariable long articleId) {
-        List<FollowInfo> likerList = articleService.findLikerListById(articleId);
+        List<UserInfo> likerList = articleService.findLikerListById(articleId);
         return ResponseEntity.ok(likerList);
     }
-
-
 }

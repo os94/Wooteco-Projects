@@ -2,7 +2,7 @@ CHAT_APP = (() => {
 
     let stompClient = null;
 
-    const ChatController = function () {
+    const ChatController = () => {
         const chatService = new ChatService();
 
         const sendMessage = () => {
@@ -28,7 +28,7 @@ CHAT_APP = (() => {
         }
     };
 
-    const ChatService = function () {
+    const ChatService = () => {
         const connector = FETCH_APP.FetchApi();
         const template = TEMPLATE_APP.TemplateService();
 

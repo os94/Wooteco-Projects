@@ -1,7 +1,7 @@
 const FETCH_APP = (() => {
     'use strict';
 
-    const FetchApi = function () {
+    const FetchApi = () => {
         const GET = 'GET';
         const POST = 'POST';
         const PUT = 'PUT';

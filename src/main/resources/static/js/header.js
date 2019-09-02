@@ -1,5 +1,5 @@
 HEADER_APP = (() => {
-    const HeaderController = function () {
+    const HeaderController = () => {
         const headerService = new HeaderService();
 
         const search = () => {
@@ -26,7 +26,7 @@ HEADER_APP = (() => {
         }
     };
 
-    const HeaderService = function () {
+    const HeaderService = () => {
         const connector = FETCH_APP.FetchApi();
         const template = TEMPLATE_APP.TemplateService();
 

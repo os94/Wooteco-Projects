@@ -1,7 +1,7 @@
 const USER_APP = (() => {
     'use strict';
 
-    const UserController = function () {
+    const UserController = () => {
         const userService = new UserService();
 
         const signUp = () => {
@@ -48,7 +48,7 @@ const USER_APP = (() => {
         }
     };
 
-    const UserService = function () {
+    const UserService = () => {
         const connector = FETCH_APP.FetchApi();
         const header = {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -109,7 +109,7 @@ const USER_APP = (() => {
                 ifSucceed);
         };
 
-        const deleteUser = function (event) {
+        const deleteUser = event => {
             event.preventDefault();
             connector.fetchTemplateWithoutBody(`/api/users/${userId.value}`,
                 connector.DELETE,

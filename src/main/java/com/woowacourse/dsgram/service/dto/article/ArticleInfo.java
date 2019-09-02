@@ -14,11 +14,11 @@ public class ArticleInfo {
     private String articleFileName;
     private Long countOfLikes;
     private Long countOfComments;
-    private boolean like;
+    private boolean likeState;
 
     @Builder
     public ArticleInfo(Long userId, String nickName, Long articleId, String contents,
-                       String articleFileName, Long countOfLikes, Long countOfComments, boolean like) {
+                       String articleFileName, Long countOfLikes, Long countOfComments, boolean likeState) {
         this.userId = userId;
         this.nickName = nickName;
         this.articleId = articleId;
@@ -26,6 +26,6 @@ public class ArticleInfo {
         this.articleFileName = articleFileName;
         this.countOfLikes = countOfLikes;
         this.countOfComments = countOfComments;
-        this.like = like;
+        this.likeState = likeState;
     }
 }

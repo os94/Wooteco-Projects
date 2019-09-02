@@ -1,6 +1,6 @@
 const FOLLOW_APP = (() => {
 
-    const FollowController = function () {
+    const FollowController = () => {
         const followService = new FollowService();
 
         const follow = () => {
@@ -35,7 +35,7 @@ const FOLLOW_APP = (() => {
         }
     };
 
-    const FollowService = function () {
+    const FollowService = () => {
         const connector = FETCH_APP.FetchApi();
         const header = {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -49,7 +49,7 @@ const FOLLOW_APP = (() => {
 
         const follow = event => {
             event.preventDefault();
-            const ifSucceed = () => window.location.href = '/users/' + document.getElementById('feedOwner').innerText;
+            const ifSucceed = () => window.location.href = `/users/${document.getElementById('feedOwner').innerText}`;
 
             connector.fetchTemplate('/follow', connector.POST, header, JSON.stringify(formData), ifSucceed)
         };
@@ -64,7 +64,7 @@ const FOLLOW_APP = (() => {
             };
 
             const nickName = document.querySelector('#feedOwner').innerHTML;
-            connector.fetchTemplateWithoutBody('/followers/' + nickName, connector.GET, ifSucceed);
+            connector.fetchTemplateWithoutBody(`/followers/${nickName}`, connector.GET, ifSucceed);
         };
 
         const followings = event => {
@@ -77,7 +77,7 @@ const FOLLOW_APP = (() => {
             };
 
             const nickName = document.querySelector('#feedOwner').innerHTML;
-            connector.fetchTemplateWithoutBody('/followings/' + nickName, connector.GET, ifSucceed);
+            connector.fetchTemplateWithoutBody(`/followings/${nickName}`, connector.GET, ifSucceed);
         };
 
         const printModal = res => {

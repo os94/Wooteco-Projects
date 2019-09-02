@@ -3,7 +3,7 @@ const COMMENT_APP = (() => {
     const connector = FETCH_APP.FetchApi();
     const template = TEMPLATE_APP.TemplateService();
 
-    const CommentController = function() {
+    const CommentController = () => {
         const commentService = new CommentService();
 
         const cards = document.getElementById('cards');
@@ -32,7 +32,7 @@ const COMMENT_APP = (() => {
 
     };
 
-    const CommentService = function() {
+    const CommentService = () => {
         const save = event => {
             let target = event.target;
             if (!target.classList.contains('comment-save-button')) {
@@ -52,7 +52,7 @@ const COMMENT_APP = (() => {
                 contents: commentContents,
             };
 
-            const drawComment = function (comment) {
+            const drawComment = comment => {
                 let commentTemplate = template.comment(comment.contents, comment.user.nickName, comment.id);
 
                 let commentList = target.parentNode.parentNode.parentNode.querySelector('.list-info');

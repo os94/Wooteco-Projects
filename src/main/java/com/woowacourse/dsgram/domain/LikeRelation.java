@@ -11,7 +11,7 @@ import javax.persistence.*;
 public class LikeRelation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    long id;
+    private long id;
 
     @ManyToOne
     private Article article;
@@ -24,5 +24,14 @@ public class LikeRelation {
     public LikeRelation(Article article, User user) {
         this.article = article;
         this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "LikeRelation{" +
+                "id=" + id +
+                ", article=" + article +
+                ", user=" + user +
+                '}';
     }
 }

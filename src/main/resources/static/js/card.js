@@ -1,6 +1,6 @@
 const CARD_APP = (() => {
 
-    const CardController = function () {
+    const CardController = () => {
         const cardService = new CardService();
 
         const cards = document.getElementById('cards');
@@ -17,10 +17,15 @@ const CARD_APP = (() => {
             cards ? cards.addEventListener('click', cardService.clickHeart) : undefined;
         }
 
+        const likerList = () => {
+            cards ? cards.addEventListener('click', cardService.likerList) : undefined;
+        }
+
         const init = () => {
             deleteCard();
             changeEditForm();
             clickHeart();
+            likerList();
         };
 
         return {
@@ -86,7 +91,7 @@ const CARD_APP = (() => {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': 'application/json'
             };
-            let target = event.target;
+            const target = event.target;
             if (target.tagName === 'I' && target.classList.contains('fa') ) {
                 const articleId = target.closest('.article-card').getAttribute('id');
                 const connector = FETCH_APP.FetchApi();
@@ -104,15 +109,51 @@ const CARD_APP = (() => {
                     })
                 };
 
-                connector.fetchTemplate(`/api/articles/like/${articleId}`, connector.POST, header, {}, ifSucceed);
+                connector.fetchTemplate(`/api/articles/${articleId}/like`, connector.POST, header, {}, ifSucceed);
 
             }
+        };
+
+        const likerList = event => {
+            let target = event.target;
+            if(target.tagName === 'SPAN' && target.classList.contains('count-like')) {
+                const articleId = target.closest('.article-card').getAttribute('id');
+                const connector = FETCH_APP.FetchApi();
+
+                const ifSucceed = response => {
+                    response.json().then((res) => {
+                        printModal(res);
+                        document.getElementById('likes').innerText = '좋아요';
+                    })
+                };
+                connector.fetchTemplateWithoutBody(`/api/articles/${articleId}/liker`, connector.GET, ifSucceed);
+            }
+        };
+
+        const printModal = res => {
+            const modalBody = document.getElementById('liker-info');
+            modalBody.innerHTML = "";
+
+            let likerList = '';
+            for (let i = 0; i < res.length; i++) {
+                likerList = likerList + `<div class="content">  
+                                                        <div style="float: left; width: 13%;">
+                                                          <img class="img-circle height-40px width-40px" src="/images/default/default_profile.png">
+                                                        </div>
+                                                        <div>
+                                                          <div id="nickName-${i}" class="text-bold" style="font-size: medium">${res[i].nickName}</div>  
+                                                          <div id="userName-${i}" style="font-size: small"> ${res[i].userName}</div>
+                                                        </div>
+                                                   </div>`
+            }
+            modalBody.insertAdjacentHTML('beforeend', likerList);
         };
 
         return {
             deleteCard: deleteCard,
             changeEditForm: changeEditForm,
             clickHeart: clickHeart,
+            likerList: likerList,
         }
     };
 
