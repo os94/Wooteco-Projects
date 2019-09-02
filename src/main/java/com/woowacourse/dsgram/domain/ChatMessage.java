@@ -4,14 +4,18 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = {"id"})
-public class ChatMessage extends BaseEntity {
+@EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -26,6 +30,9 @@ public class ChatMessage extends BaseEntity {
     @ManyToOne
     private ChatRoom chatRoom;
 
+    @CreatedDate
+    private LocalDateTime createdDate;
+
     public ChatMessage(String content, User from, ChatRoom chatRoom) {
         this.content = content;
         this.from = from;
@@ -39,6 +46,7 @@ public class ChatMessage extends BaseEntity {
                 ", content='" + content + '\'' +
                 ", from=" + from +
                 ", chatRoom=" + chatRoom +
+                ", createdDate=" + createdDate +
                 '}';
     }
 }

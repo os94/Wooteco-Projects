@@ -52,8 +52,7 @@ public class DsGramApplication {
             followRepository.save(follow);
 
             for (int i = 0; i < 18; i++) {
-                String contentsWithoutNumber = "#qwe";
-                String contents = i + contentsWithoutNumber;
+                String contents = "#qwe" + i;
                 Article article = Article.builder()
                         .author(user)
                         .contents(contents)
@@ -63,14 +62,13 @@ public class DsGramApplication {
 
                 HashTag hashTag = HashTag.builder()
                         .article(article)
-                        .keyword(contentsWithoutNumber)
+                        .keyword(contents)
                         .build();
                 hashTagRepository.save(hashTag);
             }
 
             for (int i = 0; i < 5; i++) {
-                String contentsWithoutNumber = "#hello";
-                String contents = i + contentsWithoutNumber;
+                String contents = "#hello" + i;
                 Article article = Article.builder()
                         .author(user2)
                         .contents(contents)
@@ -80,7 +78,7 @@ public class DsGramApplication {
 
                 HashTag hashTag = HashTag.builder()
                         .article(article)
-                        .keyword(contentsWithoutNumber)
+                        .keyword(contents)
                         .build();
                 hashTagRepository.save(hashTag);
             }

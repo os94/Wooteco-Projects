@@ -21,10 +21,11 @@
                     </div>
                 </div>
             </div>
-            <div class="list-group" style="position: fixed; right: 10px; bottom: 10px;">
-                <a class="list-group-item list-group-item-secondary" style="font-weight: bold;">DM List</a>
-                <div th:each="user : ${users}">
-                    <a th:if="${user.id != session.sessionUser.id}" th:href="'/chat/' + ${user.id}"
+
+            <div class="list-group width-160px overflow-y-auto height-85 scrollbar-hidden" style="position: fixed; right: 10px; top: 120px;">
+                <a class="list-group-item list-group-item-secondary text-bold">DM List</a>
+                <div>
+                    <a th:each="user : ${users}" th:if="${user.id != session.sessionUser.id}" th:href="'/chat/' + ${user.id}"
                        th:text="${user.nickName}" class="list-group-item list-group-item-action"></a>
                 </div>
             </div>

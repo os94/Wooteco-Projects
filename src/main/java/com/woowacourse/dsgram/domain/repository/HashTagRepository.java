@@ -18,7 +18,7 @@ public interface HashTagRepository extends JpaRepository<HashTag, Long> {
     void deleteAllByArticleId(long articleId);
 
     @Query(FIND_ALL_BY_QUERY)
-    List<HashTagSearchResult> findResult(@Param("query") String query);
+    List<HashTagSearchResult> findResult(@Param("query") String query, Pageable pageable);
 
     Page<HashTag> findAllByKeywordContainingOrderByCreatedDate(Pageable pageable, String keyword);
 }

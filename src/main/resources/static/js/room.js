@@ -69,13 +69,14 @@ CHAT_APP = (() => {
             const a = document.getElementsByTagName('html')[0];
             a.scroll({
                 behavior: 'smooth',
-                top: a.offsetHeight * 2,
+                top: a.offsetHeight * a.offsetHeight,
             })
         };
 
         const connect = () => {
             const socket = new SockJS('/dm');
             stompClient = Stomp.over(socket);
+            stompClient.debug = null;
             stompClient.connect({}, () => {
                 stompClient.subscribe(`/topic/open/${roomCode}`, message => {
                     insertMessage(JSON.parse(message.body));

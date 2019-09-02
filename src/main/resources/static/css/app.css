@@ -1651,3 +1651,7 @@ button.disabled,button:disabled{opacity:.5;cursor:not-allowed}
     margin-left: auto !important;
     margin-right: auto !important;
 }
+
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+}

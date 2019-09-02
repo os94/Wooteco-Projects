@@ -1,25 +1,9 @@
 package com.woowacourse.dsgram.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+public interface HashTagSearchResult {
+    int START_PAGE = 0;
+    int LIMIT = 5;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class HashTagSearchResult {
-    private String keyword;
-    private long count;
-
-    public HashTagSearchResult(String keyword, long count) {
-        this.keyword = keyword;
-        this.count = count;
-    }
-
-    @Override
-    public String toString() {
-        return "HashTagSearchResult{" +
-                "keyword='" + keyword + '\'' +
-                ", count=" + count +
-                '}';
-    }
+    String getKeyword();
+    long getCount();
 }
