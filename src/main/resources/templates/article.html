@@ -64,6 +64,15 @@
                         cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
                         fileLoader.loadMediaFile(fileLoader, articleInfo.articleFileName, articleInfo.articleId)
                         fileLoader.loadProfileImageFile(fileLoader, articleInfo.userId, 'thumb-img-user-');
+                        const ifSucceed = (response) => {
+                            response.json().then(data => {
+                                let target = document.getElementById(`like-state-${articleInfo.articleId}`);
+                                const present = document.getElementById(`count-like-${articleInfo.articleId}`);
+                                present.innerText = data.countOfLikes;
+                                target.setAttribute('class', `${!data.likeState ? 'fa fa-heart-o' : 'fa fa-heart'} activated-heart font-size-25`);
+                            })
+                        };
+                        connector.fetchTemplateWithoutBody(`/api/articles/${articleInfo.articleId}/like/status`, connector.GET, ifSucceed);
                     });
                 });
         })();

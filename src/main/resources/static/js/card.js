@@ -169,8 +169,6 @@ const CARD_APP = (() => {
               alert(`링크가 복사되었습니다. ${copiedUrl}`);
 
           }
-
-
         };
 
         return {

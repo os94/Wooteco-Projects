@@ -108,39 +108,46 @@ class ArticleApiControllerTest extends AbstractControllerTest {
     }
 
     @Test
-    @DisplayName("좋아요 추가")
-    void like_success() {
+    @DisplayName("좋아요 조회")
+    void load_like_status() {
         long count = 0;
-        moveToArticle(count, cookie, false);
-        count = likeOrDisLike(++count, cookie);
-        moveToArticle(count, cookie, true);
+
+        loadLikeStatus(count, cookie, false);
+    }
+
+
+    @Test
+    @DisplayName("좋아요 추가 후 새로 고침")
+    void like_success_and_reload() {
+        long count = 0;
+        likeOrDisLike(++count, cookie);
+        loadLikeStatus(count, cookie, true);
     }
 
     @Test
-    @DisplayName("좋아요 삭제")
-    void dislike_success() {
+    @DisplayName("좋아요 삭제 후 새로고침")
+    void dislike_success_and_reload() {
         long count = 0;
         count = likeOrDisLike(++count, cookie);
-        count = likeOrDisLike(--count, cookie);
-        moveToArticle(count, cookie, false);
+        likeOrDisLike(--count, cookie);
+        loadLikeStatus(count, cookie, false);
     }
 
     @Test
-    @DisplayName("내좋아요 현황 다른사람이 확인")
+    @DisplayName("좋아요 있는 상태에서 좋아요 누르지 않은 사람이 글 확인")
     void like_success_by_other() {
         long count = 0;
         count = likeOrDisLike(++count, cookie);
-
-        moveToArticle(count, anotherCookie, false);
+        loadLikeStatus(count, anotherCookie, false);
     }
 
     @Test
+    @DisplayName("좋아요 있는 상태에서 다른사람이 좋아요 누르고 새로고침")
     void like_by_other_user() {
         long count = 0;
         count = likeOrDisLike(++count, cookie);
-        count = likeOrDisLike(++count, anotherCookie);
-
-        moveToArticle(count, anotherCookie, true);
+        likeOrDisLike(++count, anotherCookie);
+        loadLikeStatus(count, anotherCookie, true);
     }
 
     @Test
@@ -173,8 +180,8 @@ class ArticleApiControllerTest extends AbstractControllerTest {
                 .jsonPath("$").isEmpty();
     }
 
-    private void moveToArticle(long count, String cookie, boolean likeState) {
-        webTestClient.get().uri(COMMON_REQUEST_URL, articleId)
+    private void loadLikeStatus(long count, String cookie, boolean likeState) {
+        webTestClient.get().uri(COMMON_REQUEST_URL+"/like/status", articleId)
                 .header("Cookie", cookie)
                 .exchange()
                 .expectStatus().isOk()

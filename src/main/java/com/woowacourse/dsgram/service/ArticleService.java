@@ -8,6 +8,7 @@ import com.woowacourse.dsgram.domain.repository.ArticleRepository;
 import com.woowacourse.dsgram.domain.repository.LikeRelationRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;
+import com.woowacourse.dsgram.service.dto.LikeResponse;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleInfo;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
@@ -93,20 +94,16 @@ public class ArticleService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName, long viewerId) {
+    public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName) {
         userService.findByNickName(nickName);
         return articleRepository
                 .findAllByAuthorNickNameOrderByCreatedDateDesc(PageRequest.of(page, 10), nickName)
-                .map(article -> findArticleInfo(article.getId(), viewerId));
+                .map(article -> findArticleInfo(article.getId()));
     }
 
     @Transactional(readOnly = true)
-    public ArticleInfo findArticleInfo(long articleId, long viewerId) {
-        long countOfComments = getCountOfComments(articleId);
-        long countOfLikes = getCountOfLikes(articleId);
-
-        return ArticleAssembler.toArticleInfo(findById(articleId), countOfComments,
-                countOfLikes, isLike(articleId, viewerId));
+    public ArticleInfo findArticleInfo(long articleId) {
+        return ArticleAssembler.toArticleInfo(findById(articleId));
     }
 
     private long getCountOfLikes(long articleId) {
@@ -130,7 +127,7 @@ public class ArticleService {
         Page<Article> articles = articleRepository.findByAuthorInOrderByCreatedDateDesc(PageRequest.of(page, 10), followings);
 
         return articles.map(
-                article -> findArticleInfo(article.getId(), viewerId)
+                article -> findArticleInfo(article.getId())
         );
     }
 
@@ -151,5 +148,12 @@ public class ArticleService {
                 .stream().map(LikeRelation::getUser)
                 .map(UserAssembler::toFollowInfo)
                 .collect(toList());
+    }
+
+    public LikeResponse findLikeStatus(long articleId, long viewerId) {
+        long countOfLikes = getCountOfLikes(articleId);
+        boolean likeStatus = isLike(articleId, viewerId);
+
+        return new LikeResponse(countOfLikes, likeStatus);
     }
 }

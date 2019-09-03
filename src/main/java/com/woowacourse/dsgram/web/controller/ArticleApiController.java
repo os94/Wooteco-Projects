@@ -1,6 +1,7 @@
 package com.woowacourse.dsgram.web.controller;
 
 import com.woowacourse.dsgram.service.ArticleService;
+import com.woowacourse.dsgram.service.dto.LikeResponse;
 import com.woowacourse.dsgram.service.dto.article.ArticleEditRequest;
 import com.woowacourse.dsgram.service.dto.article.ArticleRequest;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
@@ -32,8 +33,8 @@ public class ArticleApiController {
     }
 
     @GetMapping("{articleId}")
-    public ResponseEntity showArticleInfo(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
-        return ResponseEntity.ok(articleService.findArticleInfo(articleId, loggedInUser.getId()));
+    public ResponseEntity showArticleInfo(@PathVariable long articleId) {
+        return ResponseEntity.ok(articleService.findArticleInfo(articleId));
     }
 
     @PutMapping("{articleId}")
@@ -54,8 +55,8 @@ public class ArticleApiController {
     }
 
     @GetMapping("/users/{userNickname}")
-    public ResponseEntity showUserArticles(@PathVariable String userNickname, int page, @UserSession LoggedInUser loggedInUser) {
-        return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname, loggedInUser.getId()));
+    public ResponseEntity showUserArticles(@PathVariable String userNickname, int page) {
+        return ResponseEntity.ok(articleService.findArticlesByAuthorNickName(page, userNickname));
     }
 
     @PostMapping("/{articleId}/like")
@@ -67,5 +68,12 @@ public class ArticleApiController {
     public ResponseEntity liker(@PathVariable long articleId) {
         List<UserInfo> likerList = articleService.findLikerListById(articleId);
         return ResponseEntity.ok(likerList);
+    }
+
+    @GetMapping("/{articleId}/like/status")
+    public ResponseEntity likeStatus(@PathVariable long articleId, @UserSession LoggedInUser loggedInUser) {
+        LikeResponse likeResponse = articleService.findLikeStatus(articleId, loggedInUser.getId());
+
+        return ResponseEntity.ok(likeResponse);
     }
 }

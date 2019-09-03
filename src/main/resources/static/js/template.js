@@ -77,8 +77,7 @@ const TEMPLATE_APP = (() => {
                                     <ul class="feed-action pdd-horizon-15 pdd-top-5">
                                         <li>
                                             <a> 
-                                                <input id="like-state-${articleInfo.articleId}" type="hidden" value="${articleInfo.like}">
-                                                <i class="fa ${articleInfo.likeState ? 'fa-heart' : 'fa-heart-o'} activated-heart font-size-25" style="display: block"></i>
+                                                <i id="like-state-${articleInfo.articleId}" class="fa fa-heart activated-heart font-size-25" style="display: block"></i>
                                             </a>
                                         </li>
                                         <li>
