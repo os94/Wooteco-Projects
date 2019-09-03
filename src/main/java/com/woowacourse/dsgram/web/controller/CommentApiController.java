@@ -51,7 +51,7 @@ public class CommentApiController {
 
     @GetMapping("/{articleId}/counts")
     public ResponseEntity getCountOfComments(@PathVariable("articleId") Long articleId) {
-        Long countOfComments = commentService.getCountOfComments(articleId);
+        Long countOfComments = commentService.countByArticleId(articleId);
         return ResponseEntity.ok(countOfComments);
     }
 
