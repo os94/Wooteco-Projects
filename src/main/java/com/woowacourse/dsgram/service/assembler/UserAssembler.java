@@ -67,6 +67,6 @@ public class UserAssembler {
     }
 
     public static UserInfo toFollowInfo(User user) {
-        return new UserInfo(user.getNickName(), user.getUserName(), user.getFileInfo());
+        return new UserInfo(user.getId(), user.getNickName(), user.getUserName(), user.getFileInfo());
     }
 }

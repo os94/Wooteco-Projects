@@ -97,7 +97,7 @@ const TEMPLATE_APP = (() => {
                                             좋아합니다.
                                         </p>
                                     </div>
-                                    <div id="article-contents-${articleInfo.articleId}" class="feed-contents pdd-left-15">
+                                    <div id="article-contents-${articleInfo.articleId}" class="feed-contents pdd-left-15" style="margin-top: 10px">
                                         <p class="contents">${articleInfo.contents}</p>
                                         <form style="display: none;">
                                             <input type="text" value="${articleInfo.contents}">
