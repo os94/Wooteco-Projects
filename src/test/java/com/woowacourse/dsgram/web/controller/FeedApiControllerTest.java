@@ -10,9 +10,11 @@ import reactor.core.publisher.Mono;
 import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
-public class FeedApiControllerTest extends AbstractControllerTest {
+class FeedApiControllerTest extends AbstractControllerTest {
     private String cookie;
     private SignUpUserRequest signUpUserRequest;
     private SignUpUserRequest signUpUserRequest2;
@@ -30,7 +32,12 @@ public class FeedApiControllerTest extends AbstractControllerTest {
     @Test
     void 팔로우_성공() {
         followOrUnfollow(followRequest)
-                .expectStatus().isOk();
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(document("follow/post/followAndUnfollow",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
 
         requestUserFeed(signUpUserRequest2.getNickName(), cookie)
                 .expectBody()
@@ -65,11 +72,43 @@ public class FeedApiControllerTest extends AbstractControllerTest {
     }
 
     private ResponseSpec followOrUnfollow(FollowRequest followRequest) {
-        return webTestClient.post().uri("/follow")
+        return webTestClient.post().uri("/api/follow")
                 .header("cookie", this.cookie)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .body(Mono.just(followRequest), FollowRequest.class)
                 .exchange();
+    }
+
+    @Test
+    void followerList() {
+        followOrUnfollow(followRequest)
+                .expectStatus().isOk();
+
+        webTestClient.get().uri("/api/followers/{nickName}", signUpUserRequest2.getNickName())
+                .header("cookie", this.cookie)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectBody()
+                .consumeWith(document("follow/get/followers",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
+    }
+
+    @Test
+    void followingList() {
+        followOrUnfollow(followRequest)
+                .expectStatus().isOk();
+
+        webTestClient.get().uri("/api/followings/{nickName}", signUpUserRequest.getNickName())
+                .header("cookie", this.cookie)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectBody()
+                .consumeWith(document("follow/get/following",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 }

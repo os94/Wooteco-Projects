@@ -1,0 +1,71 @@
+= Article
+
+== 1. Find articles per page
+
+=== Example request
+
+include::{snippets}/articles/get/articlesPerPage/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/articles/get/articlesPerPage/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/articles/get/articlesPerPage/response-body.adoc[]
+
+== 2. Find one article
+
+=== Example request
+
+include::{snippets}/articles/get/oneArticle/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/articles/get/oneArticle/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/articles/get/oneArticle/response-body.adoc[]
+
+== 3. Write article
+
+=== Example request
+
+include::{snippets}/articles/post/write/curl-request.adoc[]
+
+==== Request body
+
+include::{snippets}/articles/post/write/request-body.adoc[]
+
+=== Example response
+Article ID
+include::{snippets}/articles/post/write/http-response.adoc[]
+
+== 4. Update article contents
+
+=== Example request
+
+include::{snippets}/articles/put/updateArticle/curl-request.adoc[]
+
+==== Request body
+
+include::{snippets}/articles/put/updateArticle/request-body.adoc[]
+
+=== Example response
+
+include::{snippets}/articles/put/updateArticle/http-response.adoc[]
+
+== 5. Delete article
+
+=== CURL
+
+include::{snippets}/articles/delete/deleteArticle/curl-request.adoc[]
+
+==== Example request
+
+include::{snippets}/articles/delete/deleteArticle/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/articles/delete/deleteArticle/http-response.adoc[]

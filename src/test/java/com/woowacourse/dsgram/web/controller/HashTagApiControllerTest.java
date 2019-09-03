@@ -10,9 +10,14 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 import static org.hamcrest.Matchers.hasItems;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
 
 class HashTagApiControllerTest extends AbstractControllerTest {
-    private static final String COMMON_REQUEST_URL = "/api/hashTag";
+    private static final String COMMON_REQUEST_URL = "/api/hashTags";
     private static final String CONTENTS = "#qwe#qweqwe#qwe#asd#zxc#qw";
 
     private String cookie;
@@ -34,7 +39,15 @@ class HashTagApiControllerTest extends AbstractControllerTest {
                 .expectBody()
                 .jsonPath("$..keyword").value(hasItems("#qw"))
                 .jsonPath("$..keyword").value(hasItems("#qwe"))
-                .jsonPath("$..keyword").value(hasItems("#qweqwe"));
+                .jsonPath("$..keyword").value(hasItems("#qweqwe"))
+                .consumeWith(document("hashTags/get/query",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        requestParameters(parameterWithName("query").description("검색할 키워드")),
+                        responseFields(
+                                fieldWithPath("hashTags[].count").description("해시태그를 포함한 게시물 수"),
+                                fieldWithPath("hashTags[].keyword").description("키워드가 포함된 해시태그")
+                        )));
     }
 
     @Test
@@ -48,7 +61,7 @@ class HashTagApiControllerTest extends AbstractControllerTest {
 
     @Test
     @DisplayName("글 수정 시 해시태그 수정")
-    void name() {
+    void modifyArticleWithHashTag() {
         ArticleEditRequest articleEditRequest = new ArticleEditRequest("#캄보디아");
 
         webTestClient.put().uri("/api/articles/{articleId}", articleId)
@@ -69,5 +82,19 @@ class HashTagApiControllerTest extends AbstractControllerTest {
         return webTestClient.get().uri(COMMON_REQUEST_URL + keyword)
                 .header("cookie", cookie)
                 .exchange();
+    }
+
+    @Test
+    @DisplayName("키워드로 article 검색")
+    void searchForKeywordResult() {
+        webTestClient.get().uri(COMMON_REQUEST_URL + "/{keyword}", "qwe")
+                .header("cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(document("/hashTags/get/search",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
+                        pathParameters(parameterWithName("keyword").description("검색할 키워드"))));
     }
 }

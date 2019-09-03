@@ -9,7 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 
-public class CommentApiControllerTest extends AbstractControllerTest {
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.document;
+
+class CommentApiControllerTest extends AbstractControllerTest {
     private String cookie;
     private String cookie2;
     private Long articleId;
@@ -58,7 +61,12 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .body(Mono.just(commentRequest), CommentRequest.class)
                 .exchange()
                 .expectStatus()
-                .isOk();
+                .isOk()
+                .expectBody()
+                .consumeWith(document("comments/post/write",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
@@ -68,8 +76,12 @@ public class CommentApiControllerTest extends AbstractControllerTest {
         webTestClient.delete().uri("/api/comments/" + commentId)
                 .header("Cookie", cookie)
                 .exchange()
-                .expectStatus()
-                .isOk();
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(document("comments/delete/deleteComment",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
@@ -105,8 +117,12 @@ public class CommentApiControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .body(Mono.just(updateRequest), CommentRequest.class)
                 .exchange()
-                .expectStatus()
-                .isOk();
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(document("comments/put/update",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     @Test
@@ -144,8 +160,12 @@ public class CommentApiControllerTest extends AbstractControllerTest {
         webTestClient.get().uri("/api/comments/" + articleId)
                 .header("Cookie", cookie)
                 .exchange()
-                .expectStatus()
-                .isOk();
+                .expectStatus().isOk()
+                .expectBody()
+                .consumeWith(document("comments/get/comments",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint())
+                ));
     }
 
     private Long createCommentRequest(String cookie) {

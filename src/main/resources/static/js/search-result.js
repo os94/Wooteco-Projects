@@ -4,7 +4,7 @@ const SEARCH_APP = (() => {
         const observer = OBSERVER_APP.observeService();
         const articleService = ARTICLE_APP.ArticleService();
         const query = document.getElementById('query').innerText;
-        const url = `/api/hashTag/${query}`;
+        const url = `/api/hashTags/${query}`;
 
         const init = () => {
             observer.loadByObserve(articleService.loadArticlesFrom(url));

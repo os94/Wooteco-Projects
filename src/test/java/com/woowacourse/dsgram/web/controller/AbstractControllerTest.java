@@ -2,24 +2,41 @@ package com.woowacourse.dsgram.web.controller;
 
 import com.woowacourse.dsgram.service.dto.user.AuthUserRequest;
 import com.woowacourse.dsgram.service.dto.user.SignUpUserRequest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
 
+import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.documentationConfiguration;
 import static org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class AbstractControllerTest {
+@ExtendWith(RestDocumentationExtension.class)
+class AbstractControllerTest {
     static int LAST_USER_ID = 0;
 
-    @Autowired
+    @LocalServerPort
+    private int port;
+
     WebTestClient webTestClient;
+
+    @BeforeEach
+    void setUp(RestDocumentationContextProvider restDocumentation) {
+        webTestClient = WebTestClient.bindToServer()
+                .baseUrl("http://localhost:" + port)
+                .filter(documentationConfiguration(restDocumentation))
+                .build();
+    }
 
     ResponseSpec getResponseAfterSignUp(SignUpUserRequest signUpUserRequest) {
         return webTestClient.post().uri("/api/users")

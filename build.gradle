@@ -1,6 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
+    id 'org.asciidoctor.convert' version '1.5.3'
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -45,7 +46,29 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.junit.jupiter:junit-jupiter-params:5.4.2'
     testImplementation 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-webtestclient:2.0.3.RELEASE'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit'
+    }
+    asciidoctor 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.3.RELEASE'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+bootJar {
+    dependsOn asciidoctor
+    from("${asciidoctor.outputDir}/html5") {
+        into 'static/docs'
     }
 }

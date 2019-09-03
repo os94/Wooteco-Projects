@@ -1,0 +1,47 @@
+= User
+
+== 1. Sign up
+
+=== Example request
+
+include::{snippets}/users/post/signUp/curl-request.adoc[]
+
+==== Request body
+
+include::{snippets}/users/post/signUp/request-body.adoc[]
+
+==== Request body description
+
+include::{snippets}/users/post/signUp/request-fields.adoc[]
+
+=== Example response
+
+include::{snippets}/users/post/signUp/http-response.adoc[]
+
+== 2. Update user Information
+
+=== Example request
+
+include::{snippets}/users/put/update/curl-request.adoc[]
+
+==== Request body
+
+include::{snippets}/users/put/update/request-body.adoc[]
+
+=== Example response
+
+include::{snippets}/users/put/update/http-response.adoc[]
+
+== 3. Withdrawal user
+
+=== CURL
+
+include::{snippets}/users/delete/withdrawal/curl-request.adoc[]
+
+==== Example request
+
+include::{snippets}/users/delete/withdrawal/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/users/delete/withdrawal/http-response.adoc[]

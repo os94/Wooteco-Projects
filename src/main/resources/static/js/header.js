@@ -76,7 +76,7 @@ const HEADER_APP = (() => {
                 showSuggestions(cachingResult.get(query));
                 return;
             }
-            connector.fetchTemplateWithoutBody(`/api/hashTag?query=${query}`, connector.GET, getSearchResult);
+            connector.fetchTemplateWithoutBody(`/api/hashTags?query=${query}`, connector.GET, getSearchResult);
         };
 
         const toggleSearchInput = event => {

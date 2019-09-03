@@ -1,0 +1,33 @@
+= Hash Tag
+
+== 1. Autocomplete search query
+
+=== Example request
+
+include::{snippets}/hashTags/get/query/curl-request.adoc[]
+
+==== Request parameter
+
+include::{snippets}/hashTags/get/query/request-parameters.adoc[]
+
+=== Example response
+
+include::{snippets}/hashTags/get/query/http-response.adoc[]
+
+==== Response body description
+
+include::{snippets}/hashTags/get/query/response-fields.adoc[]
+
+== 2. Search for Article by Hash tag
+
+=== Example request
+
+include::{snippets}/hashTags/get/search/curl-request.adoc[]
+
+==== Path parameter
+
+include::{snippets}/hashTags/get/search/path-parameters.adoc[]
+
+=== Example response
+
+include::{snippets}/hashTags/get/search/http-response.adoc[]

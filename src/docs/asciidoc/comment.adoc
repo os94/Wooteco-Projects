@@ -1,0 +1,65 @@
+= Comment
+
+== 1. Find all comments
+
+=== CURL
+
+include::{snippets}/comments/get/comments/curl-request.adoc[]
+
+=== Example request
+
+include::{snippets}/comments/get/comments/http-request.adoc[]
+
+==== Response body
+
+include::{snippets}/comments/get/comments/response-body.adoc[]
+
+== 2. Write comment
+
+=== Example request
+
+include::{snippets}/comments/post/write/http-request.adoc[]
+
+==== Request body
+
+include::{snippets}/comments/post/write/request-body.adoc[]
+
+=== Example response
+
+include::{snippets}/comments/post/write/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/comments/post/write/response-body.adoc[]
+
+== 3. Update comment
+
+=== Example request
+
+include::{snippets}/comments/put/update/http-request.adoc[]
+
+==== Request body
+
+include::{snippets}/comments/put/update/request-body.adoc[]
+
+=== Example response
+
+include::{snippets}/comments/put/update/http-response.adoc[]
+
+==== Response body
+
+include::{snippets}/comments/put/update/response-body.adoc[]
+
+== 4. Delete comment
+
+=== CURL
+
+include::{snippets}/comments/delete/deleteComment/curl-request.adoc[]
+
+==== Example request
+
+include::{snippets}/comments/delete/deleteComment/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/comments/delete/deleteComment/http-response.adoc[]
