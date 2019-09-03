@@ -48,4 +48,11 @@ public class CommentApiController {
         Page<Comment> comments = commentService.get(articleId, pageable);
         return ResponseEntity.ok(comments);
     }
+
+    @GetMapping("/{articleId}/counts")
+    public ResponseEntity getCountOfComments(@PathVariable("articleId") Long articleId) {
+        Long countOfComments = commentService.getCountOfComments(articleId);
+        return ResponseEntity.ok(countOfComments);
+    }
+
 }

@@ -66,6 +66,7 @@ const ARTICLE_APP = (() => {
 
         const handleArticleInfo = articleInfo => {
             cards.insertAdjacentHTML('beforeend', template.card(articleInfo));
+            COMMENT_APP.commentsCount(articleInfo.articleId);
             fileLoader.loadMediaFile(fileLoader, articleInfo.articleFileName, articleInfo.articleId);
             fileLoader.loadProfileImageFile(fileLoader, articleInfo.userId, "thumb-img-user-");
 

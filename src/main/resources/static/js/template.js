@@ -104,7 +104,7 @@ const TEMPLATE_APP = (() => {
                                             <button type="button">수정</button>
                                         </form>
                                     </div>
-                                    <div class="feed-footer">
+                                    <div class="feed-footer" id="article-footer-${articleInfo.articleId}">
                                         <div class="comment" data-article-id="${articleInfo.articleId}">
                                             <span class="show-comment mrg-left-10" data-count-comment="${articleInfo.countOfComments}"><span class="count-of-comments">${articleInfo.countOfComments}</span>개 댓글 더보기</span>
                                             <ul class="list-unstyled list-info pdd-horizon-5"></ul>

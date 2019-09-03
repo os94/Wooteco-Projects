@@ -143,13 +143,27 @@ const COMMENT_APP = (() => {
 
     };
 
+    const commentsCount = function (articleId) {
+        connector.fetchTemplateWithoutBody(`/api/comments/${articleId}/counts`,
+            connector.GET,
+            (response) => {
+                response.json().then(res => {
+                    document.getElementById(`article-footer-${articleId}`).querySelector('.show-comment').setAttribute('data-count-comment', res);
+                    document.getElementById(`article-footer-${articleId}`).querySelector('.count-of-comments').innerHTML = res;
+                });
+            }
+        )
+    };
+
     const init = () => {
         const commentController = new CommentController();
-        commentController.init()
+        commentController.init();
+        const commentsCount = new commentsCount();
     };
 
     return {
         init: init,
+        commentsCount: commentsCount,
     };
 
 })();
