@@ -27,6 +27,7 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final LikeRelationRepository likeRelationRepository;
@@ -49,7 +50,6 @@ public class ArticleService {
         this.followService = followService;
     }
 
-    @Transactional
     public long createAndFindId(ArticleRequest articleRequest, LoggedInUser loggedInUser) {
         return create(articleRequest, loggedInUser).getId();
     }
@@ -75,7 +75,6 @@ public class ArticleService {
                 .orElseThrow(() -> new EntityNotFoundException(articleId + "번 게시글을 조회하지 못했습니다."));
     }
 
-    @Transactional
     public void update(long articleId, ArticleEditRequest articleEditRequest, LoggedInUser loggedInUser) {
         Article article = findById(articleId);
         Article updatedArticle = article.update(articleEditRequest.getContents(), loggedInUser.getId());
@@ -83,17 +82,18 @@ public class ArticleService {
         hashTagService.update(updatedArticle);
     }
 
-    @Transactional
     public void delete(long articleId, LoggedInUser loggedInUser) {
         Article article = findById(articleId);
         article.checkAccessibleAuthor(loggedInUser.getId());
         articleRepository.delete(article);
     }
 
+    @Transactional(readOnly = true)
     public byte[] findFileById(long articleId) {
         return fileService.readFileByFileInfo(findById(articleId).getFileInfo());
     }
 
+    @Transactional(readOnly = true)
     public Page<ArticleInfo> findArticlesByAuthorNickName(int page, String nickName, long viewerId) {
         userService.findByNickName(nickName);
         return articleRepository
@@ -101,6 +101,7 @@ public class ArticleService {
                 .map(article -> findArticleInfo(article.getId(), viewerId));
     }
 
+    @Transactional(readOnly = true)
     public ArticleInfo findArticleInfo(long articleId, long viewerId) {
         long countOfComments = getCountOfComments(articleId);
         long countOfLikes = getCountOfLikes(articleId);
@@ -121,6 +122,7 @@ public class ArticleService {
         return commentService.countByArticleId(articleId);
     }
 
+    @Transactional(readOnly = true)
     public Page<ArticleInfo> getArticlesByFollowings(long viewerId, int page) {
         User user = userService.findUserById(viewerId);
         List<User> followings = followService.findFollowings(user)
@@ -133,7 +135,6 @@ public class ArticleService {
         );
     }
 
-    @Transactional
     public long like(long articleId, long userId) {
         if (likeRelationRepository.existsByArticleIdAndUserId(articleId, userId)) {
             likeRelationRepository.deleteByArticleIdAndUserId(articleId, userId);

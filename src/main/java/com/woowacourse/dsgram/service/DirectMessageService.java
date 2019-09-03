@@ -13,6 +13,7 @@ import com.woowacourse.dsgram.service.dto.chat.ChatMessageResponse;
 import com.woowacourse.dsgram.service.dto.chat.ChatMessagesRequest;
 import com.woowacourse.dsgram.service.exception.NotFoundChatRoomException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DirectMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatUserRepository chatUserRepository;
@@ -68,6 +70,7 @@ public class DirectMessageService {
         return chatRoomRepository.findByCode(roomCode);
     }
 
+    @Transactional(readOnly = true)
     public ChatMessagesRequest getPreviousChatMessages(long roomCode) {
         List<ChatMessage> prevMessages = chatMessageRepository.findAllByChatRoomCode(roomCode);
         return ChatAssembler.toChatMessagesRequest(prevMessages);

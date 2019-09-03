@@ -7,6 +7,7 @@ import com.woowacourse.dsgram.service.exception.NotFoundFileException;
 import com.woowacourse.dsgram.service.strategy.FileNamingStrategy;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.Base64;
 import java.util.List;
 
 @Service
+@Transactional
 public class FileService {
     private static final List<String> EXTENSIONS_IMAGE = Arrays.asList("bmp", "gif", "jpg", "png", "jpeg");
     private static final List<String> EXTENSIONS_VIDEO = Arrays.asList("mp4", "avi", "mov", "mpg", "wmv", "mpeg");
@@ -56,6 +58,7 @@ public class FileService {
         }
     }
 
+    @Transactional(readOnly = true)
     public byte[] readFileByFileInfo(FileInfo fileInfo) {
         File file = new File(fileInfo.getFilePath() + "/" + fileInfo.getFileName());
         try {

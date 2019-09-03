@@ -18,6 +18,7 @@ import static com.woowacourse.dsgram.domain.HashTagSearchResult.START_PAGE;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class HashTagService {
     private final HashTagRepository hashTagRepository;
 
@@ -35,6 +36,7 @@ public class HashTagService {
                 .collect(toList());
     }
 
+    @Transactional(readOnly = true)
     public HashTagResponse findAllWithCountByQuery(String query) {
         return new HashTagResponse(hashTagRepository.findResult(query, PageRequest.of(START_PAGE, LIMIT)));
     }

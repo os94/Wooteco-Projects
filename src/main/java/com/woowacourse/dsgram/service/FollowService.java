@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class FollowService {
     private final FollowRepository followRepository;
     private final UserService userService;
@@ -22,11 +23,13 @@ public class FollowService {
         this.userService = userService;
     }
 
+    @Transactional(readOnly = true)
     FollowRelation isFollowed(User guest, User feedOwner) {
         Follow follow = getFollow(guest, feedOwner);
         return FollowRelation.getRelation(follow, guest, feedOwner);
     }
 
+    @Transactional(readOnly = true)
     List<UserInfo> findFollowers(User user) {
         List<UserInfo> followers = followRepository.findAllByTo(user)
                 .stream().map(Follow::getFrom)
@@ -36,6 +39,7 @@ public class FollowService {
         return followers;
     }
 
+    @Transactional(readOnly = true)
     List<UserInfo> findFollowings(User user) {
         List<UserInfo> followings = followRepository.findAllByFrom(user)
                 .stream().map(Follow::getTo)
@@ -57,12 +61,10 @@ public class FollowService {
         return followRepository.findByFromAndTo(guest, feedOwner);
     }
 
-    @Transactional
     public Follow save(User guest, User feedOwner) {
         return followRepository.save(new Follow(guest, feedOwner));
     }
 
-    @Transactional
     public void delete(User guest, User feedOwner) {
         Follow follow = followRepository.findByFromAndTo(guest, feedOwner);
         followRepository.delete(follow);
@@ -83,12 +85,14 @@ public class FollowService {
         delete(guest, feedOwner);
     }
 
+    @Transactional(readOnly = true)
     public List<UserInfo> getFollowers(String nickName) {
         User user = userService.findByNickName(nickName);
 
         return findFollowers(user);
     }
 
+    @Transactional(readOnly = true)
     public List<UserInfo> getFollowings(String nickName) {
         User user = userService.findByNickName(nickName);
 

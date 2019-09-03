@@ -4,8 +4,10 @@ import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.service.dto.FeedInfo;
 import com.woowacourse.dsgram.service.dto.follow.FollowRelation;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class FeedService {
 
     private final UserService userService;
@@ -16,6 +18,7 @@ public class FeedService {
         this.followService = followService;
     }
 
+    @Transactional(readOnly = true)
     public FeedInfo getFeedInfo(String fromNickName, String toNickName) {
         User guest = userService.findByNickName(fromNickName);
         User feedOwner = userService.findByNickName(toNickName);
