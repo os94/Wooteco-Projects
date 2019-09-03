@@ -100,7 +100,7 @@ const USER_APP = (() => {
             formData.append("webSite", webSite.value);
             formData.append("password", password.value);
 
-            const ifSucceed = () => window.location.href = '/';
+            const ifSucceed = () => window.location.href = `/users/${nickName.value}`;
 
             connector.fetchTemplate(`/api/users/${userId.value}`,
                 connector.PUT,

@@ -87,6 +87,7 @@ const FOLLOW_APP = (() => {
             let followerList = '';
             for (let i = 0; i < res.length; i++) {
                 followerList = followerList + `<div class="content">  
+                                                    <div onclick="location.href='/users/${res[i].nickName}'" class="pointer">
                                                         <div style="float: left; width: 13%;">
                                                           <img class="img-circle height-40px width-40px" src="/images/default/default_profile.png">
                                                         </div>
@@ -94,6 +95,7 @@ const FOLLOW_APP = (() => {
                                                           <div id="nickName-${i}" class="text-bold" style="font-size: medium">${res[i].nickName}</div>  
                                                           <div id="userName-${i}" style="font-size: small"> ${res[i].userName}</div>
                                                         </div>
+                                                    </div>
                                                    </div>`
             }
             modalBody.insertAdjacentHTML('beforeend', followerList);

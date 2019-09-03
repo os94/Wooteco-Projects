@@ -133,7 +133,7 @@
                 })
             };
 
-            connector.fetchTemplateWithoutBody(`/followings/${nickName}`, connector.GET, ifSucceed);
+            connector.fetchTemplateWithoutBody(`/api/followings/${nickName}`, connector.GET, ifSucceed);
 
             const printModal = res => {
                 const modalBody = document.getElementById('dm-info');
@@ -142,7 +142,7 @@
                 let dmList = '';
                 for (let i = 0; i < res.length; i++) {
                     dmList = dmList + `<div class="content">
-                                                        <div onclick="location.href='/chat/'+${res[i].id}" class="pointer">
+                                                        <div onclick="location.href='/chat/${res[i].id}'" class="pointer">
                                                             <div style="float: left; width: 13%;">
                                                                 <img class="img-circle height-40px width-40px" src="/images/default/default_profile.png">
                                                             </div>
