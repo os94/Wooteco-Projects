@@ -86,8 +86,9 @@ const TEMPLATE_APP = (() => {
                                                 <i class="ti-comment font-size-22"></i>
                                             </a>
                                         </li>
-                                        <li data-article=id="${articleInfo.articleId})" class="copyUrl" style="cursor:pointer;">
-                                            <i class="ti-export font-size-22"></i>
+                                        <li>
+                                            <i class="ti-export font-size-22 copy-url" data-article-id="${articleInfo.articleId}" style="cursor:pointer;"
+                                            data-container="body" data-toggle="popover" data-placement="top" data-content="Link Copied!"></i>
                                         </li>
                                     </ul>
                                     <div class="feedback-status-container pdd-horizon-15">

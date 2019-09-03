@@ -1,5 +1,6 @@
 package com.woowacourse.dsgram.service;
 
+import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.Comment;
 import com.woowacourse.dsgram.domain.repository.CommentRepository;
 import com.woowacourse.dsgram.service.dto.CommentRequest;
@@ -17,15 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentService {
     private static final int BLANK_CONTENTS = 0;
+
     private CommentRepository commentRepository;
     private UserService userService;
-
-    @Autowired
     private ArticleService articleService;
 
-    public CommentService(CommentRepository commentRepository, UserService userService) {
+    public CommentService(CommentRepository commentRepository, UserService userService, ArticleService articleService) {
         this.commentRepository = commentRepository;
         this.userService = userService;
+        this.articleService = articleService;
     }
 
     public Comment create(CommentRequest commentRequest, Long userId) {
