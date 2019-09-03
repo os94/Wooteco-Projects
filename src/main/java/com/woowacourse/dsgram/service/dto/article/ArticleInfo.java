@@ -7,18 +7,18 @@ import lombok.*;
 @ToString
 public class ArticleInfo {
 
-    private Long userId;
+    private long userId;
     private String nickName;
-    private Long articleId;
+    private long articleId;
     private String contents;
     private String articleFileName;
-    private Long countOfLikes;
-    private Long countOfComments;
+    private long countOfLikes;
+    private long countOfComments;
     private boolean likeState;
 
     @Builder
-    public ArticleInfo(Long userId, String nickName, Long articleId, String contents,
-                       String articleFileName, Long countOfLikes, Long countOfComments, boolean likeState) {
+    public ArticleInfo(long userId, String nickName, long articleId, String contents,
+                       String articleFileName, long countOfLikes, long countOfComments, boolean likeState) {
         this.userId = userId;
         this.nickName = nickName;
         this.articleId = articleId;

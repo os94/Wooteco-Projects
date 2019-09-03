@@ -61,10 +61,12 @@ public class FollowService {
         return followRepository.findByFromAndTo(guest, feedOwner);
     }
 
+    @Transactional
     public Follow save(User guest, User feedOwner) {
         return followRepository.save(new Follow(guest, feedOwner));
     }
 
+    @Transactional
     public void delete(User guest, User feedOwner) {
         Follow follow = followRepository.findByFromAndTo(guest, feedOwner);
         followRepository.delete(follow);

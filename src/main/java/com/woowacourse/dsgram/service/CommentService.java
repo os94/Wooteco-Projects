@@ -1,6 +1,5 @@
 package com.woowacourse.dsgram.service;
 
-import com.woowacourse.dsgram.domain.Article;
 import com.woowacourse.dsgram.domain.Comment;
 import com.woowacourse.dsgram.domain.repository.CommentRepository;
 import com.woowacourse.dsgram.service.dto.CommentRequest;
@@ -8,7 +7,6 @@ import com.woowacourse.dsgram.service.dto.CommentResponse;
 import com.woowacourse.dsgram.service.dto.user.LoggedInUser;
 import com.woowacourse.dsgram.service.exception.EmptyCommentRequestException;
 import com.woowacourse.dsgram.service.exception.NotFoundCommentException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

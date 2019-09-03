@@ -5,7 +5,6 @@ import com.woowacourse.dsgram.domain.FileInfo;
 import com.woowacourse.dsgram.domain.LikeRelation;
 import com.woowacourse.dsgram.domain.User;
 import com.woowacourse.dsgram.domain.repository.ArticleRepository;
-import com.woowacourse.dsgram.domain.repository.CommentRepository;
 import com.woowacourse.dsgram.domain.repository.LikeRelationRepository;
 import com.woowacourse.dsgram.service.assembler.ArticleAssembler;
 import com.woowacourse.dsgram.service.assembler.UserAssembler;

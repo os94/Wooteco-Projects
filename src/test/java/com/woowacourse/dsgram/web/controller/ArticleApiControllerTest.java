@@ -16,10 +16,11 @@ class ArticleApiControllerTest extends AbstractControllerTest {
     private String cookie;
     private String anotherCookie;
     private long articleId;
+    private SignUpUserRequest signUpUserRequest;
 
     @BeforeEach
     void setUp() {
-        SignUpUserRequest signUpUserRequest = createSignUpUser();
+        signUpUserRequest = createSignUpUser();
 
         cookie = getCookieAfterSignUpAndLogin(signUpUserRequest);
         articleId = saveArticle(cookie, "contents");
@@ -140,6 +141,36 @@ class ArticleApiControllerTest extends AbstractControllerTest {
         count = likeOrDisLike(++count, anotherCookie);
 
         moveToArticle(count, anotherCookie, true);
+    }
+
+    @Test
+    @DisplayName("좋아요 누른 뒤 좋아요 리스트 조회")
+    void like_list() {
+        long count = 0;
+        likeOrDisLike(++count, anotherCookie);
+
+        webTestClient.get().uri(COMMON_REQUEST_URL + "/liker", articleId)
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[0].nickName").isEqualTo(signUpUserRequest.getNickName())
+                .jsonPath("$[0].userName").isEqualTo(signUpUserRequest.getUserName());
+    }
+
+    @Test
+    @DisplayName("좋아요 누르고 다시 취소 후 좋아요 리스트 조회")
+    void like_list_zero() {
+        long count = 0;
+        likeOrDisLike(++count, anotherCookie);
+        likeOrDisLike(--count, anotherCookie);
+
+        webTestClient.get().uri(COMMON_REQUEST_URL + "/liker", articleId)
+                .header("Cookie", cookie)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$").isEmpty();
     }
 
     private void moveToArticle(long count, String cookie, boolean likeState) {
