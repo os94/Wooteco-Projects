@@ -1,5 +1,7 @@
 package webserver;
 
+import db.DataBase;
+import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
@@ -27,6 +29,12 @@ public class RequestHandler implements Runnable {
             String headerUri = br.readLine();
             String fileUrl = RequestHeaderUtils.parseUrl(headerUri);
 
+            String first = fileUrl.split("\\?")[0];
+            if (first.equals("/user/create")) {
+                DataBase.addUser(User.createUser(fileUrl.split("\\?")[1]));
+            }
+
+            logger.debug("Request Header : {}", headerUri);
             logger.debug("Request Header Url : {}", fileUrl);
 
             DataOutputStream dos = new DataOutputStream(out);
