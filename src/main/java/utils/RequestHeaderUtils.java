@@ -6,16 +6,23 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RequestHeaderUtils {
-    private static final String URI_PATTERN = "HTTP/1.1";
+    private static final String HTTP_VERSION = "HTTP/1.1";
 
-    public static String parseUrl(String header) {
+    public static String parseHttpMethod(String requestLine) {
+        return validateRequestLine(requestLine).get(0);
+    }
+
+    public static String parsePath(String requestLine) {
+        return validateRequestLine(requestLine).get(1);
+    }
+
+    private static List<String> validateRequestLine(String requestLine) {
         List<String> methods = Arrays.asList("GET", "POST", "PUT", "DELETE");
-        List<String> words = Arrays.asList(header.split(" "));
+        List<String> tokens = Arrays.asList(requestLine.split(" "));
 
-        if (words.size() != 3 || !methods.contains(words.get(0)) || !words.get(2).matches(URI_PATTERN)) {
-            throw new InvalidRequestHeaderException(header);
+        if (tokens.size() != 3 || !methods.contains(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
+            throw new InvalidRequestHeaderException(requestLine);
         }
-
-        return words.get(1);
+        return tokens;
     }
 }
