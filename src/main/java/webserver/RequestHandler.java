@@ -29,6 +29,7 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            DataOutputStream dos = new DataOutputStream(out);
 
             String requestLine = br.readLine();
             System.out.println("sean: " + requestLine);
@@ -49,22 +50,36 @@ public class RequestHandler implements Runnable {
                 String pathWithoutParams = path.split("\\?")[0];
                 if (pathWithoutParams.equals("/user/create")) {
                     DataBase.addUser(User.createUser(path.split("\\?")[1]));
+                    response302Header(dos, "/index.html");
+                    return;
                 }
             } else if ("POST".equals(httpMethod)) {
                 String body = IOUtils.readData(br, Integer.parseInt(headerFields.get("Content-Length")));
                 if (path.equals("/user/create")) {
                     DataBase.addUser(User.createUser(body));
+                    response302Header(dos, "/index.html");
+                    return;
                 }
             }
 
             logger.debug("Request Header : {}", requestLine);
             logger.debug("Request Header Url : {}", path);
 
-            DataOutputStream dos = new DataOutputStream(out);
             byte[] body = FileIoUtils.loadFileFromClasspath("./templates" + path);
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException | URISyntaxException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    private void response302Header(DataOutputStream dos, String location) {
+        try {
+            dos.writeBytes("HTTP/1.1 302 Found \r\n");
+            dos.writeBytes("Location: " + location);
+            dos.writeBytes("\r\n");
+            dos.flush();
+        } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
