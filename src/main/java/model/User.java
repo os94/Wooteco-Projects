@@ -1,6 +1,9 @@
 package model;
 
+import java.lang.reflect.Field;
 import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class User {
     private String userId;
@@ -23,7 +26,12 @@ public class User {
             userInfo.put(param.split("=")[0], param.split("=")[1]);
         }
 
-        return new User(userInfo.get("userId"), userInfo.get("password"), userInfo.get("name"), userInfo.get("email"));
+        List<String> fieldNames = Arrays.stream(User.class.getDeclaredFields())
+                .map(Field::getName)
+                .collect(toList());
+
+        return new User(userInfo.get(fieldNames.get(0)), userInfo.get(fieldNames.get(1)),
+                userInfo.get(fieldNames.get(2)), userInfo.get(fieldNames.get(3)));
     }
 
     public String getUserId() {
