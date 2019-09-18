@@ -1,5 +1,6 @@
 package utils;
 
+import http.HttpMethod;
 import webserver.InvalidRequestHeaderException;
 
 import java.util.Arrays;
@@ -17,10 +18,9 @@ public class RequestHeaderUtils {
     }
 
     private static List<String> validateRequestLine(String requestLine) {
-        List<String> methods = Arrays.asList("GET", "POST", "PUT", "DELETE");
         List<String> tokens = Arrays.asList(requestLine.split(" "));
 
-        if (tokens.size() != 3 || !methods.contains(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
+        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
             throw new InvalidRequestHeaderException(requestLine);
         }
         return tokens;

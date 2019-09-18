@@ -1,6 +1,7 @@
 package webserver;
 
 import db.DataBase;
+import http.HttpMethod;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import java.net.Socket;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static http.HttpMethod.*;
 
 public class RequestHandler implements Runnable {
     private static final String HTML_DEFAULT_PATH = "./templates";
@@ -48,14 +51,14 @@ public class RequestHandler implements Runnable {
                 line = br.readLine();
             }
 
-            if ("GET".equals(httpMethod)) {
+            if (GET.equals(httpMethod)) {
                 String pathWithoutParams = path.split("\\?")[0];
                 if (pathWithoutParams.equals("/user/create")) {
                     DataBase.addUser(User.createUser(path.split("\\?")[1]));
                     response302Header(dos, "/index.html");
                     return;
                 }
-            } else if ("POST".equals(httpMethod)) {
+            } else if (POST.equals(httpMethod)) {
                 String body = IOUtils.readData(br, Integer.parseInt(headerFields.get("Content-Length")));
                 if (path.equals("/user/create")) {
                     DataBase.addUser(User.createUser(body));
