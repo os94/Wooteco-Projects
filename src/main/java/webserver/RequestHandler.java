@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RequestHandler implements Runnable {
+    private static final String HTML_DEFAULT_PATH = "./templates";
+    private static final String CSS_DEFAULT_PATH = "./static";
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
@@ -65,8 +67,14 @@ public class RequestHandler implements Runnable {
             logger.debug("Request Header : {}", requestLine);
             logger.debug("Request Header Url : {}", path);
 
-            byte[] body = FileIoUtils.loadFileFromClasspath("./templates" + path);
-            response200Header(dos, body.length);
+            byte[] body;
+            if (path.contains(".css")) {
+                body = FileIoUtils.loadFileFromClasspath(CSS_DEFAULT_PATH + path);
+                response200Header(dos, body.length,"text/css");
+            } else {
+                body = FileIoUtils.loadFileFromClasspath(HTML_DEFAULT_PATH + path);
+                response200Header(dos, body.length,"text/html");
+            }
             responseBody(dos, body);
         } catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
@@ -84,10 +92,10 @@ public class RequestHandler implements Runnable {
         }
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent) {
+    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String contentType) {
         try {
             dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
+            dos.writeBytes("Content-Type: " + contentType + ";charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
         } catch (IOException e) {
