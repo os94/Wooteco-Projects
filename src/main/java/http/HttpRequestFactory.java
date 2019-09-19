@@ -1,7 +1,8 @@
-package utils;
+package http;
 
-import http.HttpMethod;
-import http.HttpRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.IOUtils;
 import webserver.InvalidRequestHeaderException;
 
 import java.io.BufferedReader;
@@ -15,36 +16,39 @@ import java.util.Map;
 
 public class HttpRequestFactory {
     private static final String HTTP_VERSION = "HTTP/1.1";
+    private static final Logger logger = LoggerFactory.getLogger(HttpRequestFactory.class);
 
     public static HttpRequest createHttpRequest(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String requestLine = br.readLine();
+        logger.debug("requestLine : {}", requestLine);
 
         HttpMethod httpMethod = parseHttpMethod(requestLine);
         String path = parsePath(requestLine);
-        Map<String, String> headerFields = getStringStringMap(br);
+        String pathWithoutParams = path.split("\\?")[0];
+        Map<String, String> headerFields = parseHeaderFields(br);
         Map<String, String> dataSet =
                 parseDataSet(path, br, Integer.parseInt(headerFields.getOrDefault("Content-Length", String.valueOf(0))));
 
-        return new HttpRequest(httpMethod, path, headerFields, dataSet);
+        return new HttpRequest(httpMethod, pathWithoutParams, headerFields, dataSet);
     }
 
-    public static HttpMethod parseHttpMethod(String requestLine) {
-        return HttpMethod.valueOf(validateRequestLine(requestLine).get(0));
+    private static HttpMethod parseHttpMethod(String requestLine) {
+        return HttpMethod.valueOf(makeTokensFrom(requestLine).get(0));
     }
 
-    public static String parsePath(String requestLine) {
-        return validateRequestLine(requestLine).get(1);
+    private static String parsePath(String requestLine) {
+        return makeTokensFrom(requestLine).get(1);
     }
 
-    private static Map<String, String> getStringStringMap(BufferedReader br) throws IOException {
+    private static Map<String, String> parseHeaderFields(BufferedReader br) throws IOException {
         Map<String, String> headerFields = new HashMap<>();
         String line = br.readLine();
         while (!"".equals(line)) {
+            logger.debug("headerField : {}", line);
             String key = line.substring(0, line.indexOf(":"));
             String value = line.substring(line.indexOf(":") + 2);
             headerFields.put(key, value);
-            System.out.println("key:" + key + ", value: " + value);
             line = br.readLine();
         }
         return headerFields;
@@ -52,28 +56,38 @@ public class HttpRequestFactory {
 
     private static Map<String, String> parseDataSet(String path, BufferedReader br, int contentLength) throws IOException {
         Map<String, String> dataSet = new HashMap<>();
-        String parameters = "";
+        String parameters = getData(path, br, contentLength);
 
-        if (contentLength != 0) {
-            parameters = IOUtils.readData(br, contentLength);
-        }
-        if (path.contains("\\?")) {
-            parameters = path.substring(path.indexOf("\\?") + 1);
-        }
         if (!"".equals(parameters)) {
             List<String> tokens = Arrays.asList(parameters.split("&"));
-            tokens.stream()
-                    .forEach(token -> dataSet.put(token.split("=")[0], token.split("=")[1]));
+            tokens.forEach(token -> {
+                logger.debug("data : {}", token);
+                dataSet.put(token.split("=")[0], token.split("=")[1]);
+            });
         }
         return dataSet;
     }
 
-    private static List<String> validateRequestLine(String requestLine) {
+    private static String getData(String path, BufferedReader br, int contentLength) throws IOException {
+        if (contentLength != 0) {
+            return IOUtils.readData(br, contentLength);
+        }
+        if (path.contains("\\?")) {
+            return path.substring(path.indexOf("\\?") + 1);
+        }
+        return "";
+    }
+
+    private static List<String> makeTokensFrom(String requestLine) {
         List<String> tokens = Arrays.asList(requestLine.split(" "));
 
+        validateRequestLine(requestLine, tokens);
+        return tokens;
+    }
+
+    private static void validateRequestLine(String requestLine, List<String> tokens) {
         if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
             throw new InvalidRequestHeaderException(requestLine);
         }
-        return tokens;
     }
 }

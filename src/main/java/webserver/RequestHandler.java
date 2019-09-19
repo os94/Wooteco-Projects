@@ -2,24 +2,22 @@ package webserver;
 
 import db.DataBase;
 import http.HttpRequest;
+import http.HttpRequestFactory;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
-import utils.IOUtils;
-import utils.HttpRequestFactory;
 
-import java.io.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
-import static http.HttpMethod.*;
 
 public class RequestHandler implements Runnable {
     private static final String HTML_DEFAULT_PATH = "./templates";
-    private static final String CSS_DEFAULT_PATH = "./static";
+    private static final String STATIC_DEFAULT_PATH = "./static";
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private Socket connection;
@@ -37,29 +35,19 @@ public class RequestHandler implements Runnable {
             DataOutputStream dos = new DataOutputStream(out);
             String path = httpRequest.getPath();
 
-            if (httpRequest.isGetMethod()) {
-                String pathWithoutParams = path.split("\\?")[0];
-                if (pathWithoutParams.equals("/user/create")) {
-                    DataBase.addUser(User.createUser(httpRequest.getDataSet()));
-                    response302Header(dos, "/index.html");
-                    return;
-                }
-            }
-            if (httpRequest.isPostMethod()) {
-                if (path.equals("/user/create")) {
-                    DataBase.addUser(User.createUser(httpRequest.getDataSet()));
-                    response302Header(dos, "/index.html");
-                    return;
-                }
+            if (path.equals("/user/create")) {
+                DataBase.addUser(User.createUser(httpRequest.getDataSet()));
+                response302Header(dos, "/index.html");
+                return;
             }
 
             byte[] body;
-            if (path.contains(".css")) {
-                body = FileIoUtils.loadFileFromClasspath(CSS_DEFAULT_PATH + path);
-                response200Header(dos, body.length,"text/css");
+            if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/fonts") || path.startsWith("/images")) {
+                body = FileIoUtils.loadFileFromClasspath(STATIC_DEFAULT_PATH + path);
+                response200Header(dos, body.length, "text/css");
             } else {
                 body = FileIoUtils.loadFileFromClasspath(HTML_DEFAULT_PATH + path);
-                response200Header(dos, body.length,"text/html");
+                response200Header(dos, body.length, "text/html");
             }
             responseBody(dos, body);
         } catch (IOException | URISyntaxException e) {
