@@ -18,17 +18,15 @@ public class User {
         this.email = email;
     }
 
-    public static User createUser(String parameter) {
-        List<String> parameters = Arrays.asList(parameter.split("&"));
-        Map<String, String> userInfo = new HashMap<>();
-
-        for (String param : parameters) {
-            userInfo.put(param.split("=")[0], param.split("=")[1]);
-        }
-
+    public static User createUser(Map<String, String> userInfo) {
         List<String> fieldNames = Arrays.stream(User.class.getDeclaredFields())
                 .map(Field::getName)
                 .collect(toList());
+        fieldNames.forEach(field -> {
+           if (!userInfo.containsKey(field)) {
+               throw new UserCreateException("잘못된 User 생성입니다.");
+           }
+        });
 
         return new User(userInfo.get(fieldNames.get(0)), userInfo.get(fieldNames.get(1)),
                 userInfo.get(fieldNames.get(2)), userInfo.get(fieldNames.get(3)));

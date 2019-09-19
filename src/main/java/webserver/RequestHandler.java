@@ -1,13 +1,13 @@
 package webserver;
 
 import db.DataBase;
-import http.HttpMethod;
+import http.HttpRequest;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileIoUtils;
 import utils.IOUtils;
-import utils.RequestHeaderUtils;
+import utils.HttpRequestFactory;
 
 import java.io.*;
 import java.net.Socket;
@@ -33,42 +33,25 @@ public class RequestHandler implements Runnable {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+            HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
             DataOutputStream dos = new DataOutputStream(out);
+            String path = httpRequest.getPath();
 
-            String requestLine = br.readLine();
-            System.out.println("sean: " + requestLine);
-            String httpMethod = RequestHeaderUtils.parseHttpMethod(requestLine);
-            String path = RequestHeaderUtils.parsePath(requestLine);
-
-            Map<String, String> headerFields = new HashMap<>();
-            String line = br.readLine();
-            while (!"".equals(line)) {
-                String key = line.substring(0, line.indexOf(":"));
-                String value = line.substring(line.indexOf(":") + 2);
-                headerFields.put(key, value);
-                System.out.println("key:" + key + ", value: " + value);
-                line = br.readLine();
-            }
-
-            if (GET.equals(httpMethod)) {
+            if (httpRequest.isGetMethod()) {
                 String pathWithoutParams = path.split("\\?")[0];
                 if (pathWithoutParams.equals("/user/create")) {
-                    DataBase.addUser(User.createUser(path.split("\\?")[1]));
-                    response302Header(dos, "/index.html");
-                    return;
-                }
-            } else if (POST.equals(httpMethod)) {
-                String body = IOUtils.readData(br, Integer.parseInt(headerFields.get("Content-Length")));
-                if (path.equals("/user/create")) {
-                    DataBase.addUser(User.createUser(body));
+                    DataBase.addUser(User.createUser(httpRequest.getDataSet()));
                     response302Header(dos, "/index.html");
                     return;
                 }
             }
-
-            logger.debug("Request Header : {}", requestLine);
-            logger.debug("Request Header Url : {}", path);
+            if (httpRequest.isPostMethod()) {
+                if (path.equals("/user/create")) {
+                    DataBase.addUser(User.createUser(httpRequest.getDataSet()));
+                    response302Header(dos, "/index.html");
+                    return;
+                }
+            }
 
             byte[] body;
             if (path.contains(".css")) {
