@@ -2,6 +2,7 @@ package http;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import utils.IOUtils;
 import webserver.InvalidRequestHeaderException;
 
@@ -44,7 +45,7 @@ public class HttpRequestFactory {
     private static Map<String, String> parseHeaderFields(BufferedReader br) throws IOException {
         Map<String, String> headerFields = new HashMap<>();
         String line = br.readLine();
-        while (!"".equals(line)) {
+        while (!StringUtils.isEmpty(line)) {
             logger.debug("headerField : {}", line);
             String key = line.substring(0, line.indexOf(":"));
             String value = line.substring(line.indexOf(":") + 2);
@@ -58,7 +59,7 @@ public class HttpRequestFactory {
         Map<String, String> dataSet = new HashMap<>();
         String parameters = getData(path, br, contentLength);
 
-        if (!"".equals(parameters)) {
+        if (!StringUtils.isEmpty(parameters)) {
             List<String> tokens = Arrays.asList(parameters.split("&"));
             tokens.forEach(token -> {
                 logger.debug("data : {}", token);
@@ -72,8 +73,8 @@ public class HttpRequestFactory {
         if (contentLength != 0) {
             return IOUtils.readData(br, contentLength);
         }
-        if (path.contains("\\?")) {
-            return path.substring(path.indexOf("\\?") + 1);
+        if (path.contains("?")) {
+            return path.substring(path.indexOf("?") + 1);
         }
         return "";
     }

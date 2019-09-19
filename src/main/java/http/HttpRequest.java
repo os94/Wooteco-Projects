@@ -1,11 +1,11 @@
 package http;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static http.HttpMethod.*;
-import static java.util.Collections.*;
+import static http.HttpMethod.GET;
+import static http.HttpMethod.POST;
+import static java.util.Collections.unmodifiableMap;
 
 public class HttpRequest {
     private HttpMethod method;
@@ -28,8 +28,16 @@ public class HttpRequest {
         return POST.equals(method);
     }
 
+    public HttpMethod getMethod() {
+        return method;
+    }
+
     public String getPath() {
         return path;
+    }
+
+    public Map<String, String> getHeaderFields() {
+        return unmodifiableMap(headerFields);
     }
 
     public Map<String, String> getDataSet() {
