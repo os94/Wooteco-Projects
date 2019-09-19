@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import webserver.InvalidRequestHeaderException;
 
 import java.io.*;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -27,16 +26,14 @@ class HttpRequestFactoryTest {
         assertThat(httprequest.isGetMethod()).isTrue();
         assertThat(httprequest.getPath()).isEqualTo("/user/create");
 
-        Map<String, String> headerFields = httprequest.getHeaderFields();
-        assertThat(headerFields.get("Host")).isEqualTo("localhost:8080");
-        assertThat(headerFields.get("Connection")).isEqualTo("keep-alive");
-        assertThat(headerFields.get("Accept")).isEqualTo("*/*");
+        assertThat(httprequest.getHeader("Host")).isEqualTo("localhost:8080");
+        assertThat(httprequest.getHeader("Connection")).isEqualTo("keep-alive");
+        assertThat(httprequest.getHeader("Accept")).isEqualTo("*/*");
 
-        Map<String, String> dataSet = httprequest.getDataSet();
-        assertThat(dataSet.get("userId")).isEqualTo("seon");
-        assertThat(dataSet.get("password")).isEqualTo("password");
-        assertThat(dataSet.get("name")).isEqualTo("sos");
-        assertThat(dataSet.get("email")).isEqualTo("sos@sos.sos");
+        assertThat(httprequest.getData("userId")).isEqualTo("seon");
+        assertThat(httprequest.getData("password")).isEqualTo("password");
+        assertThat(httprequest.getData("name")).isEqualTo("sos");
+        assertThat(httprequest.getData("email")).isEqualTo("sos@sos.sos");
     }
 
     @Test
@@ -47,15 +44,13 @@ class HttpRequestFactoryTest {
         assertThat(httprequest.isPostMethod()).isTrue();
         assertThat(httprequest.getPath()).isEqualTo("/user/create");
 
-        Map<String, String> headerFields = httprequest.getHeaderFields();
-        assertThat(headerFields.get("Host")).isEqualTo("localhost:8080");
-        assertThat(headerFields.get("Connection")).isEqualTo("keep-alive");
-        assertThat(headerFields.get("Accept")).isEqualTo("*/*");
+        assertThat(httprequest.getHeader("Host")).isEqualTo("localhost:8080");
+        assertThat(httprequest.getHeader("Connection")).isEqualTo("keep-alive");
+        assertThat(httprequest.getHeader("Accept")).isEqualTo("*/*");
 
-        Map<String, String> dataSet = httprequest.getDataSet();
-        assertThat(dataSet.get("userId")).isEqualTo("seon");
-        assertThat(dataSet.get("password")).isEqualTo("password");
-        assertThat(dataSet.get("name")).isEqualTo("sos");
-        assertThat(dataSet.get("email")).isEqualTo("sos@sos.sos");
+        assertThat(httprequest.getData("userId")).isEqualTo("seon");
+        assertThat(httprequest.getData("password")).isEqualTo("password");
+        assertThat(httprequest.getData("name")).isEqualTo("sos");
+        assertThat(httprequest.getData("email")).isEqualTo("sos@sos.sos");
     }
 }
