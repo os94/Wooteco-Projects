@@ -1,6 +1,6 @@
 package http.request;
 
-import http.exception.InvalidRequestHeaderException;
+import http.exception.InvalidHeaderException;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class RequestDatas {
         if (datas.containsKey(fieldName)) {
             return datas.get(fieldName);
         }
-        throw new InvalidRequestHeaderException(fieldName + "를 찾을 수 없습니다.");
+        throw new IllegalArgumentException(fieldName + "를 찾을 수 없습니다.");
     }
 
     public Map<String, String> getDatas() {

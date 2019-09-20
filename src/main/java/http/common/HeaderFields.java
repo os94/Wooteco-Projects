@@ -1,7 +1,6 @@
 package http.common;
 
-import http.HttpResponse;
-import http.exception.InvalidRequestHeaderException;
+import http.exception.InvalidHeaderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ public class HeaderFields {
 
     public HeaderFields(List<String> headerFields) {
         if (headerFields == null) {
-            throw new InvalidRequestHeaderException("headerFields를 생성할 수 없습니다.");
+            throw new InvalidHeaderException("headerFields를 생성할 수 없습니다.");
         }
         this.headerFields = new HashMap<>();
         for (String headerField : headerFields) {
@@ -32,7 +31,7 @@ public class HeaderFields {
             return headerFields.get(fieldName);
         }
         logger.error("Response Header에 " + fieldName + "이 존재하지않습니다.");
-        throw new InvalidRequestHeaderException(fieldName + "를 찾을 수 없습니다.");
+        throw new InvalidHeaderException(fieldName + "를 찾을 수 없습니다.");
     }
 
     public int getContentLength() {

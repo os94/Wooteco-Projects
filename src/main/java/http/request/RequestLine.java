@@ -1,7 +1,7 @@
 package http.request;
 
 import http.common.HttpMethod;
-import http.exception.InvalidRequestHeaderException;
+import http.exception.InvalidHeaderException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +39,7 @@ public class RequestLine {
 
     private static void validateRequestLine(String requestLine, List<String> tokens) {
         if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
-            throw new InvalidRequestHeaderException(requestLine);
+            throw new InvalidHeaderException(requestLine + "은 유효하지않은 HttpRequest입니다.");
         }
     }
 
