@@ -1,7 +1,7 @@
-package http;
+package http.request;
 
+import http.exception.InvalidRequestHeaderException;
 import org.junit.jupiter.api.Test;
-import webserver.InvalidRequestHeaderException;
 
 import java.io.*;
 
@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HttpRequestFactoryTest {
     private String testDirectory = "./src/test/resources/";
+
     @Test
     void invalid_header_method() throws FileNotFoundException {
         InputStream in = new FileInputStream(new File(testDirectory + "Invalid_Http_Header.txt"));

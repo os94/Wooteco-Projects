@@ -1,4 +1,6 @@
-package http;
+package http.request;
+
+import http.common.HeaderFields;
 
 import java.util.Map;
 

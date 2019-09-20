@@ -1,11 +1,11 @@
 package webserver;
 
-import http.HttpRequest;
-import http.HttpRequestFactory;
 import http.HttpResponse;
 import http.controller.Controller;
 import http.controller.CreateUserController;
 import http.controller.ResourcesController;
+import http.request.HttpRequest;
+import http.request.HttpRequestFactory;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

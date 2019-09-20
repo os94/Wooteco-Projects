@@ -1,5 +1,7 @@
 package http;
 
+import http.common.HttpStatus;
+import http.exception.InvalidResponseException;
 import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

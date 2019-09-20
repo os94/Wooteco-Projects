@@ -1,6 +1,6 @@
-package http;
+package http.common;
 
-import webserver.InvalidRequestHeaderException;
+import http.exception.InvalidRequestHeaderException;
 
 import java.util.HashMap;
 import java.util.List;

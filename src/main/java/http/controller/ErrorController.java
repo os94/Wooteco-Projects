@@ -1,7 +1,7 @@
 package http.controller;
 
-import http.HttpRequest;
 import http.HttpResponse;
+import http.request.HttpRequest;
 
 public class ErrorController extends AbstractController {
 

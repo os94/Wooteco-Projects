@@ -1,5 +1,6 @@
 package http;
 
+import http.common.HttpStatus;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

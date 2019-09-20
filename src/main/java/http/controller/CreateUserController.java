@@ -1,8 +1,8 @@
 package http.controller;
 
 import db.DataBase;
-import http.HttpRequest;
 import http.HttpResponse;
+import http.request.HttpRequest;
 import model.User;
 
 public class CreateUserController extends AbstractController {

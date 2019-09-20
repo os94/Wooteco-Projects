@@ -1,12 +1,13 @@
-package http;
+package http.request;
 
-import webserver.InvalidRequestHeaderException;
+import http.common.HttpMethod;
+import http.exception.InvalidRequestHeaderException;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static http.HttpMethod.GET;
-import static http.HttpMethod.POST;
+import static http.common.HttpMethod.GET;
+import static http.common.HttpMethod.POST;
 
 public class RequestLine {
     private static final String HTTP_VERSION = "HTTP/1.1";
