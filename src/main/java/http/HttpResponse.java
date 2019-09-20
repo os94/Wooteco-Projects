@@ -31,8 +31,8 @@ public class HttpResponse {
 //        return convertHeader();
 //    }
 
-    public byte[] forward() {
-        return (convertHeader() + new String(body)).getBytes();
+    public String forward() {
+        return convertHeader() + new String(body);
     }
 
     public byte[] getBody() {

@@ -37,21 +37,15 @@ public class RequestHandler implements Runnable {
             if (path.equals("/user/create")) {
                 DataBase.addUser(User.createUser(httpRequest.getDataSet()));
                 HttpResponse httpResponse = new HttpResponse(HttpStatus.FOUND);
-//                sendToClient(dos, httpResponse.sendRedirect("/index.html"), httpResponse.getBody());
+                sendToClient(dos, httpResponse.sendRedirect("/index.html"));
             }
 
-            if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/fonts") || path.startsWith("/images")) {
-                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, STATIC_DEFAULT_PATH + path);
-                sendToClient(dos, httpResponse.forward(), httpResponse.getBody());
-
-//                byte[] body = FileIoUtils.loadFileFromClasspath(STATIC_DEFAULT_PATH + path);
-//                httpResponse.forward("text/css", STATIC_DEFAULT_PATH + path);
-//                httpResponse.forward(body.length, "text/css", body);
-            } else {
+            if (path.endsWith(".html")) {
                 HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, HTML_DEFAULT_PATH + path);
-                sendToClient(dos, httpResponse.forward(), httpResponse.getBody());
-//                byte[] body = FileIoUtils.loadFileFromClasspath(HTML_DEFAULT_PATH + path);
-//                httpResponse.forward("text/html", HTML_DEFAULT_PATH + path);
+                sendToClient(dos, httpResponse.forward());
+            } else {
+                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, STATIC_DEFAULT_PATH + path);
+                sendToClient(dos, httpResponse.forward());
             }
 
         } catch (IOException | URISyntaxException e) {
@@ -59,9 +53,8 @@ public class RequestHandler implements Runnable {
         }
     }
 
-    private void sendToClient(DataOutputStream dos, byte[] response, byte[] body) throws IOException {
-        dos.write(response);
-//        dos.write(body);
+    private void sendToClient(DataOutputStream dos, String response) throws IOException {
+        dos.write(response.getBytes());
         dos.flush();
     }
 
