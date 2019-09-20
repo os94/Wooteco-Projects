@@ -66,7 +66,7 @@ public class HttpResponse {
     }
 
     public String convert() {
-        if(StringUtils.isEmpty(body)) {
+        if (StringUtils.isEmpty(body)) {
             return convertHeader();
         }
         return convertHeader() + new String(body);

@@ -3,7 +3,6 @@ package http.controller;
 import db.DataBase;
 import http.HttpRequest;
 import http.HttpResponse;
-import http.HttpStatus;
 import model.User;
 
 public class CreateUserController extends AbstractController {

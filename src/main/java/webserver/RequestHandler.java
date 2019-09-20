@@ -1,12 +1,11 @@
 package webserver;
 
-import db.DataBase;
-import http.*;
+import http.HttpRequest;
+import http.HttpRequestFactory;
+import http.HttpResponse;
 import http.controller.Controller;
 import http.controller.CreateUserController;
-import http.controller.ErrorController;
 import http.controller.ResourcesController;
-import model.User;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 public class RequestHandler implements Runnable {

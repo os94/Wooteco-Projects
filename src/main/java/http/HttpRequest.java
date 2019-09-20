@@ -2,7 +2,6 @@ package http;
 
 import webserver.InvalidRequestHeaderException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static http.HttpMethod.GET;
