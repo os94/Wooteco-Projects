@@ -5,9 +5,9 @@ import http.common.HeaderFields;
 import java.util.Map;
 
 public class HttpRequest {
-    private RequestLine requestLine;
-    private HeaderFields headerFields;
-    private RequestDatas datas;
+    private final RequestLine requestLine;
+    private final HeaderFields headerFields;
+    private final RequestDatas datas;
 
     public HttpRequest(RequestLine requestLine, HeaderFields headerFields, RequestDatas datas) {
         this.requestLine = requestLine;

@@ -6,7 +6,6 @@ import http.request.HttpRequest;
 import model.User;
 
 public class CreateUserController extends AbstractController {
-
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
         addUser(request, response);

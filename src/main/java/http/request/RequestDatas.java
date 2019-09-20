@@ -9,13 +9,14 @@ import org.springframework.util.StringUtils;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static java.util.Collections.unmodifiableMap;
 
 public class RequestDatas {
     private static final Logger logger = LoggerFactory.getLogger(RequestDatas.class);
 
-    private Map<String, String> datas;
+    private final Map<String, String> datas;
 
     public RequestDatas(String queryString, String bodyData) {
         datas = new HashedMap<>();
@@ -40,14 +41,36 @@ public class RequestDatas {
         });
     }
 
-    public String getData(String fieldName) {
-        if (datas.containsKey(fieldName)) {
-            return datas.get(fieldName);
+    public String getData(String name) {
+        if (datas.containsKey(name)) {
+            return datas.get(name);
         }
-        throw new IllegalArgumentException(fieldName + "를 찾을 수 없습니다.");
+        throw new IllegalArgumentException(name + "를 찾을 수 없습니다.");
     }
 
     public Map<String, String> getDatas() {
         return unmodifiableMap(datas);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestDatas that = (RequestDatas) o;
+        return Objects.equals(datas, that.datas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(datas);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (String data : datas.keySet()) {
+            sb.append(data).append(": ").append(datas.get(data)).append("\r\n");
+        }
+        return sb.toString();
     }
 }

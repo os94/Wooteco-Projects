@@ -18,7 +18,6 @@ import java.net.Socket;
 import java.util.Map;
 
 public class RequestHandler implements Runnable {
-
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private static final Map<String, Controller> controllers = new HashedMap<>();

@@ -5,6 +5,7 @@ import http.exception.InvalidHeaderException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static http.common.HttpMethod.GET;
 import static http.common.HttpMethod.POST;
@@ -12,9 +13,9 @@ import static http.common.HttpMethod.POST;
 public class RequestLine {
     private static final String HTTP_VERSION = "HTTP/1.1";
 
-    private HttpMethod method;
+    private final HttpMethod method;
     private String path;
-    private String queryString;
+    private final String queryString;
 
     public RequestLine(String requestLine) {
         List<String> tokens = makeTokensFrom(requestLine);
@@ -57,5 +58,29 @@ public class RequestLine {
 
     public String getQueryString() {
         return queryString;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RequestLine that = (RequestLine) o;
+        return method == that.method &&
+                Objects.equals(path, that.path) &&
+                Objects.equals(queryString, that.queryString);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(method, path, queryString);
+    }
+
+    @Override
+    public String toString() {
+        return "RequestLine{" +
+                "method=" + method +
+                ", path='" + path + '\'' +
+                ", queryString='" + queryString + '\'' +
+                '}';
     }
 }

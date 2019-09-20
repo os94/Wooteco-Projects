@@ -11,32 +11,18 @@ import utils.FileIoUtils;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class HttpResponse {
     private static final Logger logger = LoggerFactory.getLogger(HttpResponse.class);
 
     private HttpStatus status;
-    private HeaderFields headerFields;
+    private final HeaderFields headerFields;
     private byte[] body;
 
     public HttpResponse() {
         headerFields = new HeaderFields(new ArrayList<>());
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public byte[] getBody() {
-        return body;
-    }
-
-    public String getHeader(String fieldName) {
-        return headerFields.getHeader(fieldName);
-    }
-
-    public void addHeader(String fieldName, String field) {
-        headerFields.addHeader(fieldName, field);
     }
 
     public void forward(String path) {
@@ -74,5 +60,43 @@ public class HttpResponse {
 
         logger.debug("\n--response Header--\n{}", sb.toString());
         return sb.toString();
+    }
+
+    public void addHeader(String fieldName, String field) {
+        headerFields.addHeader(fieldName, field);
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public String getHeader(String fieldName) {
+        return headerFields.getHeader(fieldName);
+    }
+
+    public byte[] getBody() {
+        return body;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HttpResponse response = (HttpResponse) o;
+        return status == response.status &&
+                Objects.equals(headerFields, response.headerFields) &&
+                Arrays.equals(body, response.body);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(status, headerFields);
+        result = 31 * result + Arrays.hashCode(body);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return convert();
     }
 }
