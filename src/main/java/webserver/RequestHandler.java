@@ -2,7 +2,12 @@ package webserver;
 
 import db.DataBase;
 import http.*;
+import http.controller.Controller;
+import http.controller.CreateUserController;
+import http.controller.ErrorController;
+import http.controller.ResourcesController;
 import model.User;
+import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,11 +17,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 public class RequestHandler implements Runnable {
-    private static final String HTML_DEFAULT_PATH = "./templates";
-    private static final String STATIC_DEFAULT_PATH = "./static";
+
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
+
+    private static final Map<String, Controller> controllers = new HashedMap<>();
+
+    static {
+        controllers.put("/user/create", new CreateUserController());
+    }
 
     private Socket connection;
 
@@ -29,33 +40,18 @@ public class RequestHandler implements Runnable {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
-            String path = httpRequest.getPath();
-
+            // todo : Pobi처럼
+            HttpRequest request = HttpRequestFactory.createHttpRequest(in);
+            HttpResponse response = new HttpResponse();
             DataOutputStream dos = new DataOutputStream(out);
 
-            if (path.equals("/user/create")) {
-                DataBase.addUser(User.createUser(httpRequest.getDataSet()));
-                HttpResponse httpResponse = new HttpResponse(HttpStatus.FOUND);
-                sendToClient(dos, httpResponse.sendRedirect("/index.html"));
-            }
+            Controller controller = controllers.getOrDefault(request.getPath(), new ResourcesController());
+            controller.service(request, response);
+            dos.write(response.convert().getBytes());
+            dos.flush();
 
-            if (path.endsWith(".html")) {
-                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, HTML_DEFAULT_PATH + path);
-                sendToClient(dos, httpResponse.forward());
-            } else {
-                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, STATIC_DEFAULT_PATH + path);
-                sendToClient(dos, httpResponse.forward());
-            }
-
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
-
-    private void sendToClient(DataOutputStream dos, String response) throws IOException {
-        dos.write(response.getBytes());
-        dos.flush();
-    }
-
 }

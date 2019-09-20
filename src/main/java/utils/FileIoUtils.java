@@ -7,8 +7,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileIoUtils {
-    public static byte[] loadFileFromClasspath(String filePath) throws IOException, URISyntaxException {
-        Path path = Paths.get(FileIoUtils.class.getClassLoader().getResource(filePath).toURI());
-        return Files.readAllBytes(path);
+    private static final String HTML_DEFAULT_PATH = "./templates";
+    private static final String STATIC_DEFAULT_PATH = "./static";
+
+    public static byte[] loadFileFromClasspath(String path) throws IOException, URISyntaxException {
+        Path filePath = Paths.get(FileIoUtils.class.getClassLoader().getResource(getFilePath(path)).toURI());
+        return Files.readAllBytes(filePath);
+    }
+
+    private static String getFilePath(String path) {
+        if (path.endsWith(".html")) {
+            return HTML_DEFAULT_PATH + path;
+        }
+        return STATIC_DEFAULT_PATH + path;
     }
 }
