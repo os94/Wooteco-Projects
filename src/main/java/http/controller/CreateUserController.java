@@ -18,7 +18,7 @@ public class CreateUserController extends AbstractController {
     }
 
     private void addUser(HttpRequest request, HttpResponse response) {
-        DataBase.addUser(User.createUser(request.getDataSet()));
+        DataBase.addUser(User.createUser(request.getDatas()));
         response.sendRedirect("/index.html");
     }
 }

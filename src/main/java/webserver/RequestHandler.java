@@ -38,7 +38,6 @@ public class RequestHandler implements Runnable {
                 connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            // todo : Pobi처럼
             HttpRequest request = HttpRequestFactory.createHttpRequest(in);
             HttpResponse response = new HttpResponse();
             DataOutputStream dos = new DataOutputStream(out);
@@ -47,7 +46,6 @@ public class RequestHandler implements Runnable {
             controller.service(request, response);
             dos.write(response.convert().getBytes());
             dos.flush();
-
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

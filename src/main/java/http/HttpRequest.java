@@ -1,57 +1,39 @@
 package http;
 
-import webserver.InvalidRequestHeaderException;
-
 import java.util.Map;
 
-import static http.HttpMethod.GET;
-import static http.HttpMethod.POST;
-import static java.util.Collections.unmodifiableMap;
-
 public class HttpRequest {
-    private HttpMethod method;
-    private String path;
-    private Map<String, String> headerFields;
-    private Map<String, String> dataSet;
+    private RequestLine requestLine;
+    private HeaderFields headerFields;
+    private RequestDatas datas;
 
-    public HttpRequest(HttpMethod method, String path, Map<String, String> headerFields, Map<String, String> dataSet) {
-        this.method = method;
-        this.path = path;
+    public HttpRequest(RequestLine requestLine, HeaderFields headerFields, RequestDatas datas) {
+        this.requestLine = requestLine;
         this.headerFields = headerFields;
-        this.dataSet = dataSet;
+        this.datas = datas;
     }
 
     public boolean isGetMethod() {
-        return GET.equals(method);
+        return requestLine.isGetMethod();
     }
 
     public boolean isPostMethod() {
-        return POST.equals(method);
+        return requestLine.isPostMethod();
     }
 
-    public String getHeader(String field) {
-        if (headerFields.containsKey(field)) {
-            return headerFields.get(field);
-        }
-        throw new InvalidRequestHeaderException(field + "를 찾을 수 없습니다.");
+    public String getHeader(String fieldName) {
+        return headerFields.getHeader(fieldName);
     }
 
-    public String getData(String field) {
-        if (dataSet.containsKey(field)) {
-            return dataSet.get(field);
-        }
-        throw new InvalidRequestHeaderException(field + "를 찾을 수 없습니다.");
-    }
-
-    public HttpMethod getMethod() {
-        return method;
+    public String getData(String fieldName) {
+        return datas.getData(fieldName);
     }
 
     public String getPath() {
-        return path;
+        return requestLine.getPath();
     }
 
-    public Map<String, String> getDataSet() {
-        return unmodifiableMap(dataSet);
+    public Map<String, String> getDatas() {
+        return datas.getDatas();
     }
 }
