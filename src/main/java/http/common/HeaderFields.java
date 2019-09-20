@@ -26,6 +26,14 @@ public class HeaderFields {
         }
     }
 
+    public String convert() {
+        StringBuilder sb = new StringBuilder();
+        for (String field : headerFields.keySet()) {
+            sb.append(field).append(": ").append(headerFields.get(field)).append("\r\n");
+        }
+        return sb.toString();
+    }
+
     public String getHeader(String fieldName) {
         if (headerFields.containsKey(fieldName)) {
             return headerFields.get(fieldName);
@@ -57,10 +65,6 @@ public class HeaderFields {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (String field : headerFields.keySet()) {
-            sb.append(field).append(": ").append(headerFields.get(field)).append("\r\n");
-        }
-        return sb.toString();
+        return convert();
     }
 }

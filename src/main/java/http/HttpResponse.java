@@ -55,7 +55,7 @@ public class HttpResponse {
     private String convertHeader() {
         StringBuilder sb = new StringBuilder();
         sb.append("HTTP/1.1 ").append(status.getStatusCode()).append(" ").append(status.getStatusName()).append("\r\n");
-        sb.append(headerFields);
+        sb.append(headerFields.convert());
         sb.append("\r\n");
 
         logger.debug("\n--response Header--\n{}", sb.toString());
