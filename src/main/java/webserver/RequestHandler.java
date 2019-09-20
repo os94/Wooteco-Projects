@@ -1,12 +1,10 @@
 package webserver;
 
 import db.DataBase;
-import http.HttpRequest;
-import http.HttpRequestFactory;
+import http.*;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileIoUtils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -32,57 +30,39 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
-            DataOutputStream dos = new DataOutputStream(out);
             String path = httpRequest.getPath();
+
+            DataOutputStream dos = new DataOutputStream(out);
 
             if (path.equals("/user/create")) {
                 DataBase.addUser(User.createUser(httpRequest.getDataSet()));
-                response302Header(dos, "/index.html");
-                return;
+                HttpResponse httpResponse = new HttpResponse(HttpStatus.FOUND);
+//                sendToClient(dos, httpResponse.sendRedirect("/index.html"), httpResponse.getBody());
             }
 
-            byte[] body;
             if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/fonts") || path.startsWith("/images")) {
-                body = FileIoUtils.loadFileFromClasspath(STATIC_DEFAULT_PATH + path);
-                response200Header(dos, body.length, "text/css");
+                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, STATIC_DEFAULT_PATH + path);
+                sendToClient(dos, httpResponse.forward(), httpResponse.getBody());
+
+//                byte[] body = FileIoUtils.loadFileFromClasspath(STATIC_DEFAULT_PATH + path);
+//                httpResponse.forward("text/css", STATIC_DEFAULT_PATH + path);
+//                httpResponse.forward(body.length, "text/css", body);
             } else {
-                body = FileIoUtils.loadFileFromClasspath(HTML_DEFAULT_PATH + path);
-                response200Header(dos, body.length, "text/html");
+                HttpResponse httpResponse = HttpResponseFactory.createHttpResponse(HttpStatus.OK, HTML_DEFAULT_PATH + path);
+                sendToClient(dos, httpResponse.forward(), httpResponse.getBody());
+//                byte[] body = FileIoUtils.loadFileFromClasspath(HTML_DEFAULT_PATH + path);
+//                httpResponse.forward("text/html", HTML_DEFAULT_PATH + path);
             }
-            responseBody(dos, body);
+
         } catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
         }
     }
 
-    private void response302Header(DataOutputStream dos, String location) {
-        try {
-            dos.writeBytes("HTTP/1.1 302 Found \r\n");
-            dos.writeBytes("Location: " + location);
-            dos.writeBytes("\r\n");
-            dos.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+    private void sendToClient(DataOutputStream dos, byte[] response, byte[] body) throws IOException {
+        dos.write(response);
+//        dos.write(body);
+        dos.flush();
     }
 
-    private void response200Header(DataOutputStream dos, int lengthOfBodyContent, String contentType) {
-        try {
-            dos.writeBytes("HTTP/1.1 200 OK \r\n");
-            dos.writeBytes("Content-Type: " + contentType + ";charset=utf-8\r\n");
-            dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
-            dos.writeBytes("\r\n");
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    private void responseBody(DataOutputStream dos, byte[] body) {
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
 }

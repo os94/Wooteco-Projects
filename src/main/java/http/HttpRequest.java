@@ -12,7 +12,7 @@ import static java.util.Collections.unmodifiableMap;
 public class HttpRequest {
     private HttpMethod method;
     private String path;
-    private Map<String, String> headerFields = new HashMap<>();
+    private Map<String, String> headerFields;
     private Map<String, String> dataSet;
 
     public HttpRequest(HttpMethod method, String path, Map<String, String> headerFields, Map<String, String> dataSet) {
