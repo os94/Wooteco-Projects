@@ -1,6 +1,7 @@
 package http.controller;
 
 import http.HttpResponse;
+import http.exception.InvalidHeaderException;
 import http.request.HttpRequest;
 
 public abstract class AbstractController implements Controller {
@@ -12,10 +13,20 @@ public abstract class AbstractController implements Controller {
         }
         if (request.isPostMethod()) {
             doPost(request, response);
+            return;
         }
+        throw new InvalidHeaderException("요청이 적절한 HTTP METHOD가 아닙니다.");
     }
 
-    public abstract void doGet(HttpRequest request, HttpResponse response);
+    protected void doGet(HttpRequest request, HttpResponse response) {
+        triggerException();
+    }
 
-    public abstract void doPost(HttpRequest request, HttpResponse response);
+    protected void doPost(HttpRequest request, HttpResponse response) {
+        triggerException();
+    }
+
+    private void triggerException() {
+        throw new InvalidHeaderException("유효하지않은 메소드 호출입니다.");
+    }
 }

@@ -11,9 +11,4 @@ public class ErrorController extends AbstractController {
     public void doGet(HttpRequest request, HttpResponse response) {
 
     }
-
-    @Override
-    public void doPost(HttpRequest request, HttpResponse response) {
-
-    }
 }
