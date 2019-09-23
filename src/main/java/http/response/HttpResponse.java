@@ -1,4 +1,4 @@
-package http;
+package http.response;
 
 import http.common.HeaderFields;
 import http.common.HttpStatus;
@@ -19,17 +19,18 @@ import static http.common.HeaderFields.*;
 public class HttpResponse {
     private static final Logger logger = LoggerFactory.getLogger(HttpResponse.class);
 
-    private HttpStatus status;
+    private final StatusLine statusLine;
     private final HeaderFields headerFields;
     private byte[] body;
 
-    public HttpResponse() {
+    public HttpResponse(String httpVersion) {
+        statusLine = new StatusLine(httpVersion);
         headerFields = new HeaderFields(new ArrayList<>());
     }
 
     public void forward(String path) {
         try {
-            status = HttpStatus.OK;
+            statusLine.setStatus(HttpStatus.OK);
             body = FileIoUtils.loadFileFromClasspath(path);
             String type = new Tika().detect(path);
 
@@ -37,13 +38,13 @@ public class HttpResponse {
             headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
         } catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
-            status = HttpStatus.NOT_FOUND;
+            statusLine.setStatus(HttpStatus.NOT_FOUND);
             // todo: error page
         }
     }
 
     public void sendRedirect(String location) {
-        status = HttpStatus.FOUND;
+        statusLine.setStatus(HttpStatus.FOUND);
         headerFields.addHeader(LOCATION, location);
     }
 
@@ -55,12 +56,11 @@ public class HttpResponse {
     }
 
     private String convertHeader() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 ").append(status.getStatusCode()).append(BLANK).append(status.getStatusName()).append(NEWLINE);
-        sb.append(headerFields.convert());
-        sb.append(NEWLINE);
-
-        return sb.toString();
+        return new StringBuilder()
+                .append(statusLine)
+                .append(headerFields.convert())
+                .append(NEWLINE)
+                .toString();
     }
 
     public void addHeader(String fieldName, String field) {
@@ -68,7 +68,11 @@ public class HttpResponse {
     }
 
     public HttpStatus getStatus() {
-        return status;
+        return statusLine.getStatus();
+    }
+
+    public String getHttpVersion() {
+        return statusLine.getHttpVersion();
     }
 
     public String getHeader(String fieldName) {
@@ -83,15 +87,15 @@ public class HttpResponse {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HttpResponse response = (HttpResponse) o;
-        return status == response.status &&
-                Objects.equals(headerFields, response.headerFields) &&
-                Arrays.equals(body, response.body);
+        HttpResponse that = (HttpResponse) o;
+        return Objects.equals(statusLine, that.statusLine) &&
+                Objects.equals(headerFields, that.headerFields) &&
+                Arrays.equals(body, that.body);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(status, headerFields);
+        int result = Objects.hash(statusLine, headerFields);
         result = 31 * result + Arrays.hashCode(body);
         return result;
     }

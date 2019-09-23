@@ -6,23 +6,26 @@ import http.exception.InvalidHeaderException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import static http.common.HeaderFields.*;
 import static http.common.HttpMethod.GET;
 import static http.common.HttpMethod.POST;
 
 public class RequestLine {
-    private static final String HTTP_VERSION = "HTTP/1.1";
+    private static final Pattern HTTP_PATTERN = Pattern.compile("HTTP/.*");
 
     private final HttpMethod method;
     private String path;
     private final String queryString;
+    private final String httpVersion;
 
     public RequestLine(String requestLine) {
         List<String> tokens = makeTokensFrom(requestLine);
         method = HttpMethod.valueOf(tokens.get(0));
         path = tokens.get(1);
         queryString = splitQueryString();
+        httpVersion = tokens.get(2);
     }
 
     private String splitQueryString() {
@@ -40,7 +43,7 @@ public class RequestLine {
     }
 
     private static void validateRequestLine(String requestLine, List<String> tokens) {
-        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !tokens.get(2).matches(HTTP_VERSION)) {
+        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !HTTP_PATTERN.matcher(tokens.get(2)).matches()) {
             throw new InvalidHeaderException(requestLine + "은 유효하지않은 HttpRequest입니다.");
         }
     }
@@ -61,6 +64,10 @@ public class RequestLine {
         return queryString;
     }
 
+    public String getHttpVersion() {
+        return httpVersion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -78,6 +85,6 @@ public class RequestLine {
 
     @Override
     public String toString() {
-        return method + BLANK + path + queryString + NEWLINE;
+        return method + BLANK + path + queryString + BLANK + httpVersion + NEWLINE;
     }
 }

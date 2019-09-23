@@ -24,6 +24,10 @@ public class HttpRequest {
         return requestLine.isPostMethod();
     }
 
+    public String getHttpVersion() {
+        return requestLine.getHttpVersion();
+    }
+
     public String getHeader(String fieldName) {
         return headerFields.getHeader(fieldName);
     }

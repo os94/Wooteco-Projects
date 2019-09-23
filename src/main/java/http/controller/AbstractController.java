@@ -1,8 +1,8 @@
 package http.controller;
 
-import http.HttpResponse;
 import http.exception.InvalidHeaderException;
 import http.request.HttpRequest;
+import http.response.HttpResponse;
 
 public abstract class AbstractController implements Controller {
     @Override

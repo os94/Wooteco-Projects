@@ -1,9 +1,9 @@
 package webserver;
 
-import http.HttpResponse;
 import http.controller.RequestMapping;
 import http.request.HttpRequest;
 import http.request.HttpRequestFactory;
+import http.response.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest request = HttpRequestFactory.createHttpRequest(in);
             logger.debug("Http Request\n{}", request);
-            HttpResponse response = new HttpResponse();
+            HttpResponse response = new HttpResponse(request.getHttpVersion());
             DataOutputStream dos = new DataOutputStream(out);
 
             RequestMapping.getController(request.getPath())
