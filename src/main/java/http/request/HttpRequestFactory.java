@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class HttpRequestFactory {
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestFactory.class);
 
     public static HttpRequest createHttpRequest(InputStream in) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         String firstLine = br.readLine();
 
         RequestLine requestLine = new RequestLine(firstLine);
