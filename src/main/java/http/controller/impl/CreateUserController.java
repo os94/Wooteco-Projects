@@ -6,6 +6,8 @@ import http.request.HttpRequest;
 import http.response.HttpResponse;
 import model.User;
 
+import java.util.Map;
+
 public class CreateUserController extends AbstractController {
     @Override
     public void doPost(HttpRequest request, HttpResponse response) {
@@ -13,7 +15,9 @@ public class CreateUserController extends AbstractController {
     }
 
     private void addUser(HttpRequest request, HttpResponse response) {
-        DataBase.addUser(User.createUser(request.getDatas()));
+        Map<String, String> userInfo = request.getDatas();
+        DataBase.addUser(new User(userInfo.get("userId"), userInfo.get("password")
+                , userInfo.get("name"), userInfo.get("email")));
         response.sendRedirect("/index.html");
     }
 }
