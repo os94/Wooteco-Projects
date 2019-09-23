@@ -3,6 +3,7 @@ package http;
 import http.common.HttpStatus;
 import org.junit.jupiter.api.Test;
 
+import static http.common.HeaderFields.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class HttpResponseTest {
@@ -12,14 +13,14 @@ public class HttpResponseTest {
         response.sendRedirect("/index.html");
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.FOUND);
-        assertThat(response.getHeader("Location")).isEqualTo("/index.html");
+        assertThat(response.getHeader(LOCATION)).isEqualTo("/index.html");
     }
 
     @Test
     void addHeader() {
         HttpResponse response = new HttpResponse();
-        response.addHeader("Content-Length", "123");
-        assertThat(response.getHeader("Content-Length")).isEqualTo("123");
+        response.addHeader(CONTENT_LENGTH, "123");
+        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo("123");
     }
 
     @Test
@@ -27,6 +28,6 @@ public class HttpResponseTest {
         HttpResponse response = new HttpResponse();
         response.forward("./templates/index.html");
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK);
-        assertThat(response.getHeader("Content-Type")).isEqualTo("text/html;charset=utf-8");
+        assertThat(response.getHeader(CONTENT_TYPE)).isEqualTo("text/html;charset=utf-8");
     }
 }

@@ -1,6 +1,5 @@
 package http.request;
 
-import http.exception.InvalidHeaderException;
 import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import static http.common.HeaderFields.*;
 import static java.util.Collections.unmodifiableMap;
 
 public class RequestDatas {
@@ -26,7 +26,7 @@ public class RequestDatas {
 
     private void addDataIfExist(String data) {
         if (exist(data)) {
-            addDatas(Arrays.asList(data.split("&")));
+            addDatas(Arrays.asList(data.split(AMPERSAND)));
         }
     }
 
@@ -37,7 +37,7 @@ public class RequestDatas {
     private void addDatas(List<String> tokens) {
         tokens.forEach(token -> {
             logger.debug("data : {}", token);
-            datas.put(token.split("=")[0], token.split("=")[1]);
+            datas.put(token.split(EQUAL)[0], token.split(EQUAL)[1]);
         });
     }
 
@@ -69,7 +69,7 @@ public class RequestDatas {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (String data : datas.keySet()) {
-            sb.append(data).append(": ").append(datas.get(data)).append("\r\n");
+            sb.append(data).append(COLON).append(BLANK).append(datas.get(data)).append(NEWLINE);
         }
         return sb.toString();
     }

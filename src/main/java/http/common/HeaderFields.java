@@ -12,6 +12,18 @@ import java.util.Objects;
 public class HeaderFields {
     private static final Logger logger = LoggerFactory.getLogger(HeaderFields.class);
 
+    public static final String CONTENT_LENGTH = "Content-Length";
+    public static final String CONTENT_TYPE = "Content-Type";
+    public static final String LOCATION = "Location";
+
+    public static final String AMPERSAND = "&";
+    public static final String EQUAL = "=";
+    public static final String BLANK = " ";
+    public static final String COLON = ":";
+    public static final String NEWLINE = "\r\n";
+    public static final String QUESTION_MARK = "?";
+    public static final String REGEX_QUESTION_MARK = "\\?";
+
     private final Map<String, String> headerFields;
 
     public HeaderFields(List<String> headerFields) {
@@ -43,7 +55,7 @@ public class HeaderFields {
     }
 
     public int getContentLength() {
-        return Integer.parseInt(headerFields.getOrDefault("Content-Length", String.valueOf(0)));
+        return Integer.parseInt(headerFields.getOrDefault(CONTENT_LENGTH, String.valueOf(0)));
     }
 
     public void addHeader(String fieldName, String field) {

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static http.common.HeaderFields.*;
 import static http.common.HttpMethod.GET;
 import static http.common.HttpMethod.POST;
 
@@ -25,15 +26,15 @@ public class RequestLine {
     }
 
     private String splitQueryString() {
-        if (path.contains("?")) {
-            path = path.split("\\?")[0];
-            return path.split("\\?")[1];
+        if (path.contains(QUESTION_MARK)) {
+            path = path.split(REGEX_QUESTION_MARK)[0];
+            return path.split(REGEX_QUESTION_MARK)[1];
         }
         return "";
     }
 
     private static List<String> makeTokensFrom(String requestLine) {
-        List<String> tokens = Arrays.asList(requestLine.split(" "));
+        List<String> tokens = Arrays.asList(requestLine.split(BLANK));
         validateRequestLine(requestLine, tokens);
         return tokens;
     }

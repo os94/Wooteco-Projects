@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static http.common.HeaderFields.CONTENT_LENGTH;
+import static http.common.HeaderFields.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HeaderFieldsTest {
     private HeaderFields fields;
@@ -35,15 +37,15 @@ class HeaderFieldsTest {
         HeaderFields fieldsByConstructor = fields;
 
         HeaderFields fieldsByAddHeader = new HeaderFields(new ArrayList<>());
-        fieldsByAddHeader.addHeader("Content-Length", "13309");
-        fieldsByAddHeader.addHeader("Content-Type", "text/html; charset=utf-8");
+        fieldsByAddHeader.addHeader(CONTENT_LENGTH, "13309");
+        fieldsByAddHeader.addHeader(CONTENT_TYPE, "text/html; charset=utf-8");
 
         assertThat(fieldsByConstructor).isEqualTo(fieldsByAddHeader);
     }
 
     @Test
     void getHeader() {
-        assertThat(fields.getHeader("Content-Type")).isEqualTo("text/html; charset=utf-8");
+        assertThat(fields.getHeader(CONTENT_TYPE)).isEqualTo("text/html; charset=utf-8");
     }
 
     @Test
@@ -68,7 +70,7 @@ class HeaderFieldsTest {
     void testToString() {
         String stringToCompare =
                 "Content-Length: 13309\r\n" +
-                "Content-Type: text/html; charset=utf-8\r\n";
+                        "Content-Type: text/html; charset=utf-8\r\n";
         assertThat(fields.toString()).isEqualTo(stringToCompare);
     }
 }

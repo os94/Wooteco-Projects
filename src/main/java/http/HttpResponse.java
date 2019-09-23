@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import static http.common.HeaderFields.*;
+
 public class HttpResponse {
     private static final Logger logger = LoggerFactory.getLogger(HttpResponse.class);
 
@@ -31,8 +33,8 @@ public class HttpResponse {
             body = FileIoUtils.loadFileFromClasspath(path);
             String type = new Tika().detect(path);
 
-            headerFields.addHeader("Content-Type", type + ";charset=utf-8");
-            headerFields.addHeader("Content-Length", String.valueOf(body.length));
+            headerFields.addHeader(CONTENT_TYPE, type + ";charset=utf-8");
+            headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
         } catch (IOException | URISyntaxException e) {
             logger.error(e.getMessage());
             status = HttpStatus.NOT_FOUND;
@@ -42,7 +44,7 @@ public class HttpResponse {
 
     public void sendRedirect(String location) {
         status = HttpStatus.FOUND;
-        headerFields.addHeader("Location", location);
+        headerFields.addHeader(LOCATION, location);
     }
 
     public String convert() {
@@ -54,9 +56,9 @@ public class HttpResponse {
 
     private String convertHeader() {
         StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 ").append(status.getStatusCode()).append(" ").append(status.getStatusName()).append("\r\n");
+        sb.append("HTTP/1.1 ").append(status.getStatusCode()).append(BLANK).append(status.getStatusName()).append(NEWLINE);
         sb.append(headerFields.convert());
-        sb.append("\r\n");
+        sb.append(NEWLINE);
 
         logger.debug("\n--response Header--\n{}", sb.toString());
         return sb.toString();
