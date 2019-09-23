@@ -1,19 +1,19 @@
 package http.request;
 
 import http.common.HeaderFields;
+import http.exception.InvalidHeaderException;
 
-import java.util.Map;
 import java.util.Objects;
 
 public class HttpRequest {
     private final RequestLine requestLine;
     private final HeaderFields headerFields;
-    private final RequestDatas datas;
+    private final Parameters requestBody;
 
-    public HttpRequest(RequestLine requestLine, HeaderFields headerFields, RequestDatas datas) {
+    public HttpRequest(RequestLine requestLine, HeaderFields headerFields, Parameters requestBody) {
         this.requestLine = requestLine;
         this.headerFields = headerFields;
-        this.datas = datas;
+        this.requestBody = requestBody;
     }
 
     public boolean isGetMethod() {
@@ -24,6 +24,16 @@ public class HttpRequest {
         return requestLine.isPostMethod();
     }
 
+    public String getParameter(String parameter) {
+        if (requestLine.containsParameter(parameter)) {
+            return requestLine.getParameter(parameter);
+        }
+        if (requestBody.contains(parameter)) {
+            return requestBody.getParameter(parameter);
+        }
+        throw new InvalidHeaderException(parameter + "가 존재하지 않습니다.");
+    }
+
     public String getHttpVersion() {
         return requestLine.getHttpVersion();
     }
@@ -32,16 +42,8 @@ public class HttpRequest {
         return headerFields.getHeader(fieldName);
     }
 
-    public String getData(String fieldName) {
-        return datas.getData(fieldName);
-    }
-
     public String getPath() {
         return requestLine.getPath();
-    }
-
-    public Map<String, String> getDatas() {
-        return datas.getDatas();
     }
 
     @Override
@@ -51,16 +53,16 @@ public class HttpRequest {
         HttpRequest that = (HttpRequest) o;
         return Objects.equals(requestLine, that.requestLine) &&
                 Objects.equals(headerFields, that.headerFields) &&
-                Objects.equals(datas, that.datas);
+                Objects.equals(requestBody, that.requestBody);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestLine, headerFields, datas);
+        return Objects.hash(requestLine, headerFields, requestBody);
     }
 
     @Override
     public String toString() {
-        return requestLine.toString() + headerFields + datas;
+        return requestLine.toString() + headerFields + requestBody;
     }
 }

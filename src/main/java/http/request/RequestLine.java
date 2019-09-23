@@ -17,23 +17,25 @@ public class RequestLine {
 
     private final HttpMethod method;
     private String path;
-    private final String queryString;
+    private Parameters queryString;
     private final String httpVersion;
 
     public RequestLine(String requestLine) {
         List<String> tokens = makeTokensFrom(requestLine);
         method = HttpMethod.valueOf(tokens.get(0));
-        path = tokens.get(1);
-        queryString = splitQueryString();
+        setPathAndQueryString(tokens.get(1));
         httpVersion = tokens.get(2);
     }
 
-    private String splitQueryString() {
-        if (path.contains(QUESTION_MARK)) {
-            path = path.split(REGEX_QUESTION_MARK)[0];
-            return path.split(REGEX_QUESTION_MARK)[1];
+    private void setPathAndQueryString(String pathWithQueryString) {
+        if (pathWithQueryString.contains(QUESTION_MARK)) {
+            List<String> tokens = Arrays.asList(pathWithQueryString.split(REGEX_QUESTION_MARK));
+            path = tokens.get(0);
+            queryString = new Parameters(tokens.get(1));
+            return;
         }
-        return "";
+        path = pathWithQueryString;
+        queryString = new Parameters("");
     }
 
     private static List<String> makeTokensFrom(String requestLine) {
@@ -56,12 +58,16 @@ public class RequestLine {
         return POST.equals(method);
     }
 
+    public boolean containsParameter(String parameter) {
+        return queryString.contains(parameter);
+    }
+
     public String getPath() {
         return path;
     }
 
-    public String getQueryString() {
-        return queryString;
+    public String getParameter(String parameter) {
+        return queryString.getParameter(parameter);
     }
 
     public String getHttpVersion() {
@@ -75,12 +81,13 @@ public class RequestLine {
         RequestLine that = (RequestLine) o;
         return method == that.method &&
                 Objects.equals(path, that.path) &&
-                Objects.equals(queryString, that.queryString);
+                Objects.equals(queryString, that.queryString) &&
+                Objects.equals(httpVersion, that.httpVersion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(method, path, queryString);
+        return Objects.hash(method, path, queryString, httpVersion);
     }
 
     @Override

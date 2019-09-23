@@ -2,8 +2,6 @@ package http.request;
 
 import http.common.HeaderFields;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import utils.IOUtils;
 
 import java.io.BufferedReader;
@@ -15,17 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HttpRequestFactory {
-    private static final Logger logger = LoggerFactory.getLogger(HttpRequestFactory.class);
-
     public static HttpRequest createHttpRequest(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         String firstLine = br.readLine();
 
         RequestLine requestLine = new RequestLine(firstLine);
         HeaderFields headerFields = parseHeaderFields(br);
-        RequestDatas datas = parseRequestData(br, requestLine, headerFields.getContentLength());
+        Parameters requestBody = parseRequestData(br, requestLine, headerFields.getContentLength());
 
-        return new HttpRequest(requestLine, headerFields, datas);
+        return new HttpRequest(requestLine, headerFields, requestBody);
     }
 
     private static HeaderFields parseHeaderFields(BufferedReader br) throws IOException {
@@ -39,11 +35,11 @@ public class HttpRequestFactory {
         return new HeaderFields(headerFields);
     }
 
-    private static RequestDatas parseRequestData(BufferedReader br, RequestLine requestLine, int contentLength) throws IOException {
+    private static Parameters parseRequestData(BufferedReader br, RequestLine requestLine, int contentLength) throws IOException {
         String bodyData = "";
         if (contentLength != 0) {
             bodyData = IOUtils.readData(br, contentLength);
         }
-        return new RequestDatas(requestLine.getQueryString(), bodyData);
+        return new Parameters(bodyData);
     }
 }
