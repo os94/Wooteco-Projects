@@ -60,7 +60,6 @@ public class HttpResponse {
         sb.append(headerFields.convert());
         sb.append(NEWLINE);
 
-        logger.debug("\n--response Header--\n{}", sb.toString());
         return sb.toString();
     }
 
@@ -99,6 +98,6 @@ public class HttpResponse {
 
     @Override
     public String toString() {
-        return convert();
+        return convertHeader();
     }
 }

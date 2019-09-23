@@ -38,6 +38,7 @@ public class RequestHandler implements Runnable {
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest request = HttpRequestFactory.createHttpRequest(in);
+            logger.debug("Http Request\n{}", request);
             HttpResponse response = new HttpResponse();
             DataOutputStream dos = new DataOutputStream(out);
 
@@ -45,6 +46,7 @@ public class RequestHandler implements Runnable {
             controller.service(request, response);
             dos.write(response.convert().getBytes());
             dos.flush();
+            logger.debug("Http Response\n{}", response);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

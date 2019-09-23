@@ -3,6 +3,7 @@ package http.request;
 import http.common.HeaderFields;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class HttpRequest {
     private final RequestLine requestLine;
@@ -37,5 +38,25 @@ public class HttpRequest {
 
     public Map<String, String> getDatas() {
         return datas.getDatas();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HttpRequest that = (HttpRequest) o;
+        return Objects.equals(requestLine, that.requestLine) &&
+                Objects.equals(headerFields, that.headerFields) &&
+                Objects.equals(datas, that.datas);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(requestLine, headerFields, datas);
+    }
+
+    @Override
+    public String toString() {
+        return requestLine.toString() + headerFields + datas;
     }
 }

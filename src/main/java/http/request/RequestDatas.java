@@ -36,7 +36,6 @@ public class RequestDatas {
 
     private void addDatas(List<String> tokens) {
         tokens.forEach(token -> {
-            logger.debug("data : {}", token);
             datas.put(token.split(EQUAL)[0], token.split(EQUAL)[1]);
         });
     }

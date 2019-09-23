@@ -19,7 +19,6 @@ public class HttpRequestFactory {
     public static HttpRequest createHttpRequest(InputStream in) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
         String firstLine = br.readLine();
-        logger.debug("requestLine : {}", firstLine);
 
         RequestLine requestLine = new RequestLine(firstLine);
         HeaderFields headerFields = parseHeaderFields(br);
@@ -33,7 +32,6 @@ public class HttpRequestFactory {
         String line = br.readLine();
         headerFields.add(line);
         while (!StringUtils.isEmpty(line)) {
-            logger.debug("headerField : {}", line);
             headerFields.add(line);
             line = br.readLine();
         }

@@ -78,10 +78,6 @@ public class RequestLine {
 
     @Override
     public String toString() {
-        return "RequestLine{" +
-                "method=" + method +
-                ", path='" + path + '\'' +
-                ", queryString='" + queryString + '\'' +
-                '}';
+        return method + BLANK + path + queryString + NEWLINE;
     }
 }

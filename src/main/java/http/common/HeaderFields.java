@@ -32,8 +32,8 @@ public class HeaderFields {
         }
         this.headerFields = new HashMap<>();
         for (String headerField : headerFields) {
-            String key = headerField.substring(0, headerField.indexOf(":"));
-            String value = headerField.substring(headerField.indexOf(":") + 2);
+            String key = headerField.substring(0, headerField.indexOf(COLON));
+            String value = headerField.substring(headerField.indexOf(COLON) + 2);
             this.headerFields.put(key, value);
         }
     }
@@ -41,7 +41,7 @@ public class HeaderFields {
     public String convert() {
         StringBuilder sb = new StringBuilder();
         for (String field : headerFields.keySet()) {
-            sb.append(field).append(": ").append(headerFields.get(field)).append("\r\n");
+            sb.append(field).append(COLON).append(BLANK).append(headerFields.get(field)).append(NEWLINE);
         }
         return sb.toString();
     }
