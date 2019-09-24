@@ -12,15 +12,4 @@ public class FileIoUtilsTest {
         byte[] body = FileIoUtils.loadFileFromClasspath("./templates/index.html");
         log.debug("file : {}", new String(body));
     }
-
-    @Test
-    void name() {
-        String a = "A";
-        byte[] b = a.getBytes();
-        String c = new String(b);
-        byte[] d = c.getBytes();
-        System.out.println(b.length);
-        System.out.println(d.length);
-        System.out.println(b.equals(d));
-    }
 }

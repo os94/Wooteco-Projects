@@ -1,10 +1,10 @@
 package webserver.controller.impl;
 
 import db.DataBase;
-import webserver.controller.AbstractController;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import model.User;
+import webserver.controller.AbstractController;
 
 public class CreateUserController extends AbstractController {
     public static final String URL = "/user/create";

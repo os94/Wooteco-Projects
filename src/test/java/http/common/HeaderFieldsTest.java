@@ -27,9 +27,7 @@ class HeaderFieldsTest {
 
     @Test
     void constructor_null() {
-        assertThrows(InvalidHttpHeaderException.class, () -> {
-            new HeaderFields(null);
-        });
+        assertThrows(InvalidHttpHeaderException.class, () -> new HeaderFields(null));
     }
 
     @Test
@@ -50,9 +48,7 @@ class HeaderFieldsTest {
 
     @Test
     void getHeader_notExist() {
-        assertThrows(InvalidHttpHeaderException.class, () -> {
-            fields.getHeader("Foo-Header");
-        });
+        assertThrows(InvalidHttpHeaderException.class, () -> fields.getHeader("Foo-Header"));
     }
 
     @Test

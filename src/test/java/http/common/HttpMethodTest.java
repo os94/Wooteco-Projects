@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class HttpMethodTest {
-
     @Test
     void matches_true() {
         assertThat(HttpMethod.matches("GET")).isTrue();

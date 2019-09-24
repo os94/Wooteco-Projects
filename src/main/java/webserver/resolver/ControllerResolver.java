@@ -1,10 +1,10 @@
 package webserver.resolver;
 
+import http.request.HttpRequest;
+import http.response.HttpResponse;
 import webserver.controller.Controller;
 import webserver.controller.impl.CreateUserController;
 import webserver.controller.impl.HomeController;
-import http.request.HttpRequest;
-import http.response.HttpResponse;
 
 import java.util.HashMap;
 import java.util.Map;

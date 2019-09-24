@@ -22,36 +22,38 @@ class HttpRequestFactoryTest {
     @Test
     void get_request_header() throws IOException {
         InputStream in = new FileInputStream(new File(testDirectory + "get_Http_Header.txt"));
-        HttpRequest httprequest = HttpRequestFactory.createHttpRequest(in);
+        HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
 
-        assertThat(httprequest.isGetMethod()).isTrue();
-        assertThat(httprequest.getPath()).isEqualTo("/user/create");
+        assertThat(httpRequest.isGetMethod()).isTrue();
+        assertThat(httpRequest.getPath()).isEqualTo("/user/create");
+        assertThat(httpRequest.getHttpVersion()).isEqualTo("HTTP/1.1");
 
-        assertThat(httprequest.getHeader("Host")).isEqualTo("localhost:8080");
-        assertThat(httprequest.getHeader("Connection")).isEqualTo("keep-alive");
-        assertThat(httprequest.getHeader("Accept")).isEqualTo("*/*");
+        assertThat(httpRequest.getHeader("Host")).isEqualTo("localhost:8080");
+        assertThat(httpRequest.getHeader("Connection")).isEqualTo("keep-alive");
+        assertThat(httpRequest.getHeader("Accept")).isEqualTo("*/*");
 
-        assertThat(httprequest.getData("userId")).isEqualTo("seon");
-        assertThat(httprequest.getData("password")).isEqualTo("password");
-        assertThat(httprequest.getData("name")).isEqualTo("sos");
-        assertThat(httprequest.getData("email")).isEqualTo("sos@sos.sos");
+        assertThat(httpRequest.getParameter("userId")).isEqualTo("seon");
+        assertThat(httpRequest.getParameter("password")).isEqualTo("password");
+        assertThat(httpRequest.getParameter("name")).isEqualTo("sos");
+        assertThat(httpRequest.getParameter("email")).isEqualTo("sos@sos.sos");
     }
 
     @Test
     void post_request_header() throws IOException {
         InputStream in = new FileInputStream(new File(testDirectory + "post_Http_Header.txt"));
-        HttpRequest httprequest = HttpRequestFactory.createHttpRequest(in);
+        HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
 
-        assertThat(httprequest.isPostMethod()).isTrue();
-        assertThat(httprequest.getPath()).isEqualTo("/user/create");
+        assertThat(httpRequest.isPostMethod()).isTrue();
+        assertThat(httpRequest.getPath()).isEqualTo("/user/create");
+        assertThat(httpRequest.getHttpVersion()).isEqualTo("HTTP/1.1");
 
-        assertThat(httprequest.getHeader("Host")).isEqualTo("localhost:8080");
-        assertThat(httprequest.getHeader("Connection")).isEqualTo("keep-alive");
-        assertThat(httprequest.getHeader("Accept")).isEqualTo("*/*");
+        assertThat(httpRequest.getHeader("Host")).isEqualTo("localhost:8080");
+        assertThat(httpRequest.getHeader("Connection")).isEqualTo("keep-alive");
+        assertThat(httpRequest.getHeader("Accept")).isEqualTo("*/*");
 
-        assertThat(httprequest.getData("userId")).isEqualTo("seon");
-        assertThat(httprequest.getData("password")).isEqualTo("password");
-        assertThat(httprequest.getData("name")).isEqualTo("sos");
-        assertThat(httprequest.getData("email")).isEqualTo("sos@sos.sos");
+        assertThat(httpRequest.getParameter("userId")).isEqualTo("seon");
+        assertThat(httpRequest.getParameter("password")).isEqualTo("password");
+        assertThat(httpRequest.getParameter("name")).isEqualTo("sos");
+        assertThat(httpRequest.getParameter("email")).isEqualTo("sos@sos.sos");
     }
 }

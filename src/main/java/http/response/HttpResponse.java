@@ -30,6 +30,7 @@ public class HttpResponse {
     public void notFound(Exception e) {
         statusLine.setStatus(HttpStatus.NOT_FOUND);
         body = e.getMessage().getBytes();
+        this.headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
     public void redirect(String location) {
