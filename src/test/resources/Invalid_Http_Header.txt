@@ -1,0 +1,4 @@
+GOT /user/create?userId=seon&password=password&name=sos&email=sos@sos.sos HTTP/1.1
+Host: localhost:8080
+Connection: keep-alive
+Accept: */*

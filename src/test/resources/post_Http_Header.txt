@@ -1,0 +1,7 @@
+POST /user/create HTTP/1.1
+Host: localhost:8080
+Content-Length: 56
+Connection: keep-alive
+Accept: */*
+
+userId=seon&password=password&name=sos&email=sos@sos.sos

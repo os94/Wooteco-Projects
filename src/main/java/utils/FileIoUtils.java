@@ -7,8 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileIoUtils {
-    public static byte[] loadFileFromClasspath(String filePath) throws IOException, URISyntaxException {
-        Path path = Paths.get(FileIoUtils.class.getClassLoader().getResource(filePath).toURI());
-        return Files.readAllBytes(path);
+    public static byte[] loadFileFromClasspath(String path) throws IOException, URISyntaxException {
+        Path filePath = Paths.get(FileIoUtils.class.getClassLoader().getResource(path).toURI());
+        return Files.readAllBytes(filePath);
     }
 }
