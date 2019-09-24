@@ -1,6 +1,6 @@
 package http.common;
 
-import http.exception.InvalidHeaderException;
+import http.exception.InvalidHttpHeaderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ class HeaderFieldsTest {
 
     @Test
     void constructor_null() {
-        assertThrows(InvalidHeaderException.class, () -> {
+        assertThrows(InvalidHttpHeaderException.class, () -> {
             new HeaderFields(null);
         });
     }
@@ -50,7 +50,7 @@ class HeaderFieldsTest {
 
     @Test
     void getHeader_notExist() {
-        assertThrows(InvalidHeaderException.class, () -> {
+        assertThrows(InvalidHttpHeaderException.class, () -> {
             fields.getHeader("Foo-Header");
         });
     }

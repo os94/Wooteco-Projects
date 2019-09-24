@@ -1,7 +1,7 @@
 package http.request;
 
 import http.common.HttpMethod;
-import http.exception.InvalidHeaderException;
+import http.exception.InvalidHttpHeaderException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +27,18 @@ public class RequestLine {
         httpVersion = tokens.get(2);
     }
 
+    private static List<String> makeTokensFrom(String requestLine) {
+        List<String> tokens = Arrays.asList(requestLine.split(BLANK));
+        validateRequestLine(requestLine, tokens);
+        return tokens;
+    }
+
+    private static void validateRequestLine(String requestLine, List<String> tokens) {
+        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !HTTP_PATTERN.matcher(tokens.get(2)).matches()) {
+            throw new InvalidHttpHeaderException(requestLine + "은 유효하지않은 HttpRequest입니다.");
+        }
+    }
+
     private void setPathAndQueryString(String pathWithQueryString) {
         if (pathWithQueryString.contains(QUESTION_MARK)) {
             List<String> tokens = Arrays.asList(pathWithQueryString.split(REGEX_QUESTION_MARK));
@@ -36,18 +48,6 @@ public class RequestLine {
         }
         path = pathWithQueryString;
         queryString = new Parameters("");
-    }
-
-    private static List<String> makeTokensFrom(String requestLine) {
-        List<String> tokens = Arrays.asList(requestLine.split(BLANK));
-        validateRequestLine(requestLine, tokens);
-        return tokens;
-    }
-
-    private static void validateRequestLine(String requestLine, List<String> tokens) {
-        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !HTTP_PATTERN.matcher(tokens.get(2)).matches()) {
-            throw new InvalidHeaderException(requestLine + "은 유효하지않은 HttpRequest입니다.");
-        }
     }
 
     public boolean isGetMethod() {
@@ -60,6 +60,10 @@ public class RequestLine {
 
     public boolean containsParameter(String parameter) {
         return queryString.contains(parameter);
+    }
+
+    public HttpMethod getMethod() {
+        return method;
     }
 
     public String getPath() {

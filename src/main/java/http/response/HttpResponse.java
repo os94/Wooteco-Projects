@@ -3,13 +3,8 @@ package http.response;
 import http.common.HeaderFields;
 import http.common.HttpStatus;
 import org.apache.tika.Tika;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
-import utils.FileIoUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -17,8 +12,6 @@ import java.util.Objects;
 import static http.common.HeaderFields.*;
 
 public class HttpResponse {
-    private static final Logger logger = LoggerFactory.getLogger(HttpResponse.class);
-
     private final StatusLine statusLine;
     private final HeaderFields headerFields;
     private byte[] body;
@@ -28,22 +21,20 @@ public class HttpResponse {
         headerFields = new HeaderFields(new ArrayList<>());
     }
 
-    public void forward(String path) {
-        try {
-            statusLine.setStatus(HttpStatus.OK);
-            body = FileIoUtils.loadFileFromClasspath(path);
-            String type = new Tika().detect(path);
-
-            headerFields.addHeader(CONTENT_TYPE, type + ";charset=utf-8");
-            headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
-        } catch (IOException | URISyntaxException e) {
-            logger.error(e.getMessage());
-            statusLine.setStatus(HttpStatus.NOT_FOUND);
-            // todo: error page
-        }
+    public void ok(byte[] body) {
+        this.statusLine.setStatus(HttpStatus.OK);
+        this.body = body;
+        String type = new Tika().detect(body);
+        this.headerFields.addHeader(CONTENT_TYPE, type + ";charset=utf-8");
+        this.headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
-    public void sendRedirect(String location) {
+    public void notFound(Exception e) {
+        statusLine.setStatus(HttpStatus.NOT_FOUND);
+        body = e.getMessage().getBytes();
+    }
+
+    public void redirect(String location) {
         statusLine.setStatus(HttpStatus.FOUND);
         headerFields.addHeader(LOCATION, location);
     }

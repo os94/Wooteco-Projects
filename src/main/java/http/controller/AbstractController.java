@@ -1,6 +1,6 @@
 package http.controller;
 
-import http.exception.InvalidHeaderException;
+import http.exception.NotSupportedHttpMethodException;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 
@@ -15,18 +15,14 @@ public abstract class AbstractController implements Controller {
             doPost(request, response);
             return;
         }
-        throw new InvalidHeaderException("요청이 적절한 HTTP METHOD가 아닙니다.");
+        throw new NotSupportedHttpMethodException(request.getMethod());
     }
 
     protected void doGet(HttpRequest request, HttpResponse response) {
-        triggerException();
+        throw new NotSupportedHttpMethodException(request.getMethod());
     }
 
     protected void doPost(HttpRequest request, HttpResponse response) {
-        triggerException();
-    }
-
-    private void triggerException() {
-        throw new InvalidHeaderException("유효하지않은 메소드 호출입니다.");
+        throw new NotSupportedHttpMethodException(request.getMethod());
     }
 }

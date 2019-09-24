@@ -1,16 +1,23 @@
 package http.request;
 
 import http.common.HeaderFields;
-import http.exception.InvalidHeaderException;
+import http.common.HttpMethod;
+import http.exception.HttpRequestCreateException;
+import http.exception.InvalidHttpHeaderException;
 
 import java.util.Objects;
 
 public class HttpRequest {
+    public static final String COMMA = ".";
+
     private final RequestLine requestLine;
     private final HeaderFields headerFields;
     private final Parameters requestBody;
 
     public HttpRequest(RequestLine requestLine, HeaderFields headerFields, Parameters requestBody) {
+        if (requestLine == null || headerFields == null || requestBody == null) {
+            throw new HttpRequestCreateException("Http Request 생성에 실패했습니다.");
+        }
         this.requestLine = requestLine;
         this.headerFields = headerFields;
         this.requestBody = requestBody;
@@ -24,6 +31,10 @@ public class HttpRequest {
         return requestLine.isPostMethod();
     }
 
+    public boolean requestFile() {
+        return getPath().contains(COMMA);
+    }
+
     public String getParameter(String parameter) {
         if (requestLine.containsParameter(parameter)) {
             return requestLine.getParameter(parameter);
@@ -31,7 +42,11 @@ public class HttpRequest {
         if (requestBody.contains(parameter)) {
             return requestBody.getParameter(parameter);
         }
-        throw new InvalidHeaderException(parameter + "가 존재하지 않습니다.");
+        throw new InvalidHttpHeaderException(parameter + "가 존재하지 않습니다.");
+    }
+
+    public HttpMethod getMethod() {
+        return requestLine.getMethod();
     }
 
     public String getHttpVersion() {

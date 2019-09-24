@@ -1,6 +1,6 @@
 package http.common;
 
-import http.exception.InvalidHeaderException;
+import http.exception.InvalidHttpHeaderException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +26,18 @@ public class HeaderFields {
 
     private final Map<String, String> headerFields;
 
-    public HeaderFields(List<String> headerFields) {
-        if (headerFields == null) {
-            throw new InvalidHeaderException("headerFields를 생성할 수 없습니다.");
+    public HeaderFields(List<String> headerFieldLines) {
+        if (headerFieldLines == null) {
+            throw new InvalidHttpHeaderException("headerFields를 생성할 수 없습니다.");
         }
         this.headerFields = new HashMap<>();
-        for (String headerField : headerFields) {
-            String key = headerField.substring(0, headerField.indexOf(COLON));
-            String value = headerField.substring(headerField.indexOf(COLON) + 2);
+        setHeaderFields(headerFieldLines);
+    }
+
+    private void setHeaderFields(List<String> headerFieldLines) {
+        for (String headerFieldLine : headerFieldLines) {
+            String key = headerFieldLine.substring(0, headerFieldLine.indexOf(COLON));
+            String value = headerFieldLine.substring(headerFieldLine.indexOf(COLON) + 2);
             this.headerFields.put(key, value);
         }
     }
@@ -46,20 +50,20 @@ public class HeaderFields {
         return sb.toString();
     }
 
+    public void addHeader(String fieldName, String field) {
+        headerFields.put(fieldName, field);
+    }
+
     public String getHeader(String fieldName) {
         if (headerFields.containsKey(fieldName)) {
             return headerFields.get(fieldName);
         }
-        logger.error("Response Header에 " + fieldName + "이 존재하지않습니다.");
-        throw new InvalidHeaderException(fieldName + "를 찾을 수 없습니다.");
+        logger.error("Header에 " + fieldName + "이 존재하지않습니다.");
+        throw new InvalidHttpHeaderException("Header에 " + fieldName + "이 존재하지않습니다.");
     }
 
     public int getContentLength() {
         return Integer.parseInt(headerFields.getOrDefault(CONTENT_LENGTH, String.valueOf(0)));
-    }
-
-    public void addHeader(String fieldName, String field) {
-        headerFields.put(fieldName, field);
     }
 
     @Override

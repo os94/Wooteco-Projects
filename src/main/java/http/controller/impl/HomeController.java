@@ -4,9 +4,11 @@ import http.controller.AbstractController;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 
-public class ResourcesController extends AbstractController {
+public class HomeController extends AbstractController {
+    public static final String URL = "/";
+
     @Override
     public void doGet(HttpRequest request, HttpResponse response) {
-        response.forward(request.getPath());
+        response.redirect("/index.html");
     }
 }

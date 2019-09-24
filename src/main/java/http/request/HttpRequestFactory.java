@@ -19,7 +19,7 @@ public class HttpRequestFactory {
 
         RequestLine requestLine = new RequestLine(firstLine);
         HeaderFields headerFields = parseHeaderFields(br);
-        Parameters requestBody = parseRequestData(br, requestLine, headerFields.getContentLength());
+        Parameters requestBody = parseRequestData(br, headerFields.getContentLength());
 
         return new HttpRequest(requestLine, headerFields, requestBody);
     }
@@ -35,7 +35,7 @@ public class HttpRequestFactory {
         return new HeaderFields(headerFields);
     }
 
-    private static Parameters parseRequestData(BufferedReader br, RequestLine requestLine, int contentLength) throws IOException {
+    private static Parameters parseRequestData(BufferedReader br, int contentLength) throws IOException {
         String bodyData = "";
         if (contentLength != 0) {
             bodyData = IOUtils.readData(br, contentLength);
