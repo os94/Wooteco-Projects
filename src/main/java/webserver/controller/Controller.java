@@ -1,4 +1,4 @@
-package http.controller;
+package webserver.controller;
 
 import http.request.HttpRequest;
 import http.response.HttpResponse;

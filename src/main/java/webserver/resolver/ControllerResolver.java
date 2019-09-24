@@ -1,8 +1,8 @@
 package webserver.resolver;
 
-import http.controller.Controller;
-import http.controller.impl.CreateUserController;
-import http.controller.impl.HomeController;
+import webserver.controller.Controller;
+import webserver.controller.impl.CreateUserController;
+import webserver.controller.impl.HomeController;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 

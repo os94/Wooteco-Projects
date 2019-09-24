@@ -1,7 +1,7 @@
-package http.controller.impl;
+package webserver.controller.impl;
 
 import db.DataBase;
-import http.controller.AbstractController;
+import webserver.controller.AbstractController;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import model.User;
