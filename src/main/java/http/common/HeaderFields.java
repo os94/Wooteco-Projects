@@ -15,6 +15,7 @@ public class HeaderFields {
     public static final String CONTENT_LENGTH = "Content-Length";
     public static final String CONTENT_TYPE = "Content-Type";
     public static final String LOCATION = "Location";
+    public static final String ACCEPT = "Accept";
 
     public static final String AMPERSAND = "&";
     public static final String EQUAL = "=";
@@ -23,6 +24,7 @@ public class HeaderFields {
     public static final String NEWLINE = "\r\n";
     public static final String QUESTION_MARK = "?";
     public static final String REGEX_QUESTION_MARK = "\\?";
+    public static final String REGEX_COMMA = "\\,";
 
     private final Map<String, String> headerFields;
 

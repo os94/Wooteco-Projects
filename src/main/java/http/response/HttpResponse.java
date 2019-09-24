@@ -2,7 +2,7 @@ package http.response;
 
 import http.common.HeaderFields;
 import http.common.HttpStatus;
-import org.apache.tika.Tika;
+import http.request.HttpRequest;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -13,19 +13,17 @@ import static http.common.HeaderFields.*;
 
 public class HttpResponse {
     private final StatusLine statusLine;
-    private final HeaderFields headerFields;
+    private final HeaderFields headerFields = new HeaderFields(new ArrayList<>());
     private byte[] body;
 
-    public HttpResponse(String httpVersion) {
-        statusLine = new StatusLine(httpVersion);
-        headerFields = new HeaderFields(new ArrayList<>());
+    public HttpResponse(HttpRequest request) {
+        statusLine = new StatusLine(request.getHttpVersion());
+        headerFields.addHeader(CONTENT_TYPE, request.getContentTypeByAccept());
     }
 
     public void ok(byte[] body) {
         this.statusLine.setStatus(HttpStatus.OK);
         this.body = body;
-        String type = new Tika().detect(body);
-        this.headerFields.addHeader(CONTENT_TYPE, type + ";charset=utf-8");
         this.headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 

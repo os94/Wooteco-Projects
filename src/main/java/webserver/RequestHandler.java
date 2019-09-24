@@ -30,7 +30,7 @@ public class RequestHandler implements Runnable {
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
             HttpRequest request = HttpRequestFactory.createHttpRequest(in);
             logger.debug("Http Request\n{}", request);
-            HttpResponse response = new HttpResponse(request.getHttpVersion());
+            HttpResponse response = new HttpResponse(request);
             DataOutputStream dos = new DataOutputStream(out);
 
             requestMapping.map(request, response);

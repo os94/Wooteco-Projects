@@ -5,12 +5,12 @@ import http.controller.impl.CreateUserController;
 import http.controller.impl.HomeController;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import org.apache.commons.collections4.map.HashedMap;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ControllerResolver implements Resolver {
-    private static final Map<String, Controller> controllers = new HashedMap<>();
+    private static final Map<String, Controller> controllers = new HashMap<>();
 
     static {
         controllers.put(HomeController.URL, new HomeController());

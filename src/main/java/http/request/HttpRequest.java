@@ -7,6 +7,9 @@ import http.exception.InvalidHttpHeaderException;
 
 import java.util.Objects;
 
+import static http.common.HeaderFields.ACCEPT;
+import static http.common.HeaderFields.REGEX_COMMA;
+
 public class HttpRequest {
     public static final String COMMA = ".";
 
@@ -43,6 +46,10 @@ public class HttpRequest {
             return requestBody.getParameter(parameter);
         }
         throw new InvalidHttpHeaderException(parameter + "가 존재하지 않습니다.");
+    }
+
+    public String getContentTypeByAccept() {
+        return getHeader(ACCEPT).split(REGEX_COMMA)[0];
     }
 
     public HttpMethod getMethod() {
