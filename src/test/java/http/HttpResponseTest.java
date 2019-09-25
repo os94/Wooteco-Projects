@@ -1,16 +1,12 @@
 package http;
 
-import http.common.HeaderFields;
 import http.common.HttpStatus;
 import http.exception.InvalidHttpHeaderException;
 import http.request.HttpRequest;
-import http.request.Parameters;
-import http.request.RequestLine;
 import http.response.HttpResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
+import utils.HttpRequestFixtureUtils;
 
 import static http.common.HeaderFields.CONTENT_LENGTH;
 import static http.common.HeaderFields.LOCATION;
@@ -21,15 +17,7 @@ public class HttpResponseTest {
 
     @BeforeEach
     void setUp() {
-        RequestLine requestLine = new RequestLine("GET /index.html?userId=1 HTTP/1.1");
-        Parameters requestBody = new Parameters("name=sean&password=1234");
-        HeaderFields headerFields = new HeaderFields(Arrays.asList(
-                "Content-Length: 13309",
-                "Content-Type: text/html; charset=utf-8",
-                "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
-        ));
-        HttpRequest request = new HttpRequest(requestLine, headerFields, requestBody);
-
+        HttpRequest request = HttpRequestFixtureUtils.makeHttpRequestFixture("GET /index.html HTTP/1.1");
         response = new HttpResponse(request);
     }
 
@@ -59,13 +47,13 @@ public class HttpResponseTest {
 
     @Test
     void convert_string() {
-        response.ok("123123".getBytes());
-        assertThat(response.convert()).isEqualTo(
+        String stringToCompare =
                 "HTTP/1.1 200 OK\r\n" +
                         "Content-Length: 6\r\n" +
-                        "Content-Type: text/html\r\n" +
+                        "Content-Type: */*\r\n" +
                         "\r\n" +
-                        "123123"
-        );
+                        "123123";
+        response.ok("123123".getBytes());
+        assertThat(response.convert()).isEqualTo(stringToCompare);
     }
 }

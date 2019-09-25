@@ -25,7 +25,9 @@ class CreateUserControllerTest {
 
     @Test
     void addUser() {
-        request = HttpRequestFixtureUtils.makeHttpRequestFixture("POST /user/create HTTP/1.1");
+        request = HttpRequestFixtureUtils.makeHttpRequestFixture(
+                "POST /user/create HTTP/1.1",
+                "userId=1&name=sean&password=1234&email=sean@gmail.com");
         response = new HttpResponse(request);
 
         new CreateUserController().service(request, response);

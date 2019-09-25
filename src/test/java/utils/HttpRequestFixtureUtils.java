@@ -10,7 +10,16 @@ import java.util.Arrays;
 public class HttpRequestFixtureUtils {
     public static HttpRequest makeHttpRequestFixture(String requestLineString) {
         RequestLine requestLine = new RequestLine(requestLineString);
-        Parameters requestBody = new Parameters("userId=1&name=sean&password=1234&email=sean@gmail.com");
+        Parameters requestBody = new Parameters("");
+        HeaderFields headerFields = new HeaderFields(Arrays.asList(
+                "Accept: */*"
+        ));
+        return new HttpRequest(requestLine, headerFields, requestBody);
+    }
+
+    public static HttpRequest makeHttpRequestFixture(String requestLineString, String requestBodyString) {
+        RequestLine requestLine = new RequestLine(requestLineString);
+        Parameters requestBody = new Parameters(requestBodyString);
         HeaderFields headerFields = new HeaderFields(Arrays.asList(
                 "Accept: */*"
         ));
