@@ -1,14 +1,18 @@
 package http.request;
 
+import http.HttpSession;
 import http.common.HeaderFields;
 import http.common.HttpMethod;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import webserver.SessionManager;
 
 import java.util.Arrays;
 
+import static http.common.HeaderFields.BLANK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -50,6 +54,39 @@ class HttpRequestTest {
         requestLine = new RequestLine("POST /user/create?name=sean&password=1234 HTTP/1.1");
         request = new HttpRequest(requestLine, headerFields, requestBody);
         assertThat(request.requestFile()).isFalse();
+    }
+
+    @Test
+    void getCookie() {
+        headerFields = new HeaderFields(Arrays.asList(
+                "Cookie: qwe=123;asd=456",
+                "Accept: */*"
+        ));
+        request = new HttpRequest(requestLine, headerFields, requestBody);
+
+        assertThat(request.getCookie("qwe")).isEqualTo("123");
+        assertThat(request.getCookie("asd")).isEqualTo("456");
+    }
+
+    @Test
+    @DisplayName("getCookie는 Cookie를 갖고있지않으면, 공백문자를 반환")
+    void getCookie_return_blank_when_doesnot_have() {
+        request = new HttpRequest(requestLine, headerFields, requestBody);
+        assertThat(request.getCookie("qwe")).isEqualTo(BLANK);
+    }
+
+    @Test
+    void getSession() {
+        HttpSession session = SessionManager.createSession();
+        String jSessionId = session.getId();
+
+        headerFields = new HeaderFields(Arrays.asList(
+                "Cookie: JSESSIONID=" + jSessionId + ";test=foo;",
+                "Accept: */*"
+        ));
+        request = new HttpRequest(requestLine, headerFields, requestBody);
+
+        assertThat(request.getSession()).isEqualTo(session);
     }
 
     @Test

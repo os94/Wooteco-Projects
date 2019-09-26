@@ -14,7 +14,7 @@ public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
 
     @Override
-    protected void doPost(HttpRequest request, HttpResponse response) {
+    public void doPost(HttpRequest request, HttpResponse response) {
         login(request, response);
     }
 

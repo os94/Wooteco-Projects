@@ -5,6 +5,7 @@ import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import db.DataBase;
+import http.HttpSession;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import model.User;
@@ -16,7 +17,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static http.common.HeaderFields.BLANK;
 import static http.common.HeaderFields.COOKIE;
+import static webserver.SessionManager.JSESSIONID;
 
 public class UserListController extends AbstractController {
     private static final Logger logger = LoggerFactory.getLogger(UserListController.class);
@@ -29,7 +32,6 @@ public class UserListController extends AbstractController {
     }
 
     private void showUserList(HttpRequest request, HttpResponse response) {
-        // TODO: 2019-09-26 리팩토링
         try {
             if (isLogined(request)) {
                 response.ok(getUserListPage().getBytes());
@@ -43,7 +45,15 @@ public class UserListController extends AbstractController {
     }
 
     private boolean isLogined(HttpRequest request) {
-        return request.containHeader(COOKIE) && request.getHeader(COOKIE).contains("logined=true");
+        if (!request.containHeader(COOKIE) || notContainJSESSIONIDinCookie(request)) {
+            return false;
+        }
+        HttpSession session = request.getSession();
+        return session.getAttribute("logined").equals(true);
+    }
+
+    private boolean notContainJSESSIONIDinCookie(HttpRequest request) {
+        return BLANK.equals(request.getCookie(JSESSIONID));
     }
 
     private String getUserListPage() throws IOException {

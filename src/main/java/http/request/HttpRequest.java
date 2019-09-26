@@ -1,14 +1,19 @@
 package http.request;
 
+import http.Cookie;
+import http.Cookies;
+import http.HttpSession;
 import http.common.HeaderFields;
 import http.common.HttpMethod;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
+import webserver.SessionManager;
 
+import java.util.Arrays;
 import java.util.Objects;
 
-import static http.common.HeaderFields.ACCEPT;
-import static http.common.HeaderFields.REGEX_COMMA;
+import static http.common.HeaderFields.*;
+import static webserver.SessionManager.JSESSIONID;
 
 public class HttpRequest {
     public static final String COMMA = ".";
@@ -50,6 +55,30 @@ public class HttpRequest {
             return requestBody.getParameter(parameter);
         }
         throw new InvalidHttpHeaderException(parameter + "가 존재하지 않습니다.");
+    }
+
+    public String getCookie(String name) {
+        Cookies cookies = getCookies();
+        if (cookies.contains(name)) {
+            return cookies.getCookie(name);
+        }
+        return BLANK;
+    }
+
+    private Cookies getCookies() {
+        Cookies cookies = new Cookies();
+        if (headerFields.contains(COOKIE)) {
+            String cookieString = getHeader(COOKIE);
+            Arrays.stream(cookieString.split(REGEX_SEMI_COLON))
+                    .map(cookie -> new Cookie(cookie))
+                    .forEach(cookie -> cookies.addCookie(cookie));
+        }
+        return cookies;
+    }
+
+    public HttpSession getSession() {
+        String jSessionId = getCookie(JSESSIONID);
+        return SessionManager.getSession(jSessionId);
     }
 
     public String getContentTypeByAccept() {
