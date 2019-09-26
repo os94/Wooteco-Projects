@@ -8,19 +8,23 @@ import org.junit.jupiter.api.Test;
 import utils.HttpRequestFixtureUtils;
 
 import static http.common.HeaderFields.LOCATION;
+import static http.common.HeaderFields.SET_COOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static webserver.SessionManager.JSESSIONID;
 
 class LoginControllerTest {
     private HttpRequest request;
     private HttpResponse response;
 
     @Test
+    @DisplayName("로그인 성공시, Status/Location/Cookie 확인")
     void login_success() {
         signUp("userId=sean1&name=sos&password=1234&email=sean1@gmail.com");
         login("sean1", "1234");
 
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.FOUND);
         assertThat(response.getHeader(LOCATION)).isEqualTo("/index.html");
+        assertThat(response.getHeader(SET_COOKIE).contains(JSESSIONID)).isTrue();
     }
 
     @Test
@@ -40,24 +44,6 @@ class LoginControllerTest {
 
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.FOUND);
         assertThat(response.getHeader(LOCATION)).isEqualTo("/user/login_failed.html");
-    }
-
-    @Test
-    @DisplayName("로그인 성공시, Set-Cookie 확인")
-    void check_SetCookie_when_login_success() {
-        signUp("userId=sean4&name=sos&password=1234&email=sean4@gmail.com");
-        login("sean4", "1234");
-
-        assertThat(response.getHeader("Set-Cookie")).isEqualTo("logined=true; Path=/");
-    }
-
-    @Test
-    @DisplayName("로그인 실패시, Set-Cookie 확인")
-    void check_SetCookie_when_login_failed() {
-        signUp("userId=sean5&name=sos&password=1234&email=sean5@gmail.com");
-        login("sean5", "7777");
-
-        assertThat(response.getHeader("Set-Cookie")).isEqualTo("logined=false;");
     }
 
     private void signUp(String requestBodyString) {

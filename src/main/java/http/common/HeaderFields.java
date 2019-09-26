@@ -23,10 +23,13 @@ public class HeaderFields {
     public static final String EQUAL = "=";
     public static final String BLANK = " ";
     public static final String COLON = ":";
+    public static final String SEMI_COLON = ";";
     public static final String NEWLINE = "\r\n";
     public static final String QUESTION_MARK = "?";
     public static final String REGEX_QUESTION_MARK = "\\?";
     public static final String REGEX_COMMA = "\\,";
+    public static final String REGEX_SEMI_COLON = "\\;";
+    public static final String REGEX_EQUAL = "\\=";
 
     private final Map<String, String> headerFields;
 

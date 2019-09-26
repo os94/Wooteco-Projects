@@ -1,11 +1,14 @@
 package webserver.controller.impl;
 
 import db.DataBase;
+import http.HttpSession;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
+import webserver.SessionManager;
 import webserver.controller.AbstractController;
 
-import static http.common.HeaderFields.SET_COOKIE;
+import static http.common.HeaderFields.*;
+import static webserver.SessionManager.JSESSIONID;
 
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
@@ -20,11 +23,12 @@ public class LoginController extends AbstractController {
         String password = request.getParameter("password");
 
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
-            response.addHeader(SET_COOKIE, "logined=true; Path=/");
+            HttpSession session = SessionManager.createSession();
+            session.setAttribute("logined", true);
+            response.addHeader(SET_COOKIE, JSESSIONID + EQUAL + session.getId() + SEMI_COLON + BLANK + "path=/;");
             response.redirect("/index.html");
             return;
         }
-        response.addHeader(SET_COOKIE, "logined=false;");
         response.redirect("/user/login_failed.html");
     }
 

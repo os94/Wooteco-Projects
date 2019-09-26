@@ -31,7 +31,7 @@ public class UserListController extends AbstractController {
     private void showUserList(HttpRequest request, HttpResponse response) {
         // TODO: 2019-09-26 리팩토링
         try {
-            if (request.containHeader(COOKIE) && request.getHeader(COOKIE).contains("logined=true")) {
+            if (isLogined(request)) {
                 response.ok(getUserListPage().getBytes());
                 return;
             }
@@ -40,6 +40,10 @@ public class UserListController extends AbstractController {
             logger.error("Template Compile Error", e.getMessage());
             response.internalServerError(e);
         }
+    }
+
+    private boolean isLogined(HttpRequest request) {
+        return request.containHeader(COOKIE) && request.getHeader(COOKIE).contains("logined=true");
     }
 
     private String getUserListPage() throws IOException {

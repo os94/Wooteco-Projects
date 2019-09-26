@@ -1,0 +1,20 @@
+package webserver;
+
+import http.HttpSession;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+class SessionManagerTest {
+    @Test
+    void create_and_get() {
+        HttpSession session = SessionManager.createSession();
+        assertThat(SessionManager.getSession(session.getId())).isEqualTo(session);
+    }
+
+    @Test
+    void getSession_exception() {
+        assertThrows(IllegalArgumentException.class, () -> SessionManager.getSession("notExistSessionId"));
+    }
+}
