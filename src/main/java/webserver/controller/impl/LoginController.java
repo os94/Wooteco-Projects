@@ -1,12 +1,11 @@
 package webserver.controller.impl;
 
 import db.DataBase;
-import http.common.HeaderFields;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import webserver.controller.AbstractController;
 
-import static http.common.HeaderFields.*;
+import static http.common.HeaderFields.SET_COOKIE;
 
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";

@@ -6,6 +6,7 @@ import http.response.HttpResponse;
 public abstract class AbstractController implements Controller {
     @Override
     public void service(HttpRequest request, HttpResponse response) {
+        // TODO: 2019-09-26 이 분기를 없애볼까?
         if (request.isGetMethod()) {
             doGet(request, response);
             return;

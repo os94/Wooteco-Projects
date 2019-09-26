@@ -38,6 +38,10 @@ public class HttpRequest {
         return getPath().contains(COMMA);
     }
 
+    public boolean containHeader(String header) {
+        return headerFields.contains(header);
+    }
+
     public String getParameter(String parameter) {
         if (requestLine.containsParameter(parameter)) {
             return requestLine.getParameter(parameter);

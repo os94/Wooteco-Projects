@@ -54,6 +54,10 @@ public class HeaderFields {
         return sb.toString();
     }
 
+    public boolean contains(String header) {
+        return headerFields.containsKey(header);
+    }
+
     public void addHeader(String fieldName, String field) {
         headerFields.put(fieldName, field);
     }

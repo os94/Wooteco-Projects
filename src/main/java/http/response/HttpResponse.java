@@ -27,15 +27,21 @@ public class HttpResponse {
         this.headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
-    public void notFound(Exception e) {
-        statusLine.setStatus(HttpStatus.NOT_FOUND);
-        body = e.getMessage().getBytes();
-        this.headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
-    }
-
     public void redirect(String location) {
         statusLine.setStatus(HttpStatus.FOUND);
         headerFields.addHeader(LOCATION, location);
+    }
+
+    public void notFound(Exception e) {
+        statusLine.setStatus(HttpStatus.NOT_FOUND);
+        body = e.getMessage().getBytes();
+        headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
+    }
+
+    public void internalServerError(Exception e) {
+        statusLine.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        body = e.getMessage().getBytes();
+        headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
     public String convert() {
@@ -46,11 +52,9 @@ public class HttpResponse {
     }
 
     private String convertHeader() {
-        return new StringBuilder()
-                .append(statusLine)
-                .append(headerFields.convert())
-                .append(NEWLINE)
-                .toString();
+        return statusLine +
+                headerFields.convert() +
+                NEWLINE;
     }
 
     public void addHeader(String fieldName, String field) {
