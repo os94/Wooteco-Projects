@@ -1,9 +1,12 @@
 package webserver.controller.impl;
 
 import db.DataBase;
+import http.common.HeaderFields;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import webserver.controller.AbstractController;
+
+import static http.common.HeaderFields.*;
 
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
@@ -18,9 +21,11 @@ public class LoginController extends AbstractController {
         String password = request.getParameter("password");
 
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
+            response.addHeader(SET_COOKIE, "logined=true; Path=/");
             response.redirect("/index.html");
             return;
         }
+        response.addHeader(SET_COOKIE, "logined=false;");
         response.redirect("/user/login_failed.html");
     }
 
