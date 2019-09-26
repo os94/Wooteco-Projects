@@ -6,6 +6,7 @@ import webserver.controller.Controller;
 import webserver.controller.impl.CreateUserController;
 import webserver.controller.impl.HomeController;
 import webserver.controller.impl.LoginController;
+import webserver.controller.impl.UserListController;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class ControllerResolver implements Resolver {
         controllers.put(HomeController.URL, new HomeController());
         controllers.put(CreateUserController.URL, new CreateUserController());
         controllers.put(LoginController.URL, new LoginController());
+        controllers.put(UserListController.URL, new UserListController());
     }
 
     @Override
