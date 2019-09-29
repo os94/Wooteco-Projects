@@ -1,8 +1,8 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import webserver.controller.AbstractController;
+import controller.AbstractController;
 
 public class HomeController extends AbstractController {
     public static final String URL = "/";

@@ -1,4 +1,4 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
@@ -11,7 +11,7 @@ import http.response.HttpResponse;
 import model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.controller.AbstractController;
+import controller.AbstractController;
 
 import java.io.IOException;
 import java.util.ArrayList;

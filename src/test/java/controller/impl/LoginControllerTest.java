@@ -1,4 +1,4 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import http.common.HttpStatus;
 import http.request.HttpRequest;

@@ -1,11 +1,11 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import org.junit.jupiter.api.Test;
 import utils.HttpRequestFixtureUtils;
-import webserver.controller.NotSupportedHttpMethodException;
+import controller.NotSupportedHttpMethodException;
 
 import static http.common.HeaderFields.LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;

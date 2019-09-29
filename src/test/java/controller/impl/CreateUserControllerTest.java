@@ -1,4 +1,4 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import db.DataBase;
 import http.request.HttpRequest;
@@ -6,7 +6,7 @@ import http.response.HttpResponse;
 import model.User;
 import org.junit.jupiter.api.Test;
 import utils.HttpRequestFixtureUtils;
-import webserver.controller.NotSupportedHttpMethodException;
+import controller.NotSupportedHttpMethodException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

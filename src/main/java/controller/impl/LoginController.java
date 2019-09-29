@@ -1,11 +1,11 @@
-package webserver.controller.impl;
+package controller.impl;
 
 import db.DataBase;
 import http.HttpSession;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import webserver.SessionManager;
-import webserver.controller.AbstractController;
+import controller.AbstractController;
 
 import static http.common.HeaderFields.*;
 import static webserver.SessionManager.JSESSIONID;

@@ -1,4 +1,4 @@
-package webserver.controller;
+package controller;
 
 import http.common.HttpMethod;
 

@@ -2,11 +2,11 @@ package webserver.resolver;
 
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import webserver.controller.Controller;
-import webserver.controller.impl.CreateUserController;
-import webserver.controller.impl.HomeController;
-import webserver.controller.impl.LoginController;
-import webserver.controller.impl.UserListController;
+import controller.Controller;
+import controller.impl.CreateUserController;
+import controller.impl.HomeController;
+import controller.impl.LoginController;
+import controller.impl.UserListController;
 
 import java.util.HashMap;
 import java.util.Map;
