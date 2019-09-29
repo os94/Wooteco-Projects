@@ -10,14 +10,25 @@ public class SessionManager {
 
     private static final Map<String, HttpSession> sessionPool = new HashMap<>();
 
-    public static HttpSession getSession(String jSessionId) {
+    private SessionManager() {
+    }
+
+    private static class LazyHolder {
+        private static final SessionManager INSTANCE = new SessionManager();
+    }
+
+    public static SessionManager getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    public HttpSession getSession(String jSessionId) {
         if (sessionPool.containsKey(jSessionId)) {
             return sessionPool.get(jSessionId);
         }
         throw new IllegalArgumentException("HttpSession을 꺼내는데 실패했습니다.");
     }
 
-    public static HttpSession createSession() {
+    public HttpSession createSession() {
         HttpSession session = HttpSession.create();
         sessionPool.put(session.getId(), session);
         return session;

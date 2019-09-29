@@ -23,7 +23,7 @@ public class LoginController extends AbstractController {
         String password = request.getParameter("password");
 
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
-            HttpSession session = SessionManager.createSession();
+            HttpSession session = SessionManager.getInstance().createSession();
             session.setAttribute("logined", true);
             response.addHeader(SET_COOKIE, JSESSIONID + EQUAL + session.getId() + SEMI_COLON + BLANK + "path=/;");
             response.redirect("/index.html");

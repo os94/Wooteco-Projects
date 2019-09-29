@@ -78,7 +78,7 @@ public class HttpRequest {
 
     public HttpSession getSession() {
         String jSessionId = getCookie(JSESSIONID);
-        return SessionManager.getSession(jSessionId);
+        return SessionManager.getInstance().getSession(jSessionId);
     }
 
     public String getContentTypeByAccept() {

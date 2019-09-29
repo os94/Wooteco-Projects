@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SessionManagerTest {
     @Test
     void create_and_get() {
-        HttpSession session = SessionManager.createSession();
-        assertThat(SessionManager.getSession(session.getId())).isEqualTo(session);
+        HttpSession session = SessionManager.getInstance().createSession();
+        assertThat(SessionManager.getInstance().getSession(session.getId())).isEqualTo(session);
     }
 
     @Test
     void getSession_exception() {
-        assertThrows(IllegalArgumentException.class, () -> SessionManager.getSession("notExistSessionId"));
+        assertThrows(IllegalArgumentException.class, () -> SessionManager.getInstance().getSession("notExistSessionId"));
     }
 }

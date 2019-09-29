@@ -77,7 +77,7 @@ class HttpRequestTest {
 
     @Test
     void getSession() {
-        HttpSession session = SessionManager.createSession();
+        HttpSession session = SessionManager.getInstance().createSession();
         String jSessionId = session.getId();
 
         headerFields = new HeaderFields(Arrays.asList(
