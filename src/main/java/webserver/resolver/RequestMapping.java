@@ -4,8 +4,8 @@ import http.request.HttpRequest;
 import http.response.HttpResponse;
 
 public class RequestMapping {
-    private ResourceResolver resourceResolver = new ResourceResolver();
-    private ControllerResolver controllerResolver = new ControllerResolver();
+    private final ResourceResolver resourceResolver = new ResourceResolver();
+    private final ControllerResolver controllerResolver = new ControllerResolver();
 
     public void map(HttpRequest request, HttpResponse response) {
         if (request.requestFile()) {

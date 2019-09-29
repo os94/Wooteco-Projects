@@ -1,11 +1,11 @@
 package controller.impl;
 
+import controller.NotSupportedHttpMethodException;
 import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import org.junit.jupiter.api.Test;
 import utils.HttpRequestFixtureUtils;
-import controller.NotSupportedHttpMethodException;
 
 import static http.common.HeaderFields.LOCATION;
 import static org.assertj.core.api.Assertions.assertThat;

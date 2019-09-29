@@ -1,26 +1,28 @@
 package controller.impl;
 
+import controller.AbstractController;
 import db.DataBase;
+import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import model.User;
-import controller.AbstractController;
+import view.ModelAndView;
 
 public class CreateUserController extends AbstractController {
     public static final String URL = "/user/create";
 
     @Override
-    public void doPost(HttpRequest request, HttpResponse response) {
-        addUser(request, response);
+    public ModelAndView doPost(HttpRequest request, HttpResponse response) {
+        return addUser(request);
     }
 
-    private void addUser(HttpRequest request, HttpResponse response) {
+    private ModelAndView addUser(HttpRequest request) {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
 
         DataBase.addUser(new User(userId, password, name, email));
-        response.redirect("/index.html");
+        return new ModelAndView("/index.html", HttpStatus.FOUND);
     }
 }

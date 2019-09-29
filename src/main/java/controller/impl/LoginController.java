@@ -1,11 +1,13 @@
 package controller.impl;
 
+import controller.AbstractController;
 import db.DataBase;
 import http.HttpSession;
+import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
+import view.ModelAndView;
 import webserver.SessionManager;
-import controller.AbstractController;
 
 import static http.common.HeaderFields.*;
 import static webserver.SessionManager.JSESSIONID;
@@ -14,11 +16,11 @@ public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
 
     @Override
-    public void doPost(HttpRequest request, HttpResponse response) {
-        login(request, response);
+    public ModelAndView doPost(HttpRequest request, HttpResponse response) {
+        return login(request, response);
     }
 
-    private void login(HttpRequest request, HttpResponse response) {
+    private ModelAndView login(HttpRequest request, HttpResponse response) {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
@@ -26,10 +28,9 @@ public class LoginController extends AbstractController {
             HttpSession session = SessionManager.getInstance().createSession();
             session.setAttribute("logined", true);
             response.addHeader(SET_COOKIE, JSESSIONID + EQUAL + session.getId() + SEMI_COLON + BLANK + "path=/;");
-            response.redirect("/index.html");
-            return;
+            return new ModelAndView("/index.html", HttpStatus.FOUND);
         }
-        response.redirect("/user/login_failed.html");
+        return new ModelAndView("/user/login_failed.html", HttpStatus.FOUND);
     }
 
     private boolean existUser(String userId) {
