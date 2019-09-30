@@ -2,17 +2,12 @@ package controller.impl;
 
 import controller.AbstractController;
 import db.DataBase;
-import http.HttpSession;
 import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import view.ModelAndView;
 
 import java.util.ArrayList;
-
-import static http.common.HeaderFields.BLANK;
-import static http.common.HeaderFields.COOKIE;
-import static webserver.SessionManager.JSESSIONID;
 
 public class UserListController extends AbstractController {
     public static final String URL = "/user/list";
@@ -34,14 +29,6 @@ public class UserListController extends AbstractController {
     }
 
     private boolean isLogined(HttpRequest request) {
-        if (!request.containHeader(COOKIE) || notContainJSESSIONIDinCookie(request)) {
-            return false;
-        }
-        HttpSession session = request.getSession();
-        return session.getAttribute("logined").equals(true);
-    }
-
-    private boolean notContainJSESSIONIDinCookie(HttpRequest request) {
-        return BLANK.equals(request.getCookie(JSESSIONID));
+        return request.checkSessionAttribute("logined", true);
     }
 }

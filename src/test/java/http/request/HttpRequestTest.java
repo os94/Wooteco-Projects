@@ -86,7 +86,7 @@ class HttpRequestTest {
         ));
         request = new HttpRequest(requestLine, headerFields, requestBody);
 
-        assertThat(request.getSession()).isEqualTo(session);
+        assertThat(request.getSession(false)).isEqualTo(session);
     }
 
     @Test

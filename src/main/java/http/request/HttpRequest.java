@@ -76,9 +76,23 @@ public class HttpRequest {
         return cookies;
     }
 
-    public HttpSession getSession() {
+    public HttpSession getSession(boolean create) {
         String jSessionId = getCookie(JSESSIONID);
-        return SessionManager.getInstance().getSession(jSessionId);
+        SessionManager sessionManager = SessionManager.getInstance();
+        if (sessionManager.contains(jSessionId)) {
+            return sessionManager.getSession(jSessionId);
+        }
+        if (create) {
+            return sessionManager.createSession();
+        }
+        return null;
+    }
+
+    public boolean checkSessionAttribute(String sessionKey, Object sessionValue) {
+        if (getSession(false) == null) {
+            return false;
+        }
+        return getSession(true).getAttribute(sessionKey).equals(sessionValue);
     }
 
     public String getContentTypeByAccept() {

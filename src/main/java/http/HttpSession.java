@@ -1,7 +1,5 @@
 package http;
 
-import http.exception.HttpSessionException;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -28,10 +26,7 @@ public class HttpSession {
     }
 
     public Object getAttribute(String name) {
-        if (attributes.containsKey(name)) {
-            return attributes.get(name);
-        }
-        throw new HttpSessionException("HttpSession에 " + name + "이 존재하지 않습니다.");
+        return attributes.getOrDefault(name, null);
     }
 
     public void removeAttribute(String name) {

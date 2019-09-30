@@ -7,7 +7,6 @@ import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import view.ModelAndView;
-import webserver.SessionManager;
 
 import static http.common.HeaderFields.*;
 import static webserver.SessionManager.JSESSIONID;
@@ -25,8 +24,9 @@ public class LoginController extends AbstractController {
         String password = request.getParameter("password");
 
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
-            HttpSession session = SessionManager.getInstance().createSession();
+            HttpSession session = request.getSession(true);
             session.setAttribute("logined", true);
+            // TODO: 2019-09-30 쿠키베이킹 분리?
             response.addHeader(SET_COOKIE, JSESSIONID + EQUAL + session.getId() + SEMI_COLON + BLANK + "path=/;");
             return new ModelAndView("/index.html", HttpStatus.FOUND);
         }

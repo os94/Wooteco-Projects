@@ -33,4 +33,8 @@ public class SessionManager {
         sessionPool.put(session.getId(), session);
         return session;
     }
+
+    public boolean contains(String jSessionId) {
+        return sessionPool.containsKey(jSessionId);
+    }
 }
