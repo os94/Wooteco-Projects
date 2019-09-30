@@ -8,6 +8,7 @@ import http.common.HttpMethod;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
 import webserver.SessionManager;
+import webserver.resolver.RequestMapping;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -93,6 +94,10 @@ public class HttpRequest {
             return false;
         }
         return getSession(true).getAttribute(sessionKey).equals(sessionValue);
+    }
+
+    public RequestMapping getRequestMapping() {
+        return new RequestMapping(getPath(), getMethod());
     }
 
     public String getContentTypeByAccept() {

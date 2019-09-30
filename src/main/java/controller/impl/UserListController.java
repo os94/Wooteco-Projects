@@ -13,7 +13,7 @@ public class UserListController extends AbstractController {
     public static final String URL = "/user/list";
 
     @Override
-    protected ModelAndView doGet(HttpRequest request, HttpResponse response) {
+    public ModelAndView doGet(HttpRequest request, HttpResponse response) {
         return showUserList(request);
     }
 
