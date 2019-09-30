@@ -1,28 +1,34 @@
 package view;
 
-import com.github.jknack.handlebars.Handlebars;
-import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
-import com.github.jknack.handlebars.io.TemplateLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
+import http.common.HttpStatus;
+import http.response.HttpResponse;
+import view.strategy.ResponseBodyStrategy;
 
 public class ViewResolver {
-    private static final Logger logger = LoggerFactory.getLogger(ViewResolver.class);
+    private final ResponseBodyStrategy strategy;
 
-    public String render(ModelAndView modelAndView) {
-        try {
-            TemplateLoader loader = new ClassPathTemplateLoader();
-            loader.setPrefix("/templates");
-            loader.setSuffix(".html");
-            Handlebars handlebars = new Handlebars(loader);
-            Template template = handlebars.compile(modelAndView.getViewName());
-            return template.apply(modelAndView.getModels());
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-            throw new ViewRenderingException(modelAndView.getViewName() + "Rendering Error", e);
+    public ViewResolver(ResponseBodyStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public void resolve(HttpResponse response, ModelAndView modelAndView) {
+        HttpStatus status = modelAndView.getStatus();
+
+        if (HttpStatus.OK == status) {
+            response.ok(strategy.render(modelAndView));
+            return;
+        }
+        if (HttpStatus.FOUND == status) {
+            response.redirect(modelAndView.getViewName());
+            return;
+        }
+        if (HttpStatus.NOT_FOUND == status) {
+            response.notFound(modelAndView.getViewName());
+            return;
+        }
+        if (HttpStatus.INTERNAL_SERVER_ERROR == status) {
+            response.internalServerError(modelAndView.getViewName());
+            return;
         }
     }
 }

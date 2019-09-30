@@ -31,7 +31,7 @@ public class HttpResponseTest {
 
     @Test
     void check_response_Not_Found() {
-        response.notFound(new InvalidHttpHeaderException("error"));
+        response.notFound("error");
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
         assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
         assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo("5");

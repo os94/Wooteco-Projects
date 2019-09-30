@@ -32,15 +32,15 @@ public class HttpResponse {
         headerFields.addHeader(LOCATION, location);
     }
 
-    public void notFound(Exception e) {
+    public void notFound(String cause) {
         statusLine.setStatus(HttpStatus.NOT_FOUND);
-        body = e.getMessage().getBytes();
+        body = cause.getBytes();
         headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
-    public void internalServerError(Exception e) {
+    public void internalServerError(String cause) {
         statusLine.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
-        body = e.getMessage().getBytes();
+        body = cause.getBytes();
         headerFields.addHeader(CONTENT_LENGTH, String.valueOf(body.length));
     }
 
