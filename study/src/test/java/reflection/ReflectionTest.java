@@ -41,6 +41,9 @@ public class ReflectionTest {
         }
 
         // TODO 인자를 가진 생성자를 활용해 인스턴스를 생성한다.
+        Constructor<Question> constructor = clazz.getDeclaredConstructor(String.class, String.class, String.class);
+        Question question = constructor.newInstance("ethan", "title", "contents");
+        assertThat(question).isEqualTo(new Question("ethan", "title", "contents"));
     }
 
     @Test
