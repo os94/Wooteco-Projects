@@ -23,7 +23,7 @@ public class DispatcherServlet extends HttpServlet {
     private static final String DEFAULT_REDIRECT_PREFIX = "redirect:";
 
     private HandlerMapping legacyHandlerMapping;
-    private AnnotationHandlerMapping annotationHandlerMapping;
+    private HandlerMapping annotationHandlerMapping;
 
     public DispatcherServlet(HandlerMapping legacyHandlerMapping, Object basePackage) {
         this.legacyHandlerMapping = legacyHandlerMapping;
@@ -59,7 +59,7 @@ public class DispatcherServlet extends HttpServlet {
 
     // return Controller or HandlerExecution
     private Object selectHandler(HttpServletRequest req) {
-        return Optional.ofNullable(legacyHandlerMapping.getHandler(req.getRequestURI()))
+        return Optional.ofNullable(legacyHandlerMapping.getHandler(req))
                 .orElseGet(() -> annotationHandlerMapping.getHandler(req));
     }
 

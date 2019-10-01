@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import slipp.controller.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,8 +35,8 @@ public class ManualHandlerMapping implements HandlerMapping {
     }
 
     @Override
-    public Controller getHandler(String requestUri) {
-        return mappings.get(requestUri);
+    public Controller getHandler(HttpServletRequest request) {
+        return mappings.get(request.getRequestURI());
     }
 
     void put(String url, Controller controller) {
