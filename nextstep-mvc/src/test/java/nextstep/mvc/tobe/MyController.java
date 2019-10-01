@@ -34,4 +34,18 @@ public class MyController {
         DataBase.addUser(user);
         return null;
     }
+
+    @RequestMapping(value = "/do-some")
+    public ModelAndView doHandle(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", "ok");
+        return mav;
+    }
+
+    @RequestMapping(value = "/do-other", method = {RequestMethod.PUT, RequestMethod.DELETE})
+    public ModelAndView doHandle2(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", "ok");
+        return mav;
+    }
 }

@@ -42,4 +42,31 @@ public class AnnotationHandlerMappingTest {
         HandlerExecution execution = handlerMapping.getHandler(request);
         execution.handle(request, response);
     }
+
+    @Test
+    public void handle_all_methods() {
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/do-some");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        HandlerExecution execution = handlerMapping.getHandler(request);
+        assertThat(execution).isNotNull();
+        ModelAndView mav = execution.handle(request, response);
+        assertThat(mav.getObject("result")).isEqualTo("ok");
+    }
+
+    @Test
+    public void handle_multiple_methods() {
+        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/do-other");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        HandlerExecution execution = handlerMapping.getHandler(request);
+        assertThat(execution).isNotNull();
+        ModelAndView mav = execution.handle(request, response);
+        assertThat(mav.getObject("result")).isEqualTo("ok");
+
+        MockHttpServletRequest request2 = new MockHttpServletRequest("DELETE", "/do-other");
+        MockHttpServletResponse response2 = new MockHttpServletResponse();
+        HandlerExecution execution2 = handlerMapping.getHandler(request);
+        assertThat(execution).isNotNull();
+        ModelAndView mav2 = execution2.handle(request2, response2);
+        assertThat(mav2.getObject("result")).isEqualTo("ok");
+    }
 }
