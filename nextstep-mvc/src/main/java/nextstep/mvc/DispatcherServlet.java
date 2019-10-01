@@ -57,7 +57,12 @@ public class DispatcherServlet extends HttpServlet {
         }
     }
 
-    // return Controller or HandlerExecution
+
+    /**
+     *
+     * @param req
+     * @return Controller or HandlerExecution which matches given request
+     */
     private Object selectHandler(HttpServletRequest req) {
         return Optional.ofNullable(legacyHandlerMapping.getHandler(req))
                 .orElseGet(() -> annotationHandlerMapping.getHandler(req));
