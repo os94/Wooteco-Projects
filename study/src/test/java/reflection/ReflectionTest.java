@@ -5,7 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReflectionTest {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionTest.class);
@@ -41,10 +44,22 @@ public class ReflectionTest {
     }
 
     @Test
-    public void privateFieldAccess() {
+    public void privateFieldAccess() throws NoSuchFieldException, IllegalAccessException {
         Class<Student> clazz = Student.class;
         logger.debug(clazz.getName());
 
         // TODO Student private field에 값을 저장하고 조회한다.
+        Field nameField = clazz.getDeclaredField("name");
+        Field ageField = clazz.getDeclaredField("age");
+
+        nameField.setAccessible(true);
+        ageField.setAccessible(true);
+
+        Student student = new Student();
+        nameField.set(student, "ethan");
+        ageField.set(student, 10);
+
+        assertThat(student.getName()).isEqualTo("ethan");
+        assertThat(student.getAge()).isEqualTo(10);
     }
 }
