@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 
 public class AnnotationHandlerMapping {
 
@@ -27,7 +28,9 @@ public class AnnotationHandlerMapping {
 
     public void initialize() {
         Reflections reflections = new Reflections(basePackage);
-        reflections.getTypesAnnotatedWith(nextstep.web.annotation.Controller.class).stream()
+        Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(nextstep.web.annotation.Controller.class);
+        logger.info("{} Controllers are added", controllers.size());
+        controllers.stream()
                 .flatMap(clazz -> Arrays.stream(clazz.getDeclaredMethods())
                         .filter(method -> method.isAnnotationPresent(RequestMapping.class)))
                 .forEach(this::mapController);
