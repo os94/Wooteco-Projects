@@ -1,6 +1,7 @@
 package nextstep.mvc.tobe;
 
 import com.google.common.collect.Maps;
+import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
 import org.reflections.Reflections;
@@ -28,15 +29,15 @@ public class AnnotationHandlerMapping {
 
     public void initialize() {
         Reflections reflections = new Reflections(basePackage);
-        Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(nextstep.web.annotation.Controller.class);
-        logger.info("{} Controllers are added", controllers.size());
+        Set<Class<?>> controllers = reflections.getTypesAnnotatedWith(Controller.class);
+        logger.info("{} Controllers are added by Annotation.", controllers.size());
         controllers.stream()
                 .flatMap(clazz -> Arrays.stream(clazz.getDeclaredMethods())
                         .filter(method -> method.isAnnotationPresent(RequestMapping.class)))
-                .forEach(this::mapController);
+                .forEach(this::mapControllerMethod);
     }
 
-    private void mapController(Method method) {
+    private void mapControllerMethod(Method method) {
         RequestMapping mapping = method.getAnnotation(RequestMapping.class);
         RequestMethod[] methods = mapping.method();
         if (mapping.method().length == 0) {
@@ -44,10 +45,10 @@ public class AnnotationHandlerMapping {
         }
         Arrays.stream(methods)
                 .map(requestMethod -> new HandlerKey(mapping.value(), requestMethod))
-                .forEach(key -> handlerExecutions.put(key, handleRequest(method)));
+                .forEach(key -> handlerExecutions.put(key, invoke(method)));
     }
 
-    private HandlerExecution handleRequest(Method method) {
+    private HandlerExecution invoke(Method method) {
         return (request, response) -> {
             try {
                 Object instance = method.getDeclaringClass().getConstructor().newInstance();

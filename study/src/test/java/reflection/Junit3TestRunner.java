@@ -2,14 +2,13 @@ package reflection;
 
 import org.junit.jupiter.api.Test;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
 public class Junit3TestRunner {
     @Test
-    public void run() throws Exception {
+    public void run() {
         Class<Junit3Test> clazz = Junit3Test.class;
 
         // TODO Junit3Test에서 test로 시작하는 메소드 실행
@@ -20,6 +19,7 @@ public class Junit3TestRunner {
                     try {
                         method.invoke(clazz.getDeclaredConstructor().newInstance());
                     } catch (Exception e) {
+                        // ignore
                         e.printStackTrace();
                     }
                 });

@@ -31,41 +31,35 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    public void init() throws ServletException {
+    public void init() {
         legacyHandlerMapping.initialize();
         annotationHandlerMapping.initialize();
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String requestUri = req.getRequestURI();
-        logger.debug("Method : {}, Request URI : {}", req.getMethod(), requestUri);
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        logger.debug("Method : {}, Request URI : {}", req.getMethod(), req.getRequestURI());
+        Object handler = selectHandler(req);
 
-        Object result = getHandler(req, resp, requestUri);
-
-        if (result instanceof HandlerExecution) {
-            try {
-                ModelAndView mav = ((HandlerExecution) result).handle(req, resp);
+        try {
+            if (handler instanceof HandlerExecution) {
+                ModelAndView mav = ((HandlerExecution) handler).handle(req, resp);
                 mav.getView().render(mav.getModel(), req, resp);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (result instanceof Controller) {
-            try {
-                String viewName = ((Controller) result).execute(req, resp);
+            } else if (handler instanceof Controller) {
+                String viewName = ((Controller) handler).execute(req, resp);
                 move(viewName, req, resp);
-            } catch (Throwable e) {
-                logger.error("Exception : {}", e);
-                throw new ServletException(e.getMessage());
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
-        } else {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
-    // Controller or HandlerExecution
-    private Object getHandler(HttpServletRequest req, HttpServletResponse resp, String requestUri) {
-        return Optional.ofNullable(legacyHandlerMapping.getHandler(requestUri))
+    // return Controller or HandlerExecution
+    private Object selectHandler(HttpServletRequest req) {
+        return Optional.ofNullable(legacyHandlerMapping.getHandler(req.getRequestURI()))
                 .orElseGet(() -> annotationHandlerMapping.getHandler(req));
     }
 
