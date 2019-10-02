@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
@@ -51,15 +50,7 @@ public class AnnotationHandlerMapping implements HandlerMapping {
     }
 
     private HandlerExecution invoke(Method method) {
-        return (request, response) -> {
-            try {
-                Object instance = method.getDeclaringClass().getConstructor().newInstance();
-                return (ModelAndView) method.invoke(instance, request, response);
-            } catch (InstantiationException | InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
-                logger.error("Error occurred while handle request", e);
-                throw new RuntimeException(e);
-            }
-        };
+        return (request, response) -> HandlerExecutionImpl.of(method).handle(request, response);
     }
 
     @Override
