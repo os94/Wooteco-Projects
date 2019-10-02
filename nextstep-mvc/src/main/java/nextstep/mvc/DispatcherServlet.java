@@ -49,12 +49,14 @@ public class DispatcherServlet extends HttpServlet {
                 mav.getView().render(mav.getModel(), req, resp);
             } catch (Exception e) {
                 logger.error(e.getMessage());
+                throw new RuntimeException(e);
             }
         }, () -> {
             try {
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             } catch (IOException e) {
                 logger.error(e.getMessage());
+                throw new RuntimeException(e);
             }
         });
     }
