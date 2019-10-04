@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class HandlerExecutionImpl implements HandlerExecution {
-    private static final Logger logger = LoggerFactory.getLogger(HandlerExecutionImpl.class);
-    private static final Map<Method, HandlerExecutionImpl> handlerExecutionImpls = new HashMap<>();
+public class HandlerMethod implements HandlerExecution {
+    private static final Logger logger = LoggerFactory.getLogger(HandlerMethod.class);
+    private static final Map<Method, HandlerMethod> handlerExecutionImpls = new HashMap<>();
 
     private final Object declaredObject;
     private final Method method;
 
-    private HandlerExecutionImpl(Method method) {
+    private HandlerMethod(Method method) {
         try {
             this.declaredObject = method.getDeclaringClass().getConstructor().newInstance();
             this.method = method;
@@ -33,9 +33,9 @@ public class HandlerExecutionImpl implements HandlerExecution {
         if (handlerExecutionImpls.containsKey(method)) {
             return handlerExecutionImpls.get(method);
         }
-        HandlerExecutionImpl handlerExecutionImpl = new HandlerExecutionImpl(method);
-        handlerExecutionImpls.put(method, handlerExecutionImpl);
-        return handlerExecutionImpl;
+        HandlerMethod handlerMethod = new HandlerMethod(method);
+        handlerExecutionImpls.put(method, handlerMethod);
+        return handlerMethod;
     }
 
     @Override
@@ -48,19 +48,11 @@ public class HandlerExecutionImpl implements HandlerExecution {
         }
     }
 
-    public Object getDeclaredObject() {
-        return declaredObject;
-    }
-
-    public Method getMethod() {
-        return method;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HandlerExecutionImpl that = (HandlerExecutionImpl) o;
+        HandlerMethod that = (HandlerMethod) o;
         return Objects.equals(declaredObject, that.declaredObject) &&
                 Objects.equals(method, that.method);
     }

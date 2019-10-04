@@ -22,8 +22,8 @@ public class DispatcherServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(DispatcherServlet.class);
 
-    private static final List<HandlerMapping> handlerMappings = new ArrayList<>();
-    private static final List<HandlerAdapter> handlerAdapters = new ArrayList<>();
+    private final List<HandlerMapping> handlerMappings = new ArrayList<>();
+    private final List<HandlerAdapter> handlerAdapters = new ArrayList<>();
 
     public DispatcherServlet(HandlerMapping legacyHandlerMapping, Object basePackage) {
         handlerMappings.add(legacyHandlerMapping);

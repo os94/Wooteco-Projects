@@ -50,7 +50,7 @@ public class AnnotationHandlerMapping implements HandlerMapping {
     }
 
     private HandlerExecution invoke(Method method) {
-        return (request, response) -> HandlerExecutionImpl.of(method).handle(request, response);
+        return (request, response) -> HandlerMethod.of(method).handle(request, response);
     }
 
     @Override
