@@ -1,51 +1,44 @@
 package http.request;
 
-import http.Cookie;
-import http.Cookies;
-import http.HttpSession;
-import http.common.HeaderFields;
 import http.common.HttpMethod;
+import http.common.HttpSession;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
 import webserver.SessionManager;
 import webserver.resolver.RequestMapping;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import static http.common.HeaderFields.*;
 import static webserver.SessionManager.JSESSIONID;
 
 public class HttpRequest {
-    public static final String COMMA = ".";
-
     private final RequestLine requestLine;
-    private final HeaderFields headerFields;
+    private final RequestHeader requestHeader;
     private final Parameters requestBody;
 
-    public HttpRequest(RequestLine requestLine, HeaderFields headerFields, Parameters requestBody) {
-        if (requestLine == null || headerFields == null || requestBody == null) {
+    public HttpRequest(RequestLine requestLine, RequestHeader requestHeader, Parameters requestBody) {
+        if (requestLine == null || requestHeader == null || requestBody == null) {
             throw new HttpRequestCreateException("Http Request 생성에 실패했습니다.");
         }
         this.requestLine = requestLine;
-        this.headerFields = headerFields;
+        this.requestHeader = requestHeader;
         this.requestBody = requestBody;
-    }
-
-    public boolean isGetMethod() {
-        return requestLine.isGetMethod();
-    }
-
-    public boolean isPostMethod() {
-        return requestLine.isPostMethod();
     }
 
     public boolean requestFile() {
         return getPath().contains(COMMA);
     }
 
-    public boolean containHeader(String header) {
-        return headerFields.contains(header);
+    public boolean containsCookie(String cookieName) {
+        return requestHeader.containsCookie(cookieName);
+    }
+
+    public boolean checkSessionAttribute(String sessionKey, Object sessionValue) {
+        if (getSession(false) == null) {
+            return false;
+        }
+        return getSession(true).getAttribute(sessionKey).equals(sessionValue);
     }
 
     public String getParameter(String parameter) {
@@ -58,42 +51,25 @@ public class HttpRequest {
         throw new InvalidHttpHeaderException(parameter + "가 존재하지 않습니다.");
     }
 
-    public String getCookie(String name) {
-        Cookies cookies = getCookies();
-        if (cookies.contains(name)) {
-            return cookies.getCookie(name);
-        }
-        return BLANK;
-    }
-
-    private Cookies getCookies() {
-        Cookies cookies = new Cookies();
-        if (headerFields.contains(COOKIE)) {
-            String cookieString = getHeader(COOKIE);
-            Arrays.stream(cookieString.split(REGEX_SEMI_COLON))
-                    .map(cookie -> new Cookie(cookie))
-                    .forEach(cookie -> cookies.addCookie(cookie));
-        }
-        return cookies;
-    }
-
     public HttpSession getSession(boolean create) {
-        String jSessionId = getCookie(JSESSIONID);
         SessionManager sessionManager = SessionManager.getInstance();
+        String jSessionId = "";
+        if (containsCookie(JSESSIONID)) {
+            jSessionId = getCookie(JSESSIONID);
+        }
         if (sessionManager.contains(jSessionId)) {
             return sessionManager.getSession(jSessionId);
         }
         if (create) {
-            return sessionManager.createSession();
+            HttpSession session = sessionManager.createSession();
+            requestHeader.addCookie(JSESSIONID, session.getId());
+            return session;
         }
         return null;
     }
 
-    public boolean checkSessionAttribute(String sessionKey, Object sessionValue) {
-        if (getSession(false) == null) {
-            return false;
-        }
-        return getSession(true).getAttribute(sessionKey).equals(sessionValue);
+    public String getCookie(String name) {
+        return requestHeader.getCookie(name);
     }
 
     public RequestMapping getRequestMapping() {
@@ -113,7 +89,7 @@ public class HttpRequest {
     }
 
     public String getHeader(String fieldName) {
-        return headerFields.getHeader(fieldName);
+        return requestHeader.getHeader(fieldName);
     }
 
     public String getPath() {
@@ -126,17 +102,17 @@ public class HttpRequest {
         if (o == null || getClass() != o.getClass()) return false;
         HttpRequest that = (HttpRequest) o;
         return Objects.equals(requestLine, that.requestLine) &&
-                Objects.equals(headerFields, that.headerFields) &&
+                Objects.equals(requestHeader, that.requestHeader) &&
                 Objects.equals(requestBody, that.requestBody);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(requestLine, headerFields, requestBody);
+        return Objects.hash(requestLine, requestHeader, requestBody);
     }
 
     @Override
     public String toString() {
-        return requestLine.toString() + headerFields + requestBody;
+        return requestLine.toString() + requestHeader + requestBody;
     }
 }

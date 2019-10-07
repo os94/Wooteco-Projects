@@ -1,6 +1,5 @@
 package http.request;
 
-import http.common.HeaderFields;
 import org.apache.commons.lang3.StringUtils;
 import utils.IOUtils;
 
@@ -18,13 +17,13 @@ public class HttpRequestFactory {
         String firstLine = br.readLine();
 
         RequestLine requestLine = new RequestLine(firstLine);
-        HeaderFields headerFields = parseHeaderFields(br);
+        RequestHeader headerFields = parseHeaderFields(br);
         Parameters requestBody = parseRequestData(br, headerFields.getContentLength());
 
         return new HttpRequest(requestLine, headerFields, requestBody);
     }
 
-    private static HeaderFields parseHeaderFields(BufferedReader br) throws IOException {
+    private static RequestHeader parseHeaderFields(BufferedReader br) throws IOException {
         List<String> headerFields = new ArrayList<>();
         String line = br.readLine();
         headerFields.add(line);
@@ -32,7 +31,7 @@ public class HttpRequestFactory {
             headerFields.add(line);
             line = br.readLine();
         }
-        return new HeaderFields(headerFields);
+        return new RequestHeader(headerFields);
     }
 
     private static Parameters parseRequestData(BufferedReader br, int contentLength) throws IOException {

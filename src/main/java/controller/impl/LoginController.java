@@ -2,14 +2,11 @@ package controller.impl;
 
 import controller.AbstractController;
 import db.DataBase;
-import http.HttpSession;
+import http.common.HttpSession;
 import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import view.ModelAndView;
-
-import static http.common.HeaderFields.*;
-import static webserver.SessionManager.JSESSIONID;
 
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
@@ -26,8 +23,6 @@ public class LoginController extends AbstractController {
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("logined", true);
-            // TODO: 2019-09-30 쿠키베이킹 분리?
-            response.addHeader(SET_COOKIE, JSESSIONID + EQUAL + session.getId() + SEMI_COLON + BLANK + "path=/;");
             return new ModelAndView("/index.html", HttpStatus.FOUND);
         }
         return new ModelAndView("/user/login_failed.html", HttpStatus.FOUND);
