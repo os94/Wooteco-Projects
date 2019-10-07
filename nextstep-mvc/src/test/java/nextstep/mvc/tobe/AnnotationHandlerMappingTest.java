@@ -45,7 +45,7 @@ public class AnnotationHandlerMappingTest {
     }
 
     @Test
-    public void handle_all_methods() {
+    public void handle_all_methods() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest("POST", "/do-some");
         MockHttpServletResponse response = new MockHttpServletResponse();
         HandlerExecution execution = handlerMapping.getHandler(request);
@@ -55,7 +55,7 @@ public class AnnotationHandlerMappingTest {
     }
 
     @Test
-    public void handle_multiple_methods() {
+    public void handle_multiple_methods() throws Exception {
         MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/do-other");
         MockHttpServletResponse response = new MockHttpServletResponse();
         HandlerExecution execution = handlerMapping.getHandler(request);
