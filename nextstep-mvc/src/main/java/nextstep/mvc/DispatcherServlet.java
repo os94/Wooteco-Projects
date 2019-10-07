@@ -1,6 +1,7 @@
 package nextstep.mvc;
 
 import nextstep.mvc.tobe.AnnotationHandlerMapping;
+import nextstep.mvc.tobe.exception.HandlerNotFoundException;
 import nextstep.mvc.tobe.handleradapter.AnnotationHandlerAdapter;
 import nextstep.mvc.tobe.handleradapter.HandlerAdapter;
 import nextstep.mvc.tobe.handleradapter.ManualHandlerAdapter;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
@@ -35,44 +35,41 @@ public class DispatcherServlet extends HttpServlet {
 
     @Override
     public void init() {
-        handlerMappings.stream()
-                .forEach(handlerMapping -> handlerMapping.initialize());
+        handlerMappings.forEach(handlerMapping -> handlerMapping.initialize());
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) {
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         logger.debug("Method : {}, Request URI : {}", req.getMethod(), req.getRequestURI());
-        Optional<Object> maybeHandler = selectHandler(req);
+        try {
+            ModelAndView mav = handleRequest(req, resp);
+            mav.getView().render(mav.getModel(), req, resp);
+        } catch (HandlerNotFoundException e) {
+            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        } catch (Exception e) {
+            logger.error("Error while handling request", e);
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
 
-        maybeHandler.ifPresentOrElse(handler -> {
-            try {
-                ModelAndView mav = handlerAdapters.stream()
-                        .filter(adapter -> adapter.supports(handler))
-                        .findFirst()
-                        .get().handle(req, resp, handler);
-                mav.getView().render(mav.getModel(), req, resp);
-            } catch (Exception e) {
-                logger.error(e.getMessage());
-                throw new RuntimeException(e);
-            }
-        }, () -> {
-            try {
-                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            } catch (IOException e) {
-                logger.error(e.getMessage());
-                throw new RuntimeException(e);
-            }
-        });
+    private ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        Object handler = selectHandler(req);
+        return handlerAdapters.stream()
+                .filter(adapter -> adapter.supports(handler))
+                .findFirst()
+                .get().handle(req, resp, handler);
     }
 
     /**
      * @param req
      * @return Controller or HandlerExecution which matches given request
+     * @throws HandlerNotFoundException if handler not found
      */
-    private Optional<Object> selectHandler(HttpServletRequest req) {
+    private Object selectHandler(HttpServletRequest req) {
         return handlerMappings.stream()
                 .map(handlerMapping -> handlerMapping.getHandler(req))
                 .filter(handler -> handler != null)
-                .findAny();
+                .findAny()
+                .orElseThrow(HandlerNotFoundException::new);
     }
 }
