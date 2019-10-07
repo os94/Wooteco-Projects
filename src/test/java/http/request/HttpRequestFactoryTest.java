@@ -1,5 +1,6 @@
 package http.request;
 
+import http.common.HttpMethod;
 import http.exception.InvalidHttpHeaderException;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class HttpRequestFactoryTest {
         InputStream in = new FileInputStream(new File(testDirectory + "get_Http_Header.txt"));
         HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
 
-        assertThat(httpRequest.isGetMethod()).isTrue();
+        assertThat(httpRequest.getMethod()).isEqualByComparingTo(HttpMethod.GET);
         assertThat(httpRequest.getPath()).isEqualTo("/user/create");
         assertThat(httpRequest.getHttpVersion()).isEqualTo("HTTP/1.1");
 
@@ -43,7 +44,7 @@ class HttpRequestFactoryTest {
         InputStream in = new FileInputStream(new File(testDirectory + "post_Http_Header.txt"));
         HttpRequest httpRequest = HttpRequestFactory.createHttpRequest(in);
 
-        assertThat(httpRequest.isPostMethod()).isTrue();
+        assertThat(httpRequest.getMethod()).isEqualByComparingTo(HttpMethod.POST);
         assertThat(httpRequest.getPath()).isEqualTo("/user/create");
         assertThat(httpRequest.getHttpVersion()).isEqualTo("HTTP/1.1");
 

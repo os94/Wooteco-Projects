@@ -1,6 +1,6 @@
 package webserver;
 
-import http.HttpSession;
+import http.common.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;

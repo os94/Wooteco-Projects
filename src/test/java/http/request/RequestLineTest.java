@@ -38,12 +38,6 @@ class RequestLineTest {
     }
 
     @Test
-    void check_method() {
-        assertThat(requestLine.isGetMethod()).isTrue();
-        assertThat(requestLine.isPostMethod()).isFalse();
-    }
-
-    @Test
     void contains_parameter() {
         assertThat(requestLine.containsParameter("userId")).isTrue();
     }

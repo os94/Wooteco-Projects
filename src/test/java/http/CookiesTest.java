@@ -1,5 +1,7 @@
 package http;
 
+import http.common.Cookie;
+import http.common.Cookies;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,18 +18,18 @@ class CookiesTest {
 
     @Test
     void add_and_get() {
-        cookies.addCookie(new Cookie("test=123"));
-        assertThat(cookies.getCookie("test")).isEqualTo("123");
+        cookies.add(new Cookie("test=123"));
+        assertThat(cookies.get("test")).isEqualTo("123");
     }
 
     @Test
     void getCookie_exception() {
-        assertThrows(IllegalArgumentException.class, () -> cookies.getCookie("nonExistKey"));
+        assertThrows(IllegalArgumentException.class, () -> cookies.get("nonExistKey"));
     }
 
     @Test
     void contains() {
-        cookies.addCookie(new Cookie("test=123"));
+        cookies.add(new Cookie("test=123"));
         assertThat(cookies.contains("test")).isTrue();
     }
 }

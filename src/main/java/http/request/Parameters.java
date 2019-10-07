@@ -7,10 +7,9 @@ import java.util.*;
 import static http.common.HeaderFields.*;
 
 public class Parameters {
-    private final Map<String, String> parameters;
+    private final Map<String, String> parameters = new HashMap<>();
 
     public Parameters(String parameterString) {
-        parameters = new HashMap<>();
         if (StringUtils.isBlank(parameterString)) {
             return;
         }

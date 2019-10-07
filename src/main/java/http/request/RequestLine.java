@@ -9,8 +9,6 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 import static http.common.HeaderFields.*;
-import static http.common.HttpMethod.GET;
-import static http.common.HttpMethod.POST;
 
 public class RequestLine {
     private static final Pattern HTTP_PATTERN = Pattern.compile("HTTP/.*");
@@ -48,14 +46,6 @@ public class RequestLine {
         }
         path = pathWithQueryString;
         queryString = new Parameters("");
-    }
-
-    public boolean isGetMethod() {
-        return GET.equals(method);
-    }
-
-    public boolean isPostMethod() {
-        return POST.equals(method);
     }
 
     public boolean containsParameter(String parameter) {

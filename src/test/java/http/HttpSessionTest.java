@@ -1,5 +1,6 @@
 package http;
 
+import http.common.HttpSession;
 import http.exception.HttpSessionException;
 import org.junit.jupiter.api.Test;
 

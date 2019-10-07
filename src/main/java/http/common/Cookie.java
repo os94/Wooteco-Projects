@@ -1,12 +1,23 @@
-package http;
+package http.common;
 
 import java.util.Objects;
 
 import static http.common.HeaderFields.REGEX_EQUAL;
 
 public class Cookie {
+    public static final String PATH = "path";
+    public static final String DEFAULT_PATH = "/";
+
     private final String name;
     private final String value;
+
+    private String path;
+
+    public Cookie(String name, String value) {
+        this.name = name;
+        this.value = value;
+        this.path = DEFAULT_PATH;
+    }
 
     public Cookie(String cookie) {
         String[] nameAndValue = cookie.split(REGEX_EQUAL);
@@ -16,6 +27,14 @@ public class Cookie {
 
     public boolean equalsName(String name) {
         return this.name.equals(name);
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getPath() {
+        return path;
     }
 
     public String getName() {

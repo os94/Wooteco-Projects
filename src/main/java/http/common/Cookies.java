@@ -1,8 +1,10 @@
-package http;
+package http.common;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static http.common.HeaderFields.*;
 
 public class Cookies {
     private final List<Cookie> cookies = new ArrayList<>();
@@ -10,11 +12,11 @@ public class Cookies {
     public Cookies() {
     }
 
-    public void addCookie(Cookie cookie) {
+    public void add(Cookie cookie) {
         cookies.add(cookie);
     }
 
-    public String getCookie(String name) {
+    public String get(String name) {
         return cookies.stream()
                 .filter(cookie -> cookie.equalsName(name))
                 .map(Cookie::getValue)
@@ -25,6 +27,16 @@ public class Cookies {
     public boolean contains(String name) {
         return cookies.stream()
                 .anyMatch(cookie -> cookie.equalsName(name));
+    }
+
+    public String toSetCookieString() {
+        StringBuilder sb = new StringBuilder();
+        for (Cookie cookie : cookies) {
+            sb.append(SET_COOKIE).append(COLON + BLANK)
+                    .append(cookie.getName()).append(EQUAL).append(cookie.getValue()).append(SEMI_COLON + BLANK)
+                    .append(cookie.PATH).append(EQUAL).append(cookie.getPath()).append(SEMI_COLON + NEWLINE);
+        }
+        return sb.toString();
     }
 
     @Override

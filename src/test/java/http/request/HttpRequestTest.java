@@ -1,6 +1,6 @@
 package http.request;
 
-import http.HttpSession;
+import http.common.HttpSession;
 import http.common.HeaderFields;
 import http.common.HttpMethod;
 import http.exception.HttpRequestCreateException;
