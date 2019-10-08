@@ -1,11 +1,11 @@
 package slipp.support.context;
 
-import slipp.support.db.ConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import slipp.support.db.ConnectionManager;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

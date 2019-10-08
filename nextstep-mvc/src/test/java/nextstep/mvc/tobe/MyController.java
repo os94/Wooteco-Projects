@@ -1,6 +1,7 @@
 package nextstep.mvc.tobe;
 
 import nextstep.db.DataBase;
+import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
@@ -33,5 +34,19 @@ public class MyController {
         logger.debug("User : {}", user);
         DataBase.addUser(user);
         return null;
+    }
+
+    @RequestMapping(value = "/do-some")
+    public ModelAndView doHandle(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", "ok");
+        return mav;
+    }
+
+    @RequestMapping(value = "/do-other", method = {RequestMethod.PUT, RequestMethod.DELETE})
+    public ModelAndView doHandle2(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView();
+        mav.addObject("result", "ok");
+        return mav;
     }
 }
