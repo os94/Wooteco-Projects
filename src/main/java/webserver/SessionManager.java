@@ -4,11 +4,12 @@ import http.common.HttpSession;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class SessionManager {
     public static final String JSESSIONID = "JSESSIONID";
 
-    private static final Map<String, HttpSession> sessionPool = new HashMap<>();
+    private static final Map<String, HttpSession> sessionPool = new ConcurrentHashMap<>();
 
     private SessionManager() {
     }
