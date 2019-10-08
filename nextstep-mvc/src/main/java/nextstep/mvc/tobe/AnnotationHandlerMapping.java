@@ -25,13 +25,18 @@ public class AnnotationHandlerMapping implements HandlerMapping {
 
     private void mapControllerMethod(Method method) {
         RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+        RequestMethod[] methods = getMethodsWith(requestMapping);
+        Arrays.stream(methods)
+                .map(requestMethod -> new HandlerKey(requestMapping.value(), requestMethod))
+                .forEach(key -> handlerExecutions.put(key, new HandlerExecution(controllerScanner.getInstanceFrom(method), method)));
+    }
+
+    private RequestMethod[] getMethodsWith(RequestMapping requestMapping) {
         RequestMethod[] methods = requestMapping.method();
         if (requestMapping.method().length == 0) {
             methods = RequestMethod.values();
         }
-        Arrays.stream(methods)
-                .map(requestMethod -> new HandlerKey(requestMapping.value(), requestMethod))
-                .forEach(key -> handlerExecutions.put(key, new HandlerExecution(controllerScanner.getInstanceFrom(method), method)));
+        return methods;
     }
 
     @Override
