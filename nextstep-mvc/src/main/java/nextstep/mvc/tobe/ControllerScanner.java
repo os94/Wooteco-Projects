@@ -1,5 +1,6 @@
 package nextstep.mvc.tobe;
 
+import nextstep.mvc.tobe.exception.ComponentScanException;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import org.reflections.Reflections;
@@ -36,7 +37,7 @@ public class ControllerScanner {
             return clazz.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             logger.error("error occurred during scanning controllers", e);
-            throw new RuntimeException(e);
+            throw new ComponentScanException(e);
         }
     }
 
