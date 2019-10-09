@@ -11,6 +11,7 @@ import webserver.view.impl.RedirectView;
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
 
+    @Override
     public ModelAndView doPost(HttpRequest request, HttpResponse response) {
         return login(request);
     }

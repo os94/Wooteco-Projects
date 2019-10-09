@@ -5,7 +5,6 @@ import http.common.HttpSession;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
 import webserver.SessionManager;
-import webserver.requestresolver.RequestMapping;
 
 import java.util.Objects;
 
@@ -41,6 +40,14 @@ public class HttpRequest {
         return getSession(true).getAttribute(sessionKey).equals(sessionValue);
     }
 
+    public boolean isGetMethod() {
+        return getMethod() == HttpMethod.GET;
+    }
+
+    public boolean isPostMethod() {
+        return getMethod() == HttpMethod.POST;
+    }
+
     public String getParameter(String parameter) {
         if (requestLine.containsParameter(parameter)) {
             return requestLine.getParameter(parameter);
@@ -70,10 +77,6 @@ public class HttpRequest {
 
     public String getCookie(String name) {
         return requestHeader.getCookie(name);
-    }
-
-    public RequestMapping getRequestMapping() {
-        return new RequestMapping(getPath(), getMethod());
     }
 
     public String getContentTypeByAccept() {

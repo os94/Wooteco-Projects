@@ -7,11 +7,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class HttpMethodTest {
     @Test
     void matches_true() {
-        assertThat(HttpMethod.matches("GET")).isTrue();
+        assertThat(HttpMethod.matchName("GET")).isTrue();
     }
 
     @Test
     void matches_false() {
-        assertThat(HttpMethod.matches("GIT")).isFalse();
+        assertThat(HttpMethod.matchName("GIT")).isFalse();
     }
 }

@@ -11,6 +11,7 @@ import webserver.view.impl.RedirectView;
 public class CreateUserController extends AbstractController {
     public static final String URL = "/user/create";
 
+    @Override
     public ModelAndView doPost(HttpRequest request, HttpResponse response) {
         return addUser(request);
     }

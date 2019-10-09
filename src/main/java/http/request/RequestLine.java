@@ -32,7 +32,7 @@ public class RequestLine {
     }
 
     private static void validateRequestLine(String requestLine, List<String> tokens) {
-        if (tokens.size() != 3 || !HttpMethod.matches(tokens.get(0)) || !HTTP_PATTERN.matcher(tokens.get(2)).matches()) {
+        if (tokens.size() != 3 || !HttpMethod.matchName(tokens.get(0)) || !HTTP_PATTERN.matcher(tokens.get(2)).matches()) {
             throw new InvalidHttpHeaderException(requestLine + "은 유효하지않은 HttpRequest입니다.");
         }
     }
