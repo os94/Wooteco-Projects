@@ -25,7 +25,7 @@ public class UserAcceptanceTest {
     }
 
     @Test
-    @DisplayName("사용자 회원가입/조회/수정/삭제")
+    @DisplayName("사용자 회원가입/조회/수정")
     void crud() {
         // 회원가입
         UserCreatedDto expected =
