@@ -33,42 +33,42 @@ public class DispatcherServlet extends HttpServlet {
     }
 
     @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        logger.debug("Method : {}, Request URI : {}", req.getMethod(), req.getRequestURI());
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        logger.debug("Method : {}, Request URI : {}", request.getMethod(), request.getRequestURI());
         try {
-            ModelAndView mav = handleRequest(req, resp);
-            renderViewIfPresent(req, resp, mav);
+            ModelAndView mav = handleRequest(request, response);
+            renderViewIfPresent(request, response, mav);
         } catch (HandlerNotFoundException e) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
             logger.error("Error while handling request", e);
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
-    private void renderViewIfPresent(HttpServletRequest req, HttpServletResponse resp, ModelAndView mav) throws Exception {
+    private void renderViewIfPresent(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) throws Exception {
         View view = mav.getView();
         if (view != null) {
-            mav.getView().render(mav.getModel(), req, resp);
+            mav.getView().render(mav.getModel(), request, response);
         }
     }
 
-    private ModelAndView handleRequest(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-        Object handler = selectHandler(req);
+    private ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        Object handler = selectHandler(request);
         return handlerAdapters.stream()
                 .filter(adapter -> adapter.supports(handler))
                 .findFirst()
-                .get().handle(req, resp, handler);
+                .get().handle(request, response, handler);
     }
 
     /**
-     * @param req
+     * @param request
      * @return Controller or HandlerExecution which matches given request
      * @throws HandlerNotFoundException if handler not found
      */
-    private Object selectHandler(HttpServletRequest req) {
+    private Object selectHandler(HttpServletRequest request) {
         return handlerMappings.stream()
-                .map(handlerMapping -> handlerMapping.getHandler(req))
+                .map(handlerMapping -> handlerMapping.getHandler(request))
                 .filter(handler -> handler != null)
                 .findAny()
                 .orElseThrow(HandlerNotFoundException::new);

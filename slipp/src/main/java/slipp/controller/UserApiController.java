@@ -23,39 +23,39 @@ public class UserApiController {
     private static final Logger logger = LoggerFactory.getLogger(UserApiController.class);
 
     @RequestMapping(value = "/api/users", method = RequestMethod.POST)
-    public ModelAndView create(HttpServletRequest req, HttpServletResponse resp) {
-        User user = parseBody(req, User.class);
+    public ModelAndView create(HttpServletRequest request, HttpServletResponse response) {
+        User user = parseBody(request, User.class);
         DataBase.addUser(user);
 
-        resp.setStatus(HttpServletResponse.SC_CREATED);
-        resp.addHeader("Location", "/api/users?userId=" + user.getUserId());
+        response.setStatus(HttpServletResponse.SC_CREATED);
+        response.addHeader("Location", "/api/users?userId=" + user.getUserId());
         return new ModelAndView();
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.GET)
-    public ModelAndView find(HttpServletRequest req, HttpServletResponse resp) {
-        String userId = req.getParameter("userId");
+    public ModelAndView find(HttpServletRequest request, HttpServletResponse response) {
+        String userId = request.getParameter("userId");
         User user = DataBase.findUserById(userId);
 
-        resp.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_OK);
         return new ModelAndView(new JsonView()).addObject("user", user);
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.PUT)
-    public ModelAndView update(HttpServletRequest req, HttpServletResponse resp) {
-        UserUpdatedDto userUpdatedDto = parseBody(req, UserUpdatedDto.class);
-        String userId = req.getParameter("userId");
+    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
+        UserUpdatedDto userUpdatedDto = parseBody(request, UserUpdatedDto.class);
+        String userId = request.getParameter("userId");
         User user = DataBase.findUserById(userId);
         user.update(new User(userId, userUpdatedDto.getPassword(), userUpdatedDto.getName(), userUpdatedDto.getEmail()));
 
-        resp.setStatus(HttpServletResponse.SC_OK);
-        resp.addHeader("Location", "/api/users?userId=" + user.getUserId());
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.addHeader("Location", "/api/users?userId=" + user.getUserId());
         return new ModelAndView();
     }
 
-    private <T> T parseBody(HttpServletRequest req, Class<T> clazz) {
+    private <T> T parseBody(HttpServletRequest request, Class<T> clazz) {
         try {
-            return JsonUtils.toObject(req.getReader().lines().collect(Collectors.joining()), clazz);
+            return JsonUtils.toObject(request.getReader().lines().collect(Collectors.joining()), clazz);
         } catch (IOException e) {
             logger.error("Error occurred during parsing json body", e);
             throw new RuntimeException(e);
