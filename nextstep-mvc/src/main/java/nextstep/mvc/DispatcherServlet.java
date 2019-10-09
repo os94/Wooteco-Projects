@@ -3,6 +3,7 @@ package nextstep.mvc;
 import nextstep.mvc.tobe.exception.HandlerNotFoundException;
 import nextstep.mvc.tobe.handleradapter.HandlerAdapter;
 import nextstep.mvc.tobe.view.ModelAndView;
+import nextstep.mvc.tobe.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +37,19 @@ public class DispatcherServlet extends HttpServlet {
         logger.debug("Method : {}, Request URI : {}", req.getMethod(), req.getRequestURI());
         try {
             ModelAndView mav = handleRequest(req, resp);
-            mav.getView().render(mav.getModel(), req, resp);
+            renderViewIfPresent(req, resp, mav);
         } catch (HandlerNotFoundException e) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
             logger.error("Error while handling request", e);
             resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void renderViewIfPresent(HttpServletRequest req, HttpServletResponse resp, ModelAndView mav) throws Exception {
+        View view = mav.getView();
+        if (view != null) {
+            mav.getView().render(mav.getModel(), req, resp);
         }
     }
 
