@@ -37,19 +37,12 @@ public class DispatcherServlet extends HttpServlet {
         logger.debug("Method : {}, Request URI : {}", request.getMethod(), request.getRequestURI());
         try {
             ModelAndView mav = handleRequest(request, response);
-            renderViewIfPresent(request, response, mav);
+            mav.render(request, response);
         } catch (HandlerNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
             logger.error("Error while handling request", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    private void renderViewIfPresent(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) throws Exception {
-        View view = mav.getView();
-        if (view != null) {
-            mav.getView().render(mav.getModel(), request, response);
         }
     }
 
