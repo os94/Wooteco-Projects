@@ -5,14 +5,13 @@ import controller.impl.HomeController;
 import controller.impl.LoginController;
 import controller.impl.UserListController;
 import http.common.HttpMethod;
-import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import view.ModelAndView;
+import view.ModelAndView2;
+import webserver.exception.UrlNotFoundException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,21 +42,14 @@ public class ControllerResolver implements Resolver {
     }
 
     @Override
-    public ModelAndView resolve(HttpRequest request, HttpResponse response) {
+    public ModelAndView2 resolve2(HttpRequest request, HttpResponse response) throws Exception {
         RequestMapping requestMapping = request.getRequestMapping();
 
         if (!controllers.containsKey(requestMapping)) {
-            logger.debug("URL Not Found : {}", requestMapping);
-            return new ModelAndView("URL Not Found", HttpStatus.NOT_FOUND);
+            throw new UrlNotFoundException(requestMapping.toString());
         }
-
-        try {
-            Method controllerMethod = controllers.get(requestMapping);
-            Object controllerInstance = controllerMethod.getDeclaringClass().getDeclaredConstructor().newInstance();
-            return (ModelAndView) controllerMethod.invoke(controllerInstance, request, response);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
-            logger.error(e.getMessage());
-            return new ModelAndView("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        Method controllerMethod = controllers.get(requestMapping);
+        Object controllerInstance = controllerMethod.getDeclaringClass().getDeclaredConstructor().newInstance();
+        return (ModelAndView2) controllerMethod.invoke(controllerInstance, request, response);
     }
 }

@@ -2,26 +2,33 @@ package webserver.resolver;
 
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import view.ModelAndView;
-import view.ViewResolver;
-import view.strategy.ResourceFileStrategy;
-import view.strategy.TemplateStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import view.ModelAndView2;
+import webserver.exception.ResourceNotFoundException;
+import webserver.exception.UrlNotFoundException;
 
 public class RequestResolver {
+    private static final Logger logger = LoggerFactory.getLogger(RequestResolver.class);
+
     private final ResourceResolver resourceResolver = new ResourceResolver();
     private final ControllerResolver controllerResolver = new ControllerResolver();
-    private ViewResolver viewResolver;
 
     public void resolve(HttpRequest request, HttpResponse response) {
-        ModelAndView modelAndView;
-        if (request.requestFile()) {
-            modelAndView = resourceResolver.resolve(request, response);
-            viewResolver = new ViewResolver(new ResourceFileStrategy());
-            viewResolver.resolve(response, modelAndView);
-            return;
+        try {
+            if (request.requestFile()) {
+                ModelAndView2 mav2 = resourceResolver.resolve2(request, response);
+                mav2.render(request, response);
+                return;
+            }
+            ModelAndView2 mav2 = controllerResolver.resolve2(request, response);
+            mav2.render(request, response);
+        } catch (ResourceNotFoundException | UrlNotFoundException e) {
+            logger.info("Not Found Exception", e);
+            response.notFound(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Internal Server Error", e);
+            response.internalServerError(e.getMessage());
         }
-        modelAndView = controllerResolver.resolve(request, response);
-        viewResolver = new ViewResolver(new TemplateStrategy());
-        viewResolver.resolve(response, modelAndView);
     }
 }

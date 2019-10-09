@@ -1,10 +1,11 @@
 package webserver.resolver;
 
-import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
 import org.apache.commons.io.FilenameUtils;
-import view.ModelAndView;
+import view.ModelAndView2;
+import view.impl.TextView;
+import webserver.exception.ResourceNotFoundException;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,16 +22,16 @@ public class ResourceResolver implements Resolver {
     private static final String STATIC_FILE_PATH = "./static";
 
     @Override
-    public ModelAndView resolve(HttpRequest request, HttpResponse response) {
+    public ModelAndView2 resolve2(HttpRequest request, HttpResponse response) {
         String path = request.getPath();
         String extension = FilenameUtils.getExtension(path);
 
         if (STATIC_EXTENSION.contains(extension)) {
-            return new ModelAndView(STATIC_FILE_PATH + path, HttpStatus.OK);
+            return new ModelAndView2(new TextView(STATIC_FILE_PATH + path));
         }
         if (TEMPLATE_EXTENSION.contains(extension)) {
-            return new ModelAndView(TEMPLATE_FILE_PATH + path, HttpStatus.OK);
+            return new ModelAndView2(new TextView(TEMPLATE_FILE_PATH + path));
         }
-        return new ModelAndView("Not Supported File Extension", HttpStatus.NOT_FOUND);
+        throw new ResourceNotFoundException("File Not Found : " + request.getPath());
     }
 }

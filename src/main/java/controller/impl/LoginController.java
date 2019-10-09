@@ -3,29 +3,28 @@ package controller.impl;
 import controller.AbstractController;
 import db.DataBase;
 import http.common.HttpSession;
-import http.common.HttpStatus;
 import http.request.HttpRequest;
 import http.response.HttpResponse;
-import view.ModelAndView;
+import view.ModelAndView2;
+import view.impl.RedirectView;
 
 public class LoginController extends AbstractController {
     public static final String URL = "/user/login";
 
-    @Override
-    public ModelAndView doPost(HttpRequest request, HttpResponse response) {
+    public ModelAndView2 doPost(HttpRequest request, HttpResponse response) {
         return login(request, response);
     }
 
-    private ModelAndView login(HttpRequest request, HttpResponse response) {
+    private ModelAndView2 login(HttpRequest request, HttpResponse response) {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
         if (existUser(userId) && matchIdAndPassword(userId, password)) {
             HttpSession session = request.getSession(true);
             session.setAttribute("logined", true);
-            return new ModelAndView("/index.html", HttpStatus.FOUND);
+            return new ModelAndView2(new RedirectView("/index.html"));
         }
-        return new ModelAndView("/user/login_failed.html", HttpStatus.FOUND);
+        return new ModelAndView2(new RedirectView("/user/login_failed.html"));
     }
 
     private boolean existUser(String userId) {

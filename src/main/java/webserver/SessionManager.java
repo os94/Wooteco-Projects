@@ -2,7 +2,6 @@ package webserver;
 
 import http.common.HttpSession;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
