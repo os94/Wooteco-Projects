@@ -2,7 +2,7 @@ package http.common;
 
 import java.util.Objects;
 
-import static http.common.HeaderFields.REGEX_EQUAL;
+import static http.common.HeaderFields.*;
 
 public class Cookie {
     public static final String PATH = "path";
@@ -61,9 +61,8 @@ public class Cookie {
 
     @Override
     public String toString() {
-        return "Cookie{" +
-                "name='" + name + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+        return new StringBuilder().append(COOKIE + COLON + BLANK)
+                .append(name).append(EQUAL).append(value).append(NEWLINE)
+                .toString();
     }
 }

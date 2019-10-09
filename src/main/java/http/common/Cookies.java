@@ -54,8 +54,8 @@ public class Cookies {
 
     @Override
     public String toString() {
-        return "Cookies{" +
-                "cookies=" + cookies +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        cookies.forEach(cookie -> sb.append(cookie));
+        return sb.toString();
     }
 }

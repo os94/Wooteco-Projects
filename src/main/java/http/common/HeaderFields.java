@@ -77,9 +77,8 @@ public abstract class HeaderFields {
 
     @Override
     public String toString() {
-        return "HeaderFields{" +
-                "headerFields=" + headerFields +
-                ", cookies=" + cookies +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        headerFields.forEach((key, value) -> sb.append(key).append(COLON + BLANK).append(value).append(NEWLINE));
+        return sb.append(cookies).toString();
     }
 }

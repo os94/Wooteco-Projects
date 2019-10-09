@@ -5,7 +5,7 @@ import http.common.HttpSession;
 import http.exception.HttpRequestCreateException;
 import http.exception.InvalidHttpHeaderException;
 import webserver.SessionManager;
-import webserver.resolver.RequestMapping;
+import webserver.requestresolver.RequestMapping;
 
 import java.util.Objects;
 

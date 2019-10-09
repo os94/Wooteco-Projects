@@ -5,7 +5,6 @@ import http.request.HttpRequestFactory;
 import http.response.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import webserver.resolver.RequestResolver;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -17,7 +16,7 @@ public class RequestHandler implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(RequestHandler.class);
 
     private final Socket connection;
-    private final RequestResolver requestResolver = new RequestResolver();
+    private final RequestDispatcher requestDispatcher = new RequestDispatcher();
 
     public RequestHandler(Socket connectionSocket) {
         this.connection = connectionSocket;
@@ -33,7 +32,7 @@ public class RequestHandler implements Runnable {
             HttpResponse response = new HttpResponse(request);
             DataOutputStream dos = new DataOutputStream(out);
 
-            requestResolver.resolve(request, response);
+            requestDispatcher.resolve(request, response);
             dos.write(response.convert().getBytes());
             dos.flush();
             logger.debug("Http Response\n{}", response);
