@@ -2,7 +2,6 @@ package nextstep.mvc.tobe.view;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ public class ModelAndView {
     private Map<String, Object> model = new HashMap<>();
 
     public ModelAndView() {
+        this.view = TextView.emptyView();
     }
 
     public ModelAndView(View view) {

@@ -3,7 +3,6 @@ package nextstep.mvc;
 import nextstep.mvc.tobe.exception.HandlerNotFoundException;
 import nextstep.mvc.tobe.handleradapter.HandlerAdapter;
 import nextstep.mvc.tobe.view.ModelAndView;
-import nextstep.mvc.tobe.view.View;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
