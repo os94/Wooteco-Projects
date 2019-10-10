@@ -24,11 +24,11 @@ class HomeControllerTest {
     }
 
     @Test
-    void redirect_to_mainPage() {
+    void redirect_to_mainPage() throws Exception {
         request = HttpRequestFixtureUtils.makeHttpRequestFixture("GET / HTTP/1.1");
         response = new HttpResponse(request);
 
-        new HomeController().service(request, response);
+        new HomeController().service(request, response).render(request, response);
 
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.FOUND);
         assertThat(response.getHeader(LOCATION)).isEqualTo("/index.html");

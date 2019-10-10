@@ -24,15 +24,7 @@ public class HttpResponseTest {
         response.ok("123123".getBytes());
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.OK);
         assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
-        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo("6");
-    }
-
-    @Test
-    void check_response_Not_Found() {
-        response.notFound("error");
-        assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
-        assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
-        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo("5");
+        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo(String.valueOf("123123".length()));
     }
 
     @Test
@@ -41,6 +33,22 @@ public class HttpResponseTest {
         assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.FOUND);
         assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
         assertThat(response.getHeader(LOCATION)).isEqualTo("/index.html");
+    }
+
+    @Test
+    void check_response_Not_Found() {
+        response.notFound("error");
+        assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.NOT_FOUND);
+        assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
+        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo(String.valueOf("error".length()));
+    }
+
+    @Test
+    void check_response_Internal_Server_Error() {
+        response.internalServerError("error");
+        assertThat(response.getStatus()).isEqualByComparingTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(response.getHttpVersion()).isEqualTo("HTTP/1.1");
+        assertThat(response.getHeader(CONTENT_LENGTH)).isEqualTo(String.valueOf("error".length()));
     }
 
     @Test

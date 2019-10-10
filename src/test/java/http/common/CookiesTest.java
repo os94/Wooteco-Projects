@@ -3,6 +3,7 @@ package http.common;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static http.common.HeaderFields.SET_COOKIE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -29,5 +30,13 @@ class CookiesTest {
     void contains() {
         cookies.add(new Cookie("test=123"));
         assertThat(cookies.contains("test")).isTrue();
+    }
+
+    @Test
+    void set_cookie_string() {
+        cookies.add(new Cookie("test=123"));
+        String cookiesString = cookies.toSetCookieString();
+        assertThat(cookiesString.contains(SET_COOKIE)).isTrue();
+        assertThat(cookiesString.contains("test=123")).isTrue();
     }
 }

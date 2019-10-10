@@ -1,5 +1,6 @@
-package http.common;
+package http.request;
 
+import http.common.HeaderFields;
 import http.exception.InvalidHttpHeaderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ import static http.common.HeaderFields.CONTENT_TYPE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class HeaderFieldsTest {
-    private HeaderFields fields;
+class RequestHeaderTest {
+    private RequestHeader fields;
 
     @BeforeEach
     void setUp() {
@@ -22,23 +23,30 @@ class HeaderFieldsTest {
                 "Content-Length: 13309",
                 "Content-Type: text/html; charset=utf-8"
         );
-        fields = new HeaderFields(headerLines);
+        fields = new RequestHeader(headerLines);
     }
 
     @Test
     void constructor_null() {
-        assertThrows(InvalidHttpHeaderException.class, () -> new HeaderFields(null));
+        assertThrows(InvalidHttpHeaderException.class, () -> new RequestHeader(null));
     }
 
     @Test
     void constructor_and_addHeader() {
         HeaderFields fieldsByConstructor = fields;
 
-        HeaderFields fieldsByAddHeader = new HeaderFields(new ArrayList<>());
+        HeaderFields fieldsByAddHeader = new RequestHeader(new ArrayList<>());
         fieldsByAddHeader.addHeader(CONTENT_LENGTH, "13309");
         fieldsByAddHeader.addHeader(CONTENT_TYPE, "text/html; charset=utf-8");
 
         assertThat(fieldsByConstructor).isEqualTo(fieldsByAddHeader);
+    }
+
+    @Test
+    void check_cookie() {
+        fields.addCookie("testCookie", "123123");
+        assertThat(fields.containsCookie("testCookie")).isTrue();
+        assertThat(fields.getCookie("testCookie")).isEqualTo("123123");
     }
 
     @Test
@@ -58,7 +66,7 @@ class HeaderFieldsTest {
 
     @Test
     void getContentLength_is_0_if_notExist() {
-        HeaderFields fieldsWithoutContentLength = new HeaderFields(new ArrayList<>());
+        RequestHeader fieldsWithoutContentLength = new RequestHeader(new ArrayList<>());
         assertThat(fieldsWithoutContentLength.getContentLength()).isEqualTo(0);
     }
 

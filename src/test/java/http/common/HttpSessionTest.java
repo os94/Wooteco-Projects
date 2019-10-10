@@ -1,10 +1,8 @@
 package http.common;
 
-import http.exception.HttpSessionException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HttpSessionTest {
     private HttpSession session;
@@ -21,9 +19,9 @@ class HttpSessionTest {
         session = HttpSession.create();
         session.setAttribute("no", 123);
         session.setAttribute("name", "sean");
-
         session.removeAttribute("no");
-        assertThrows(HttpSessionException.class, () -> session.getAttribute("no"));
+
+        assertThat(session.getAttribute("no")).isEqualTo(null);
         assertThat(session.getAttribute("name")).isEqualTo("sean");
     }
 
@@ -32,9 +30,9 @@ class HttpSessionTest {
         session = HttpSession.create();
         session.setAttribute("no", 123);
         session.setAttribute("name", "sean");
-
         session.invalidate();
-        assertThrows(HttpSessionException.class, () -> session.getAttribute("no"));
-        assertThrows(HttpSessionException.class, () -> session.getAttribute("name"));
+
+        assertThat(session.getAttribute("no")).isEqualTo(null);
+        assertThat(session.getAttribute("name")).isEqualTo(null);
     }
 }

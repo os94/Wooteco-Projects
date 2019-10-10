@@ -1,6 +1,5 @@
 package http.request;
 
-import http.common.HeaderFields;
 import http.common.HttpMethod;
 import http.common.HttpSession;
 import http.exception.HttpRequestCreateException;
@@ -12,14 +11,13 @@ import webserver.SessionManager;
 
 import java.util.Arrays;
 
-import static http.common.HeaderFields.BLANK;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class HttpRequestTest {
     private RequestLine requestLine;
     private Parameters requestBody;
-    private HeaderFields headerFields;
+    private RequestHeader headerFields;
 
     private HttpRequest request;
 
@@ -27,7 +25,7 @@ class HttpRequestTest {
     void setUp() {
         requestLine = new RequestLine("GET /index.html?userId=1 HTTP/1.1");
         requestBody = new Parameters("name=sean&password=1234");
-        headerFields = new HeaderFields(Arrays.asList(
+        headerFields = new RequestHeader(Arrays.asList(
                 "Content-Length: 13309",
                 "Content-Type: text/html; charset=utf-8",
                 "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
@@ -57,8 +55,20 @@ class HttpRequestTest {
     }
 
     @Test
+    void check_session_attribute() {
+        request.getSession(true).setAttribute("logined", true);
+        assertThat(request.checkSessionAttribute("logined", true)).isTrue();
+    }
+
+    @Test
+    void check_HttpMethod() {
+        assertThat(request.isGetMethod()).isTrue();
+        assertThat(request.isPostMethod()).isFalse();
+    }
+
+    @Test
     void getCookie() {
-        headerFields = new HeaderFields(Arrays.asList(
+        headerFields = new RequestHeader(Arrays.asList(
                 "Cookie: qwe=123;asd=456",
                 "Accept: */*"
         ));
@@ -69,24 +79,29 @@ class HttpRequestTest {
     }
 
     @Test
-    @DisplayName("getCookie는 Cookie를 갖고있지않으면, 공백문자를 반환")
-    void getCookie_return_blank_when_doesnot_have() {
-        request = new HttpRequest(requestLine, headerFields, requestBody);
-        assertThat(request.getCookie("qwe")).isEqualTo(BLANK);
-    }
-
-    @Test
-    void getSession() {
+    @DisplayName("세션이 존재하는 경우, 해당 세션을 반환")
+    void getSession_case1() {
         HttpSession session = SessionManager.getInstance().createSession();
         String jSessionId = session.getId();
-
-        headerFields = new HeaderFields(Arrays.asList(
+        headerFields = new RequestHeader(Arrays.asList(
                 "Cookie: JSESSIONID=" + jSessionId + ";test=foo;",
                 "Accept: */*"
         ));
         request = new HttpRequest(requestLine, headerFields, requestBody);
 
         assertThat(request.getSession(false)).isEqualTo(session);
+    }
+
+    @Test
+    @DisplayName("세션이 존재하는 않는 경우, 새로운 세션을 반환")
+    void getSession_case2() {
+        assertThat(request.getSession(true)).isNotNull();
+    }
+
+    @Test
+    @DisplayName("세션이 존재하는 않는 경우, null을 반환")
+    void getSession_case3() {
+        assertThat(request.getSession(false)).isNull();
     }
 
     @Test
