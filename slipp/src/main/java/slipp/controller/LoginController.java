@@ -1,8 +1,8 @@
 package slipp.controller;
 
-import nextstep.mvc.tobe.view.JspView;
+import nextstep.mvc.tobe.view.impl.JspView;
 import nextstep.mvc.tobe.view.ModelAndView;
-import nextstep.mvc.tobe.view.RedirectView;
+import nextstep.mvc.tobe.view.impl.RedirectView;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
