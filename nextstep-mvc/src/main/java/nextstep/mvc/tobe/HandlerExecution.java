@@ -1,12 +1,10 @@
 package nextstep.mvc.tobe;
 
-import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.web.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
 public class HandlerExecution {
     private final Object declaredObject;
