@@ -36,7 +36,9 @@ public class DispatcherServlet extends HttpServlet {
         logger.debug("Method : {}, Request URI : {}", request.getMethod(), request.getRequestURI());
         try {
             ModelAndView mav = handleRequest(request, response);
-            mav.render(request, response);
+            if (mav != null) {
+                mav.render(request, response);
+            }
         } catch (HandlerNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
@@ -49,7 +51,7 @@ public class DispatcherServlet extends HttpServlet {
         Object handler = selectHandler(request);
         return handlerAdapters.stream()
                 .filter(adapter -> adapter.supports(handler))
-                .findFirst()
+                .findAny()
                 .get().handle(request, response, handler);
     }
 

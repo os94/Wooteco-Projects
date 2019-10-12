@@ -32,17 +32,9 @@ public class JsonView implements View {
             return;
         }
         if (model.size() == 1) {
-            writer.print(tryWriteValueAsString(model.values().toArray()[0]));
+            writer.print(objectMapper.writeValueAsString(model.values().toArray()[0]));
             return;
         }
-        writer.print(tryWriteValueAsString(model));
-    }
-
-    private String tryWriteValueAsString(Object obj) {
-        try {
-            return objectMapper.writeValueAsString(obj);
-        } catch (JsonProcessingException e) {
-            throw new ObjectMapperException(e);
-        }
+        writer.print(objectMapper.writeValueAsString(model));
     }
 }

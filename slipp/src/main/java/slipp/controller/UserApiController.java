@@ -6,6 +6,7 @@ import nextstep.utils.JsonUtils;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
+import nextstep.web.annotation.ResponseBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import slipp.domain.User;
@@ -33,12 +34,12 @@ public class UserApiController {
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.GET)
-    public ModelAndView find(HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody User find(HttpServletRequest request, HttpServletResponse response) {
         String userId = request.getParameter("userId");
         User user = DataBase.findUserById(userId);
 
         response.setStatus(HttpServletResponse.SC_OK);
-        return new ModelAndView(new JsonView()).addObject("user", user);
+        return user;
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.PUT)

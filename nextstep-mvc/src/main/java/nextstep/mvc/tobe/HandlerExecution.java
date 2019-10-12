@@ -17,8 +17,8 @@ public class HandlerExecution {
         this.method = method;
     }
 
-    public ModelAndView handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return (ModelAndView) method.invoke(declaredObject, request, response);
+    public Object handle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return method.invoke(declaredObject, request, response);
     }
 
     public boolean hasResponseBodyAnnotation() {
