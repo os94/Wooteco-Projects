@@ -1,7 +1,5 @@
 package slipp.controller;
 
-import nextstep.mvc.tobe.view.impl.JsonView;
-import nextstep.mvc.tobe.view.ModelAndView;
 import nextstep.utils.JsonUtils;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
@@ -24,17 +22,19 @@ public class UserApiController {
     private static final Logger logger = LoggerFactory.getLogger(UserApiController.class);
 
     @RequestMapping(value = "/api/users", method = RequestMethod.POST)
-    public ModelAndView create(HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody
+    User create(HttpServletRequest request, HttpServletResponse response) {
         User user = parseBody(request, User.class);
         DataBase.addUser(user);
 
         response.setStatus(HttpServletResponse.SC_CREATED);
         response.addHeader("Location", "/api/users?userId=" + user.getUserId());
-        return new ModelAndView();
+        return user;
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.GET)
-    public @ResponseBody User find(HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody
+    User find(HttpServletRequest request, HttpServletResponse response) {
         String userId = request.getParameter("userId");
         User user = DataBase.findUserById(userId);
 
@@ -43,7 +43,8 @@ public class UserApiController {
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.PUT)
-    public ModelAndView update(HttpServletRequest request, HttpServletResponse response) {
+    public @ResponseBody
+    User update(HttpServletRequest request, HttpServletResponse response) {
         UserUpdatedDto userUpdatedDto = parseBody(request, UserUpdatedDto.class);
         String userId = request.getParameter("userId");
         User user = DataBase.findUserById(userId);
@@ -51,9 +52,10 @@ public class UserApiController {
 
         response.setStatus(HttpServletResponse.SC_OK);
         response.addHeader("Location", "/api/users?userId=" + user.getUserId());
-        return new ModelAndView();
+        return user;
     }
 
+    // TODO: 2019-10-12 Refactoring
     private <T> T parseBody(HttpServletRequest request, Class<T> clazz) {
         try {
             return JsonUtils.toObject(request.getReader().lines().collect(Collectors.joining()), clazz);

@@ -1,26 +1,19 @@
 package nextstep.mvc.tobe.view;
 
-import nextstep.mvc.tobe.view.impl.TextView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
+import static java.util.Collections.unmodifiableMap;
+
 public class ModelAndView {
-    private View view;
+    private Object view;
     private Map<String, Object> model = new HashMap<>();
 
     public ModelAndView() {
-        this.view = TextView.emptyView();
     }
 
-    public ModelAndView(View view) {
-        this.view = view;
-    }
-
-    public void render(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        view.render(model, request, response);
+    public ModelAndView(String viewName) {
+        this.view = viewName;
     }
 
     public ModelAndView addObject(String attributeName, Object attributeValue) {
@@ -28,7 +21,25 @@ public class ModelAndView {
         return this;
     }
 
+    public String getViewName() {
+        if (view instanceof String) {
+            return String.valueOf(view);
+        }
+        return null;
+    }
+
+    public View getView() {
+        if (view instanceof View) {
+            return (View) view;
+        }
+        return null;
+    }
+
     public Object getObject(String attributeName) {
         return model.get(attributeName);
+    }
+
+    public Map<String, Object> getModel() {
+        return unmodifiableMap(model);
     }
 }

@@ -1,8 +1,6 @@
 package slipp.controller;
 
-import nextstep.mvc.tobe.view.impl.JspView;
 import nextstep.mvc.tobe.view.ModelAndView;
-import nextstep.mvc.tobe.view.impl.RedirectView;
 import nextstep.web.annotation.Controller;
 import nextstep.web.annotation.RequestMapping;
 import nextstep.web.annotation.RequestMethod;
@@ -19,7 +17,7 @@ public class LoginController {
 
     @RequestMapping(value = "/users/loginForm", method = RequestMethod.GET)
     public ModelAndView showLoginForm(HttpServletRequest request, HttpServletResponse response) {
-        return new ModelAndView(new JspView("/user/login.jsp"));
+        return new ModelAndView("/user/login.jsp");
     }
 
     @RequestMapping(value = "/users/login", method = RequestMethod.POST)
@@ -29,15 +27,15 @@ public class LoginController {
         User user = DataBase.findUserById(userId);
         if (user == null) {
             request.setAttribute("loginFailed", true);
-            return new ModelAndView(new JspView("/user/login.jsp"));
+            return new ModelAndView("/user/login.jsp");
         }
         if (user.matchPassword(password)) {
             HttpSession session = request.getSession();
             session.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
-            return new ModelAndView(new RedirectView("/"));
+            return new ModelAndView("redirect:/");
         } else {
             request.setAttribute("loginFailed", true);
-            return new ModelAndView(new JspView("/user/login.jsp"));
+            return new ModelAndView("/user/login.jsp");
         }
     }
 
@@ -45,6 +43,6 @@ public class LoginController {
     public ModelAndView logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         session.removeAttribute(UserSessionUtils.USER_SESSION_KEY);
-        return new ModelAndView(new RedirectView("/"));
+        return new ModelAndView("redirect:/");
     }
 }

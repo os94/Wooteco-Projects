@@ -1,8 +1,11 @@
 package nextstep.mvc;
 
 import nextstep.mvc.tobe.exception.HandlerNotFoundException;
+import nextstep.mvc.tobe.exception.ViewResolverNotFoundException;
 import nextstep.mvc.tobe.handleradapter.HandlerAdapter;
 import nextstep.mvc.tobe.view.ModelAndView;
+import nextstep.mvc.tobe.view.View;
+import nextstep.mvc.tobe.view.resolver.ViewResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet(name = "dispatcher", urlPatterns = "/", loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
@@ -20,15 +24,17 @@ public class DispatcherServlet extends HttpServlet {
 
     private final List<HandlerMapping> handlerMappings;
     private final List<HandlerAdapter> handlerAdapters;
+    private final List<ViewResolver> viewResolvers;
 
-    public DispatcherServlet(List<HandlerMapping> handlerMappings, List<HandlerAdapter> handlerAdapters) {
+    public DispatcherServlet(List<HandlerMapping> handlerMappings, List<HandlerAdapter> handlerAdapters, List<ViewResolver> viewResolvers) {
         this.handlerMappings = handlerMappings;
         this.handlerAdapters = handlerAdapters;
+        this.viewResolvers = viewResolvers;
     }
 
     @Override
     public void init() {
-        handlerMappings.forEach(handlerMapping -> handlerMapping.initialize());
+        handlerMappings.forEach(HandlerMapping::initialize);
     }
 
     @Override
@@ -36,9 +42,7 @@ public class DispatcherServlet extends HttpServlet {
         logger.debug("Method : {}, Request URI : {}", request.getMethod(), request.getRequestURI());
         try {
             ModelAndView mav = handleRequest(request, response);
-            if (mav != null) {
-                mav.render(request, response);
-            }
+            renderIfView(request, response, mav);
         } catch (HandlerNotFoundException e) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         } catch (Exception e) {
@@ -63,8 +67,33 @@ public class DispatcherServlet extends HttpServlet {
     private Object selectHandler(HttpServletRequest request) {
         return handlerMappings.stream()
                 .map(handlerMapping -> handlerMapping.getHandler(request))
-                .filter(handler -> handler != null)
+                .filter(Objects::nonNull)
                 .findAny()
                 .orElseThrow(HandlerNotFoundException::new);
+    }
+
+    private void renderIfView(HttpServletRequest request, HttpServletResponse response, ModelAndView mav) throws Exception {
+        if (mav != null) {
+            render(mav, request, response);
+        }
+    }
+
+    private void render(ModelAndView mav, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        View view;
+        String viewName = mav.getViewName();
+        if (viewName == null) {
+            view = mav.getView();
+        } else {
+            view = resolveViewName(viewName);
+        }
+        view.render(mav.getModel(), request, response);
+    }
+
+    private View resolveViewName(String viewName) {
+        return viewResolvers.stream()
+                .map(viewResolver -> viewResolver.resolveViewName(viewName))
+                .filter(Objects::nonNull)
+                .findAny()
+                .orElseThrow(ViewResolverNotFoundException::new);
     }
 }
