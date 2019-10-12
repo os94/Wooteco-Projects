@@ -64,7 +64,7 @@ public class DispatcherServlet extends HttpServlet {
      * @return Controller or HandlerExecution which matches given request
      * @throws HandlerNotFoundException if handler not found
      */
-    private Object selectHandler(HttpServletRequest request) {
+    private Object selectHandler(HttpServletRequest request) throws HandlerNotFoundException {
         return handlerMappings.stream()
                 .map(handlerMapping -> handlerMapping.getHandler(request))
                 .filter(Objects::nonNull)
@@ -89,7 +89,7 @@ public class DispatcherServlet extends HttpServlet {
         view.render(mav.getModel(), request, response);
     }
 
-    private View resolveViewName(String viewName) {
+    private View resolveViewName(String viewName) throws ViewResolverNotFoundException {
         return viewResolvers.stream()
                 .map(viewResolver -> viewResolver.resolveViewName(viewName))
                 .filter(Objects::nonNull)
