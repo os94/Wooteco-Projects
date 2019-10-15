@@ -32,12 +32,11 @@ public class UserDao {
         return pstmt;
     }
 
-    public void update(User user) throws SQLException {
-        try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?",
-                     user.getPassword(), user.getName(), user.getEmail(), user.getUserId())) {
-            pstmt.executeUpdate();
-        }
+    public void update(User user) {
+        jdbcTemplate.executeQuery(
+                "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?",
+                user.getPassword(), user.getName(), user.getEmail(), user.getUserId()
+        );
     }
 
     public List<User> findAll() throws SQLException {
@@ -60,7 +59,7 @@ public class UserDao {
         try (Connection con = ConnectionManager.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, "SELECT userId, password, name, email FROM USERS WHERE userid=?", userId);
              ResultSet rs = pstmt.executeQuery()) {
-            
+
             User user = null;
             if (rs.next()) {
                 user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
