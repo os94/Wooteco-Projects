@@ -1,11 +1,16 @@
 package nextstep.jdbc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class JdbcTemplate {
+    private static final Logger logger = LoggerFactory.getLogger(JdbcTemplate.class);
+
     private static JdbcTemplate jdbcTemplate;
     private DataSource dataSource;
 
@@ -25,7 +30,8 @@ public class JdbcTemplate {
              PreparedStatement pstmt = createPreparedStatement(con, query, objects)) {
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            // TODO: 2019-10-15
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
         }
     }
 
