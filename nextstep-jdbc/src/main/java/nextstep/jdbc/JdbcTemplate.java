@@ -56,6 +56,21 @@ public class JdbcTemplate {
         return results;
     }
 
+    public <T> T queryForObject(String query, Class<?> clazz, Object... objects) {
+        T result = null;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                result = getResult(rs, clazz);
+            }
+        } catch (Exception e) {
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
+        }
+        return result;
+    }
+
     private PreparedStatement createPreparedStatement(Connection con, String sql, Object... objects) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(sql);
         for (int i = 0; i < objects.length; i++) {
@@ -65,8 +80,8 @@ public class JdbcTemplate {
     }
 
     private <T> T getResult(ResultSet rs, Class<?> clazz) throws Exception {
-        Object instance = clazz.getConstructor().newInstance();
-        Arrays.stream(clazz.getFields()).forEach(field -> setField(rs, instance, field));
+        Object instance = clazz.getDeclaredConstructor().newInstance();
+        Arrays.stream(clazz.getDeclaredFields()).forEach(field -> setField(rs, instance, field));
         return (T) instance;
     }
 
