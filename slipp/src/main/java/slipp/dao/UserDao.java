@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
@@ -39,20 +38,8 @@ public class UserDao {
         );
     }
 
-    public List<User> findAll() throws SQLException {
-        List<User> users = new ArrayList<>();
-        try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, "SELECT userId, password, name, email FROM USERS");
-             ResultSet rs = pstmt.executeQuery()) {
-
-            User user = null;
-            while (rs.next()) {
-                user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
-                        rs.getString("email"));
-                users.add(user);
-            }
-        }
-        return users;
+    public List<User> findAll() {
+        return jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", User.class);
     }
 
     public User findByUserId(String userId) throws SQLException {

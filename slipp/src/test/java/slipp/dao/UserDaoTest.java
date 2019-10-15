@@ -36,7 +36,7 @@ public class UserDaoTest {
     }
 
     @Test
-    public void findAll() throws Exception {
+    public void findAll() {
         UserDao userDao = new UserDao();
         List<User> users = userDao.findAll();
         assertThat(users).hasSize(1);
