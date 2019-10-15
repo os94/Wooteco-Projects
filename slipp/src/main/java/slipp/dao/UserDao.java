@@ -1,5 +1,6 @@
 package slipp.dao;
 
+import nextstep.jdbc.JdbcTemplate;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
@@ -11,13 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
-    public void insert(User user) throws SQLException {
-        try (Connection con = ConnectionManager.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, "INSERT INTO USERS VALUES (?, ?, ?, ?)",
-                     user.getUserId(), user.getPassword(), user.getName(), user.getEmail())) {
+    private JdbcTemplate jdbcTemplate;
 
-            pstmt.executeUpdate();
-        }
+    public UserDao() {
+        this.jdbcTemplate = JdbcTemplate.getInstance(ConnectionManager.getDataSource());
+    }
+
+    public void insert(User user) {
+        jdbcTemplate.executeQuery(
+                "INSERT INTO USERS VALUES (?, ?, ?, ?)",
+                user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
     private PreparedStatement createPreparedStatement(Connection con, String sql, Object... objects) throws SQLException {
