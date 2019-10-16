@@ -56,6 +56,22 @@ public class JdbcTemplate {
         return results;
     }
 
+    public <T> List<T> query(String query, RowMapper rowMapper, Object... objects) {
+        List<T> results = new ArrayList<>();
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                T t = (T) rowMapper.mapRow(rs);
+                results.add(t);
+            }
+        } catch (Exception e) {
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
+        }
+        return results;
+    }
+
     public <T> T queryForObject(String query, Class<?> clazz, Object... objects) {
         T result = null;
         try (Connection con = dataSource.getConnection();

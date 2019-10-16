@@ -8,6 +8,7 @@ import slipp.support.db.ConnectionManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UserDao {
@@ -30,8 +31,18 @@ public class UserDao {
         );
     }
 
+//    public List<User> findAll() {
+//        return jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", User.class);
+//    }
+
     public List<User> findAll() {
-        return jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", User.class);
+        return jdbcTemplate.query(
+                "SELECT userId, password, name, email FROM USERS",
+                rs -> new User(
+                        rs.getString("userId"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("email")));
     }
 
     public User findByUserId(String userId) {
