@@ -24,7 +24,7 @@ public class UserDaoTest {
     @Test
     public void crud() {
         User expected = new User("userId", "password", "name", "javajigi@email.com");
-        UserDao userDao = new UserDao();
+        UserDao userDao = UserDao.getInstance();
         userDao.insert(expected);
         User actual = userDao.findByUserId(expected.getUserId());
         assertThat(actual).isEqualTo(expected);
@@ -37,7 +37,7 @@ public class UserDaoTest {
 
     @Test
     public void findAll() {
-        UserDao userDao = new UserDao();
+        UserDao userDao = UserDao.getInstance();
         List<User> users = userDao.findAll();
         assertThat(users).hasSize(1);
     }
