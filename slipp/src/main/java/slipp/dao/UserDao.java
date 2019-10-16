@@ -1,9 +1,13 @@
 package slipp.dao;
 
 import nextstep.jdbc.JdbcTemplate;
+import nextstep.jdbc.RowMapper;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDao {
@@ -36,4 +40,15 @@ public class UserDao {
                 User.class,
                 userId);
     }
+
+    /*public User findByUserId(String userId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT userId, password, name, email FROM USERS WHERE userid=?",
+                    rs -> new User(
+                                rs.getString("userId"),
+                                rs.getString("password"),
+                                rs.getString("name"),
+                                rs.getString("email")),
+                userId);
+    }*/
 }
