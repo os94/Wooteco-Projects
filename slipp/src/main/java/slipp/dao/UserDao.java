@@ -9,8 +9,16 @@ import java.util.List;
 public class UserDao {
     private JdbcTemplate jdbcTemplate;
 
-    public UserDao() {
+    private UserDao() {
         this.jdbcTemplate = JdbcTemplate.getInstance(ConnectionManager.getDataSource());
+    }
+
+    private static class LazyHolder {
+        private static final UserDao INSTANCE = new UserDao();
+    }
+
+    public static UserDao getInstance() {
+        return LazyHolder.INSTANCE;
     }
 
     public void insert(User user) {
