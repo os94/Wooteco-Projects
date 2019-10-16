@@ -1,14 +1,9 @@
 package slipp.dao;
 
 import nextstep.jdbc.JdbcTemplate;
-import nextstep.jdbc.RowMapper;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UserDao {
@@ -20,7 +15,7 @@ public class UserDao {
 
     public void insert(User user) {
         jdbcTemplate.executeQuery(
-                "INSERT INTO USERS VALUES (?, ?, ?, ?)",
+                "INSERT INTO USERS (userId, password, name, email) VALUES (?, ?, ?, ?)",
                 user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
     }
 
