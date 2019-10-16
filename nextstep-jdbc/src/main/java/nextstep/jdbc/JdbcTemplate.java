@@ -70,7 +70,7 @@ public class JdbcTemplate {
         return results;
     }
 
-    public <T> List<T> query(String query, RowMapper rowMapper, Object... objects) {
+    public <T> List<T> query(String query, RowMapper<T> rowMapper, Object... objects) {
         List<T> results = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, objects);
@@ -78,7 +78,7 @@ public class JdbcTemplate {
             try {
                 con.setAutoCommit(false);
                 while (rs.next()) {
-                    T t = (T) rowMapper.mapRow(rs);
+                    T t = rowMapper.mapRow(rs);
                     results.add(t);
                 }
                 con.commit();
@@ -115,7 +115,7 @@ public class JdbcTemplate {
         return result;
     }
 
-    public <T> T queryForObject(String query, RowMapper rowMapper, Object... objects) {
+    public <T> T queryForObject(String query, RowMapper<T> rowMapper, Object... objects) {
         T result = null;
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, objects);
@@ -123,7 +123,7 @@ public class JdbcTemplate {
             try {
                 con.setAutoCommit(false);
                 if (rs.next()) {
-                    result = (T) rowMapper.mapRow(rs);
+                    result = rowMapper.mapRow(rs);
                 }
                 con.commit();
             } catch (SQLException e) {
