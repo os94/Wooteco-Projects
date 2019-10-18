@@ -40,6 +40,8 @@ public class JdbcTemplate {
             } catch (SQLException e) {
                 con.rollback();
                 throw e;
+            } finally {
+                con.setAutoCommit(true);
             }
         } catch (Exception e) {
             logger.error("Error occurred while executing Query", e);
@@ -62,6 +64,8 @@ public class JdbcTemplate {
             } catch (SQLException e) {
                 con.rollback();
                 throw e;
+            } finally {
+                con.setAutoCommit(true);
             }
         } catch (Exception e) {
             logger.error("Error occurred while executing Query", e);
@@ -85,6 +89,8 @@ public class JdbcTemplate {
             } catch (SQLException e) {
                 con.rollback();
                 throw e;
+            } finally {
+                con.setAutoCommit(true);
             }
         } catch (Exception e) {
             logger.error("Error occurred while executing Query", e);
@@ -107,6 +113,8 @@ public class JdbcTemplate {
             } catch (SQLException e) {
                 con.rollback();
                 throw e;
+            } finally {
+                con.setAutoCommit(true);
             }
         } catch (Exception e) {
             logger.error("Error occurred while executing Query", e);
@@ -129,6 +137,8 @@ public class JdbcTemplate {
             } catch (SQLException e) {
                 con.rollback();
                 throw e;
+            } finally {
+                con.setAutoCommit(true);
             }
         } catch (Exception e) {
             logger.error("Error occurred while executing Query", e);
