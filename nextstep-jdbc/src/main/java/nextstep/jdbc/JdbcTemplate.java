@@ -39,7 +39,7 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
+    public <T> List<T> query(String query, PreparedStatementSetter setter, RowMapper<T> rowMapper) {
         List<T> results = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, setter);
@@ -55,7 +55,7 @@ public class JdbcTemplate {
         return results;
     }
 
-    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
+    public <T> Optional<T> queryForObject(String query, PreparedStatementSetter setter, RowMapper<T> rowMapper) {
         Optional<T> result = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, setter);
