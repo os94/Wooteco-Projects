@@ -34,10 +34,6 @@ public class UserDao {
         );
     }
 
-//    public List<User> findAll() {
-//        return jdbcTemplate.query("SELECT userId, password, name, email FROM USERS", User.class);
-//    }
-
     public List<User> findAll() {
         return jdbcTemplate.query(
                 "SELECT userId, password, name, email FROM USERS",
@@ -50,19 +46,12 @@ public class UserDao {
 
     public User findByUserId(String userId) {
         return jdbcTemplate.queryForObject(
-                "SELECT userId, password, name, email FROM USERS WHERE userid=?",
-                User.class,
+                "SELECT userId, password, name, email FROM USERS WHERE userId=?",
+                rs -> new User(
+                        rs.getString("userId"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("email")),
                 userId);
     }
-
-    /*public User findByUserId(String userId) {
-        return jdbcTemplate.queryForObject(
-                "SELECT userId, password, name, email FROM USERS WHERE userid=?",
-                    rs -> new User(
-                                rs.getString("userId"),
-                                rs.getString("password"),
-                                rs.getString("name"),
-                                rs.getString("email")),
-                userId);
-    }*/
 }
