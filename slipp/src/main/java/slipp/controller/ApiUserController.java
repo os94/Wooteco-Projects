@@ -43,12 +43,13 @@ public class ApiUserController {
     }
 
     @RequestMapping(value = "/api/users", method = RequestMethod.GET)
-    public ModelAndView show(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView show(HttpServletRequest request, HttpServletResponse response) {
         String userId = request.getParameter("userId");
         logger.debug("userId : {}", userId);
 
         ModelAndView mav = new ModelAndView(new JsonView());
-        mav.addObject("user", userDao.findByUserId(userId));
+        userDao.findByUserId(userId)
+                .ifPresent(user -> mav.addObject("user", user));
         return mav;
     }
 
@@ -59,10 +60,11 @@ public class ApiUserController {
         UserUpdatedDto updateDto = objectMapper.readValue(request.getInputStream(), UserUpdatedDto.class);
         logger.debug("Updated User : {}", updateDto);
 
-        User user = userDao.findByUserId(userId);
-        user.update(updateDto);
-        userDao.update(user);
-
+        userDao.findByUserId(userId)
+                .ifPresent(user -> {
+                    user.update(updateDto);
+                    userDao.update(user);
+                });
         return new ModelAndView(new JsonView());
     }
 }

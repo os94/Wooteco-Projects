@@ -10,6 +10,7 @@ import slipp.dto.UserUpdatedDto;
 import slipp.support.db.ConnectionManager;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,13 +26,20 @@ public class UserDaoTest {
     public void crud() {
         User expected = new User("userId", "password", "name", "javajigi@email.com");
         UserDao userDao = UserDao.getInstance();
+
         userDao.insert(expected);
-        User actual = userDao.findByUserId(expected.getUserId());
+        Optional<User> maybeUser = userDao.findByUserId(expected.getUserId());
+        assertThat(maybeUser.isPresent()).isTrue();
+
+        User actual = maybeUser.get();
         assertThat(actual).isEqualTo(expected);
 
         expected.update(new UserUpdatedDto("password2", "name2", "sanjigi@email.com"));
         userDao.update(expected);
-        actual = userDao.findByUserId(expected.getUserId());
+        maybeUser = userDao.findByUserId(expected.getUserId());
+        assertThat(maybeUser.isPresent()).isTrue();
+
+        actual = maybeUser.get();
         assertThat(actual).isEqualTo(expected);
     }
 

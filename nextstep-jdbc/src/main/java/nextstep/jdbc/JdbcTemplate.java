@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class JdbcTemplate {
     private static final Logger logger = LoggerFactory.getLogger(JdbcTemplate.class);
@@ -72,15 +73,15 @@ public class JdbcTemplate {
         return results;
     }
 
-    public <T> T queryForObject(String query, RowMapper<T> rowMapper, Object... objects) {
-        T result = null;
+    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, Object... objects) {
+        Optional<T> result = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, objects);
              ResultSet rs = pstmt.executeQuery()) {
             try {
                 con.setAutoCommit(false);
                 if (rs.next()) {
-                    result = rowMapper.mapRow(rs);
+                    result = Optional.of(rowMapper.mapRow(rs));
                 }
                 con.commit();
             } catch (SQLException e) {
