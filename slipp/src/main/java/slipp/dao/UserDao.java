@@ -25,14 +25,23 @@ public class UserDao {
     public void insert(User user) {
         jdbcTemplate.executeQuery(
                 "INSERT INTO USERS (userId, password, name, email) VALUES (?, ?, ?, ?)",
-                user.getUserId(), user.getPassword(), user.getName(), user.getEmail());
+                pstmt -> {
+                    pstmt.setObject(1, user.getUserId());
+                    pstmt.setObject(2, user.getPassword());
+                    pstmt.setObject(3, user.getName());
+                    pstmt.setObject(4, user.getEmail());
+                });
     }
 
     public void update(User user) {
         jdbcTemplate.executeQuery(
                 "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?",
-                user.getPassword(), user.getName(), user.getEmail(), user.getUserId()
-        );
+                pstmt -> {
+                    pstmt.setObject(1, user.getPassword());
+                    pstmt.setObject(2, user.getName());
+                    pstmt.setObject(3, user.getEmail());
+                    pstmt.setObject(4, user.getUserId());
+                });
     }
 
     public List<User> findAll() {
@@ -42,7 +51,9 @@ public class UserDao {
                         rs.getString("userId"),
                         rs.getString("password"),
                         rs.getString("name"),
-                        rs.getString("email")));
+                        rs.getString("email")),
+                pstmt -> {
+                });
     }
 
     public Optional<User> findByUserId(String userId) {
@@ -53,6 +64,6 @@ public class UserDao {
                         rs.getString("password"),
                         rs.getString("name"),
                         rs.getString("email")),
-                userId);
+                pstmt -> pstmt.setObject(1, userId));
     }
 }

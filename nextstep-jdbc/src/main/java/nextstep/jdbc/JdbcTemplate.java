@@ -29,9 +29,9 @@ public class JdbcTemplate {
         return jdbcTemplate;
     }
 
-    public void executeQuery(String query, Object... objects) {
+    public void executeQuery(String query, PreparedStatementSetter setter) {
         try (Connection con = dataSource.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, query, objects)) {
+             PreparedStatement pstmt = createPreparedStatement(con, query, setter)) {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             logger.error("Error occurred while executing Query", e);
@@ -39,10 +39,10 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String query, RowMapper<T> rowMapper, Object... objects) {
+    public <T> List<T> query(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
         List<T> results = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             PreparedStatement pstmt = createPreparedStatement(con, query, setter);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
                 T t = rowMapper.mapRow(rs);
@@ -55,10 +55,10 @@ public class JdbcTemplate {
         return results;
     }
 
-    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, Object... objects) {
+    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
         Optional<T> result = Optional.empty();
         try (Connection con = dataSource.getConnection();
-             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             PreparedStatement pstmt = createPreparedStatement(con, query, setter);
              ResultSet rs = pstmt.executeQuery()) {
             if (rs.next()) {
                 result = Optional.of(rowMapper.mapRow(rs));
@@ -70,11 +70,9 @@ public class JdbcTemplate {
         return result;
     }
 
-    private PreparedStatement createPreparedStatement(Connection con, String sql, Object... objects) throws SQLException {
-        PreparedStatement pstmt = con.prepareStatement(sql);
-        for (int i = 0; i < objects.length; i++) {
-            pstmt.setObject(i + 1, objects[i]);
-        }
+    private PreparedStatement createPreparedStatement(Connection con, String query, PreparedStatementSetter setter) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(query);
+        setter.setValues(pstmt);
         return pstmt;
     }
 }
