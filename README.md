@@ -70,5 +70,3 @@
 ### 회원 조회
 - `GET /users`로 회원조회 요청
 - user-list.html로 이동
-   
- 
