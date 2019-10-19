@@ -1,78 +1,69 @@
 package slipp.dao;
 
+import nextstep.jdbc.JdbcTemplate;
 import slipp.domain.User;
 import slipp.support.db.ConnectionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDao {
-    public void insert(User user) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = ConnectionManager.getConnection();
-            String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, user.getUserId());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setString(3, user.getName());
-            pstmt.setString(4, user.getEmail());
+    private JdbcTemplate jdbcTemplate;
 
-            pstmt.executeUpdate();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-
-            if (con != null) {
-                con.close();
-            }
-        }
+    private UserDao() {
+        this.jdbcTemplate = JdbcTemplate.getInstance(ConnectionManager.getDataSource());
     }
 
-    public void update(User user) throws SQLException {
-        // TODO 구현 필요함.
+    private static class LazyHolder {
+        private static final UserDao INSTANCE = new UserDao();
     }
 
-    public List<User> findAll() throws SQLException {
-        // TODO 구현 필요함.
-        return new ArrayList<User>();
+    public static UserDao getInstance() {
+        return LazyHolder.INSTANCE;
     }
 
-    public User findByUserId(String userId) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try {
-            con = ConnectionManager.getConnection();
-            String sql = "SELECT userId, password, name, email FROM USERS WHERE userid=?";
-            pstmt = con.prepareStatement(sql);
-            pstmt.setString(1, userId);
+    public void insert(User user) {
+        jdbcTemplate.executeQuery(
+                "INSERT INTO USERS (userId, password, name, email) VALUES (?, ?, ?, ?)",
+                pstmt -> {
+                    pstmt.setObject(1, user.getUserId());
+                    pstmt.setObject(2, user.getPassword());
+                    pstmt.setObject(3, user.getName());
+                    pstmt.setObject(4, user.getEmail());
+                });
+    }
 
-            rs = pstmt.executeQuery();
+    public void update(User user) {
+        jdbcTemplate.executeQuery(
+                "UPDATE USERS SET password = ?, name = ?, email = ? WHERE userId = ?",
+                pstmt -> {
+                    pstmt.setObject(1, user.getPassword());
+                    pstmt.setObject(2, user.getName());
+                    pstmt.setObject(3, user.getEmail());
+                    pstmt.setObject(4, user.getUserId());
+                });
+    }
 
-            User user = null;
-            if (rs.next()) {
-                user = new User(rs.getString("userId"), rs.getString("password"), rs.getString("name"),
-                        rs.getString("email"));
-            }
+    public List<User> findAll() {
+        return jdbcTemplate.query(
+                "SELECT userId, password, name, email FROM USERS",
+                pstmt -> {
+                }, rs -> new User(
+                        rs.getString("userId"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("email"))
+        );
+    }
 
-            return user;
-        } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (pstmt != null) {
-                pstmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
+    public Optional<User> findByUserId(String userId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT userId, password, name, email FROM USERS WHERE userId=?",
+                pstmt -> pstmt.setObject(1, userId), rs -> new User(
+                        rs.getString("userId"),
+                        rs.getString("password"),
+                        rs.getString("name"),
+                        rs.getString("email"))
+        );
     }
 }
