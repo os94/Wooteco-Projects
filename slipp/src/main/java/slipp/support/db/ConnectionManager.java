@@ -11,8 +11,14 @@ import java.util.Properties;
 
 public class ConnectionManager {
 
+    public static final String DEFAULT_PROPERTIES_PATH = "src/main/resources/db.properties";
+
     public static DataSource getDataSource() {
-        Properties properties = readProperties();
+        return getDataSource(DEFAULT_PROPERTIES_PATH);
+    }
+
+    public static DataSource getDataSource(String directory) {
+        Properties properties = readProperties(directory);
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName(properties.getProperty("jdbc.driverClass"));
         ds.setUrl(properties.getProperty("jdbc.url"));
@@ -21,9 +27,9 @@ public class ConnectionManager {
         return ds;
     }
 
-    private static Properties readProperties() {
+    private static Properties readProperties(String directory) {
         Properties properties = new Properties();
-        String resource = "src/main/resources/db.properties";
+        String resource = directory;
         try {
             properties.load(new FileReader(resource));
         } catch (IOException e) {
