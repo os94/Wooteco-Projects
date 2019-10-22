@@ -47,25 +47,25 @@ public class UserDao {
     public List<User> findAll() {
         return jdbcTemplate.query(
                 "SELECT userId, password, name, email FROM USERS",
-                pstmt -> {
-                },
                 rs -> new User(
                         rs.getString("userId"),
                         rs.getString("password"),
                         rs.getString("name"),
-                        rs.getString("email"))
+                        rs.getString("email")),
+                pstmt -> {
+                }
         );
     }
 
     public Optional<User> findByUserId(String userId) {
         return jdbcTemplate.queryForObject(
                 "SELECT userId, password, name, email FROM USERS WHERE userId=?",
-                pstmt -> pstmt.setObject(1, userId),
                 rs -> new User(
                         rs.getString("userId"),
                         rs.getString("password"),
                         rs.getString("name"),
-                        rs.getString("email"))
+                        rs.getString("email")),
+                pstmt -> pstmt.setObject(1, userId)
         );
     }
 }

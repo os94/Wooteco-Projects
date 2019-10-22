@@ -20,9 +20,8 @@ public class DataSetTest {
         String sql = "SELECT COUNT(*) FROM " + TABLE_NAME;
         Optional<Object> result = jdbcTemplate.queryForObject(
                 sql,
-                pstmt -> {
-                },
-                rs -> rs.getObject("count(*)"));
+                rs -> rs.getObject("count(*)")
+        );
 
         assertThat(result.isPresent()).isTrue();
         assertThat((long) result.get()).isEqualTo(98855L);

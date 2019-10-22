@@ -39,7 +39,17 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String query, PreparedStatementSetter setter, RowMapper<T> rowMapper) {
+    public void executeQuery(String query, Object... objects) {
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pstmt = createPreparedStatement(con, query, objects)) {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
+        }
+    }
+
+    public <T> List<T> query(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
         List<T> results = new ArrayList<>();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, setter);
@@ -55,7 +65,23 @@ public class JdbcTemplate {
         return results;
     }
 
-    public <T> Optional<T> queryForObject(String query, PreparedStatementSetter setter, RowMapper<T> rowMapper) {
+    public <T> List<T> query(String query, RowMapper<T> rowMapper, Object... objects) {
+        List<T> results = new ArrayList<>();
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                T t = rowMapper.mapRow(rs);
+                results.add(t);
+            }
+        } catch (Exception e) {
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
+        }
+        return results;
+    }
+
+    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, PreparedStatementSetter setter) {
         Optional<T> result = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pstmt = createPreparedStatement(con, query, setter);
@@ -70,9 +96,32 @@ public class JdbcTemplate {
         return result;
     }
 
+    public <T> Optional<T> queryForObject(String query, RowMapper<T> rowMapper, Object... objects) {
+        Optional<T> result = Optional.empty();
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pstmt = createPreparedStatement(con, query, objects);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                result = Optional.of(rowMapper.mapRow(rs));
+            }
+        } catch (Exception e) {
+            logger.error("Error occurred while executing Query", e);
+            throw new JdbcTemplateException(e);
+        }
+        return result;
+    }
+
     private PreparedStatement createPreparedStatement(Connection con, String query, PreparedStatementSetter setter) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(query);
         setter.setValues(pstmt);
+        return pstmt;
+    }
+
+    private PreparedStatement createPreparedStatement(Connection con, String query, Object... objects) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(query);
+        for (int i = 0; i < objects.length; i++) {
+            pstmt.setObject(i + 1, objects[i]);
+        }
         return pstmt;
     }
 }
