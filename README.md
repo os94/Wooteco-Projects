@@ -44,3 +44,7 @@
 ### ✏ 글쓰기 : 각 레벨당 한편의 글을 작성
 
 - [writing](https://github.com/os94/Wooteco-Projects/tree/writing)
+
+### 📣 발표 : 크루들에게 특정 주제를 발표하고 지식 공유
+
+- [MVC Pattern](https://youtu.be/uoVNJkyXX0I)
