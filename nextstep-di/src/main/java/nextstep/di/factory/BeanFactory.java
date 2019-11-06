@@ -2,8 +2,6 @@ package nextstep.di.factory;
 
 import com.google.common.collect.Maps;
 import nextstep.stereotype.Controller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 import java.lang.reflect.Constructor;
@@ -12,8 +10,6 @@ import java.util.*;
 import static java.util.Objects.nonNull;
 
 public class BeanFactory {
-    private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
-
     private final Set<Class<?>> preInstantiateBeans;
     private final Map<Class<?>, Object> beans = Maps.newHashMap();
 
@@ -30,7 +26,7 @@ public class BeanFactory {
         preInstantiateBeans.forEach(this::instantiateClass);
     }
 
-    public Object instantiateClass(Class<?> clazz) {
+    private Object instantiateClass(Class<?> clazz) {
         if (beans.containsKey(clazz)) {
             return beans.get(clazz);
         }

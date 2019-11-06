@@ -1,5 +1,8 @@
 package nextstep.di.factory;
 
+import nextstep.stereotype.Controller;
+import nextstep.stereotype.Repository;
+import nextstep.stereotype.Service;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +20,12 @@ public class BeanScanner {
         reflections = new Reflections(basePackage);
     }
 
+    public Set<Class<?>> getPreInstantiateClass() {
+        return getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
+    }
+
     @SuppressWarnings("unchecked")
-    public Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation>... annotations) {
+    private Set<Class<?>> getTypesAnnotatedWith(Class<? extends Annotation>... annotations) {
         Set<Class<?>> preInstantiateBeans = new HashSet<>();
         for (Class<? extends Annotation> annotation : annotations) {
             preInstantiateBeans.addAll(reflections.getTypesAnnotatedWith(annotation));
