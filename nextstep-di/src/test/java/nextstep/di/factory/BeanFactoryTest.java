@@ -1,8 +1,6 @@
 package nextstep.di.factory;
 
-import nextstep.di.factory.example.JdbcUserRepository;
-import nextstep.di.factory.example.MyQnaService;
-import nextstep.di.factory.example.QnaController;
+import nextstep.di.factory.example.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +32,17 @@ public class BeanFactoryTest {
         MyQnaService qnaService = qnaController.getQnaService();
         assertNotNull(qnaService.getUserRepository());
         assertNotNull(qnaService.getQuestionRepository());
+    }
+
+    @Test
+    @DisplayName("QuestionRepository가 Single Instance인지 확인")
+    void check_QuestionRepository_single_instance() {
+        MyQnaService myQnaService = beanFactory.getBean(MyQnaService.class);
+
+        QuestionRepository actual = myQnaService.getQuestionRepository();
+        QuestionRepository expected = beanFactory.getBean(JdbcQuestionRepository.class);
+
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test

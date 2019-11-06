@@ -45,9 +45,8 @@ public class BeanFactory {
     }
 
     private Object registerBean(Class<?> clazz) {
-        // Question: (UserRepo Interface, JdbcUserRepo Class Instance)처럼 빈 등록해도 되는지. UserRepo의 구현클래스가 하나라는 보장이 잇을까?
-        Class<?> concreteClazz = BeanFactoryUtils.findConcreteClass(clazz, preInstantiateBeans);
-        Object instance = BeanUtils.instantiateClass(concreteClazz);
+        clazz = BeanFactoryUtils.findConcreteClass(clazz, preInstantiateBeans);
+        Object instance = BeanUtils.instantiateClass(clazz);
         beans.put(clazz, instance);
         return instance;
     }
