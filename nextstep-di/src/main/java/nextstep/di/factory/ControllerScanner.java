@@ -1,4 +1,4 @@
-package nextstep.mvc.tobe;
+package nextstep.di.factory;
 
 import com.google.common.collect.Maps;
 import nextstep.stereotype.Controller;
@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ControllerScanner {
-    private static final Logger log = LoggerFactory.getLogger(ControllerScanner.class);
+    private static final Logger logger = LoggerFactory.getLogger(ControllerScanner.class);
 
     private Reflections reflections;
 
@@ -30,7 +30,7 @@ public class ControllerScanner {
                 controllers.put(clazz, clazz.newInstance());
             }
         } catch (InstantiationException | IllegalAccessException e) {
-            log.error(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         return controllers;
