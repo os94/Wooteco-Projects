@@ -38,16 +38,20 @@ public class BeanFactory {
             return beans.get(clazz);
         }
 
-        // class에서 @Inject가 있는 생성자 찾기
         Constructor<?> injectedConstructor = BeanFactoryUtils.getInjectedConstructor(clazz);
-
-        // 잇으면 그 생성자로 인스턴스 생성후, Beans에 추가후 반환
         if (nonNull(injectedConstructor)) {
-            Object instance = instantiateByConstructor(injectedConstructor);
-            beans.put(clazz, instance);
-            return instance;
+            return registerBean(clazz, injectedConstructor);
         }
-        // 없으면 기본 생성자로 인스턴스 생성후, Beans에 추가후 반환
+        return registerBean(clazz);
+    }
+
+    private Object registerBean(Class<?> clazz, Constructor<?> injectedConstructor) {
+        Object instance = instantiateByConstructor(injectedConstructor);
+        beans.put(clazz, instance);
+        return instance;
+    }
+
+    private Object registerBean(Class<?> clazz) {
         // Question: (UserRepo Interface, JdbcUserRepo Class Instance)처럼 빈 등록해도 되는지. UserRepo의 구현클래스가 하나라는 보장이 잇을까?
         Class<?> concreteClazz = BeanFactoryUtils.findConcreteClass(clazz, preInstantiateBeans);
         Object instance = BeanUtils.instantiateClass(concreteClazz);
@@ -56,17 +60,18 @@ public class BeanFactory {
     }
 
     private Object instantiateByConstructor(Constructor<?> constructor) {
-        // 인자로 넣을 Bean이 이미 잇으면 활용, 없으면 새로 생성
         Class<?>[] parameterTypes = constructor.getParameterTypes();
         List<Object> args = new ArrayList<>();
         for (Class<?> parameterType : parameterTypes) {
-            if (beans.containsKey(parameterType)) {
-                args.add(beans.get(parameterType));
-                continue;
-            }
-            Object instance = instantiateClass(parameterType);
-            args.add(instance);
+            args.add(getInstance(parameterType));
         }
         return BeanUtils.instantiateClass(constructor, args.toArray());
+    }
+
+    private Object getInstance(Class<?> parameterType) {
+        if (beans.containsKey(parameterType)) {
+            return beans.get(parameterType);
+        }
+        return instantiateClass(parameterType);
     }
 }
