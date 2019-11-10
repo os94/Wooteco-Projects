@@ -1,5 +1,6 @@
 package slipp.controller;
 
+import nextstep.annotation.Inject;
 import nextstep.mvc.ModelAndView;
 import nextstep.mvc.tobe.AbstractNewController;
 import nextstep.stereotype.Controller;
@@ -19,7 +20,12 @@ import javax.servlet.http.HttpSession;
 public class UserController extends AbstractNewController {
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    private UserDao userDao = UserDao.getInstance();
+    private final UserDao userDao;
+
+    @Inject
+    public UserController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public ModelAndView list(HttpServletRequest request, HttpServletResponse response) throws Exception {
