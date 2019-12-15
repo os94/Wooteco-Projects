@@ -9,11 +9,11 @@ import java.util.*;
 
 import static java.util.Objects.nonNull;
 
-public class BeanFactory {
+public class ClasspathBeanFactory {
     private final Set<Class<?>> preInstantiateBeans;
     private final Map<Class<?>, Object> beans = Maps.newHashMap();
 
-    public BeanFactory(Set<Class<?>> preInstantiateBeans) {
+    public ClasspathBeanFactory(Set<Class<?>> preInstantiateBeans) {
         this.preInstantiateBeans = preInstantiateBeans;
     }
 

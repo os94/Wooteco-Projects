@@ -11,20 +11,20 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class BeanFactoryTest {
-    private BeanFactory beanFactory;
+public class ClasspathBeanFactoryTest {
+    private ClasspathBeanFactory classpathBeanFactory;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() {
         Set<Class<?>> preInstanticateClazz = new ClasspathBeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
-        beanFactory = new BeanFactory(preInstanticateClazz);
-        beanFactory.initialize();
+        classpathBeanFactory = new ClasspathBeanFactory(preInstanticateClazz);
+        classpathBeanFactory.initialize();
     }
 
     @Test
     public void di() throws Exception {
-        QnaController qnaController = beanFactory.getBean(QnaController.class);
+        QnaController qnaController = classpathBeanFactory.getBean(QnaController.class);
 
         assertNotNull(qnaController);
         assertNotNull(qnaController.getQnaService());
@@ -37,10 +37,10 @@ public class BeanFactoryTest {
     @Test
     @DisplayName("QuestionRepository가 Single Instance인지 확인")
     void check_QuestionRepository_single_instance() {
-        MyQnaService myQnaService = beanFactory.getBean(MyQnaService.class);
+        MyQnaService myQnaService = classpathBeanFactory.getBean(MyQnaService.class);
 
         QuestionRepository actual = myQnaService.getQuestionRepository();
-        QuestionRepository expected = beanFactory.getBean(JdbcQuestionRepository.class);
+        QuestionRepository expected = classpathBeanFactory.getBean(JdbcQuestionRepository.class);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -48,7 +48,7 @@ public class BeanFactoryTest {
     @Test
     @DisplayName("Bean들 중에서 Controller를 가져오는지 확인")
     void getControllers() {
-        Map<Class<?>, Object> controllers = beanFactory.getControllers();
+        Map<Class<?>, Object> controllers = classpathBeanFactory.getControllers();
 
         assertThat(controllers.containsKey(QnaController.class)).isTrue();
         assertThat(controllers.containsKey(MyQnaService.class)).isFalse();
