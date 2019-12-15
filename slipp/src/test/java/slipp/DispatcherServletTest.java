@@ -1,7 +1,7 @@
 package slipp;
 
 import nextstep.di.factory.BeanFactory;
-import nextstep.di.factory.BeanScanner;
+import nextstep.di.factory.ClasspathBeanScanner;
 import nextstep.jdbc.ConnectionManager;
 import nextstep.mvc.DispatcherServlet;
 import nextstep.mvc.asis.ControllerHandlerAdapter;
@@ -30,8 +30,8 @@ class DispatcherServletTest {
         populator.addScript(new ClassPathResource("jwp.sql"));
         DatabasePopulatorUtils.execute(populator, ConnectionManager.getDataSource());
 
-        BeanScanner beanScanner = new BeanScanner("slipp.controller");
-        BeanFactory beanFactory = new BeanFactory(beanScanner.getPreInstantiateClass());
+        ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner("slipp.controller");
+        BeanFactory beanFactory = new BeanFactory(classpathBeanScanner.getPreInstantiateClass());
         beanFactory.initialize();
 
         dispatcher = new DispatcherServlet();

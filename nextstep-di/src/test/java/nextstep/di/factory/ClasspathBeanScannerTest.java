@@ -13,11 +13,11 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BeanScannerTest {
+class ClasspathBeanScannerTest {
     @Test
     @DisplayName("@Controller, @Service, @Repository Bean을 정상적으로 스캔하는지 확인")
     void getPreInstantiateClass() {
-        Set<Class<?>> preInstantiateBeans = new BeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
+        Set<Class<?>> preInstantiateBeans = new ClasspathBeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
         Set<Class<?>> actualBeans = Sets.newHashSet(
                 QnaController.class, MyQnaService.class,
                 JdbcUserRepository.class, JdbcQuestionRepository.class);

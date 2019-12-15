@@ -17,7 +17,7 @@ public class BeanFactoryTest {
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() {
-        Set<Class<?>> preInstanticateClazz = new BeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
+        Set<Class<?>> preInstanticateClazz = new ClasspathBeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
         beanFactory = new BeanFactory(preInstanticateClazz);
         beanFactory.initialize();
     }

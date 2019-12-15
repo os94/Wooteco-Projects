@@ -11,12 +11,12 @@ import java.lang.annotation.Annotation;
 import java.util.HashSet;
 import java.util.Set;
 
-public class BeanScanner {
-    private static final Logger logger = LoggerFactory.getLogger(BeanScanner.class);
+public class ClasspathBeanScanner {
+    private static final Logger logger = LoggerFactory.getLogger(ClasspathBeanScanner.class);
 
     private final Reflections reflections;
 
-    public BeanScanner(Object... basePackage) {
+    public ClasspathBeanScanner(Object... basePackage) {
         reflections = new Reflections(basePackage);
     }
 
