@@ -1,8 +1,9 @@
-package nextstep.di.factory;
+package nextstep.di.bean.factory;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import nextstep.annotation.Bean;
+import nextstep.di.bean.InitializeBeanException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

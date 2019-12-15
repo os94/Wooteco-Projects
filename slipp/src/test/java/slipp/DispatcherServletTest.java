@@ -1,6 +1,6 @@
 package slipp;
 
-import nextstep.di.factory.ClasspathBeanFactory;
+import nextstep.di.bean.factory.ClasspathBeanFactory;
 import nextstep.di.factory.ClasspathBeanScanner;
 import nextstep.jdbc.ConnectionManager;
 import nextstep.mvc.DispatcherServlet;

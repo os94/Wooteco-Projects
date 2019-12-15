@@ -1,4 +1,4 @@
-package nextstep.di.factory;
+package nextstep.di.bean.factory;
 
 import com.google.common.collect.Maps;
 import nextstep.stereotype.Controller;

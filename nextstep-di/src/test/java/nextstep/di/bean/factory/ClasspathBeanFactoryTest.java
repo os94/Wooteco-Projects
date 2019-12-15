@@ -1,6 +1,7 @@
-package nextstep.di.factory;
+package nextstep.di.bean.factory;
 
-import nextstep.di.factory.example.*;
+import nextstep.di.bean.example.*;
+import nextstep.di.bean.scanner.ClasspathBeanScanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ public class ClasspathBeanFactoryTest {
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() {
-        Set<Class<?>> preInstanticateClazz = new ClasspathBeanScanner("nextstep.di.factory.example").getPreInstantiateClass();
+        Set<Class<?>> preInstanticateClazz = new ClasspathBeanScanner("nextstep.di.bean.example").getPreInstantiateClass();
         classpathBeanFactory = new ClasspathBeanFactory(preInstanticateClazz);
         classpathBeanFactory.initialize();
     }

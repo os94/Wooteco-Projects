@@ -1,6 +1,7 @@
-package nextstep.di.factory;
+package nextstep.di.bean.scanner;
 
-import nextstep.di.factory.example.ExampleConfig;
+import nextstep.di.bean.example.ExampleConfig;
+import nextstep.di.bean.factory.ConfigurationBeanFactory;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;

@@ -1,4 +1,4 @@
-package nextstep.di.factory.example;
+package nextstep.di.bean.example;
 
 public interface UserRepository {
 

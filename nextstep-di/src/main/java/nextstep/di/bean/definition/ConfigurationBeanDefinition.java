@@ -1,4 +1,4 @@
-package nextstep.di.factory.beandefinition;
+package nextstep.di.bean.definition;
 
 public class ConfigurationBeanDefinition implements BeanDefinition {
     @Override

@@ -1,4 +1,4 @@
-package nextstep.di.factory;
+package nextstep.di.bean;
 
 public class InitializeBeanException extends RuntimeException {
     public InitializeBeanException(Throwable cause) {

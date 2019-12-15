@@ -1,4 +1,4 @@
-package nextstep.di.factory.example;
+package nextstep.di.bean.example;
 
 import nextstep.annotation.Inject;
 import nextstep.stereotype.Controller;

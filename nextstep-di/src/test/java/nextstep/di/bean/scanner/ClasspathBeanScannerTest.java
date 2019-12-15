@@ -1,10 +1,10 @@
-package nextstep.di.factory;
+package nextstep.di.bean.scanner;
 
 import com.google.common.collect.Sets;
-import nextstep.di.factory.example.JdbcQuestionRepository;
-import nextstep.di.factory.example.JdbcUserRepository;
-import nextstep.di.factory.example.MyQnaService;
-import nextstep.di.factory.example.QnaController;
+import nextstep.di.bean.example.JdbcQuestionRepository;
+import nextstep.di.bean.example.JdbcUserRepository;
+import nextstep.di.bean.example.MyQnaService;
+import nextstep.di.bean.example.QnaController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

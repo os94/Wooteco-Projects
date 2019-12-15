@@ -1,6 +1,7 @@
-package nextstep.di.factory;
+package nextstep.di.bean.scanner;
 
 import nextstep.annotation.Configuration;
+import nextstep.di.bean.factory.ConfigurationBeanFactory;
 
 public class ConfigurationBeanScanner {
     private ConfigurationBeanFactory beanFactory;
