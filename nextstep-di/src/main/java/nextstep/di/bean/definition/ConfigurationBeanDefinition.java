@@ -14,8 +14,8 @@ public class ConfigurationBeanDefinition implements BeanDefinition {
     private final Method method;
     //private final Object instance;
 
-    public ConfigurationBeanDefinition(Class<?> clazz, Method method) {
-        this.clazz = clazz;
+    public ConfigurationBeanDefinition(Method method) {
+        this.clazz = method.getReturnType();
         this.method = method;
     }
 
@@ -32,7 +32,7 @@ public class ConfigurationBeanDefinition implements BeanDefinition {
     @Override
     public Object instantiate(Object... params) {
         try {
-            return method.invoke(clazz.getDeclaredConstructor().newInstance(), params);
+            return method.invoke(method.getDeclaringClass().getDeclaredConstructor().newInstance(), params);
         } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
             logger.error("Error occurred while instantiating ConfigurationBeanDefinition", e);
             throw new InitializeBeanException(e);

@@ -2,30 +2,32 @@ package nextstep.di.bean.factory;
 
 import nextstep.di.bean.example.*;
 import nextstep.di.bean.scanner.ClasspathBeanScanner;
+import nextstep.stereotype.Controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ClasspathBeanFactoryTest {
-    private ClasspathBeanFactory classpathBeanFactory;
+    private BeanFactory beanFactory;
 
     @BeforeEach
     @SuppressWarnings("unchecked")
     public void setup() {
-        Set<Class<?>> preInstanticateClazz = new ClasspathBeanScanner("nextstep.di.bean.example").getPreInstantiateClass();
-        classpathBeanFactory = new ClasspathBeanFactory(preInstanticateClazz);
-        classpathBeanFactory.initialize();
+        ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner("nextstep.di.bean.example");
+        beanFactory = new BeanFactory();
+        beanFactory.addAllBeanDefinition(classpathBeanScanner.scan());
+        beanFactory.initialize();
     }
 
     @Test
-    public void di() throws Exception {
-        QnaController qnaController = classpathBeanFactory.getBean(QnaController.class);
+    @DisplayName("해당 클래스와 의존하는 클래스에 대한 Bean들이 정상적으로 주입되었는지 확인")
+    public void di() {
+        QnaController qnaController = beanFactory.getBean(QnaController.class);
 
         assertNotNull(qnaController);
         assertNotNull(qnaController.getQnaService());
@@ -38,10 +40,10 @@ public class ClasspathBeanFactoryTest {
     @Test
     @DisplayName("QuestionRepository가 Single Instance인지 확인")
     void check_QuestionRepository_single_instance() {
-        MyQnaService myQnaService = classpathBeanFactory.getBean(MyQnaService.class);
+        MyQnaService myQnaService = beanFactory.getBean(MyQnaService.class);
 
         QuestionRepository actual = myQnaService.getQuestionRepository();
-        QuestionRepository expected = classpathBeanFactory.getBean(JdbcQuestionRepository.class);
+        QuestionRepository expected = beanFactory.getBean(JdbcQuestionRepository.class);
 
         assertThat(actual).isEqualTo(expected);
     }
@@ -49,7 +51,7 @@ public class ClasspathBeanFactoryTest {
     @Test
     @DisplayName("Bean들 중에서 Controller를 가져오는지 확인")
     void getControllers() {
-        Map<Class<?>, Object> controllers = classpathBeanFactory.getControllers();
+        Map<Class<?>, Object> controllers = beanFactory.getBeansAnnotatedWith(Controller.class);
 
         assertThat(controllers.containsKey(QnaController.class)).isTrue();
         assertThat(controllers.containsKey(MyQnaService.class)).isFalse();

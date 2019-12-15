@@ -4,36 +4,22 @@ import nextstep.annotation.Bean;
 import nextstep.annotation.Configuration;
 import nextstep.di.bean.definition.BeanDefinition;
 import nextstep.di.bean.definition.ConfigurationBeanDefinition;
-import nextstep.di.bean.factory.ConfigurationBeanFactory;
 import org.reflections.Reflections;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
 public class ConfigurationBeanScanner implements BeanScanner {
-    private ConfigurationBeanFactory beanFactory;
     private Reflections reflections;
 
     public ConfigurationBeanScanner(Class<?> configurationClass) {
-        this.reflections = new Reflections(configurationClass.getPackageName());
+        this.reflections = new Reflections(configurationClass);
     }
 
     public ConfigurationBeanScanner(Object... basePackage) {
         this.reflections = new Reflections(basePackage);
-    }
-
-    public ConfigurationBeanScanner(ConfigurationBeanFactory beanFactory) {
-        this.beanFactory = beanFactory;
-    }
-
-    public void register(Class clazz) {
-        if (clazz.isAnnotationPresent(Configuration.class)) {
-            beanFactory.addPreInstantiateBeans(clazz);
-        }
-        // Decide throw Exception or Not
     }
 
     // TODO: 2019-12-15 ComponentScan 기능 추가
@@ -49,7 +35,7 @@ public class ConfigurationBeanScanner implements BeanScanner {
                 .map(Class::getDeclaredMethods)
                 .flatMap(Arrays::stream)
                 .filter(method -> method.isAnnotationPresent(Bean.class))
-                .map(method -> new ConfigurationBeanDefinition(method.getClass(), method))
+                .map(method -> new ConfigurationBeanDefinition(method))
                 .collect(toSet());
     }
 }

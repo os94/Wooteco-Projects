@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import nextstep.annotation.Inject;
 
 import java.lang.reflect.Constructor;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.reflections.ReflectionUtils.getAllConstructors;
@@ -47,5 +48,20 @@ public class BeanFactoryUtils {
         }
 
         throw new IllegalStateException(injectedClazz + "인터페이스를 구현하는 Bean이 존재하지 않는다.");
+    }
+
+    public static Optional<Class<?>> findConcreteClass2(Class<?> injectedClazz, Set<Class<?>> preInstanticateBeans) {
+        if (!injectedClazz.isInterface()) {
+            return Optional.of(injectedClazz);
+        }
+
+        for (Class<?> clazz : preInstanticateBeans) {
+            Set<Class<?>> interfaces = Sets.newHashSet(clazz.getInterfaces());
+            if (interfaces.contains(injectedClazz)) {
+                return Optional.of(clazz);
+            }
+        }
+
+        return Optional.empty();
     }
 }

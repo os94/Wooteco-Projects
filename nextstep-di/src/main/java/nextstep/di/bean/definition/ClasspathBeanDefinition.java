@@ -1,11 +1,13 @@
 package nextstep.di.bean.definition;
 
 import nextstep.di.bean.InitializeBeanException;
+import nextstep.di.bean.factory.BeanFactoryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 public class ClasspathBeanDefinition implements BeanDefinition {
     private static final Logger logger = LoggerFactory.getLogger(ClasspathBeanDefinition.class);
@@ -13,9 +15,25 @@ public class ClasspathBeanDefinition implements BeanDefinition {
     private final Class<?> clazz;
     private final Constructor<?> constructor;
 
-    public ClasspathBeanDefinition(Class<?> clazz, Constructor<?> constructor) {
+    public ClasspathBeanDefinition(Class<?> clazz) {
         this.clazz = clazz;
-        this.constructor = constructor;
+        this.constructor = resolveConstructor(clazz);
+    }
+
+    private Constructor<?> resolveConstructor(Class<?> clazz) {
+        Constructor<?> injectedConstructor = BeanFactoryUtils.getInjectedConstructor(clazz);
+        if (injectedConstructor == null) {
+            return getDefaultConstructor(clazz);
+        }
+        return injectedConstructor;
+    }
+
+    // TODO: 2019-12-16 Exception Wrapping & extract to MyReflectionUtils.class ?
+    private static Constructor<?> getDefaultConstructor(Class<?> clazz) {
+        return Arrays.stream(clazz.getDeclaredConstructors())
+                .filter(constructor -> constructor.getParameterCount() == 0)
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException(clazz + "is Interface."));
     }
 
     @Override
