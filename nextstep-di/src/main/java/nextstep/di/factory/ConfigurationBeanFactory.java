@@ -15,8 +15,13 @@ import java.util.Set;
 public class ConfigurationBeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationBeanFactory.class);
 
-    private Set<Class<?>> preInstantiateBeans = Sets.newHashSet();
+    private final Set<Class<?>> preInstantiateBeans = Sets.newHashSet();
     private final Map<Class<?>, Object> beans = Maps.newHashMap();
+
+    @SuppressWarnings("unchecked")
+    public <T> T getBean(Class<T> requiredType) {
+        return (T) beans.get(requiredType);
+    }
 
     public void initialize() {
         preInstantiateBeans.forEach(this::instantiateClass);
@@ -25,7 +30,7 @@ public class ConfigurationBeanFactory {
     private void instantiateClass(Class<?> clazz) {
         Arrays.stream(clazz.getDeclaredMethods())
                 .filter(method -> method.isAnnotationPresent(Bean.class))
-                .forEach(method -> registerBean(method));
+                .forEach(this::registerBean);
     }
 
     private void registerBean(Method method) {
@@ -44,10 +49,6 @@ public class ConfigurationBeanFactory {
     private Object getClassInstance(Method method)
             throws InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         return method.getDeclaringClass().getDeclaredConstructor().newInstance();
-    }
-
-    public <T> T getBean(Class<T> requiredType) {
-        return (T) beans.get(requiredType);
     }
 
     public void addPreInstantiateBeans(Class clazz) {

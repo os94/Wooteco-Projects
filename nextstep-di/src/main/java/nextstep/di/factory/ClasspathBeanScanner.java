@@ -14,10 +14,20 @@ import java.util.Set;
 public class ClasspathBeanScanner {
     private static final Logger logger = LoggerFactory.getLogger(ClasspathBeanScanner.class);
 
-    private final Reflections reflections;
+    private ClasspathBeanFactory beanFactory;
+    private Reflections reflections;
+
+    public ClasspathBeanScanner(ClasspathBeanFactory beanFactory) {
+        this.beanFactory = beanFactory;
+    }
 
     public ClasspathBeanScanner(Object... basePackage) {
         reflections = new Reflections(basePackage);
+    }
+
+    public void doScan(Object... basePackage) {
+        reflections = new Reflections(basePackage);
+        // do more task to beanFactory
     }
 
     public Set<Class<?>> getPreInstantiateClass() {
