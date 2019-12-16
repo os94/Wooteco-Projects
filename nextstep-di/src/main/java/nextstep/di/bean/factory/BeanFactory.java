@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,7 +14,7 @@ import static java.util.stream.Collectors.toMap;
 
 public class BeanFactory {
     private static final Logger logger = LoggerFactory.getLogger(BeanFactory.class);
-    // TODO: 2019-12-15 Registry
+
     private final Map<Class<?>, BeanDefinition> beanDefinitions = Maps.newHashMap();
     private final Map<Class<?>, Object> beans = Maps.newHashMap();
 
@@ -52,15 +50,16 @@ public class BeanFactory {
         BeanDefinition beanDefinition = beanDefinitions.get(clazz);
 
         Class<?>[] parameterTypes = beanDefinition.getParameterTypes();
-        List<Object> args = new ArrayList<>();
-        for (Class<?> parameterType : parameterTypes) {
+        Object[] args = new Object[parameterTypes.length];
+        for (int i = 0; i < parameterTypes.length; i++) {
+            Class<?> parameterType = parameterTypes[i];
             if (beans.containsKey(parameterType)) {
-                args.add(beans.get(parameterType));
+                args[i] = beans.get(parameterType);
                 continue;
             }
-            args.add(createBean(parameterType));
+            args[i] = createBean(parameterType);
         }
-        Object instance = beanDefinition.instantiate(args.toArray());
+        Object instance = beanDefinition.instantiate(args);
         beans.put(beanDefinition.getType(), instance);
         return instance;
     }
