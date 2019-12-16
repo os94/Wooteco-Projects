@@ -1,8 +1,8 @@
 package nextstep.mvc.tobe;
 
 import nextstep.db.DataBase;
-import nextstep.di.bean.factory.ClasspathBeanFactory;
-import nextstep.di.factory.ClasspathBeanScanner;
+import nextstep.di.bean.factory.BeanFactory;
+import nextstep.di.bean.scanner.ClasspathBeanScanner;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -17,10 +17,11 @@ public class AnnotationHandlerMappingTest {
     @BeforeEach
     public void setup() {
         ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner("samples");
-        ClasspathBeanFactory classpathBeanFactory = new ClasspathBeanFactory(classpathBeanScanner.getPreInstantiateClass());
-        classpathBeanFactory.initialize();
+        BeanFactory beanFactory = new BeanFactory();
+        beanFactory.addAllBeanDefinition(classpathBeanScanner.scan());
+        beanFactory.initialize();
 
-        handlerMapping = new AnnotationHandlerMapping(classpathBeanFactory);
+        handlerMapping = new AnnotationHandlerMapping(beanFactory);
         handlerMapping.initialize();
     }
 
