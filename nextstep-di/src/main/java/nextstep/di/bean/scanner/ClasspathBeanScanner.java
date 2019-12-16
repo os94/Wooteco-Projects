@@ -1,7 +1,7 @@
 package nextstep.di.bean.scanner;
 
 import nextstep.di.bean.definition.BeanDefinition;
-import nextstep.di.bean.definition.ClasspathBeanDefinition;
+import nextstep.di.bean.definition.ConstructorBeanDefinition;
 import nextstep.stereotype.Controller;
 import nextstep.stereotype.Repository;
 import nextstep.stereotype.Service;
@@ -32,7 +32,7 @@ public class ClasspathBeanScanner implements BeanScanner {
         return SCAN_TARGET_ANNOTATIONS.stream()
                 .map(annotation -> reflections.getTypesAnnotatedWith(annotation))
                 .flatMap(Collection::stream)
-                .map(ClasspathBeanDefinition::new)
+                .map(ConstructorBeanDefinition::new)
                 .collect(toSet());
     }
 }

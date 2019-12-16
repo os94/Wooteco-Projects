@@ -12,7 +12,7 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ClasspathBeanFactoryTest {
+public class BeanFactoryTest {
     private BeanFactory beanFactory;
 
     @BeforeEach

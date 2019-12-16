@@ -4,6 +4,7 @@ import nextstep.di.bean.example.IntegrationConfig;
 import nextstep.di.bean.example.MyJdbcTemplate;
 import nextstep.di.bean.factory.BeanFactory;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import javax.sql.DataSource;
@@ -22,13 +23,15 @@ class ConfigurationBeanScannerTest {
     }
 
     @Test
-    void register_simple() {
+    @DisplayName("@Configuration 설정파일에서 등록한 Bean을 가져오는지 확인")
+    void scan_beans_by_configuration() {
         beanFactory.initialize();
         assertNotNull(beanFactory.getBean(DataSource.class));
     }
 
     @Test
-    void register_통합() {
+    @DisplayName("ClasspathBeanScanner와 ConfigurationBeanScanner간에 Bean 주입이 되었는지 확인")
+    void ClasspathBeanScanner_ConfigurationBeanScanner_통합() {
         ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner("di.bean.example");
         beanFactory.addAllBeanDefinition(classpathBeanScanner.scan());
 

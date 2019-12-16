@@ -1,7 +1,7 @@
 package nextstep.utils;
 
-import samples.Car;
 import org.junit.jupiter.api.Test;
+import samples.Car;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

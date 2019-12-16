@@ -9,13 +9,13 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-public class ClasspathBeanDefinition implements BeanDefinition {
-    private static final Logger logger = LoggerFactory.getLogger(ClasspathBeanDefinition.class);
+public class ConstructorBeanDefinition implements BeanDefinition {
+    private static final Logger logger = LoggerFactory.getLogger(ConstructorBeanDefinition.class);
 
     private final Class<?> clazz;
     private final Constructor<?> constructor;
 
-    public ClasspathBeanDefinition(Class<?> clazz) {
+    public ConstructorBeanDefinition(Class<?> clazz) {
         this.clazz = clazz;
         this.constructor = resolveConstructor(clazz);
     }
@@ -51,7 +51,7 @@ public class ClasspathBeanDefinition implements BeanDefinition {
         try {
             return constructor.newInstance(params);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            logger.error("Error occurred while instantiating ClasspathBeanDefinition", e);
+            logger.error("Error occurred while instantiating ConstructorBeanDefinition", e);
             throw new InitializeBeanException(e);
         }
     }

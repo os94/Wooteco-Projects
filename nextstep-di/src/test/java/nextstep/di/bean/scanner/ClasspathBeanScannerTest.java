@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ClasspathBeanScannerTest {
     @Test
     @DisplayName("@Controller, @Service, @Repository Bean을 정상적으로 스캔하는지 확인")
-    void getPreInstantiateClass() {
+    void scan_beans_by_classpath() {
         Set<Class<?>> actualBeanTypes = Sets.newHashSet(
                 QnaController.class, MyQnaService.class,
                 JdbcUserRepository.class, JdbcQuestionRepository.class);
