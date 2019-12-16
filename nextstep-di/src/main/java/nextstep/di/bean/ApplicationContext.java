@@ -17,9 +17,9 @@ public class ApplicationContext {
 
     public ApplicationContext(Class<?> configurationClass) {
         configurationBeanScanner = new ConfigurationBeanScanner(configurationClass);
-        // @ComponentScan 경로로부터 ClasspathBS 초기화, @Bean에서 ConfigurationBS 초기화
-
         beanFactory.addAllBeanDefinition(configurationBeanScanner.scan());
+        classpathBeanScanner = new ClasspathBeanScanner(configurationBeanScanner.getBasePackages());
+        beanFactory.addAllBeanDefinition(classpathBeanScanner.scan());
         beanFactory.initialize();
     }
 

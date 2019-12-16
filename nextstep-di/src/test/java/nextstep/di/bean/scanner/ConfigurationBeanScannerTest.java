@@ -3,7 +3,6 @@ package nextstep.di.bean.scanner;
 import nextstep.di.bean.example.IntegrationConfig;
 import nextstep.di.bean.example.MyJdbcTemplate;
 import nextstep.di.bean.factory.BeanFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,23 +15,21 @@ class ConfigurationBeanScannerTest {
     private BeanFactory beanFactory = new BeanFactory();
     private ConfigurationBeanScanner configurationBeanScanner;
 
-    @BeforeEach
-    void setUp() {
-        configurationBeanScanner = new ConfigurationBeanScanner(IntegrationConfig.class);
-        beanFactory.addAllBeanDefinition(configurationBeanScanner.scan());
-    }
-
     @Test
     @DisplayName("@Configuration 설정파일에서 등록한 Bean을 가져오는지 확인")
     void scan_beans_by_configuration() {
+        configurationBeanScanner = new ConfigurationBeanScanner(IntegrationConfig.class);
+        beanFactory.addAllBeanDefinition(configurationBeanScanner.scan());
         beanFactory.initialize();
         assertNotNull(beanFactory.getBean(DataSource.class));
     }
 
     @Test
-    @DisplayName("ClasspathBeanScanner와 ConfigurationBeanScanner간에 Bean 주입이 되었는지 확인")
-    void ClasspathBeanScanner_ConfigurationBeanScanner_통합() {
-        ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner("di.bean.example");
+    @DisplayName("ComponentScan에 의한 ClasspathBeanScanner와 ConfigurationBeanScanner간에 Bean 주입 확인")
+    void register_by_componentScan() {
+        configurationBeanScanner = new ConfigurationBeanScanner(IntegrationConfig.class);
+        beanFactory.addAllBeanDefinition(configurationBeanScanner.scan());
+        ClasspathBeanScanner classpathBeanScanner = new ClasspathBeanScanner(configurationBeanScanner.getBasePackages());
         beanFactory.addAllBeanDefinition(classpathBeanScanner.scan());
 
         beanFactory.initialize();

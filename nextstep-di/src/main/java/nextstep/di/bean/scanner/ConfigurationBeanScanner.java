@@ -1,6 +1,7 @@
 package nextstep.di.bean.scanner;
 
 import nextstep.annotation.Bean;
+import nextstep.annotation.ComponentScan;
 import nextstep.annotation.Configuration;
 import nextstep.di.bean.definition.BeanDefinition;
 import nextstep.di.bean.definition.MethodBeanDefinition;
@@ -13,6 +14,7 @@ import static java.util.stream.Collectors.toSet;
 
 public class ConfigurationBeanScanner implements BeanScanner {
     private Reflections reflections;
+    private String[] basePackages;
 
     public ConfigurationBeanScanner(Class<?> configurationClass) {
         this.reflections = new Reflections(configurationClass);
@@ -22,10 +24,9 @@ public class ConfigurationBeanScanner implements BeanScanner {
         this.reflections = new Reflections(basePackage);
     }
 
-    // TODO: 2019-12-15 ComponentScan 기능 추가
-
     @Override
     public Set<BeanDefinition> scan() {
+        registerBasePackagesByComponentScan();
         /*
         todo : MethodBeanDefinition에서 method.invoke에 사용되는 instance 그때그때 만들지않고 여기서 같은걸 넣어줘서 재사용하도록 리팩토링
         Set<Object> instances = new HashSet<>();
@@ -37,5 +38,18 @@ public class ConfigurationBeanScanner implements BeanScanner {
                 .filter(method -> method.isAnnotationPresent(Bean.class))
                 .map(method -> new MethodBeanDefinition(method))
                 .collect(toSet());
+    }
+
+    private void registerBasePackagesByComponentScan() {
+        basePackages = reflections.getTypesAnnotatedWith(Configuration.class).stream()
+                .filter(clazz -> clazz.isAnnotationPresent(ComponentScan.class))
+                .findFirst()
+                .map(clazz -> clazz.getAnnotation(ComponentScan.class))
+                .map(ComponentScan::basePackages)
+                .orElse(new String[]{});
+    }
+
+    public String[] getBasePackages() {
+        return basePackages;
     }
 }
