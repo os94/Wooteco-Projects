@@ -44,7 +44,7 @@ public class BeanFactory {
         }
 
         // clazz가 interface인 경우, 구현Class를 찾아 인스턴스화, orElse
-        clazz = BeanFactoryUtils.findConcreteClass2(clazz, beanDefinitions.keySet()).orElse(clazz);
+        clazz = BeanFactoryUtils.findConcreteClass(clazz, beanDefinitions.keySet()).orElse(clazz);
 
         // (재귀를 통해) args들을 준비한뒤 인스턴스화
         BeanDefinition beanDefinition = beanDefinitions.get(clazz);
