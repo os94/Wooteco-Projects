@@ -8,3 +8,6 @@
 
 ### 레벨3 주제
 [내가 꿈꾸는 프로그래머로서의 삶](https://github.com/os94/woowa-writing-1/blob/os94/내가%20꿈꾸는%20프로그래머로서의%20삶.md)
+
+### 레벨4 주제
+[2기 크루들에게 보내는 편지](https://github.com/os94/woowa-writing-1/blob/os94/2%EA%B8%B0%20%ED%81%AC%EB%A3%A8%EB%93%A4%EC%97%90%EA%B2%8C%20%EB%B3%B4%EB%82%B4%EB%8A%94%20%ED%8E%B8%EC%A7%80.md)
