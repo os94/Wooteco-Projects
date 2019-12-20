@@ -4,6 +4,9 @@ import nextstep.di.bean.factory.BeanFactory;
 import nextstep.di.bean.scanner.ClasspathBeanScanner;
 import nextstep.di.bean.scanner.ConfigurationBeanScanner;
 
+import java.lang.annotation.Annotation;
+import java.util.Map;
+
 public class ApplicationContext {
     private final BeanFactory beanFactory = new BeanFactory();
     private ConfigurationBeanScanner configurationBeanScanner;
@@ -23,7 +26,7 @@ public class ApplicationContext {
         beanFactory.initialize();
     }
 
-    public BeanFactory getBeanFactory() {
-        return beanFactory;
+    public Map<Class<?>, Object> getBeansAnnotatedWith(Class<? extends Annotation> annotation) {
+        return beanFactory.getBeansAnnotatedWith(annotation);
     }
 }
