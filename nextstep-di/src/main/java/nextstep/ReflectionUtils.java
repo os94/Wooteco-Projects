@@ -4,10 +4,16 @@ import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
 public class ReflectionUtils {
+    private static final int ZERO = 0;
+
     public static Constructor<?> getDefaultConstructor(Class<?> clazz) {
         return Arrays.stream(clazz.getDeclaredConstructors())
-                .filter(constructor -> constructor.getParameterCount() == 0)
+                .filter(ReflectionUtils::isDefaultConstructor)
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException(clazz + " is Interface. There's no Default Constructor."));
+    }
+
+    private static boolean isDefaultConstructor(Constructor<?> constructor) {
+        return constructor.getParameterCount() == ZERO;
     }
 }
