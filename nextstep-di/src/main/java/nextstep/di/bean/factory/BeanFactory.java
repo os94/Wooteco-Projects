@@ -48,7 +48,17 @@ public class BeanFactory {
 
         // (재귀를 통해) args들을 준비한뒤 인스턴스화
         BeanDefinition beanDefinition = beanDefinitions.get(clazz);
+        Object[] args = getArgumentsOf(beanDefinition);
+        return getInstanceBy(beanDefinition, args);
+    }
 
+    private Object getInstanceBy(BeanDefinition beanDefinition, Object[] args) {
+        Object instance = beanDefinition.instantiate(args);
+        beans.put(beanDefinition.getType(), instance);
+        return instance;
+    }
+
+    private Object[] getArgumentsOf(BeanDefinition beanDefinition) {
         Class<?>[] parameterTypes = beanDefinition.getParameterTypes();
         Object[] args = new Object[parameterTypes.length];
         for (int i = 0; i < parameterTypes.length; i++) {
@@ -59,9 +69,7 @@ public class BeanFactory {
             }
             args[i] = createBean(parameterType);
         }
-        Object instance = beanDefinition.instantiate(args);
-        beans.put(beanDefinition.getType(), instance);
-        return instance;
+        return args;
     }
 
     public Map<Class<?>, Object> getBeansAnnotatedWith(Class<? extends Annotation> annotation) {
